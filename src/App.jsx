@@ -1,9 +1,10 @@
-import react,{ useState } from 'react'
-import Dashboard from './pages/dashboard'
+import React,{ useState } from 'react'
+import Dashboard from './pages/Dashboard'
 import '../styles/App.css'
+import { Link, Routes, Route } from "react-router-dom";
+
 
 function App() {
-
 
   return (
     <>
