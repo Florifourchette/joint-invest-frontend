@@ -4,11 +4,14 @@ import '../styles/App.css'
 import { Link, Routes, Route } from "react-router-dom";
 
 
+
 function App() {
 
   return (
     <>
-      <Dashboard />
+    <Routes>
+      <Route path="/:userId" element={<Dashboard />} />
+    </Routes>
     </>
   )
 }

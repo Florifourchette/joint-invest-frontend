@@ -1,14 +1,21 @@
 
 import React,{ useEffect, useState } from "react";
 import { getDashboardData } from "../../utils/APIcalls";
+import { useParams } from "react-router-dom";
+
 
 
 
 export default function Dashboard(props) {
     const [dashboardData, setDashboardData] = useState([])
 
+    let { userId } = useParams();
+        
+
+
     useEffect(()=>{
-        getDashboardData()
+        
+        getDashboardData(userId)
             .then(data => setDashboardData(data))
             .catch(error => console.error(error))
             
