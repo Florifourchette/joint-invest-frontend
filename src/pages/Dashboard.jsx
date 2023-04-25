@@ -159,14 +159,16 @@ export default function Dashboard(props) {
     return (
         <div className="overview-page">
             <h1>Overview</h1>
+
             <div className="assets">
                 <h3>Total Assets</h3>
-                <h2>${totalAssetsSum}</h2>
+                <h2>$ {totalAssetsSum}</h2>
                 <h5>Amount Invested</h5>
                 <h4>$ {totalAmountInvested}</h4>
                 <h5>Total gains</h5>
                 <h4>{totalPandL}</h4>
             </div>
+
             <div className="graph">
                 <h3>Graph goes here</h3>
             </div>
@@ -177,28 +179,30 @@ export default function Dashboard(props) {
                             {data.name_of_portfolio}
                         </h4>
                         <div className="porfolio-card-values">
-                            <h5>
-                                <span className="portfolio-value-title">
+                            <div className="porfolio-card-value">
+                                <h3 className="portfolio-value-title">
                                     Current Value:
-                                </span>{" "}
-                                {portfolioTotals[data.portfolio_id]}
-                            </h5>
-                            <h5>
-                                <span className="portfolio-value-title">
-                                    Change:
-                                </span>{" "}
-                                {data.total_buying_value - 100}{" "}
-                            </h5>{" "}
-                            {/*change the 100 by the data from the api call*/}
+                                </h3>
+                                <h4>{portfolioTotals[data.portfolio_id]}</h4>
+                            </div>
+                            <div className="porfolio-card-value">
+                                <h3 className="portfolio-value-title">
+                                    Profit/Loss:
+                                </h3>
+                                <h4>{(portfolioTotals[data.portfolio_id]-data.total_buying_value).toFixed(2)}</h4>
+                            </div>
                         </div>
-                        <h4>{data.friend_username}</h4>
+                        <div className="friend-box">
+                            <h4 className="friend">{data.friend_username}</h4>
+                        </div>
+                        
                     </div>
                 ))}
             </div>
 
             <div className="portfolio-add">
                 <p>Add a portfolio</p>
-                <button>+</button>
+                <button className="portfolio-add-btn">+</button>
             </div>
         </div>
     );
