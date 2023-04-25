@@ -75,8 +75,9 @@ table {
     border: 2px blue solid;
     align-items: center;
     justify-content: space-around;
-    margin: 2em;
+    margin-top: 1em;
     padding-inline: 1em;
+    height: 5em;
 }
 .portfolio-card h4{
     font-weight: bold;

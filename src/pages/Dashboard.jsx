@@ -5,11 +5,12 @@ import { useParams } from "react-router-dom";
 
 
 
-const fakeStocks ={}
+const fakeStocks ={"AAPL":{"price":"165.35000"},"MSFT":{"price":"281.85000"}}
 
 
 export default function Dashboard(props) {
     const [dashboardData, setDashboardData] = useState([])
+    const [wallet, setWallet] = useState([])
 
     let { userId } = useParams();
         
@@ -18,11 +19,16 @@ export default function Dashboard(props) {
     useEffect(()=>{
         
         getDashboardData(userId)
-            .then(data => setDashboardData(data))
+            .then(data => {
+                setDashboardData(data.portfolios)
+                setWallet(data.portfoliosDetails)
+            
+            })
             .catch(error => console.error(error))
             
     }, [])
     console.log(dashboardData)
+    console.log(wallet)
 
 
 
@@ -41,7 +47,7 @@ export default function Dashboard(props) {
                 <h3>Total Assets</h3>
                 <h2>1.1345.77</h2>
                 <h5>Amount Invested</h5>
-                <h4>{dashboardData.reduce((accumulator, currentPortfolio) => accumulator + currentPortfolio.initial_amount, 0)}</h4>
+                <h4>$ {dashboardData.reduce((accumulator, currentPortfolio) => accumulator + currentPortfolio.initial_amount, 0)}</h4>
                 <h5>Total gains</h5>
                 <h4>+135.22</h4>
             </div>
@@ -59,7 +65,7 @@ export default function Dashboard(props) {
                         <h5><span className="portfolio-value-title">Current Value:</span> {data.total_buying_value}</h5>
                         <h5><span className="portfolio-value-title">Change:</span>  {data.total_buying_value -100} </h5> {/*change the 100 by the data from the api call*/}
                     </div>
-                    <h4>Friend</h4>
+                    <h4>{data.friend_username}</h4>
                     </div>
                 ))}
             </div>
