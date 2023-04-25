@@ -1,6 +1,7 @@
-import React,{ useState } from 'react'
-import Dashboard from './pages/Dashboard'
-import '../styles/App.css'
+import React, { useState } from "react";
+import Dashboard from "./pages/Dashboard";
+import Portfolio from "./pages/Portfolio";
+import "../styles/App.css";
 import { Link, Routes, Route } from "react-router-dom";
 
 
@@ -12,8 +13,9 @@ function App() {
     <Routes>
       <Route path="/:userId" element={<Dashboard />} />
     </Routes>
+      <Portfolio />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
