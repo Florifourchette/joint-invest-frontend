@@ -12,8 +12,9 @@ function App() {
     <>
     <Routes>
       <Route path="/:userId" element={<Dashboard />} />
+      <Route path="/portfolio/:id" element={<Portfolio />} />
     </Routes>
-      <Portfolio />
+
     </>
   );
 }
