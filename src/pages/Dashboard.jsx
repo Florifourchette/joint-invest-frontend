@@ -4,9 +4,10 @@ import { useParams } from "react-router-dom";
 
 const fakeStocks = {
     AAPL: { price: "165.35000" },
-    MSFT: { price: "281.85000" },
+    MSF: { price: "381.85000" },
     TSLA: { price: "125.00000" },
     AMZN: { price: "100.1" },
+    Test: { price: "100"},
 };
 
 // define a function to create the API URL with the given symbols
@@ -75,19 +76,23 @@ export default function Dashboard(props) {
         if (prices.hasOwnProperty(company_id)) {
             const price = Number.parseFloat(prices[company_id].price);
             const value = Number.parseFloat(number_of_shares) * price;
-            acc[company_id] = value;
+            if (!acc.hasOwnProperty(company_id)) {
+                acc[company_id] = value;
+            } else {
+                acc[company_id] += value;
+            }
         }
         return acc;
     }, {});
-
+    
     console.log(totalAssets);
-
+    
     const totalAssetsSum = Object.values(totalAssets).reduce((acc, curr) => {
         if (!Number.isNaN(curr)) {
             acc += curr;
         }
         return acc;
-    }, 0);
+    }, 0).toFixed(2);
 
     const totalAmountInvested = dashboardData.reduce(
         (accumulator, currentPortfolio) =>
@@ -96,6 +101,9 @@ export default function Dashboard(props) {
     );
 
     const totalPandL = totalAssetsSum - totalAmountInvested;
+
+
+
 
     if (dashboardData.length === 0) {
         // Render a loading message until the data is fetched - need to do this in order to wait for the fetched data to finish before rendering
