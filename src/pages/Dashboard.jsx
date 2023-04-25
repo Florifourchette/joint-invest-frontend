@@ -66,7 +66,6 @@ export default function Dashboard(props) {
             .catch((error) => console.error(error));
     }, [userId]);
 
-    
     console.log(dashboardData);
     console.log(wallet);
     console.log(prices);
@@ -90,6 +89,14 @@ export default function Dashboard(props) {
         return acc;
     }, 0);
 
+    const totalAmountInvested = dashboardData.reduce(
+        (accumulator, currentPortfolio) =>
+            accumulator + currentPortfolio.initial_amount,
+        0
+    );
+
+    const totalPandL = totalAssetsSum - totalAmountInvested;
+
     if (dashboardData.length === 0) {
         // Render a loading message until the data is fetched - need to do this in order to wait for the fetched data to finish before rendering
         return <div>Loading...</div>;
@@ -100,24 +107,15 @@ export default function Dashboard(props) {
             <h1>Overview</h1>
             <div className="assets">
                 <h3>Total Assets</h3>
-                <h2>{totalAssetsSum}</h2>
-                {/* SUM(each share * each price) */}
+                <h2>${totalAssetsSum}</h2>
                 <h5>Amount Invested</h5>
-                <h4>
-                    ${" "}
-                    {dashboardData.reduce(
-                        (accumulator, currentPortfolio) =>
-                            accumulator + currentPortfolio.initial_amount,
-                        0
-                    )}
-                </h4>
+                <h4>$ {totalAmountInvested}</h4>
                 <h5>Total gains</h5>
-                <h4>+135.22</h4>
+                <h4>{totalPandL}</h4>
             </div>
             <div className="graph">
                 <h3>Graph goes here</h3>
             </div>
-
             <div className="portfolio-cards">
                 {dashboardData.map((data) => (
                     <div className="portfolio-card" key={data.portfolio_id}>
