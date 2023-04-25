@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { getDashboardData } from "../../utils/APIcalls";
 import { useParams } from "react-router-dom";
 
-const fakeStocks = {
-    AAPL: { price: "165.35000" },
-    MSF: { price: "381.85000" },
-    TSLA: { price: "125.00000" },
-    AMZN: { price: "100.1" },
-    Test: { price: "100" },
-    Test2: { price: "20" },
-};
+// const fakeStocks = {
+//     AAPL: { price: "165.35000" },
+//     MSF: { price: "381.85000" },
+//     TSLA: { price: "125.00000" },
+//     AMZN: { price: "100.1" },
+//     Test: { price: "100" },
+//     Test2: { price: "20" },
+// };
 
 // define a function to create the API URL with the given symbols
 function createApiUrl(companyIds) {
@@ -18,18 +18,18 @@ function createApiUrl(companyIds) {
     return `https://api.twelvedata.com/price?symbol=${tickerString}&apikey=${apiKey}`;
 }
 
-function createFakeUrl(companyIds) {
-    const tickerString = companyIds.join(",");
-    return `https://fake.api.com/price?symbol=${tickerString}`;
-}
-function getFakeApiData() {
-    return new Promise((resolve, reject) => {
-        // Make a fake API call and return the fake data
-        setTimeout(() => {
-            resolve(fakeStocks);
-        }, 1000); // You can adjust the delay time to simulate network latency
-    });
-}
+// function createFakeUrl(companyIds) {
+//     const tickerString = companyIds.join(",");
+//     return `https://fake.api.com/price?symbol=${tickerString}`;
+// }
+// function getFakeApiData() {
+//     return new Promise((resolve, reject) => {
+//         // Make a fake API call and return the fake data
+//         setTimeout(() => {
+//             resolve(fakeStocks);
+//         }, 1000); // You can adjust the delay time to simulate network latency
+//     });
+// }
 
 export default function Dashboard(props) {
     const [dashboardData, setDashboardData] = useState([]);
@@ -47,25 +47,26 @@ export default function Dashboard(props) {
             .catch((error) => console.error(error));
 
         const companyIds = [...new Set(wallet.map((item) => item.company_id))];
-        // const apiUrl = createApiUrl(companyIds);
-        // console.log(apiUrl);
+        console.log(`tickers: ${companyIds}`)
+        const apiUrl = createApiUrl(companyIds);
+        console.log(apiUrl);
 
-        // fetch(apiUrl)
-        //     .then((response) => response.json())
-        //     .then((data) => {
-        //         console.log(data)
-        //         setPrices(data);
-        //     })
-        //     .catch((error) => console.error(error));
-
-        const fakeApiUrl = createFakeUrl(companyIds);
-        console.log(fakeApiUrl);
-        getFakeApiData(fakeApiUrl)
+        fetch(apiUrl)
+            .then((response) => response.json())
             .then((data) => {
-                console.log(data);
+                console.log(data)
                 setPrices(data);
             })
             .catch((error) => console.error(error));
+
+        // const fakeApiUrl = createFakeUrl(companyIds);
+        // console.log(fakeApiUrl);
+        // getFakeApiData(fakeApiUrl)
+        //     .then((data) => {
+        //         console.log(data);
+        //         setPrices(data);
+        //     })
+        //     .catch((error) => console.error(error));
     }, [userId]);
 
     console.log(dashboardData);
