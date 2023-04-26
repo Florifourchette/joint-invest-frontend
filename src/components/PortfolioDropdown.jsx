@@ -19,13 +19,19 @@ const options = [
   },
 ];
 
-export default class DropdownExampleSelection extends Component {
+export default class PortfolioDropdown extends Component {
   state = {};
 
-  handleChange = (e, { value }) => this.setState({ value });
+  handleChange = (e, { value }) => {
+    console.log(value);
+    const { text } = options.find((item) => item.value == value);
+    this.setState({ value: value, text: text });
+    this.props.setSelectedInterval(text);
+  };
 
   render() {
     const { value } = this.state;
+    console.log(this.state);
 
     return (
       <Dropdown
@@ -34,6 +40,7 @@ export default class DropdownExampleSelection extends Component {
         selection
         options={options}
         onChange={this.handleChange}
+        value={value}
       />
     );
   }

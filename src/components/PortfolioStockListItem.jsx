@@ -8,13 +8,7 @@ const StockListItem = ({ url, symbol, id }) => (
         <Image avatar src={url} />
         <List.Content>
           <List.Header as="a">{symbol}</List.Header>
-          <List.Description>
-            Last seen watching{" "}
-            <a>
-              <b>Arrested Development</b>
-            </a>{" "}
-            just now.
-          </List.Description>
+          <List.Description>VALUE</List.Description>
         </List.Content>
       </List.Item>
     </List>

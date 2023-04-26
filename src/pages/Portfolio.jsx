@@ -25,7 +25,8 @@ export default function Portfolio() {
   const cleanCompanyIds = companyIds.join();
   console.log(cleanCompanyIds);
 
-  const [interval, setinterval] = useState("");
+  const [selectedInterval, setSelectedInterval] = useState("");
+  console.log(selectedInterval);
 
   /* const fetchMultipleCompanies = fetch(
     `https://api.twelvedata.com/time_series?symbol=${cleanCompanyIds}&interval=1day&format=JSON&dp=2&start_date=04/10/2023 5:44 PM&end_date=04/14/2023 5:44 PM&apikey=6a897c4468e74344b1546b36728e991b`
@@ -55,7 +56,10 @@ export default function Portfolio() {
         <h4>{availableAmount}€</h4>
       </div>
       <div className="PortfolioDropdown">
-        <PortfolioDropdown setInterval={setInterval} />
+        <PortfolioDropdown
+          selectedInterval={selectedInterval}
+          setSelectedInterval={setSelectedInterval}
+        />
       </div>
       <div className="portfolio_stocks">
         <h3>Your Stocks</h3>
