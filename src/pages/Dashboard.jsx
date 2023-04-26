@@ -198,7 +198,7 @@ export default function Dashboard(props) {
                 <h5>Amount Invested</h5>
                 <h4>$ {totalAmountInvested}</h4>
                 <h5>Total gains</h5>
-                <h4 className={totalPandL >= 0 ? 'positive' : 'negative'}>{totalPandL}</h4>
+                <h4 className={totalPandL >= 0 ? 'positive' : 'negative'}>$ {totalPandL}</h4>
             </div>
 
             {/* <div className="graph">
@@ -223,7 +223,7 @@ export default function Dashboard(props) {
                                 <h3 className="portfolio-value-title">
                                     Current Value:
                                 </h3>
-                                <h4>{portfolioTotals[data.portfolio_id]}</h4>
+                                <h4>$ {portfolioTotals[data.portfolio_id]}</h4>
                             </div>
                             <div className="porfolio-card-value">
                                 <h3 className="portfolio-value-title">
