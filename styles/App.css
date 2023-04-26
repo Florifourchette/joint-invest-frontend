@@ -195,15 +195,13 @@ table {
 .porfolio-card-values {
     align-items: center;
     margin: 1em;
-    
 }
 
 .porfolio-card-value {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: .5em;
-    
+    padding-top: 0.5em;
 }
 
 .portfolio-value-title {
@@ -211,7 +209,6 @@ table {
     font-size: 1.2em;
     margin: 0;
 }
-
 
 .portfolio-add-btn {
     width: 4em;
@@ -243,13 +240,11 @@ table {
     color: transparent;
     background-color: transparent;
     cursor: pointer;
-    
 }
 
 .to-portfolio-icon {
     font-size: 3rem;
     color: blue;
-    
 }
 
 .portfolio-add {
@@ -263,8 +258,15 @@ table {
 .portfolio-add p {
     font-size: 1.25em;
 }
-.portfolio-add-icon{
+.portfolio-add-icon {
     font-size: 2em;
     font-weight: bold;
 }
 
+.positive {
+    color: green;
+}
+
+.negative {
+    color: red;
+}
