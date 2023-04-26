@@ -73,31 +73,31 @@ export default function Dashboard(props) {
 
 
 //API CALL
-    // useEffect(()=>{
-    //     if (loading === false) {
-    //     const companyIds = [...new Set(wallet.map((item) => item.company_id))];
-    //     console.log(`tickers: ${companyIds}`)
-    //     const apiUrl = createApiUrl(companyIds);
-    //     console.log(apiUrl);
+    useEffect(()=>{
+        if (loading === false) {
+        const companyIds = [...new Set(wallet.map((item) => item.company_id))];
+        console.log(`tickers: ${companyIds}`)
+        const apiUrl = createApiUrl(companyIds);
+        console.log(apiUrl);
         
-    //     console.log(apiUrl);
-    //     const apiCall = async ()=>{
-    //         try {
-    //             fetch(apiUrl)
-    //             .then((response) => response.json())
-    //             .then((data) => {
-    //                 console.log(data)
-    //                 setPrices(data);
-    //             })
-    //         } catch (error) {
-    //             console.log(error)
-    //         }
-    //     }
-    //     apiCall();
-    //     }
+        console.log(apiUrl);
+        const apiCall = async ()=>{
+            try {
+                fetch(apiUrl)
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data)
+                    setPrices(data);
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        apiCall();
+        }
 
         
-    // },[dashboardData, loading])
+    },[dashboardData, loading])
 
     console.log(dashboardData);
     console.log(wallet);

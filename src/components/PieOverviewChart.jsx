@@ -22,13 +22,31 @@ const PieChart = ({ dashboardData, portfolioTotals }) => {
             return acc;
         }, []);
 
+        const generateColors = (count) => {
+            const baseHue = 200;
+            const saturation = 80;
+            const lightness = 50;
+            const colors = [];
+
+            for (let i = 0; i < count; i++) {
+                const hue = baseHue + i * 20;
+                const color = `hsl(${hue}, ${saturation}%, ${
+                    lightness + i * 5
+                }%)`;
+                colors.push(color);
+            }
+
+            return colors;
+        };
+
+        const backgroundColors = generateColors(portfolioValues.length);
         setData({
             labels,
             datasets: [
                 {
-                    label: "# of Votes",
+                    label: "# portfolios",
                     data: portfolioValues,
-                    backgroundColor: ["red", "blue", "yellow"],
+                    backgroundColor: backgroundColors,
                 },
             ],
         });
