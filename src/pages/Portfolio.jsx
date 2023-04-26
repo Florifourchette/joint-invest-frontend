@@ -35,6 +35,8 @@ export default function Portfolio() {
 
   console.log(selectedInterval);
 
+  //Daily chart
+
   useEffect(() => {
     const fetchMultipleCompanies = fetch(
       `https://api.twelvedata.com/time_series?symbol=${cleanCompanyIds}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=be132a840da8483d8b3386724d5bcb2f`
@@ -50,7 +52,12 @@ export default function Portfolio() {
     (company) => company.values
   );
 
-  console.log(stockValues);
+  const closeArray = Object.values(stockValues).map((subArray) =>
+    subArray.map((obj) => obj.close)
+  );
+  console.log(closeArray);
+
+  //api calls
 
   useEffect(() => {
     async function getPortfolioStocks() {
@@ -60,7 +67,7 @@ export default function Portfolio() {
         );
         setStockItems(response.data.stocks);
         setStockOverview(response.data.overview[0]);
-        console.log(response);
+        //console.log(response);
         return response.data.stocks;
       } catch (err) {
         console.log(err);
@@ -84,7 +91,7 @@ export default function Portfolio() {
         const nextResponse = await axios.get(
           `https://api.twelvedata.com/quote?symbol=${myStocksIds}&apikey=8cc6ed6b799b41028ff9e5664f0c0ebf`
         );
-        console.log(nextResponse);
+        //console.log(nextResponse);
         setExternalAPIstocks(nextResponse);
       } catch (err) {
         console.log(err);

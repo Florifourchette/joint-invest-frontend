@@ -32,15 +32,6 @@ export const mockPortfolioData = [
       },
       {
         portfolio_id: 1,
-        company_id: "MSF",
-        average_price_sell: 265.21,
-        number_of_shares_sell: "1",
-        average_price_buy: 237.89,
-        number_of_shares_buy: "5",
-        current_number_of_stocks: "4",
-      },
-      {
-        portfolio_id: 1,
         company_id: "TSLA",
         average_price_sell: 152.22,
         number_of_shares_sell: "2",
