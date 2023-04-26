@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getDashboardData } from "../../utils/APIcalls";
 import { useParams } from "react-router-dom";
+import OverviewChart from "../components/OverviewChart";
 
 // const fakeStocks = {
 //     AAPL: { price: "165.35000" },
@@ -63,27 +64,27 @@ export default function Dashboard(props) {
         
     }, [userId]);
 
-    useEffect(()=>{
-        const companyIds = [...new Set(wallet.map((item) => item.company_id))];
-        console.log(`tickers: ${companyIds}`)
-        const apiUrl = createApiUrl(companyIds);
-        console.log(apiUrl);
+    // useEffect(()=>{
+    //     const companyIds = [...new Set(wallet.map((item) => item.company_id))];
+    //     console.log(`tickers: ${companyIds}`)
+    //     const apiUrl = createApiUrl(companyIds);
+    //     console.log(apiUrl);
         
-        console.log(apiUrl);
-        const apiCall = async ()=>{
-            try {
-                fetch(apiUrl)
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log(data)
-                    setPrices(data);
-                })
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        apiCall();
-    },[dashboardData])
+    //     console.log(apiUrl);
+    //     const apiCall = async ()=>{
+    //         try {
+    //             fetch(apiUrl)
+    //             .then((response) => response.json())
+    //             .then((data) => {
+    //                 console.log(data)
+    //                 setPrices(data);
+    //             })
+    //         } catch (error) {
+    //             console.log(error)
+    //         }
+    //     }
+    //     apiCall();
+    // },[dashboardData])
 
     console.log(dashboardData);
     console.log(wallet);
@@ -187,7 +188,7 @@ export default function Dashboard(props) {
             </div>
 
             <div className="graph">
-                <h3>Graph goes here</h3>
+                <OverviewChart />
             </div>
             <div className="portfolio-cards">
                 {dashboardData.map((data) => (
