@@ -188,7 +188,7 @@ export default function Dashboard(props) {
             </div>
 
             <div className="graph">
-                <OverviewChart />
+                <OverviewChart totalAssetsSum={totalAssetsSum}/>
             </div>
             <div className="portfolio-cards">
                 {dashboardData.map((data) => (

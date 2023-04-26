@@ -2,7 +2,7 @@ import React from "react";
 import Chart from "chart.js/auto";
 import { Line } from "react-chartjs-2";
 
-const labels = ["January", "February", "March", "April", "May", "June"];
+const labels = ["January", "February", "March", "April", "May", "June", "July", "August", "September"];
 
 const data = {
   labels: labels,
@@ -17,21 +17,27 @@ const data = {
   ],
 };
 
-const OverviewChart = () => (
-  <>
-    <div className="chart-container">
-      <Line
-        data={data}
-        options={{
-          plugins: {
-            legend: {
-              display: false,
-            },
-          },
-        }}
-      />
-    </div>
-  </>
-);
+const OverviewChart = ({ totalAssetsSum }) => {
+    data.datasets[0].data.push(Number(totalAssetsSum));
+    console.log(data)
+    return (
+      <>
+        <div className="chart-container">
+          <Line
+            data={data}
+            options={{
+              plugins: {
+                legend: {
+                  display: false,
+                },
+              },
+            }}
+          />
+        </div>
+      </>
+    );
+};
+
+
 
 export default OverviewChart;
