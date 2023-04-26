@@ -9,12 +9,32 @@ const [newPortfolioInitialAmount, setNewPortfolioInitialAmount]=useState(0)
 const [newPortfolioUsername, setNewPortfolioUsername]=useState('')
 const [uppercaseDetected, setUppercaseDetected]=useState(false)
 const [checkUsername, setCheckUsername]=useState('')
+const [usernamesArray, setUsernamesArray]=useState([])
 
 const {userId} = useParams()
 
+const isUserInDatabase = (friendUsername) =>{
+ const DbUsername = usernamesArray.filter((user)=>user.username === friendUsername)
+
+const userIdInt = parseInt(userId)
+
+ if(DbUsername.length === 0){
+  setCheckUsername('user not found')}
+ else if(DbUsername[0].id === userIdInt){
+    setCheckUsername('identical ids')
+  }
+  else{
+    setCheckUsername('')
+    setNewPortfolioUsername(friendUsername)}
+}
+
 useEffect(()=>{
-  axios.get('http://localhost:3000/api/overview').then(function (response) {
-    console.log(response);
+  setCheckUsername('')
+},[newPortfolioUsername])
+
+useEffect(()=>{
+  axios.get(`http://localhost:3000/api/creation_portfolio/${userId}`).then(function (response) {
+    setUsernamesArray(response.data);
   }).catch(function (error) {
     console.log(error)})
 },[])
@@ -55,7 +75,7 @@ const handleSubmit = () => {
     </Form.Field>
     <Form.Field>
       <label>Friend username</label>
-      <input placeholder='Friend username' onChange={(e)=>containsUppercase(e.target.value)?setUppercaseDetected(true):setNewPortfolioUsername(e.target.value)} required/>
+      <input placeholder='Friend username' onChange={(e)=>containsUppercase(e.target.value)?setUppercaseDetected(true):isUserInDatabase(e.target.value)} required/>
       {checkUsername==='user not found'?<p>User has not been found</p>:<p></p>}
       {checkUsername==='identical ids'?<p>You cannot create a portfolio with yourself</p>:<p></p>}
       {uppercaseDetected?<p>the username should be in lowercase</p>:<p></p>}
