@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import StockListItem from "../components/PortfolioStockListItem";
 import PortfolioChart from "../components/PortfolioChart.jsx";
 import PortfolioDropdown from "../components/PortfolioDropdown";
@@ -11,6 +11,7 @@ import { mockPortfolioData } from "../assets/mockPortfolioData";
 
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
+import axios from "axios";
 
 Chart.register(CategoryScale);
 
@@ -28,13 +29,19 @@ export default function Portfolio() {
   const [selectedInterval, setSelectedInterval] = useState("");
   console.log(selectedInterval);
 
-  /* const fetchMultipleCompanies = fetch(
-    `https://api.twelvedata.com/time_series?symbol=${cleanCompanyIds}&interval=1day&format=JSON&dp=2&start_date=04/10/2023 5:44 PM&end_date=04/14/2023 5:44 PM&apikey=6a897c4468e74344b1546b36728e991b`
-  )
-    .then((response) => response.json())
-    .then((data) => console.log(data))
-    .then((parsedData) => parsedData)
-    .catch((error) => console.log(error.message)); */
+  const dataForGraph = () => {
+    axios.get("");
+  };
+
+  useEffect(() => {
+    const fetchMultipleCompanies = fetch(
+      `https://api.twelvedata.com/time_series?symbol=${cleanCompanyIds}&interval=1h&format=JSON&dp=2&apikey=6a897c4468e74344b1546b36728e991b`
+    )
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .then((parsedData) => parsedData)
+      .catch((error) => console.log(error.message));
+  });
 
   return (
     <>
