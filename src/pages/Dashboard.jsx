@@ -16,7 +16,9 @@ function createApiUrl(companyIds) {
     const apiKey = import.meta.env.VITE_API_KEY; // replace with your actual API key
     const tickerString = companyIds.join(",");
     return `https://api.twelvedata.com/price?symbol=${tickerString}&apikey=${apiKey}`;
+
 }
+
 
 // function createFakeUrl(companyIds) {
 //     const tickerString = companyIds.join(",");
@@ -45,19 +47,9 @@ export default function Dashboard(props) {
                 setWallet(data.portfoliosDetails);
             })
             .catch((error) => console.error(error));
+            
 
-        const companyIds = [...new Set(wallet.map((item) => item.company_id))];
-        console.log(`tickers: ${companyIds}`)
-        const apiUrl = createApiUrl(companyIds);
-        console.log(apiUrl);
 
-        fetch(apiUrl)
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data)
-                setPrices(data);
-            })
-            .catch((error) => console.error(error));
 
         // const fakeApiUrl = createFakeUrl(companyIds);
         // console.log(fakeApiUrl);
@@ -67,7 +59,31 @@ export default function Dashboard(props) {
         //         setPrices(data);
         //     })
         //     .catch((error) => console.error(error));
+
+        
     }, [userId]);
+
+    useEffect(()=>{
+        const companyIds = [...new Set(wallet.map((item) => item.company_id))];
+        console.log(`tickers: ${companyIds}`)
+        const apiUrl = createApiUrl(companyIds);
+        console.log(apiUrl);
+        
+        console.log(apiUrl);
+        const apiCall = async ()=>{
+            try {
+                fetch(apiUrl)
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data)
+                    setPrices(data);
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        apiCall();
+    },[dashboardData])
 
     console.log(dashboardData);
     console.log(wallet);
