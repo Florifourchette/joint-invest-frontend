@@ -19,7 +19,7 @@ const data = {
 
 const OverviewChart = ({ totalAssetsSum }) => {
     data.datasets[0].data.push(Number(totalAssetsSum));
-    console.log(data)
+    // console.log(data)
     return (
       <>
         <div className="chart-container">
