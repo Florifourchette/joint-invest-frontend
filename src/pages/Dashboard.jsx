@@ -203,8 +203,8 @@ export default function Dashboard(props) {
             {/* <div className="graph">
                 <OverviewChart totalAssetsSum={totalAssetsSum}/>
             </div> */}
-            <div className="graph">
-                {dataReady && <PieChart dashboardData={dashboardData} portfolioTotals={portfolioTotals}/>}
+            <div >
+                {dataReady && <PieChart  dashboardData={dashboardData} portfolioTotals={portfolioTotals}/>}
             </div>
             <div className="portfolio-cards">
                 {dashboardData.map((data) => (
