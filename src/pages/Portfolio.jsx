@@ -67,7 +67,8 @@ export default function Portfolio() {
         );
         setStockItems(response.data.stocks);
         setStockOverview(response.data.overview[0]);
-        //console.log(response);
+        console.log(response);
+        console.log(response.data.stocks);
         return response.data.stocks;
       } catch (err) {
         console.log(err);
@@ -91,8 +92,8 @@ export default function Portfolio() {
         const nextResponse = await axios.get(
           `https://api.twelvedata.com/quote?symbol=${myStocksIds}&apikey=8cc6ed6b799b41028ff9e5664f0c0ebf`
         );
-        //console.log(nextResponse);
-        setExternalAPIstocks(nextResponse);
+        console.log(nextResponse);
+        setExternalAPIstocks(nextResponse.data);
       } catch (err) {
         console.log(err);
       }
@@ -125,9 +126,40 @@ export default function Portfolio() {
           setSelectedInterval={setSelectedInterval}
         />
       </div>
-      <div className="portfolio_stocks">
-        <h3>Your Stocks</h3>
-        {stocklistitem_data &&
+      <div className="portfolio_stocks container">
+        <h3 className="text-center" style={{ padding: "2rem" }}>
+          Your Stocks
+        </h3>
+
+        {selectedInterval == "since buy" ? (
+          <div>
+            {stockItems &&
+              externalAPIstocks &&
+              stockItems.map((item) => {
+                return (
+                  <StockListB
+                    item={item}
+                    externalAPIstocks={externalAPIstocks}
+                  />
+                );
+              })}
+          </div>
+        ) : (
+          <div>
+            {stockItems &&
+              externalAPIstocks &&
+              stockItems.map((item) => {
+                return (
+                  <StockListA
+                    item={item}
+                    externalAPIstocks={externalAPIstocks}
+                  />
+                );
+              })}
+          </div>
+        )}
+
+        {/* {stocklistitem_data &&
           stocklistitem_data.map((item) => {
             return (
               <StockListA
@@ -136,11 +168,22 @@ export default function Portfolio() {
                 id={uuidv4()}
               />
             );
-          })}
+          })} */}
       </div>
-      <div className="buttons">
-        <button>Order book</button>
-        <button>Buy/Sell</button>
+      <div
+        className="d-flex justify-content-center"
+        style={{ padding: "2rem" }}
+      >
+        <button
+          type="button"
+          class="btn btn-primary"
+          style={{ marginRight: "0.5rem" }}
+        >
+          Order book
+        </button>
+        <button type="button" class="btn btn-primary">
+          Buy/Sell
+        </button>
       </div>
     </>
   );
