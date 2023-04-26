@@ -23,7 +23,7 @@ export default class PortfolioDropdown extends Component {
   state = {};
 
   handleChange = (e, { value }) => {
-    console.log(value);
+    //console.log(value);
     const { text } = options.find((item) => item.value == value);
     this.setState({ value: value, text: text });
     this.props.setSelectedInterval(text);
@@ -31,7 +31,7 @@ export default class PortfolioDropdown extends Component {
 
   render() {
     const { value } = this.state;
-    console.log(this.state);
+    //console.log(this.state);
 
     return (
       <Dropdown

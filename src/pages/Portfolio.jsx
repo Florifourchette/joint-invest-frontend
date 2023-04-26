@@ -12,7 +12,6 @@ import axios from "axios";
 
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
-import axios from "axios";
 
 Chart.register(CategoryScale);
 
@@ -25,24 +24,25 @@ export default function Portfolio() {
     (stock) => stock.company_id
   );
   const cleanCompanyIds = companyIds.join();
-  console.log(cleanCompanyIds);
 
   const [selectedInterval, setSelectedInterval] = useState("");
-  const [stockItems, setStockItems] = useState();
-  const [stockOverview, setStockOverview] = useState();
-  console.log(selectedInterval);
-
- 
 
   useEffect(() => {
     const fetchMultipleCompanies = fetch(
-      `https://api.twelvedata.com/time_series?symbol=${cleanCompanyIds}&interval=1h&format=JSON&dp=2&apikey=6a897c4468e74344b1546b36728e991b`
+      `https://api.twelvedata.com/time_series?symbol=${cleanCompanyIds}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=be132a840da8483d8b3386724d5bcb2f`
     )
       .then((response) => response.json())
-      .then((data) => console.log(data))
-      .then((parsedData) => parsedData)
+      .then((parsedData) => setAllCompanies(parsedData))
       .catch((error) => console.log(error.message));
-  });
+  }, []);
+
+  const [allCompanies, setAllCompanies] = useState("");
+
+  const stockValues = Object.values(allCompanies).map(
+    (company) => company.values
+  );
+
+  console.log(stockValues);
 
   useEffect(() => {
     async function getPortfolioStocks() {
