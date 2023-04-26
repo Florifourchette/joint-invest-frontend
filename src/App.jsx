@@ -13,9 +13,10 @@ function App() {
     <>
     <Routes>
       <Route path="/:userId" element={<Dashboard />} />
+      <Route path="/portfolio/:id" element={<Portfolio />} />
       <Route path="/create_portfolio/:userId" element={<CreationPortfolio />} />
     </Routes>
-      <Portfolio />
+
     </>
   );
 }
