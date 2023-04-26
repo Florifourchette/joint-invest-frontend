@@ -1,7 +1,7 @@
 import React from "react";
 import { Image, List } from "semantic-ui-react";
 
-const StockListItem = ({ url, symbol, id }) => (
+const StockListA = ({ url, symbol, id }) => (
   <>
     <List relaxed="very" key={id}>
       <List.Item>
@@ -9,10 +9,11 @@ const StockListItem = ({ url, symbol, id }) => (
         <List.Content>
           <List.Header as="a">{symbol}</List.Header>
           <List.Description>VALUE</List.Description>
+          <List.Description>CHANGE in $/CHANGE in %</List.Description>
         </List.Content>
       </List.Item>
     </List>
   </>
 );
 
-export default StockListItem;
+export default StockListA;
