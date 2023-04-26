@@ -233,7 +233,7 @@ export default function Dashboard(props) {
                             <h4 className="friend">{data.friend_username}</h4>
                         </div>
                         <div>
-                            <button className="to-portfolio-btn"><IoIosArrowDroprightCircle className="to-portfolio-icon" />  </button>
+                            <button className="to-portfolio-btn" onClick={() => Navigate(`/portfolio/${data.portfolio_id}`)}><IoIosArrowDroprightCircle className="to-portfolio-icon" />  </button>
                         </div>
                     </div>
                 ))}
