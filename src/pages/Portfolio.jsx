@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import StockListItem from "../components/PortfolioStockListItem";
+import StockListA from "../components/PortfolioStockListA";
+import StockListB from "../components/PortfolioStockListB";
 import PortfolioChart from "../components/PortfolioChart.jsx";
 import PortfolioDropdown from "../components/PortfolioDropdown";
 import { stocklistitem_data } from "../assets/stocklistitem_data";
@@ -19,6 +20,7 @@ export default function Portfolio() {
   const portfolioName = mockPortfolioData[0].overview[0].name_of_portfolio;
   const investedAmount = mockPortfolioData[0].overview[0].invested_amount;
   const availableAmount = mockPortfolioData[0].overview[0].available_amount;
+  const companiesArray = [];
 
   const companyIds = mockPortfolioData[0].stocks.map(
     (stock) => stock.company_id
@@ -29,6 +31,9 @@ export default function Portfolio() {
   const [selectedInterval, setSelectedInterval] = useState("");
   const [stockItems, setStockItems] = useState();
   const [stockOverview, setStockOverview] = useState();
+  const [stockCompaniesId, setStockCompaniesId] = useState();
+  const [externalAPIstocks, setExternalAPIstocks] = useState();
+
   console.log(selectedInterval);
 
   /* const fetchMultipleCompanies = fetch(
@@ -45,14 +50,39 @@ export default function Portfolio() {
         const response = await axios.get(
           "http://localhost:3000/api/portfolio/1"
         );
-        console.log(response);
         setStockItems(response.data.stocks);
         setStockOverview(response.data.overview[0]);
+        console.log(response);
+        return response.data.stocks;
       } catch (err) {
         console.log(err);
       }
     }
-    getPortfolioStocks();
+    async function someIdRetrieving() {
+      try {
+        const inputStuff = await getPortfolioStocks();
+        const someId = inputStuff.map((stock) => stock.company_id);
+        const cleanStockIds = someId.join();
+        console.log(cleanStockIds);
+        setStockCompaniesId(cleanStockIds);
+        return cleanStockIds;
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    async function stockDataExternal() {
+      try {
+        const myStocksIds = await someIdRetrieving();
+        const nextResponse = await axios.get(
+          `https://api.twelvedata.com/quote?symbol=${myStocksIds}&apikey=8cc6ed6b799b41028ff9e5664f0c0ebf`
+        );
+        console.log(nextResponse);
+        setExternalAPIstocks(nextResponse);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    stockDataExternal();
   }, []);
 
   return (
@@ -85,7 +115,7 @@ export default function Portfolio() {
         {stocklistitem_data &&
           stocklistitem_data.map((item) => {
             return (
-              <StockListItem
+              <StockListA
                 url={item.url}
                 symbol={item.meta.symbol}
                 id={uuidv4()}
