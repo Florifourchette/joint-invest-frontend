@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import OverviewChart from "../components/OverviewChart";
 import PieChart from "../components/PieOverviewChart";
 import {IoIosArrowDroprightCircle, IoIosContacts, IoIosAdd} from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 
 // const fakeStocks = {
@@ -45,6 +46,7 @@ export default function Dashboard(props) {
     const [loading, setLoading] = useState(true);
 
     let { userId } = useParams();
+    const Navigate = useNavigate();
 
     useEffect(() => {
         getDashboardData(userId)
@@ -239,7 +241,7 @@ export default function Dashboard(props) {
 
             <div className="portfolio-add">
                 <p>Add a portfolio</p>
-                <button className="portfolio-add-btn"><IoIosAdd className="portfolio-add-icon"/></button>
+                <button className="portfolio-add-btn" onClick={() => Navigate(`/create_portfolio/${userId}`)}><IoIosAdd className="portfolio-add-icon"/></button>
             </div>
         </div>
     );
