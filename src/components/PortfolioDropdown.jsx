@@ -9,7 +9,7 @@ const options = [
   },
   {
     key: "2",
-    text: "weekly",
+    text: "since buy",
     value: "2",
   },
   {
