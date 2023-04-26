@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getDashboardData } from "../../utils/APIcalls";
 import { useParams } from "react-router-dom";
+import OverviewChart from "../components/OverviewChart";
+import PieChart from "../components/PieOverviewChart";
 
 // const fakeStocks = {
 //     AAPL: { price: "165.35000" },
@@ -37,6 +39,8 @@ export default function Dashboard(props) {
     const [dashboardData, setDashboardData] = useState([]);
     const [wallet, setWallet] = useState([]);
     const [prices, setPrices] = useState([]);
+    const [dataReady, setDataReady] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     let { userId } = useParams();
 
@@ -45,6 +49,8 @@ export default function Dashboard(props) {
             .then((data) => {
                 setDashboardData(data.portfolios);
                 setWallet(data.portfoliosDetails);
+                setDataReady(true);
+                setLoading(false);
             })
             .catch((error) => console.error(error));
             
@@ -63,7 +69,10 @@ export default function Dashboard(props) {
         
     }, [userId]);
 
+
+//API CALL
     useEffect(()=>{
+        if (loading === false) {
         const companyIds = [...new Set(wallet.map((item) => item.company_id))];
         console.log(`tickers: ${companyIds}`)
         const apiUrl = createApiUrl(companyIds);
@@ -83,7 +92,10 @@ export default function Dashboard(props) {
             }
         }
         apiCall();
-    },[dashboardData])
+        }
+
+        
+    },[dashboardData, loading])
 
     console.log(dashboardData);
     console.log(wallet);
@@ -186,8 +198,11 @@ export default function Dashboard(props) {
                 <h4>{totalPandL}</h4>
             </div>
 
+            {/* <div className="graph">
+                <OverviewChart totalAssetsSum={totalAssetsSum}/>
+            </div> */}
             <div className="graph">
-                <h3>Graph goes here</h3>
+                {dataReady && <PieChart dashboardData={dashboardData} portfolioTotals={portfolioTotals}/>}
             </div>
             <div className="portfolio-cards">
                 {dashboardData.map((data) => (
