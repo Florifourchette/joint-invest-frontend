@@ -3,6 +3,8 @@ import { getDashboardData } from "../../utils/APIcalls";
 import { useParams } from "react-router-dom";
 import OverviewChart from "../components/OverviewChart";
 import PieChart from "../components/PieOverviewChart";
+import {IoIosArrowDroprightCircle, IoIosContacts, IoIosAdd} from "react-icons/io";
+
 
 // const fakeStocks = {
 //     AAPL: { price: "165.35000" },
@@ -71,31 +73,31 @@ export default function Dashboard(props) {
 
 
 //API CALL
-    useEffect(()=>{
-        if (loading === false) {
-        const companyIds = [...new Set(wallet.map((item) => item.company_id))];
-        console.log(`tickers: ${companyIds}`)
-        const apiUrl = createApiUrl(companyIds);
-        console.log(apiUrl);
+    // useEffect(()=>{
+    //     if (loading === false) {
+    //     const companyIds = [...new Set(wallet.map((item) => item.company_id))];
+    //     console.log(`tickers: ${companyIds}`)
+    //     const apiUrl = createApiUrl(companyIds);
+    //     console.log(apiUrl);
         
-        console.log(apiUrl);
-        const apiCall = async ()=>{
-            try {
-                fetch(apiUrl)
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log(data)
-                    setPrices(data);
-                })
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        apiCall();
-        }
+    //     console.log(apiUrl);
+    //     const apiCall = async ()=>{
+    //         try {
+    //             fetch(apiUrl)
+    //             .then((response) => response.json())
+    //             .then((data) => {
+    //                 console.log(data)
+    //                 setPrices(data);
+    //             })
+    //         } catch (error) {
+    //             console.log(error)
+    //         }
+    //     }
+    //     apiCall();
+    //     }
 
         
-    },[dashboardData, loading])
+    // },[dashboardData, loading])
 
     console.log(dashboardData);
     console.log(wallet);
@@ -132,9 +134,9 @@ export default function Dashboard(props) {
         (accumulator, currentPortfolio) =>
             accumulator + currentPortfolio.initial_amount,
         0
-    );
+    ).toFixed(2);
 
-    const totalPandL = totalAssetsSum - totalAmountInvested;
+    const totalPandL = (totalAssetsSum - totalAmountInvested).toFixed(2);
 
 
     //portfolios current value
@@ -225,16 +227,19 @@ export default function Dashboard(props) {
                             </div>
                         </div>
                         <div className="friend-box">
+                            <IoIosContacts className="friend-icon" />
                             <h4 className="friend">{data.friend_username}</h4>
                         </div>
-                        
+                        <div>
+                            <button className="to-portfolio-btn"><IoIosArrowDroprightCircle className="to-portfolio-icon" />  </button>
+                        </div>
                     </div>
                 ))}
             </div>
 
             <div className="portfolio-add">
                 <p>Add a portfolio</p>
-                <button className="portfolio-add-btn">+</button>
+                <button className="portfolio-add-btn"><IoIosAdd className="portfolio-add-icon"/></button>
             </div>
         </div>
     );
