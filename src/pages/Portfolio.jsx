@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import StockListItem from "../components/PortfolioStockListItem";
 import PortfolioChart from "../components/PortfolioChart.jsx";
 import PortfolioDropdown from "../components/PortfolioDropdown";
@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 import { mockPortfolioData } from "../assets/mockPortfolioData";
 //import chartData from "../assets/lineGraphData";
 //import { url } from "inspector";
+import axios from "axios";
 
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
@@ -26,6 +27,8 @@ export default function Portfolio() {
   console.log(cleanCompanyIds);
 
   const [selectedInterval, setSelectedInterval] = useState("");
+  const [stockItems, setStockItems] = useState();
+  const [stockOverview, setStockOverview] = useState();
   console.log(selectedInterval);
 
   /* const fetchMultipleCompanies = fetch(
@@ -35,6 +38,22 @@ export default function Portfolio() {
     .then((data) => console.log(data))
     .then((parsedData) => parsedData)
     .catch((error) => console.log(error.message)); */
+
+  useEffect(() => {
+    async function getPortfolioStocks() {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/portfolio/1"
+        );
+        console.log(response);
+        setStockItems(response.data.stocks);
+        setStockOverview(response.data.overview[0]);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    getPortfolioStocks();
+  }, []);
 
   return (
     <>
