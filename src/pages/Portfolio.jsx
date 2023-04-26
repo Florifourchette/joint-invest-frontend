@@ -29,9 +29,7 @@ export default function Portfolio() {
   const [selectedInterval, setSelectedInterval] = useState("");
   console.log(selectedInterval);
 
-  const dataForGraph = () => {
-    axios.get("");
-  };
+ 
 
   useEffect(() => {
     const fetchMultipleCompanies = fetch(
