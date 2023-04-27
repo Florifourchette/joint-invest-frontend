@@ -292,6 +292,11 @@ table {
 .your-stock-logo{
     margin-top: auto;
     margin-bottom: auto;
+    
+}
+.your-stock-name-price{
+    margin-top: auto;
+    margin-bottom: auto;
 }
 .stock-counter{
     margin-top: auto;
@@ -300,4 +305,8 @@ table {
 .buy-sell-btns{
     display: flex;
     flex-direction: column;
+}
+.buy-sell-btn{
+    margin-top: 0.2em;
+    margin-bottom:0.2em ;
 }

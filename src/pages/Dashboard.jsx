@@ -198,7 +198,9 @@ export default function Dashboard(props) {
                 <h5>Amount Invested</h5>
                 <h4>$ {totalAmountInvested}</h4>
                 <h5>Total gains</h5>
-                <h4 className={totalPandL >= 0 ? 'positive' : 'negative'}>$ {totalPandL}</h4>
+                <h4 className={totalPandL >= 0 ? "positive" : "negative"}>
+                    $ {totalPandL}
+                </h4>
             </div>
 
             {/* <div className="graph">
@@ -229,7 +231,15 @@ export default function Dashboard(props) {
                                 <h3 className="portfolio-value-title">
                                     Profit/Loss:
                                 </h3>
-                                <h4 className={portfolioTotals[data.portfolio_id] - data.total_buying_value >= 0 ? 'positive' : 'negative'}>
+                                <h4
+                                    className={
+                                        portfolioTotals[data.portfolio_id] -
+                                            data.total_buying_value >=
+                                        0
+                                            ? "positive"
+                                            : "negative"
+                                    }
+                                >
                                     $
                                     {(
                                         portfolioTotals[data.portfolio_id] -
@@ -245,9 +255,36 @@ export default function Dashboard(props) {
                         <div>
                             <button
                                 className="to-portfolio-btn"
-                                onClick={() =>
-                                    Navigate(`/portfolio/${data.portfolio_id}`)
-                                }
+
+                                //Navigating and passing the current prices to the portfolio page
+                                onClick={() => {
+                                    // Filter the wallet for the stocks in the current portfolio
+                                    const filteredWallet = wallet.filter(
+                                        (stock) =>
+                                            stock.portfolio_id ===
+                                            data.portfolio_id
+                                    );
+
+                                    // Filter the prices for the stocks in the current portfolio
+                                    const filteredPrices = {};
+                                    filteredWallet.forEach((stock) => {
+                                        if (prices[stock.company_id]) {
+                                            filteredPrices[stock.company_id] =
+                                                prices[stock.company_id].price;
+                                        }
+                                    });
+
+                                    // Pass the filtered data to the next page
+                                    Navigate(
+                                        `/portfolio/${data.portfolio_id}`,
+                                        {
+                                            state: {
+                                                
+                                                prices: filteredPrices,
+                                            },
+                                        }
+                                    );
+                                }}
                             >
                                 <IoIosArrowDroprightCircle className="to-portfolio-icon" />{" "}
                             </button>

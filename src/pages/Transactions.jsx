@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { getTransactionsData } from "../../utils/APIcalls";
 import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export default function Transactions() {
     let { portfolioId } = useParams();
+
+    const location = useLocation()
+
+    console.log(location.state)
 
     //STATES
     const [yourStocks, setYourStocks] = useState([]);
@@ -50,16 +55,16 @@ export default function Transactions() {
                 {yourStocks.map((stock)=>(
                     <div key={stock.id} className="your-stock-card">
                         <span className="your-stock-logo">Logo</span>
-                        <div className="name-price">
+                        <div className="your-stock-name-price">
                             <h4>{stock.company_name} <span>{stock.number_of_shares}</span></h4>
-                            <h4>Total Price per stock</h4>
+                            <h4>Price Coming from the API</h4>
                         </div>
                         <div className="stock-counter">
                             <button onClick={decreaseCounter}>-</button>{counter}<button onClick={increaseCounter}>+</button>
                         </div>
                         <div className="buy-sell-btns">
-                            <button>Buy</button>
-                            <button>Sell</button>
+                            <button className="buy-sell-btn">Buy</button>
+                            <button className="buy-sell-btn">Sell</button>
                         </div>
                     </div>
                 ))}
