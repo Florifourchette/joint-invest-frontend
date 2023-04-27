@@ -34,9 +34,9 @@ export default function LogIn() {
     setLoading(false);
   };
   return (
-    <div className="container" style={{ padding: "2rem" }}>
+    <div className="container-fluid" style={{ minWidth: "375px" }}>
       <div className="ui middle aligned center aligned grid">
-        <div className="column">
+        <div className="column w-100">
           <h2 className="ui image header">
             <div className="content" style={{ marginTop: "4rem" }}>
               Login
