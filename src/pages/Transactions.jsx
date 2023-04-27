@@ -5,16 +5,35 @@ import { useParams } from "react-router-dom";
 export default function Transactions() {
     let { portfolioId } = useParams();
 
+    //STATES
+    const [yourStocks, setYourStocks] = useState([]);
+    const [counter, setCounter] = useState(1);
+
 
     useEffect(() => {
         getTransactionsData(portfolioId)
         .then((data) => {
             console.log(data);
+            setYourStocks(data)
 
         })
         .catch((error) => console.error(error));
     }, [portfolioId])
     
+    console.log(yourStocks)
+
+
+    // function to increase the counter
+    const increaseCounter = () => {
+    setCounter(counter + 1);
+    };
+
+    // function to decrease the counter
+    const decreaseCounter = () => {
+        if (counter > 1) {
+            setCounter(counter - 1);
+        }
+    };
 
   return (
     <div>
@@ -28,7 +47,22 @@ export default function Transactions() {
         <div className='your-stocks'>
             <h2>Your Stocks</h2>
             <div className='your-portfolio-stocks'>
-
+                {yourStocks.map((stock)=>(
+                    <div key={stock.id} className="your-stock-card">
+                        <span className="your-stock-logo">Logo</span>
+                        <div className="name-price">
+                            <h4>{stock.company_name} <span>{stock.number_of_shares}</span></h4>
+                            <h4>Total Price per stock</h4>
+                        </div>
+                        <div className="stock-counter">
+                            <button onClick={decreaseCounter}>-</button>{counter}<button onClick={increaseCounter}>+</button>
+                        </div>
+                        <div className="buy-sell-btns">
+                            <button>Buy</button>
+                            <button>Sell</button>
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
         

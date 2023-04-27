@@ -6,12 +6,11 @@ export function getDashboardData(userId){
 }
 
 export function getTransactionsData(portfolioId){
-  console.log(portfolioId);
   return fetch (`http://localhost:3000/api/transaction/${portfolioId}` ,{
     method: 'GET'
   })
     .then(response => {
-      console.log(response); // Log the response to the console
+      console.log(response); 
       return response.json();
     })
 }

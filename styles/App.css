@@ -132,6 +132,7 @@ table {
 
 /* CSS Start */
 
+/* OVERVIEW PAGE */
 .overview-page {
     margin-top: 2em;
     display: flex;
@@ -269,4 +270,34 @@ table {
 
 .negative {
     color: red;
+}
+
+
+/* TRANSACTIONS PAGE */
+
+.your-portfolio-stocks{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
+.your-stock-card {
+    display: flex;
+    flex-direction: row;
+    border: 2px solid blue;
+    justify-content: space-around;
+    margin-bottom: 1em;
+}
+.your-stock-logo{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.stock-counter{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.buy-sell-btns{
+    display: flex;
+    flex-direction: column;
 }
