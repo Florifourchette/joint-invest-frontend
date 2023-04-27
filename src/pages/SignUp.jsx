@@ -37,7 +37,7 @@ export default function SignUp() {
   };
 
   return (
-    <div className="container" style={{ padding: "2rem" }}>
+    <div className="container-fluid" style={{ minWidth: "375px" }}>
       <div className="ui middle aligned center aligned grid">
         <div className="column">
           <h2 className="ui image header">
