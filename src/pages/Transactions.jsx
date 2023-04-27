@@ -8,7 +8,7 @@ export default function Transactions() {
 
     const location = useLocation()
 
-    console.log(location.state)
+    console.log(` location at transactions ${JSON.stringify(location.state)}`);
 
     //STATES
     const [yourStocks, setYourStocks] = useState([]);

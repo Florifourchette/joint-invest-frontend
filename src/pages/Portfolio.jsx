@@ -29,7 +29,7 @@ export default function Portfolio() {
     
     const Navigate = useNavigate();
     const location = useLocation();
-    console.log(location.state)
+    console.log(` location at portfolio ${JSON.stringify(location.state)}`);
 
     const companyIds = mockPortfolioData[0].stocks.map(
         (stock) => stock.company_id
@@ -180,7 +180,7 @@ export default function Portfolio() {
                     class="btn btn-primary"
                     onClick={() =>
                         Navigate(`/transactions/${id}`, {
-                            state: {externalAPIstocks},
+                            state: location.state,
                         })
                     }
                 >
