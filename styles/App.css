@@ -141,11 +141,11 @@ body {
 }
 
 body h1 {
-  font-size: 3.5em;
+  font-size: 2.5em;
   font-weight: bold;
   text-align: center;
   margin: 1em;
-  padding-top: 0.5em;
+  padding-top: 1em;
 }
 
 /* Overview Page */
