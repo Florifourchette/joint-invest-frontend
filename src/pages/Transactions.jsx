@@ -56,7 +56,7 @@ export default function Transactions() {
                     <div key={stock.id} className="your-stock-card">
                         <span className="your-stock-logo">Logo</span>
                         <div className="your-stock-name-price">
-                            <h4>{stock.company_name} <span>{stock.number_of_shares}</span></h4>
+                            <h4>{stock.company_id} <span>{stock.number_of_shares}</span></h4>
                             <h4>Price: {Number(location.state.prices[stock.company_id]).toFixed(2)}</h4>
                         </div>
                         <div className="stock-counter">
