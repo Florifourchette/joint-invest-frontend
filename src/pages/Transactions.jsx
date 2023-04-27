@@ -57,7 +57,7 @@ export default function Transactions() {
                         <span className="your-stock-logo">Logo</span>
                         <div className="your-stock-name-price">
                             <h4>{stock.company_name} <span>{stock.number_of_shares}</span></h4>
-                            <h4>Price Coming from the API</h4>
+                            <h4>Price: {Number(location.state.prices[stock.company_id]).toFixed(2)}</h4>
                         </div>
                         <div className="stock-counter">
                             <button onClick={decreaseCounter}>-</button>{counter}<button onClick={increaseCounter}>+</button>
