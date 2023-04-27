@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { Button, Form } from 'semantic-ui-react'
 import axios from 'axios'
+import '../../styles/App.css'
 
 const CreationPortfolio = () => {
 const [newPortfolioName, setNewPortfolioName]=useState('')
@@ -44,6 +45,8 @@ const handleSubmit = () => {
 
   return (
     <>
+    <h1>Add portfolio</h1>
+    <p className='page-description'>Start a new portfolio with your friend</p>
       <Form onSubmit={handleSubmit} >
     <Form.Field>
       <label>Portfolio name</label>
@@ -60,7 +63,20 @@ const handleSubmit = () => {
       {checkUsername==='identical ids'?<p>You cannot create a portfolio with yourself</p>:<p></p>}
       {uppercaseDetected?<p>the username should be in lowercase</p>:<p></p>}
     </Form.Field>
-    <Button type='submit'>Submit</Button>
+    <Button type='submit' 
+    style={{
+      width: "13em",
+  height: "3em",
+  fontSize: "1.5em",
+          backgroundColor: "#074ee8",
+          border: "none",
+          color: "white",
+          borderRadius: "5px",
+  fontWeight: "bold",
+          padding: "0.5rem 1rem",
+          cursor: "pointer",
+          marginTop: "1.5em"
+        }}>Submit</Button>
   </Form>
     </>
   )
