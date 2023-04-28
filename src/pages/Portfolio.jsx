@@ -30,13 +30,13 @@ export default function Portfolio() {
 
   const Navigate = useNavigate();
   const location = useLocation();
-  console.log(` location at portfolio ${JSON.stringify(location.state)}`);
+  //console.log(` location at portfolio ${JSON.stringify(location.state)}`);
 
   const companyIds = mockPortfolioData[0].stocks.map(
     (stock) => stock.company_id
   );
   const cleanCompanyIds = companyIds.join();
-  console.log(cleanCompanyIds);
+  //console.log(cleanCompanyIds);
 
   const [selectedInterval, setSelectedInterval] = useState("");
   const [stockItems, setStockItems] = useState([]);
@@ -47,41 +47,41 @@ export default function Portfolio() {
 
   const hourlyValues = [];
 
-  console.log(allCompanies);
+  //console.log(allCompanies);
 
   if (allCompanies !== undefined) {
     const stockValues = Object.values(allCompanies).map(
       (company) => company.values
     );
-    console.log(typeof stockValues);
+    //console.log(typeof stockValues);
 
     const closeValues = stockValues.map((subArray) =>
       subArray.map((obj) => obj.close)
     );
 
-    console.log(closeValues);
-    console.log(typeof closeValues);
+    //console.log(closeValues);
+    //console.log(typeof closeValues);
 
     if (closeValues !== undefined) {
       for (const [index, item] of closeValues.entries()) {
         closeValues[index]["current_total_value"] = [];
-        console.log(index);
+        //console.log(index);
 
         for (const [index2, stockValueItem] of closeValues[index].entries()) {
           closeValues[index]["current_total_value"].push(
             stockItems[0]?.current_number_of_stocks * parseFloat(item[index2])
           );
-          console.log(closeValues);
+          //console.log(closeValues);
         }
       }
     }
-    console.log(typeof closeValues);
+    //console.log(typeof closeValues);
 
     const currentTotalValueArray = closeValues.map(
       (subArray) => subArray.current_total_value
     );
 
-    console.log(currentTotalValueArray);
+    //console.log(currentTotalValueArray);
 
     for (let i = 0; i < currentTotalValueArray[0].length; i++) {
       let sum = 0;
@@ -90,7 +90,7 @@ export default function Portfolio() {
       }
       hourlyValues.push(sum);
     }
-    console.log(hourlyValues);
+    //console.log(hourlyValues);
   }
 
   //api calls
@@ -99,11 +99,11 @@ export default function Portfolio() {
     async function getPortfolioStocks() {
       try {
         const response = await axios.get(
-          `http://localhost:3001/api/portfolio/${id}`
+          `http://localhost:3000/api/portfolio/${id}`
         );
         setStockItems(response.data.stocks);
         setStockOverview(response.data.overview[0]);
-        console.log(response);
+        //console.log(response);
         return response.data.stocks;
       } catch (err) {
         console.log(err);
@@ -114,7 +114,7 @@ export default function Portfolio() {
         const inputStuff = await getPortfolioStocks();
         const someId = inputStuff.map((stock) => stock.company_id);
         const cleanStockIds = someId.join();
-        console.log(cleanStockIds);
+        //console.log(cleanStockIds);
         setStockCompaniesId(cleanStockIds);
         return cleanStockIds;
       } catch (err) {
@@ -127,8 +127,8 @@ export default function Portfolio() {
         const nextResponse = await axios.get(
           `https://api.twelvedata.com/quote?symbol=${myStocksIds}&apikey=6a897c4468e74344b1546b36728e991b`
         );
-        console.log(myStocksIds);
-        console.log(nextResponse);
+        //console.log(myStocksIds);
+        //console.log(nextResponse);
         setExternalAPIstocks(nextResponse.data);
       } catch (err) {
         console.log(err);
@@ -137,11 +137,11 @@ export default function Portfolio() {
     async function fetchMultipleCompanies() {
       try {
         const myStocksIds = await someIdRetrieving();
-        console.log(myStocksIds);
+        //console.log(myStocksIds);
         const { data } = await axios.get(
           `https://api.twelvedata.com/time_series?symbol=${myStocksIds}&interval=1h&outputsize=4&format=JSON&dp=2&apikey=da4a4e4ca02f4f06a70e827bc75e2458`
         );
-        console.log(data);
+        //console.log(data);
         setAllCompanies(data);
       } catch (error) {
         console.log(error.message);
