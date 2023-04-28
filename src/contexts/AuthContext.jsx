@@ -18,7 +18,7 @@ const AuthStateContext = ({ children }) => {
       const getUser = async () => {
         try {
           setLoading(true);
-          const data = await getUserDate();
+          const data = await getUserData();
           setUserLogin(data);
           setIsAuthenticated(true);
           setLoading(false);
