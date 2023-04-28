@@ -7,7 +7,7 @@ export const AuthContext = createContext();
 // export const useAuth = () => useContext(AuthContext);
 const AuthStateContext = ({ children }) => {
   const navigate = useNavigate();
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
