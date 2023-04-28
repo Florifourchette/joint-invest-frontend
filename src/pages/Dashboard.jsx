@@ -9,35 +9,9 @@ import {
     IoIosAdd,
 } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { createApiUrl } from '../../utils/CreateAPIUrl'
 
-// const fakeStocks = {
-//     AAPL: { price: "165.35000" },
-//     MSF: { price: "381.85000" },
-//     TSLA: { price: "125.00000" },
-//     AMZN: { price: "100.1" },
-//     Test: { price: "100" },
-//     Test2: { price: "20" },
-// };
 
-// define a function to create the API URL with the given symbols
-function createApiUrl(companyIds) {
-    const apiKey = import.meta.env.VITE_API_KEY; // replace with your actual API key
-    const tickerString = companyIds.join(",");
-    return `https://api.twelvedata.com/price?symbol=${tickerString}&apikey=${apiKey}`;
-}
-
-// function createFakeUrl(companyIds) {
-//     const tickerString = companyIds.join(",");
-//     return `https://fake.api.com/price?symbol=${tickerString}`;
-// }
-// function getFakeApiData() {
-//     return new Promise((resolve, reject) => {
-//         // Make a fake API call and return the fake data
-//         setTimeout(() => {
-//             resolve(fakeStocks);
-//         }, 1000); // You can adjust the delay time to simulate network latency
-//     });
-// }
 
 export default function Dashboard(props) {
     const [dashboardData, setDashboardData] = useState([]);
