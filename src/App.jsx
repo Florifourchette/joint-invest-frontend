@@ -4,19 +4,28 @@ import Portfolio from "./pages/Portfolio";
 import "../styles/App.css";
 import { Link, Routes, Route } from "react-router-dom";
 import CreationPortfolio from "./pages/CreationPortfolio";
-
-
+import LogIn from "./pages/LogIn";
+import SignUp from "./pages/Signup";
+import Transactions from "./pages/Transactions";
+import AuthStateContext from "./contexts/AuthContext";
 
 function App() {
-
   return (
     <>
-    <Routes>
-      <Route path="/:userId" element={<Dashboard />} />
-      <Route path="/portfolio/:id" element={<Portfolio />} />
-      <Route path="/create_portfolio/:userId" element={<CreationPortfolio />} />
-    </Routes>
-
+      <AuthStateContext>
+        <Routes>
+          <Route path="/home" />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/overview/:userId" element={<Dashboard />} />
+          <Route path="/transactions/:portfolioId" element={<Transactions />} />
+          <Route path="/portfolio/:id" element={<Portfolio />} />
+          <Route
+            path="/create_portfolio/:userId"
+            element={<CreationPortfolio />}
+          />
+        </Routes>
+      </AuthStateContext>
     </>
   );
 }

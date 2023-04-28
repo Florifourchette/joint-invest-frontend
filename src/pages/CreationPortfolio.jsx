@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Button, Form } from "semantic-ui-react";
 import axios from "axios";
+import "../../styles/App.css";
+import useAuth from "../hooks/useAuth";
+import LogIn from "./LogIn";
+import { Message } from "semantic-ui-react";
 
 const CreationPortfolio = () => {
   const [newPortfolioName, setNewPortfolioName] = useState("");
@@ -9,6 +13,7 @@ const CreationPortfolio = () => {
   const [newPortfolioUsername, setNewPortfolioUsername] = useState("");
   const [uppercaseDetected, setUppercaseDetected] = useState(false);
   const [checkUsername, setCheckUsername] = useState("");
+  const { isAuthenticated } = useAuth();
 
   const { userId } = useParams();
 
@@ -48,8 +53,10 @@ const CreationPortfolio = () => {
     setUppercaseDetected(false);
   }, [newPortfolioUsername]);
 
-  return (
+  return isAuthenticated ? (
     <>
+      <h1>Add portfolio</h1>
+      <p className="page-description">Start a new portfolio with your friend</p>
       <Form onSubmit={handleSubmit}>
         <Form.Field>
           <label>Portfolio name</label>
@@ -95,9 +102,35 @@ const CreationPortfolio = () => {
             <p></p>
           )}
         </Form.Field>
-        <Button type="submit">Submit</Button>
+        <Button
+          type="submit"
+          style={{
+            width: "13em",
+            height: "3em",
+            fontSize: "1.5em",
+            backgroundColor: "#074ee8",
+            border: "none",
+            color: "white",
+            borderRadius: "5px",
+            fontWeight: "bold",
+            padding: "0.5rem 1rem",
+            cursor: "pointer",
+            marginTop: "1.5em",
+          }}
+        >
+          Submit
+        </Button>
       </Form>
     </>
+  ) : (
+    <div>
+      <div className="d-flex justify-content-center">
+        <Message style={{ color: "red" }}>
+          You are not logged in, please login!
+        </Message>
+      </div>
+      <LogIn />
+    </div>
   );
 };
 
