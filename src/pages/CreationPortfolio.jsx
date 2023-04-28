@@ -20,10 +20,10 @@ const CreationPortfolio = () => {
   useEffect(() => {
     axios
       .get("http://localhost:3000/api/overview")
-      .then(function (response) {
+      .then(function(response) {
         console.log(response);
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   }, []);
@@ -40,10 +40,10 @@ const CreationPortfolio = () => {
         name_of_portfolio: newPortfolioName,
         friend_username: newPortfolioUsername,
       })
-      .then(function (response) {
+      .then(function(response) {
         setCheckUsername(response.data);
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   };
