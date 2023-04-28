@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { transaction } from "../../utils/TransactionOperations";
 import ReactModal from "react-modal";
 import ModalTransactionBuy from "../components/ModalTransactionBuy";
+import ModalTransactionSell from "../components/ModalTransactionSell";
 
 export default function Transactions() {
     let { portfolioId } = useParams();
@@ -18,14 +19,23 @@ export default function Transactions() {
     const [counter, setCounter] = useState(1);
     const [transactionPrice, setTransactionPrice] = useState([]);
     const [showModal, setShowModal] = useState(false);
-    const [selectedStock, setSelectedStock] = useState(null)
+    const [selectedStock, setSelectedStock] = useState(null);
 
-
+    //buy - sales
     const handleBuy = (companyId) => {
         const selectedAmmount = counter;
         transaction(companyId, selectedAmmount, (data) => {
             setTransactionPrice(data);
-            setSelectedStock(companyId)
+            setSelectedStock(companyId);
+        });
+        setShowModal(true);
+    };
+
+    const handleSell = (companyId) => {
+        const selectedAmmount = counter;
+        transaction(companyId, selectedAmmount, (data) => {
+            setTransactionPrice(data);
+            setSelectedStock(companyId);
         });
         setShowModal(true);
     };
@@ -103,17 +113,41 @@ export default function Transactions() {
                                 >
                                     Buy
                                 </button>
-                                <button className="buy-sell-btn">Sell</button>
+                                <button 
+                                    className="buy-sell-btn"
+                                    onClick={() => handleSell(stock.company_id)}
+                                    
+                                    >Sell</button>
                             </div>
-                            {selectedStock === stock.company_id && showModal && (
-                                <ModalTransactionBuy
-                                    message={`Are you sure you want to buy ${stock.company_id} at ${Number(transactionPrice.price).toFixed(2)}?`}
-                                    handleConfirm={handleConfirm}
-                                    handleCancel={handleCancel}
-                                    showModal={showModal}
-                                    centered
-                                />
-                            )}
+                            {selectedStock === stock.company_id &&
+                                showModal && (
+                                    <ModalTransactionBuy
+                                        message={`Are you sure you want to buy ${
+                                            stock.company_id
+                                        } at ${Number(
+                                            transactionPrice.price
+                                        ).toFixed(2)}?`}
+                                        handleConfirm={handleConfirm}
+                                        handleCancel={handleCancel}
+                                        showModal={showModal}
+                                        centered
+                                    />
+                                )}
+
+                            {selectedStock === stock.company_id &&
+                                showModal && (
+                                    <ModalTransactionBuy
+                                        message={`Are you sure you want to Sell ${
+                                            stock.company_id
+                                        } at ${Number(
+                                            transactionPrice.price
+                                        ).toFixed(2)}?`}
+                                        handleConfirm={handleConfirm}
+                                        handleCancel={handleCancel}
+                                        showModal={showModal}
+                                        centered
+                                    />
+                                )}
                         </div>
                     ))}
                 </div>
