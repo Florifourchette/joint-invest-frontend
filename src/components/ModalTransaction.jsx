@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const ModalTransactionSell = ({ message, handleConfirm, handleCancel,showModal }) => {
+const ModalTransaction= ({ message, handleConfirm, handleCancel,showModal }) => {
     
 
 
@@ -28,4 +28,4 @@ const ModalTransactionSell = ({ message, handleConfirm, handleCancel,showModal }
     );
 };
 
-export default ModalTransactionSell;
+export default ModalTransaction;

@@ -4,8 +4,7 @@ import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { transaction } from "../../utils/TransactionOperations";
 import ReactModal from "react-modal";
-import ModalTransactionBuy from "../components/ModalTransactionBuy";
-import ModalTransactionSell from "../components/ModalTransactionSell";
+import ModalTransactionBuy from "../components/ModalTransaction";
 import TransactionCard from "../components/TransactionCard";
 
 export default function Transactions() {
@@ -17,13 +16,13 @@ export default function Transactions() {
 
     //STATES
     const [yourStocks, setYourStocks] = useState([]);
-    const [counter, setCounter] = useState(1);
+    const [selectedAmmount, setSelectedAmmount] = useState(1);
     const [transactionPrice, setTransactionPrice] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [selectedStock, setSelectedStock] = useState(null);
     const [transactionData, setTransactionData] = useState([
         {
-            number_of_shares: counter.toString(),
+            number_of_shares: selectedAmmount.toString(),
             company_id: selectedStock,
             type_of_transaction: "",
             company_name: "Apple Inc",
@@ -33,8 +32,8 @@ export default function Transactions() {
     ]);
 
     //buy - sales
-    const handleBuy = (companyId) => {
-        const selectedAmmount = counter;
+    const handleBuy = (companyId, counter) => {
+        setSelectedAmmount(counter)
         transaction(companyId, selectedAmmount, (data) => {
             setTransactionPrice(data);
             setSelectedStock(companyId);
@@ -46,17 +45,21 @@ export default function Transactions() {
         setShowModal(true);
     };
 
-    const handleSell = (companyId) => {
-        const selectedAmmount = counter;
+    const handleSell = (companyId, counter) => {
+        setSelectedAmmount(counter)
         transaction(companyId, selectedAmmount, (data) => {
             setTransactionPrice(data);
             setSelectedStock(companyId);
+            setTransactionData((prevData) => ({
+                ...prevData,
+                type_of_transaction: "Sell",
+            }));
         });
         setShowModal(true);
     };
 
     //Modal Controlls
-    const handleConfirm = (transactionData) => {
+    const handleConfirm = (transactionData, counter) => {
         // update the state of the parent component here
         setShowModal(false);
         writeTransaction(portfolioId, transactionData);
@@ -114,7 +117,7 @@ export default function Transactions() {
                         ))}
                         {selectedStock && showModal && (
                             <ModalTransactionBuy
-                                message={`Are you sure you want to Sell ${selectedStock} at ${Number(
+                                message={`Are you sure you want to ${transactionData.type_of_transaction} ${selectedAmmount} stocks of ${selectedStock} at ${Number(
                                     transactionPrice.price
                                 ).toFixed(2)}?`}
                                 handleConfirm={handleConfirm}
