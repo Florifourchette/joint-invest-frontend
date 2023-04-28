@@ -1,6 +1,6 @@
 import { createApiUrl} from './CreateAPIUrl'
 
-export function buy(companyId, ammount) {
+export function transaction(companyId, ammount, callback) {
     const apiUrl = createApiUrl(companyId)
     const apiCall = async () => {
         try {
@@ -8,7 +8,7 @@ export function buy(companyId, ammount) {
                 .then((response) => response.json())
                 .then((data) => {
                     console.log(data);
-                    setPrices(data);
+                    callback(data);
                 });
         } catch (error) {
             console.log(error);
