@@ -255,6 +255,7 @@ export default function Dashboard(props) {
                                             state: {
                                                 
                                                 prices: filteredPrices,
+                                                userId: userId
                                             },
                                         }
                                     );
