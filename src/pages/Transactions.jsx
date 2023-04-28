@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import LogIn from "./LogIn";
 import { Message } from "semantic-ui-react";
+import Navbar from "../components/Navbar";
 
 export default function Transactions() {
   const { isAuthenticated } = useAuth();
@@ -76,6 +77,7 @@ export default function Transactions() {
           ))}
         </div>
       </div>
+      <Navbar />
     </div>
   ) : (
     <div>
