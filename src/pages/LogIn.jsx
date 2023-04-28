@@ -1,38 +1,18 @@
-import React, { useState, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useRef } from "react";
+import { Link } from "react-router-dom";
 import { Form, Button, Message } from "semantic-ui-react";
-import axios from "axios";
+import useAuth from "../hooks/useAuth";
 
 export default function LogIn() {
+  const { loading, error, logInUser } = useAuth();
   const emailRef = useRef();
   const passwordRef = useRef();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [token, setToken] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const navigate = useNavigate();
 
-  const handleSubmit = async () => {
-    try {
-      setLoading(true);
-      const {
-        data: { token: mytoken, user_id: myid },
-      } = await axios.post("http://localhost:3000/api/user/login", {
-        email: emailRef.current.value,
-        password: passwordRef.current.value,
-      });
-      console.log(mytoken);
-      setError(null);
-      localStorage.setItem("token", JSON.stringify(mytoken));
-      setToken(mytoken);
-      setIsAuthenticated(true);
-      navigate(`/portfolio/${myid}`, { replace: true });
-    } catch (e) {
-      console.error(e);
-      setError(e.response.data.error);
-    }
-    setLoading(false);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await logInUser(emailRef.current.value, passwordRef.current.value);
   };
+
   return (
     <div className="container-fluid" style={{ minWidth: "375px" }}>
       <div className="ui middle aligned center aligned grid">
@@ -82,7 +62,6 @@ export default function LogIn() {
               </Button>
               <Message error header={error} />
             </div>
-            <div className="ui error message"></div>
           </Form>
           <div className="ui message">
             New to us? <Link to="/signup">Register</Link>
