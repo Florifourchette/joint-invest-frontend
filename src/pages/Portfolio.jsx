@@ -16,7 +16,6 @@ import LogIn from "./LogIn";
 import { Message } from "semantic-ui-react";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
-import { useParams } from "react-router-dom";
 
 Chart.register(CategoryScale);
 
@@ -45,7 +44,7 @@ export default function Portfolio() {
   const [stockCompaniesId, setStockCompaniesId] = useState();
   const [externalAPIstocks, setExternalAPIstocks] = useState();
   const [allCompanies, setAllCompanies] = useState();
-  const { id } = useParams();
+
   const hourlyValues = [];
 
   console.log(allCompanies);
