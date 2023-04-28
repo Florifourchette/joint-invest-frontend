@@ -19,6 +19,7 @@ const AuthStateContext = ({ children }) => {
         try {
           setLoading(true);
           const data = await getUserData();
+          console.log(data);
           setUserLogin(data);
           setIsAuthenticated(true);
           setLoading(false);
@@ -82,7 +83,7 @@ const AuthStateContext = ({ children }) => {
     localStorage.removeItem("token");
     setToken(null);
     setIsAuthenticated(false);
-    navigate("/home");
+    navigate("/login");
   };
 
   const getUserData = async () => {

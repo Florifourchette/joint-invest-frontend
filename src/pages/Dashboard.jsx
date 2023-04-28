@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import LogIn from "./LogIn";
 import { Message } from "semantic-ui-react";
+import Navbar from "../components/Navbar";
 
 // const fakeStocks = {
 //     AAPL: { price: "165.35000" },
@@ -284,6 +285,7 @@ export default function Dashboard(props) {
           <IoIosAdd className="portfolio-add-icon" />
         </button>
       </div>
+      <Navbar />
     </div>
   ) : (
     <div>

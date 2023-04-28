@@ -6,6 +6,7 @@ import "../../styles/App.css";
 import useAuth from "../hooks/useAuth";
 import LogIn from "./LogIn";
 import { Message } from "semantic-ui-react";
+import Navbar from "../components/Navbar";
 
 const CreationPortfolio = () => {
   const [newPortfolioName, setNewPortfolioName] = useState("");
@@ -20,10 +21,10 @@ const CreationPortfolio = () => {
   useEffect(() => {
     axios
       .get("http://localhost:3000/api/overview")
-      .then(function(response) {
+      .then(function (response) {
         console.log(response);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   }, []);
@@ -40,10 +41,10 @@ const CreationPortfolio = () => {
         name_of_portfolio: newPortfolioName,
         friend_username: newPortfolioUsername,
       })
-      .then(function(response) {
+      .then(function (response) {
         setCheckUsername(response.data);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   };
@@ -121,6 +122,7 @@ const CreationPortfolio = () => {
           Submit
         </Button>
       </Form>
+      <Navbar />
     </>
   ) : (
     <div>
