@@ -11,7 +11,8 @@ export default function Transactions() {
     let { portfolioId } = useParams();
 
     const location = useLocation();
-
+    const userID = location.state.userId
+    console.log('userID: ', userID);
     console.log(` location at transactions ${JSON.stringify(location.state)}`);
 
     //STATES
@@ -20,33 +21,29 @@ export default function Transactions() {
     const [transactionPrice, setTransactionPrice] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [selectedStock, setSelectedStock] = useState(null);
-    const [transactionData, setTransactionData] = useState([
-        {
-            number_of_shares: selectedAmmount.toString(),
-            company_id: selectedStock,
-            type_of_transaction: "",
-            company_name: "Apple Inc",
-            price_of_share: "145.23",
-            user_id: location.state.userId,
-        },
-    ]);
+    const [transactionData, setTransactionData] = useState([{}]);
 
     //buy - sales
-    const handleBuy = (companyId, counter) => {
-        setSelectedAmmount(counter)
-        transaction(companyId, selectedAmmount, (data) => {
+    const handleBuy = (companyId, companyName, counter) => {
+        setSelectedAmmount(counter);
+
+        transaction(companyId, counter, companyName, (data) => {
             setTransactionPrice(data);
             setSelectedStock(companyId);
             setTransactionData((prevData) => ({
-                ...prevData,
+                number_of_shares: counter.toString(),
+                company_id: companyId,
                 type_of_transaction: "Buy",
+                company_name: companyName,
+                price_of_share: data.price,
+                user_id: location.state.userId,
             }));
-        });
-        setShowModal(true);
-    };
 
+            setShowModal(true);
+        });
+    };
     const handleSell = (companyId, counter) => {
-        setSelectedAmmount(counter)
+        setSelectedAmmount(counter);
         transaction(companyId, selectedAmmount, (data) => {
             setTransactionPrice(data);
             setSelectedStock(companyId);
@@ -59,7 +56,7 @@ export default function Transactions() {
     };
 
     //Modal Controlls
-    const handleConfirm = (transactionData, counter) => {
+    const handleConfirm = () => {
         // update the state of the parent component here
         setShowModal(false);
         writeTransaction(portfolioId, transactionData);
@@ -117,7 +114,9 @@ export default function Transactions() {
                         ))}
                         {selectedStock && showModal && (
                             <ModalTransactionBuy
-                                message={`Are you sure you want to ${transactionData.type_of_transaction} ${selectedAmmount} stocks of ${selectedStock} at ${Number(
+                                message={`Are you sure you want to ${
+                                    transactionData.type_of_transaction
+                                } ${selectedAmmount} stocks of ${selectedStock} at ${Number(
                                     transactionPrice.price
                                 ).toFixed(2)}?`}
                                 handleConfirm={handleConfirm}

@@ -15,8 +15,9 @@ export function getTransactionsData(portfolioId){
     })
 }
 
-export function writeTransaction(portfolio_id, transactionData) {
-  return fetch(`http://localhost:3000/api/transaction/${portfolio_id}`, {
+export function writeTransaction(portfolioId, transactionData) {
+  
+  return fetch(`http://localhost:3000/api/transaction/${portfolioId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
