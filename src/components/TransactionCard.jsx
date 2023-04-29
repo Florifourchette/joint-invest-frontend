@@ -18,7 +18,7 @@ export default function TransactionCard({
         }
     };
 
-    console.log('transaction card numbershares',location.number_of_shares)
+    
     return (
         <div key={stock.id} className="your-stock-card">
             <span className="your-stock-logo">Logo</span>

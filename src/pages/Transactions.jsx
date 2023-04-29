@@ -11,8 +11,6 @@ export default function Transactions() {
     let { portfolioId } = useParams();
 
     const location = useLocation();
-    
-
 
     //STATES
     const [yourStocks, setYourStocks] = useState([]);
@@ -21,7 +19,6 @@ export default function Transactions() {
     const [showModal, setShowModal] = useState(false);
     const [selectedStock, setSelectedStock] = useState(null);
     const [transactionData, setTransactionData] = useState([{}]);
-
 
     //Use Effects
     useEffect(() => {
@@ -98,15 +95,21 @@ export default function Transactions() {
                 <div className="your-stocks">
                     <h2>Your Stocks</h2>
                     <div className="your-portfolio-stocks">
-                        {yourStocks.map((stock) => (
-                            <TransactionCard
-                                key={stock.id}
-                                stock={stock}
-                                handleBuy={handleBuy}
-                                handleSell={handleSell}
-                                location={location.state}
-                            />
-                        ))}
+                        {yourStocks.map((stock, index) => {
+                            if (stock.status === "pending") {
+                                return <div key={index}>Pending</div>;
+                            } else {
+                                return (
+                                    <TransactionCard
+                                        key={stock.id}
+                                        stock={stock}
+                                        handleBuy={handleBuy}
+                                        handleSell={handleSell}
+                                        location={location.state}
+                                    />
+                                );
+                            }
+                        })}
                         {selectedStock && showModal && (
                             <ModalTransactionBuy
                                 message={`Are you sure you want to ${
