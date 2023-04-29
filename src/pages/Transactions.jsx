@@ -25,12 +25,13 @@ export default function Transactions() {
 
     //buy - sales
     const handleBuy = (companyId, companyName, counter) => {
+        console.log('buy counter: ', counter);
         setSelectedAmmount(counter);
 
         transaction(companyId, counter, companyName, (data) => {
             setTransactionPrice(data);
             setSelectedStock(companyId);
-            setTransactionData((prevData) => ({
+            setTransactionData(() => ({
                 number_of_shares: counter.toString(),
                 company_id: companyId,
                 type_of_transaction: "Buy",
@@ -42,15 +43,23 @@ export default function Transactions() {
             setShowModal(true);
         });
     };
-    const handleSell = (companyId, counter) => {
+    const handleSell = (companyId,companyName, counter) => {
+        console.log('sell counter: ', counter);
         setSelectedAmmount(counter);
-        transaction(companyId, selectedAmmount, (data) => {
+
+        transaction(companyId, counter, companyName, (data) => {
             setTransactionPrice(data);
             setSelectedStock(companyId);
-            setTransactionData((prevData) => ({
-                ...prevData,
+            setTransactionData(() => ({
+                number_of_shares: counter.toString(),
+                company_id: companyId,
                 type_of_transaction: "Sell",
+                company_name: companyName,
+                price_of_share: data.price,
+                user_id: location.state.userId,
             }));
+
+            setShowModal(true);
         });
         setShowModal(true);
     };

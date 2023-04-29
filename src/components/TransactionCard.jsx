@@ -40,7 +40,7 @@ export default function TransactionCard({ stock, handleBuy, handleSell, location
                 </button>
                 <button
                     className="buy-sell-btn"
-                    onClick={() => handleSell(stock.company_id, counter)}
+                    onClick={() => handleSell(stock.company_id, stock.company_name, counter)}
                 >
                     Sell
                 </button>
