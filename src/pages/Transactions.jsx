@@ -6,6 +6,7 @@ import { transaction } from "../../utils/TransactionOperations";
 import ReactModal from "react-modal";
 import ModalTransactionBuy from "../components/ModalTransaction";
 import TransactionCard from "../components/TransactionCard";
+import TransactionCardPending from "../components/TransactionCardPending";
 
 export default function Transactions() {
     let { portfolioId } = useParams();
@@ -97,7 +98,13 @@ export default function Transactions() {
                     <div className="your-portfolio-stocks">
                         {yourStocks.map((stock, index) => {
                             if (stock.status === "pending") {
-                                return <div key={index}>Pending</div>;
+                                return (
+                                    <TransactionCardPending
+                                    key={stock.id}
+                                    stock={stock}
+                                    location={location.state}
+                                />
+                                )
                             } else {
                                 return (
                                     <TransactionCard

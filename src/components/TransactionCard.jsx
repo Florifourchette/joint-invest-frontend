@@ -24,7 +24,7 @@ export default function TransactionCard({
             <span className="your-stock-logo">Logo</span>
             <div className="your-stock-name-price">
                 <h4>
-                    {stock.company_id} <span>{location.number_of_shares[stock.company_id]}</span> {/*number of shares is not correct - its only the last transaction */}
+                    {stock.company_id} <span>{location.number_of_shares[stock.company_id]}</span> 
                 </h4>
                 <h4>
                     Price:{" "}
