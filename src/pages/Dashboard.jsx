@@ -9,9 +9,7 @@ import {
     IoIosAdd,
 } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-import { createApiUrl } from '../../utils/CreateAPIUrl'
-
-
+import { createApiUrl } from "../../utils/CreateAPIUrl";
 
 export default function Dashboard(props) {
     const [dashboardData, setDashboardData] = useState([]);
@@ -42,7 +40,7 @@ export default function Dashboard(props) {
         //     })
         //     .catch((error) => console.error(error));
     }, [userId]);
-
+    console.log("number of shares", wallet.number_of_shares);
     //API CALL
     useEffect(() => {
         if (loading === false) {
@@ -229,7 +227,6 @@ export default function Dashboard(props) {
                         <div>
                             <button
                                 className="to-portfolio-btn"
-
                                 //Navigating and passing the current prices to the portfolio page
                                 onClick={() => {
                                     // Filter the wallet for the stocks in the current portfolio
@@ -248,14 +245,32 @@ export default function Dashboard(props) {
                                         }
                                     });
 
+                                    // Filter the number of shares for the stocks in the current portfolio
+                                    const filteredShares = {};
+                                    wallet.forEach((stock) => {
+                                        if (
+                                            filteredShares[stock.portfolio_id]
+                                        ) {
+                                            filteredShares[stock.portfolio_id][
+                                                stock.company_id
+                                            ] = stock.number_of_shares;
+                                        } else {
+                                            filteredShares[stock.portfolio_id] =
+                                                {
+                                                    [stock.company_id]:
+                                                        stock.number_of_shares,
+                                                };
+                                        }
+                                    });
+
                                     // Pass the filtered data to the next page
                                     Navigate(
                                         `/portfolio/${data.portfolio_id}`,
                                         {
                                             state: {
-                                                
                                                 prices: filteredPrices,
-                                                userId: userId
+                                                userId: userId,
+                                                number_of_shares:filteredShares[data.portfolio_id]
                                             },
                                         }
                                     );

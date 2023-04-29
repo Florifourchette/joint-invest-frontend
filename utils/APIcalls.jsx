@@ -32,3 +32,4 @@ export function writeTransaction(portfolioId, transactionData) {
     console.error(error);
   });
 }
+

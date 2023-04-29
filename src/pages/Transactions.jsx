@@ -11,9 +11,8 @@ export default function Transactions() {
     let { portfolioId } = useParams();
 
     const location = useLocation();
-    const userID = location.state.userId
-    console.log('userID: ', userID);
-    console.log(` location at transactions ${JSON.stringify(location.state)}`);
+    
+
 
     //STATES
     const [yourStocks, setYourStocks] = useState([]);
@@ -23,11 +22,23 @@ export default function Transactions() {
     const [selectedStock, setSelectedStock] = useState(null);
     const [transactionData, setTransactionData] = useState([{}]);
 
-    //buy - sales
-    const handleBuy = (companyId, companyName, counter) => {
-        console.log('buy counter: ', counter);
-        setSelectedAmmount(counter);
 
+    //Use Effects
+    useEffect(() => {
+        getTransactionsData(portfolioId)
+            .then((data) => {
+                console.log(data);
+                setYourStocks(data);
+            })
+            .catch((error) => console.error(error));
+    }, [portfolioId]);
+
+    console.log(yourStocks);
+
+    //buy - sell Transactions
+    const handleBuy = (companyId, companyName, counter) => {
+        console.log("buy counter: ", counter);
+        setSelectedAmmount(counter);
         transaction(companyId, counter, companyName, (data) => {
             setTransactionPrice(data);
             setSelectedStock(companyId);
@@ -39,14 +50,12 @@ export default function Transactions() {
                 price_of_share: data.price,
                 user_id: location.state.userId,
             }));
-
             setShowModal(true);
         });
     };
-    const handleSell = (companyId,companyName, counter) => {
-        console.log('sell counter: ', counter);
+    const handleSell = (companyId, companyName, counter) => {
+        console.log("sell counter: ", counter);
         setSelectedAmmount(counter);
-
         transaction(companyId, counter, companyName, (data) => {
             setTransactionPrice(data);
             setSelectedStock(companyId);
@@ -73,29 +82,6 @@ export default function Transactions() {
 
     const handleCancel = () => {
         setShowModal(false);
-    };
-
-    useEffect(() => {
-        getTransactionsData(portfolioId)
-            .then((data) => {
-                console.log(data);
-                setYourStocks(data);
-            })
-            .catch((error) => console.error(error));
-    }, [portfolioId]);
-
-    console.log(yourStocks);
-
-    // function to increase the counter
-    const increaseCounter = () => {
-        setCounter(counter + 1);
-    };
-
-    // function to decrease the counter
-    const decreaseCounter = () => {
-        if (counter > 1) {
-            setCounter(counter - 1);
-        }
     };
 
     return (

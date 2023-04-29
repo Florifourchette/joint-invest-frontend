@@ -1,7 +1,11 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
-
-export default function TransactionCard({ stock, handleBuy, handleSell, location }) {
+export default function TransactionCard({
+    stock,
+    handleBuy,
+    handleSell,
+    location,
+}) {
     const [counter, setCounter] = useState(1);
 
     const increaseCounter = () => {
@@ -14,12 +18,13 @@ export default function TransactionCard({ stock, handleBuy, handleSell, location
         }
     };
 
+    console.log('transaction card numbershares',location.number_of_shares)
     return (
         <div key={stock.id} className="your-stock-card">
             <span className="your-stock-logo">Logo</span>
             <div className="your-stock-name-price">
                 <h4>
-                    {stock.company_id} <span>{stock.number_of_shares}</span>
+                    {stock.company_id} <span>{location.number_of_shares[stock.company_id]}</span> {/*number of shares is not correct - its only the last transaction */}
                 </h4>
                 <h4>
                     Price:{" "}
@@ -34,13 +39,21 @@ export default function TransactionCard({ stock, handleBuy, handleSell, location
             <div className="buy-sell-btns">
                 <button
                     className="buy-sell-btn"
-                    onClick={() => handleBuy(stock.company_id, stock.company_name, counter)}
+                    onClick={() =>
+                        handleBuy(stock.company_id, stock.company_name, counter)
+                    }
                 >
                     Buy
                 </button>
                 <button
                     className="buy-sell-btn"
-                    onClick={() => handleSell(stock.company_id, stock.company_name, counter)}
+                    onClick={() =>
+                        handleSell(
+                            stock.company_id,
+                            stock.company_name,
+                            counter
+                        )
+                    }
                 >
                     Sell
                 </button>
