@@ -270,7 +270,8 @@ export default function Dashboard(props) {
                                             state: {
                                                 prices: filteredPrices,
                                                 userId: userId,
-                                                number_of_shares:filteredShares[data.portfolio_id]
+                                                number_of_shares:filteredShares[data.portfolio_id],
+                                                friend: data.friend_username
                                             },
                                         }
                                     );

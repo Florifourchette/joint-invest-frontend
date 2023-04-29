@@ -21,7 +21,7 @@ export default function TransactionCardPending({
             </div>
             <div className="pending-message">
                 {location.userId != stock.user_id && (
-                    <p>Your friend request to {stock.type_of_transaction} {stock.number_of_shares} stock </p>
+                    <p>{location.friend} requests to {stock.type_of_transaction} {stock.number_of_shares} stock </p>
                 )}
                 {location.userId == stock.user_id &&(
                     <p>You requested to {stock.type_of_transaction} {stock.number_of_shares} stock </p>
