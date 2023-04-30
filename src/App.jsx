@@ -7,6 +7,7 @@ import CreationPortfolio from "./pages/CreationPortfolio";
 import LogIn from "./pages/LogIn";
 import SignUp from "./pages/Signup";
 import Transactions from "./pages/Transactions";
+import Orderbook from "./pages/Orderbook";
 import AuthStateContext from "./contexts/AuthContext";
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             path="/create_portfolio/:userId"
             element={<CreationPortfolio />}
           />
+          <Route path="/order_book/:portfolio_id" element={<Orderbook />} />
         </Routes>
       </AuthStateContext>
     </>
