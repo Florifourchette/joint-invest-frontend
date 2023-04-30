@@ -27,8 +27,10 @@ export default function Transactions() {
     const [showProposalModal, setShowProposalModal] = useState(false);
     const [showDeclineModal, setShowDeclineModal] = useState(false);
     const [selectedStock, setSelectedStock] = useState(null);
+    const [selectedStockName, setSelectedStockName] = useState('');
     const [transactionData, setTransactionData] = useState([{}]);
     const [confirmOrDeclince, setConfirmOrDeclince] = useState('')
+    
 
     //Use Effects
     useEffect(() => {
@@ -80,8 +82,10 @@ export default function Transactions() {
 
     // proposal confirmation handlers
 
-    const handlePurchase = (companyId, companyName) => {
+    const handlePurchase = (companyId, companyName, number_of_shares) => {
         setConfirmOrDeclince('confirm')
+        setSelectedAmmount(number_of_shares)
+        setSelectedStockName(companyName)
         transaction({companyId, companyName}, (data) => {
             setTransactionPrice(data);
             setSelectedStock(companyId);
@@ -99,9 +103,13 @@ export default function Transactions() {
         setShowProposalModal(true);
     };
 
-    const handleDecline = () => {
+    const handleDecline = (companyId, companyName, number_of_shares) => {
         setConfirmOrDeclince('decline')
+        setSelectedAmmount(number_of_shares)
+        setSelectedStockName(companyName)
+        setSelectedStock(companyId);
         setShowDeclineModal(true);
+        
     };
 
 
@@ -177,7 +185,7 @@ export default function Transactions() {
                             />
                         )}
                         {selectedStock && showProposalModal && (<ModalConfirmation
-                            message={`Are you sure you want to ${confirmOrDeclince} the purchase of ${selectedAmmount} stocks of ${selectedStock} at ${Number(
+                            message={`Are you sure you want to ${confirmOrDeclince} the purchase of ${selectedAmmount} stocks of ${selectedStockName}(${selectedStock}) at ${Number(
                                 transactionPrice.price
                             ).toFixed(2)}?`}
                             handleProposalConfirmation={handleProposalConfirmation}
@@ -187,12 +195,10 @@ export default function Transactions() {
                         />
                         )}
                         {selectedStock && showDeclineModal && (<ModalDecline
-                            message={`Are you sure you want to ${confirmOrDeclince} the purchase of ${selectedAmmount} stocks of ${selectedStock} at ${Number(
-                                transactionPrice.price
-                            ).toFixed(2)}?`}
+                            message={`Are you sure you want to ${confirmOrDeclince} the purchase of ${selectedAmmount} stocks of ${selectedStockName} (${selectedStock})?`}
                             handleProposalDecline={handleProposalDecline}
                             handleCancel={handleCancel}
-                            showProposshowDeclineModalalModal={showDeclineModal}
+                            showDeclineModal={showDeclineModal}
                             centered
                         />
                         )}
