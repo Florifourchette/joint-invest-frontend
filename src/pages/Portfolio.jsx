@@ -16,6 +16,7 @@ import LogIn from "./LogIn";
 import { Message } from "semantic-ui-react";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
+import Navbar from "../components/Navbar";
 
 Chart.register(CategoryScale);
 
@@ -243,6 +244,7 @@ export default function Portfolio() {
           Buy/Sell
         </button>
       </div>
+      <Navbar />
     </>
   ) : (
     <div>
