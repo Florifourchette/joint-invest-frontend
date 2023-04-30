@@ -122,7 +122,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 table {
@@ -131,7 +131,6 @@ table {
 }
 
 /* CSS Start */
-
 
 /* Common CSS */
 body {
@@ -148,8 +147,6 @@ body h1 {
   margin: 1em;
   padding-top: 1em;
 }
-
-
 
 .assets {
   align-items: center;
@@ -288,43 +285,43 @@ body h1 {
   width: 100%;
 }
 
-
-
+.rejection_button {
+  background-color: red;
+}
 
 /* TRANSACTIONS PAGE */
 
-.your-portfolio-stocks{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    padding-top: 2em;
-    padding-bottom: 2em;
+.your-portfolio-stocks {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding-top: 2em;
+  padding-bottom: 2em;
 }
 .your-stock-card {
-    display: flex;
-    flex-direction: row;
-    border: 2px solid blue;
-    justify-content: space-around;
-    margin-bottom: 1em;
+  display: flex;
+  flex-direction: row;
+  border: 2px solid blue;
+  justify-content: space-around;
+  margin-bottom: 1em;
 }
-.your-stock-logo{
-    margin-top: auto;
-    margin-bottom: auto;
-    
+.your-stock-logo {
+  margin-top: auto;
+  margin-bottom: auto;
 }
-.your-stock-name-price{
-    margin-top: auto;
-    margin-bottom: auto;
+.your-stock-name-price {
+  margin-top: auto;
+  margin-bottom: auto;
 }
-.stock-counter{
-    margin-top: auto;
-    margin-bottom: auto;
+.stock-counter {
+  margin-top: auto;
+  margin-bottom: auto;
 }
-.buy-sell-btns{
-    display: flex;
-    flex-direction: column;
+.buy-sell-btns {
+  display: flex;
+  flex-direction: column;
 }
-.buy-sell-btn{
-    margin-top: 0.2em;
-    margin-bottom:0.2em ;
+.buy-sell-btn {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
 }
