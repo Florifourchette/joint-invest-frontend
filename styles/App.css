@@ -132,6 +132,7 @@ table {
 
 /* CSS Start */
 
+
 /* Common CSS */
 body {
   display: flex;
@@ -148,7 +149,7 @@ body h1 {
   padding-top: 1em;
 }
 
-/* Overview Page */
+
 
 .assets {
   align-items: center;
@@ -174,7 +175,7 @@ body h1 {
 .assets h5 {
   margin: 0;
 }
-
+/* Overview Page */
 .portfolio-card {
   display: flex;
   border: 2px solid blue;
@@ -285,4 +286,45 @@ body h1 {
   justify-content: center;
   align-items: center;
   width: 100%;
+}
+
+
+
+
+/* TRANSACTIONS PAGE */
+
+.your-portfolio-stocks{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
+.your-stock-card {
+    display: flex;
+    flex-direction: row;
+    border: 2px solid blue;
+    justify-content: space-around;
+    margin-bottom: 1em;
+}
+.your-stock-logo{
+    margin-top: auto;
+    margin-bottom: auto;
+    
+}
+.your-stock-name-price{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.stock-counter{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.buy-sell-btns{
+    display: flex;
+    flex-direction: column;
+}
+.buy-sell-btn{
+    margin-top: 0.2em;
+    margin-bottom:0.2em ;
 }

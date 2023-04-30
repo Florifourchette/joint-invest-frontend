@@ -9,8 +9,10 @@ import {
   IoIosAdd,
 } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
-
-import DeleteConfirmedButton from '../components/DeleteConfirmedButton';
+import useAuth from '../hooks/useAuth';
+import LogIn from './LogIn';
+import { Message } from 'semantic-ui-react';
+import Navbar from '../components/Navbar';
 
 // const fakeStocks = {
 //     AAPL: { price: "165.35000" },
@@ -50,6 +52,7 @@ export default function Dashboard(props) {
   const [portfolioStatusUpdated, setPortfolioStatusUpdated] =
     useState(false);
   const [newData, setNewData] = useState([]);
+  const { isAuthenticated } = useAuth();
 
   let { userId } = useParams();
   const Navigate = useNavigate();
@@ -57,11 +60,7 @@ export default function Dashboard(props) {
   useEffect(() => {
     getDashboardData(userId)
       .then((data) => {
-        setDashboardData(
-          data.portfolios.filter(
-            (item) => item.portfolio_status !== 'deleted'
-          )
-        );
+        setDashboardData(data.portfolios);
         setWallet(data.portfoliosDetails);
         setDataReady(true);
         setLoading(false);
@@ -84,17 +83,17 @@ export default function Dashboard(props) {
       const companyIds = [
         ...new Set(wallet.map((item) => item.company_id)),
       ];
-      // console.log(`tickers: ${companyIds}`);
+      console.log(`tickers: ${companyIds}`);
       const apiUrl = createApiUrl(companyIds);
-      // console.log(apiUrl);
+      console.log(apiUrl);
 
-      // console.log(apiUrl);
+      console.log(apiUrl);
       const apiCall = async () => {
         try {
           fetch(apiUrl)
             .then((response) => response.json())
             .then((data) => {
-              // console.log(data);
+              console.log(data);
               setPrices(data);
             });
         } catch (error) {
@@ -105,9 +104,9 @@ export default function Dashboard(props) {
     }
   }, [dashboardData, loading]);
 
-  // console.log(dashboardData);
-  // console.log(wallet);
-  // console.log(prices);
+  console.log(dashboardData);
+  console.log(wallet);
+  console.log(prices);
 
   //totalAssets top of overview
   const totalAssets = wallet.reduce((acc, curr) => {
@@ -124,7 +123,7 @@ export default function Dashboard(props) {
     return acc;
   }, {});
 
-  // console.log(totalAssets);
+  console.log(totalAssets);
 
   const totalAssetsSum = Object.values(totalAssets)
     .reduce((acc, curr) => {
@@ -182,7 +181,7 @@ export default function Dashboard(props) {
     {}
   );
 
-  // console.log(portfolioAssets);
+  console.log(portfolioAssets);
 
   const portfolioTotals = Object.entries(portfolioAssets).reduce(
     (acc, [portfolioId, assets]) => {
@@ -194,10 +193,9 @@ export default function Dashboard(props) {
     },
     {}
   );
-  // console.log(portfolioTotals);
+  console.log(portfolioTotals);
 
-  // console.log(dashboardData)
-  return (
+  return isAuthenticated ? (
     <div className="overview-page">
       <h1>Overview</h1>
 
@@ -284,6 +282,16 @@ export default function Dashboard(props) {
           <IoIosAdd className="portfolio-add-icon" />
         </button>
       </div>
+      <Navbar />
+    </div>
+  ) : (
+    <div>
+      <div className="d-flex justify-content-center">
+        <Message style={{ color: 'red' }}>
+          You are not logged in, please login!
+        </Message>
+      </div>
+      <LogIn />
     </div>
   );
 }
