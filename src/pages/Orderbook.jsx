@@ -33,8 +33,8 @@ export default function Orderbook() {
       <h1>Order Book</h1>
       <div>
         {orders &&
-          orders.map((item) => {
-            return <Orderlist item={item} />;
+          orders.map((item, index, arr) => {
+            return <Orderlist item={item} index={index} arr={arr} />;
           })}
       </div>
     </>
