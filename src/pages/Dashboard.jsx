@@ -13,6 +13,7 @@ import useAuth from '../hooks/useAuth';
 import LogIn from './LogIn';
 import { Message } from 'semantic-ui-react';
 import Navbar from '../components/Navbar';
+import DeleteConfirmedButton from '../components/DeleteConfirmedButton';
 
 // const fakeStocks = {
 //     AAPL: { price: "165.35000" },
@@ -60,7 +61,12 @@ export default function Dashboard(props) {
   useEffect(() => {
     getDashboardData(userId)
       .then((data) => {
-        setDashboardData(data.portfolios);
+        setDashboardData(
+          data.portfolios.filter(
+            (item) => item.portfolio_status !== 'deleted'
+          )
+        );
+        console.log(data);
         setWallet(data.portfoliosDetails);
         setDataReady(true);
         setLoading(false);
@@ -195,7 +201,8 @@ export default function Dashboard(props) {
   );
   console.log(portfolioTotals);
 
-  return isAuthenticated ? (
+  // return isAuthenticated ? (
+  return (
     <div className="overview-page">
       <h1>Overview</h1>
 
@@ -260,6 +267,14 @@ export default function Dashboard(props) {
               <h4 className="friend">{data.friend_username}</h4>
             </div>
             <div>
+              <button
+                className="to-portfolio-btn"
+                onClick={() =>
+                  Navigate(`/portfolio/${data.portfolio_id}`)
+                }
+              >
+                <IoIosArrowDroprightCircle className="to-portfolio-icon" />{' '}
+              </button>
               <DeleteConfirmedButton
                 data={data}
                 userId={userId}
@@ -282,16 +297,17 @@ export default function Dashboard(props) {
           <IoIosAdd className="portfolio-add-icon" />
         </button>
       </div>
-      <Navbar />
-    </div>
-  ) : (
-    <div>
-      <div className="d-flex justify-content-center">
-        <Message style={{ color: 'red' }}>
-          You are not logged in, please login!
-        </Message>
-      </div>
-      <LogIn />
+      {/* <Navbar /> */}
     </div>
   );
+  // ) : (
+  //   <div>
+  //     <div className="d-flex justify-content-center">
+  //       <Message style={{ color: 'red' }}>
+  //         You are not logged in, please login!
+  //       </Message>
+  //     </div>
+  //     <LogIn />
+  //   </div>
+  // );
 }
