@@ -139,7 +139,7 @@ export default function Portfolio() {
         const myStocksIds = await someIdRetrieving();
         //console.log(myStocksIds);
         const { data } = await axios.get(
-          `https://api.twelvedata.com/time_series?symbol=${myStocksIds}&interval=1h&outputsize=4&format=JSON&dp=2&apikey=da4a4e4ca02f4f06a70e827bc75e2458`
+          `https://api.twelvedata.com/time_series?symbol=${myStocksIds}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=da4a4e4ca02f4f06a70e827bc75e2458`
         );
         //console.log(data);
         setAllCompanies(data);

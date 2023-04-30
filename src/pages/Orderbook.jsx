@@ -30,7 +30,7 @@ export default function Orderbook() {
 
   return (
     <>
-      <h1>OrderBook</h1>
+      <h1>Order Book</h1>
       <div>
         {orders &&
           orders.map((item) => {
