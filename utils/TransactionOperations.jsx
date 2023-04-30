@@ -1,7 +1,7 @@
 import { createApiUrl} from './CreateAPIUrl'
 
-export function transaction(companyId, counter, companyName, priceCallback) {
-    const apiUrl = createApiUrl(companyId)
+export function transaction(params, priceCallback) {
+    const apiUrl = createApiUrl(params.companyId)
     const apiCall = async () => {
         try {
             fetch(apiUrl)

@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { getTransactionsData, writeTransaction } from "../../utils/APIcalls";
+import {
+    getTransactionsData,
+    writeTransaction,
+    confimrTransaction,
+} from "../../utils/APIcalls";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { transaction } from "../../utils/TransactionOperations";
 import ReactModal from "react-modal";
 import ModalTransactionBuy from "../components/ModalTransaction";
+import ModalConfirmation from "../components/ModalConfirmation";
+import ModalDecline from "../components/ModalDecline";
 import TransactionCard from "../components/TransactionCard";
 import TransactionCardPending from "../components/TransactionCardPending";
 
@@ -18,8 +24,11 @@ export default function Transactions() {
     const [selectedAmmount, setSelectedAmmount] = useState(1);
     const [transactionPrice, setTransactionPrice] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [showProposalModal, setShowProposalModal] = useState(false);
+    const [showDeclineModal, setShowDeclineModal] = useState(false);
     const [selectedStock, setSelectedStock] = useState(null);
     const [transactionData, setTransactionData] = useState([{}]);
+    const [confirmOrDeclince, setConfirmOrDeclince] = useState('')
 
     //Use Effects
     useEffect(() => {
@@ -35,9 +44,8 @@ export default function Transactions() {
 
     //buy - sell Transactions
     const handleBuy = (companyId, companyName, counter) => {
-        console.log("buy counter: ", counter);
         setSelectedAmmount(counter);
-        transaction(companyId, counter, companyName, (data) => {
+        transaction({companyId, counter, companyName}, (data) => {
             setTransactionPrice(data);
             setSelectedStock(companyId);
             setTransactionData(() => ({
@@ -52,9 +60,8 @@ export default function Transactions() {
         });
     };
     const handleSell = (companyId, companyName, counter) => {
-        console.log("sell counter: ", counter);
         setSelectedAmmount(counter);
-        transaction(companyId, counter, companyName, (data) => {
+        transaction({companyId, counter, companyName}, (data) => {
             setTransactionPrice(data);
             setSelectedStock(companyId);
             setTransactionData(() => ({
@@ -71,16 +78,53 @@ export default function Transactions() {
         setShowModal(true);
     };
 
+    // proposal confirmation handlers
+
+    const handlePurchase = (companyId, companyName) => {
+        setConfirmOrDeclince('confirm')
+        transaction({companyId, companyName}, (data) => {
+            setTransactionPrice(data);
+            setSelectedStock(companyId);
+            //prepare put request which will be sent from a modal to be created
+
+            //create Put request function
+
+            // you need to get the price and the transaction id
+            //you need to change the status to confirmed
+            // {
+            //     "transaction_status" : "confirmed",
+            //     "current_price_of_share" : "152.09"
+            // }
+        });
+        setShowProposalModal(true);
+    };
+
+    const handleDecline = () => {
+        setConfirmOrDeclince('decline')
+        setShowDeclineModal(true);
+    };
+
+
     //Modal Controlls
     const handleConfirm = () => {
-        // update the state of the parent component here
         setShowModal(false);
         writeTransaction(portfolioId, transactionData);
     };
 
     const handleCancel = () => {
         setShowModal(false);
+        setShowProposalModal(false);
+        setShowDeclineModal(false)
     };
+
+    const handleProposalConfirmation = () => {
+        setShowProposalModal(false);
+    };
+    const handleProposalDecline = () => {
+        setShowProposalModal(false);
+    };
+
+
 
     return (
         <div>
@@ -100,11 +144,13 @@ export default function Transactions() {
                             if (stock.status === "pending") {
                                 return (
                                     <TransactionCardPending
-                                    key={stock.id}
-                                    stock={stock}
-                                    location={location.state}
-                                />
-                                )
+                                        key={stock.id}
+                                        stock={stock}
+                                        location={location.state}
+                                        handlePurchase={handlePurchase}
+                                        handleDecline={handleDecline}
+                                    />
+                                );
                             } else {
                                 return (
                                     <TransactionCard
@@ -129,6 +175,26 @@ export default function Transactions() {
                                 showModal={showModal}
                                 centered
                             />
+                        )}
+                        {selectedStock && showProposalModal && (<ModalConfirmation
+                            message={`Are you sure you want to ${confirmOrDeclince} the purchase of ${selectedAmmount} stocks of ${selectedStock} at ${Number(
+                                transactionPrice.price
+                            ).toFixed(2)}?`}
+                            handleProposalConfirmation={handleProposalConfirmation}
+                            handleCancel={handleCancel}
+                            showProposalModal={showProposalModal}
+                            centered
+                        />
+                        )}
+                        {selectedStock && showDeclineModal && (<ModalDecline
+                            message={`Are you sure you want to ${confirmOrDeclince} the purchase of ${selectedAmmount} stocks of ${selectedStock} at ${Number(
+                                transactionPrice.price
+                            ).toFixed(2)}?`}
+                            handleProposalDecline={handleProposalDecline}
+                            handleCancel={handleCancel}
+                            showProposshowDeclineModalalModal={showDeclineModal}
+                            centered
+                        />
                         )}
                     </div>
                 </div>

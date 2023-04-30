@@ -3,6 +3,8 @@ import React, { useState } from "react";
 export default function TransactionCardPending({
     stock,
     location,
+    handlePurchase,
+    handleDecline,
 }) {
 
     console.log(location)
@@ -20,10 +22,16 @@ export default function TransactionCardPending({
                 </h4>
             </div>
             <div className="pending-message">
-                {location.userId != stock.user_id && (
+                {location.userId != stock.user_id &&  stock.number_of_shares >= 2 &&(
+                    <p>{location.friend} requests to {stock.type_of_transaction} {stock.number_of_shares} stocks </p>
+                )}
+                {location.userId != stock.user_id && stock.number_of_shares < 2 && (
                     <p>{location.friend} requests to {stock.type_of_transaction} {stock.number_of_shares} stock </p>
                 )}
-                {location.userId == stock.user_id &&(
+                {location.userId == stock.user_id && stock.number_of_shares >= 2 &&(
+                    <p>You requested to {stock.type_of_transaction} {stock.number_of_shares} stocks </p>
+                )}
+                {location.userId == stock.user_id && stock.number_of_shares < 2 && (
                     <p>You requested to {stock.type_of_transaction} {stock.number_of_shares} stock </p>
                 )}
                 
@@ -31,13 +39,17 @@ export default function TransactionCardPending({
             <div className="confirm-decline-btns">
                 <button
                     className="confirm-decline-btn"
-
+                    onClick={() =>
+                        handlePurchase(stock.company_id, stock.company_name)
+                    }
                 >
                     Confirm
                 </button>
                 <button
                     className="confirm-decline-btn"
-
+                    onClick={() =>
+                        handleDecline(stock.company_id, stock.company_name)
+                    }
                 >
                     Decline
                 </button>

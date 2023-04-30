@@ -33,3 +33,16 @@ export function writeTransaction(portfolioId, transactionData) {
   });
 }
 
+export function confimrTransaction(portfolioId, transactionId) {
+  return fetch(`http://localhost:3000/api/transaction/${portfolioId}/${transactionId}`, {
+    method: 'PUT',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(transactionData)
+  })
+  .then(response =>{
+    console.log(response);
+    return response.json();
+  })
+}
