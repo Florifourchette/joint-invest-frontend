@@ -12,23 +12,25 @@ const DeleteConfirmedButton = ({
   userId,
   portfolioTotals,
   setPortfolioStatusUpdated,
-  setButtonStatus,
-  buttonStatus,
+  portfolioStatusUpdated,
+  setNewData,
 }) => {
-  const handleStatus = (
-    portfolio_id,
-    user_id,
-    currentStatus,
-    buttonStatus
-  ) => {
-    setPortfolioStatus(
-      portfolio_id,
-      user_id,
-      currentStatus,
-      buttonStatus
-    );
-    setPortfolioStatusUpdated((prev) => !prev);
-  };
+  // const handleStatus = (
+  //   portfolio_id,
+  //   user_id,
+  //   currentStatus,
+  //   message
+  // ) => {
+  //     setPortfolioStatus(
+  //       portfolio_id,
+  //       user_id,
+  //       currentStatus,
+  //       message
+  //     );
+  //   }
+
+  //   setPortfolioStatusUpdated((prev) => !prev);
+  // };
 
   return (
     <div>
@@ -44,15 +46,23 @@ const DeleteConfirmedButton = ({
             <IoIosArrowDroprightCircle className="to-portfolio-icon" />{' '}
           </button>
           <button
-            onClick={(e) => {
-              // e.preventDefault();
-              setButtonStatus('deletion_requested');
-              return handleStatus(
+            onClick={() => {
+              setPortfolioStatus(
                 data.portfolio_id,
                 userId,
                 data.portfolio_status,
-                buttonStatus
+                'deletion_requested',
+                setNewData
               );
+              setPortfolioStatusUpdated((prev) => !prev);
+              console.log(portfolioStatusUpdated);
+              // e.preventDefault();
+              // return handleStatus(
+              //   data.portfolio_id,
+              //   userId,
+              //   data.portfolio_status,
+              //   'deletion_requested'
+              // );
             }}
           >
             <i class="trash alternate icon"></i>
@@ -68,26 +78,28 @@ const DeleteConfirmedButton = ({
         <p>
           <button
             onClick={() => {
-              setButtonStatus('confirmed');
-              return handleStatus(
+              setPortfolioStatus(
                 data.portfolio_id,
                 userId,
                 data.portfolio_status,
-                buttonStatus
+                'confirmed',
+                setNewData
               );
+              setPortfolioStatusUpdated((prev) => !prev);
             }}
           >
             <i class="check square icon"></i>
           </button>
           <button
             onClick={() => {
-              setButtonStatus('rejected');
-              return handleStatus(
+              setPortfolioStatus(
                 data.portfolio_id,
                 userId,
                 data.portfolio_status,
-                buttonStatus
+                'rejected',
+                setNewData
               );
+              setPortfolioStatusUpdated((prev) => !prev);
             }}
           >
             <i class="trash alternate icon"></i>
@@ -103,30 +115,47 @@ const DeleteConfirmedButton = ({
         <p>
           <button
             onClick={() => {
-              setButtonStatus('confirmed');
-
-              return handleStatus(
+              setPortfolioStatus(
                 data.portfolio_id,
                 userId,
                 data.portfolio_status,
-                buttonStatus
+                'confirmed',
+                setNewData
               );
+              setPortfolioStatusUpdated((prev) => !prev);
             }}
           >
             <i class="check square icon"></i>
           </button>
           <button
             onClick={() => {
-              setButtonStatus('rejected');
-              return handleStatus(
+              setPortfolioStatus(
                 data.portfolio_id,
                 userId,
                 data.portfolio_status,
-                buttonStatus
+                'rejected',
+                setNewData
               );
+              setPortfolioStatusUpdated((prev) => !prev);
             }}
           >
             <i class="trash alternate icon"></i>
+          </button>
+        </p>
+      ) : (
+        <></>
+      )}
+
+      {data.portfolio_status === 'pending_deletion' &&
+      parseInt(userId) === data.user_id_request ? (
+        <p>
+          <button
+            className="to-portfolio-btn"
+            onClick={() =>
+              Navigate(`/portfolio/${data.portfolio_id}`)
+            }
+          >
+            <IoIosArrowDroprightCircle className="to-portfolio-icon" />{' '}
           </button>
         </p>
       ) : (

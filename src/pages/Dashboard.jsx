@@ -49,9 +49,7 @@ export default function Dashboard(props) {
   const [loading, setLoading] = useState(true);
   const [portfolioStatusUpdated, setPortfolioStatusUpdated] =
     useState(false);
-  const [buttonStatus, setButtonStatus] = useState(
-    'deletion_requested'
-  );
+  const [newData, setNewData] = useState([]);
 
   let { userId } = useParams();
   const Navigate = useNavigate();
@@ -78,7 +76,7 @@ export default function Dashboard(props) {
     //         setPrices(data);
     //     })
     //     .catch((error) => console.error(error));
-  }, [userId, portfolioStatusUpdated]);
+  }, [userId, newData]);
 
   //API CALL
   useEffect(() => {
@@ -269,8 +267,8 @@ export default function Dashboard(props) {
                 userId={userId}
                 portfolioTotals={portfolioTotals}
                 setPortfolioStatusUpdated={setPortfolioStatusUpdated}
-                setButtonStatus={setButtonStatus}
-                buttonStatus={buttonStatus}
+                portfolioStatusUpdated={portfolioStatusUpdated}
+                setNewData={setNewData}
               />
             </div>
           </div>
