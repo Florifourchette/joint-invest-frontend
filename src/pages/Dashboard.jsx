@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { getDashboardData } from "../../utils/APIcalls";
-import { useParams } from "react-router-dom";
-import OverviewChart from "../components/OverviewChart";
-import PieChart from "../components/PieOverviewChart";
+import React, { useEffect, useState } from 'react';
+import { getDashboardData } from '../../utils/APIcalls';
+import { useParams } from 'react-router-dom';
+import OverviewChart from '../components/OverviewChart';
+import PieChart from '../components/PieOverviewChart';
 import {
   IoIosArrowDroprightCircle,
   IoIosContacts,
   IoIosAdd,
-} from "react-icons/io";
-import { useNavigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
-import LogIn from "./LogIn";
-import { Message } from "semantic-ui-react";
-import Navbar from "../components/Navbar";
+} from 'react-icons/io';
+import { useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
+import LogIn from './LogIn';
+import { Message } from 'semantic-ui-react';
+import Navbar from '../components/Navbar';
 
 // const fakeStocks = {
 //     AAPL: { price: "165.35000" },
@@ -26,7 +26,7 @@ import Navbar from "../components/Navbar";
 // define a function to create the API URL with the given symbols
 function createApiUrl(companyIds) {
   const apiKey = import.meta.env.VITE_API_KEY; // replace with your actual API key
-  const tickerString = companyIds.join(",");
+  const tickerString = companyIds.join(',');
   return `https://api.twelvedata.com/price?symbol=${tickerString}&apikey=${apiKey}`;
 }
 
@@ -49,6 +49,9 @@ export default function Dashboard(props) {
   const [prices, setPrices] = useState([]);
   const [dataReady, setDataReady] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [portfolioStatusUpdated, setPortfolioStatusUpdated] =
+    useState(false);
+  const [newData, setNewData] = useState([]);
   const { isAuthenticated } = useAuth();
 
   let { userId } = useParams();
@@ -72,12 +75,14 @@ export default function Dashboard(props) {
     //         setPrices(data);
     //     })
     //     .catch((error) => console.error(error));
-  }, [userId]);
+  }, [userId, newData]);
 
   //API CALL
   useEffect(() => {
     if (loading === false) {
-      const companyIds = [...new Set(wallet.map((item) => item.company_id))];
+      const companyIds = [
+        ...new Set(wallet.map((item) => item.company_id)),
+      ];
       console.log(`tickers: ${companyIds}`);
       const apiUrl = createApiUrl(companyIds);
       console.log(apiUrl);
@@ -137,7 +142,9 @@ export default function Dashboard(props) {
     )
     .toFixed(2);
 
-  const totalPandL = (totalAssetsSum - totalAmountInvested).toFixed(2);
+  const totalPandL = (totalAssetsSum - totalAmountInvested).toFixed(
+    2
+  );
 
   //portfolios current value
   const portfolioGroups = wallet.reduce((groups, item) => {
@@ -152,19 +159,22 @@ export default function Dashboard(props) {
   const portfolioAssets = Object.keys(portfolioGroups).reduce(
     (acc, portfolioId) => {
       const portfolioItems = portfolioGroups[portfolioId];
-      const portfolioTotalAssets = portfolioItems.reduce((total, item) => {
-        const { company_id, number_of_shares } = item;
-        if (prices.hasOwnProperty(company_id)) {
-          const price = Number.parseFloat(prices[company_id].price);
-          const value = Number.parseFloat(number_of_shares) * price;
-          if (!total.hasOwnProperty(company_id)) {
-            total[company_id] = value;
-          } else {
-            total[company_id] += value;
+      const portfolioTotalAssets = portfolioItems.reduce(
+        (total, item) => {
+          const { company_id, number_of_shares } = item;
+          if (prices.hasOwnProperty(company_id)) {
+            const price = Number.parseFloat(prices[company_id].price);
+            const value = Number.parseFloat(number_of_shares) * price;
+            if (!total.hasOwnProperty(company_id)) {
+              total[company_id] = value;
+            } else {
+              total[company_id] += value;
+            }
           }
-        }
-        return total;
-      }, {});
+          return total;
+        },
+        {}
+      );
       acc[portfolioId] = portfolioTotalAssets;
       return acc;
     },
@@ -195,7 +205,7 @@ export default function Dashboard(props) {
         <h5>Amount Invested</h5>
         <h4>$ {totalAmountInvested}</h4>
         <h5>Total gains</h5>
-        <h4 className={totalPandL >= 0 ? "positive" : "negative"}>
+        <h4 className={totalPandL >= 0 ? 'positive' : 'negative'}>
           $ {totalPandL}
         </h4>
       </div>
@@ -214,26 +224,33 @@ export default function Dashboard(props) {
       <div className="portfolio-cards">
         {dashboardData.map((data) => (
           <div className="portfolio-card" key={data.portfolio_id}>
-            <h4 className="portfolio-name">{data.name_of_portfolio}</h4>
+            <h4 className="portfolio-name">
+              {data.name_of_portfolio}
+            </h4>
             <div className="porfolio-card-values">
               <div className="porfolio-card-value">
-                <h3 className="portfolio-value-title">Current Value:</h3>
+                <h3 className="portfolio-value-title">
+                  Current Value:
+                </h3>
                 <h4>$ {portfolioTotals[data.portfolio_id]}</h4>
               </div>
               <div className="porfolio-card-value">
-                <h3 className="portfolio-value-title">Profit/Loss:</h3>
+                <h3 className="portfolio-value-title">
+                  Profit/Loss:
+                </h3>
                 <h4
                   className={
                     portfolioTotals[data.portfolio_id] -
                       data.total_buying_value >=
                     0
-                      ? "positive"
-                      : "negative"
+                      ? 'positive'
+                      : 'negative'
                   }
                 >
                   $
                   {(
-                    portfolioTotals[data.portfolio_id] - data.total_buying_value
+                    portfolioTotals[data.portfolio_id] -
+                    data.total_buying_value
                   ).toFixed(2)}
                 </h4>
               </div>
@@ -243,34 +260,14 @@ export default function Dashboard(props) {
               <h4 className="friend">{data.friend_username}</h4>
             </div>
             <div>
-              <button
-                className="to-portfolio-btn"
-                //Navigating and passing the current prices to the portfolio page
-                onClick={() => {
-                  // Filter the wallet for the stocks in the current portfolio
-                  const filteredWallet = wallet.filter(
-                    (stock) => stock.portfolio_id === data.portfolio_id
-                  );
-
-                  // Filter the prices for the stocks in the current portfolio
-                  const filteredPrices = {};
-                  filteredWallet.forEach((stock) => {
-                    if (prices[stock.company_id]) {
-                      filteredPrices[stock.company_id] =
-                        prices[stock.company_id].price;
-                    }
-                  });
-
-                  // Pass the filtered data to the next page
-                  Navigate(`/portfolio/${data.portfolio_id}`, {
-                    state: {
-                      prices: filteredPrices,
-                    },
-                  });
-                }}
-              >
-                <IoIosArrowDroprightCircle className="to-portfolio-icon" />{" "}
-              </button>
+              <DeleteConfirmedButton
+                data={data}
+                userId={userId}
+                portfolioTotals={portfolioTotals}
+                setPortfolioStatusUpdated={setPortfolioStatusUpdated}
+                portfolioStatusUpdated={portfolioStatusUpdated}
+                setNewData={setNewData}
+              />
             </div>
           </div>
         ))}
@@ -290,7 +287,7 @@ export default function Dashboard(props) {
   ) : (
     <div>
       <div className="d-flex justify-content-center">
-        <Message style={{ color: "red" }}>
+        <Message style={{ color: 'red' }}>
           You are not logged in, please login!
         </Message>
       </div>
