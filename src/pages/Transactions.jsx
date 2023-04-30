@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
     getTransactionsData,
     writeTransaction,
-    confimrTransaction,
+    confirmTransaction,
 } from "../../utils/APIcalls";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -29,7 +29,8 @@ export default function Transactions() {
     const [selectedStock, setSelectedStock] = useState(null);
     const [selectedStockName, setSelectedStockName] = useState('');
     const [transactionData, setTransactionData] = useState([{}]);
-    const [confirmOrDeclince, setConfirmOrDeclince] = useState('')
+    const [confirmOrDeclince, setConfirmOrDeclince] = useState('');
+    const [transactionId, setTransactionId] = useState();
     
 
     //Use Effects
@@ -82,23 +83,19 @@ export default function Transactions() {
 
     // proposal confirmation handlers
 
-    const handlePurchase = (companyId, companyName, number_of_shares) => {
+    const handlePurchase = (companyId, companyName, transactionId, number_of_shares) => {
         setConfirmOrDeclince('confirm')
         setSelectedAmmount(number_of_shares)
         setSelectedStockName(companyName)
+        setTransactionId(transactionId)
         transaction({companyId, companyName}, (data) => {
             setTransactionPrice(data);
             setSelectedStock(companyId);
-            //prepare put request which will be sent from a modal to be created
-
-            //create Put request function
-
-            // you need to get the price and the transaction id
-            //you need to change the status to confirmed
-            // {
-            //     "transaction_status" : "confirmed",
-            //     "current_price_of_share" : "152.09"
-            // }
+            setTransactionData(() => ({
+                transaction_status : "confirmed",
+                current_price_of_share : data.price
+                
+            }));
         });
         setShowProposalModal(true);
     };
@@ -126,6 +123,7 @@ export default function Transactions() {
     };
 
     const handleProposalConfirmation = () => {
+        confirmTransaction(portfolioId,transactionId, transactionData )
         setShowProposalModal(false);
     };
     const handleProposalDecline = () => {

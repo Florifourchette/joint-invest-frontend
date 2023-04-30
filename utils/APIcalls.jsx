@@ -33,7 +33,7 @@ export function writeTransaction(portfolioId, transactionData) {
   });
 }
 
-export function confimrTransaction(portfolioId, transactionId) {
+export function confirmTransaction(portfolioId, transactionId, transactionData) {
   return fetch(`http://localhost:3000/api/transaction/${portfolioId}/${transactionId}`, {
     method: 'PUT',
     headers:{
@@ -43,6 +43,9 @@ export function confimrTransaction(portfolioId, transactionId) {
   })
   .then(response =>{
     console.log(response);
+    if (response.ok) {
+      window.location.reload();
+    }
     return response.json();
   })
 }
