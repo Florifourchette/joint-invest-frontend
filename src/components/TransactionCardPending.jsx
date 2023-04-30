@@ -48,7 +48,7 @@ export default function TransactionCardPending({
                 <button
                     className="confirm-decline-btn"
                     onClick={() =>
-                        handleDecline(stock.company_id, stock.company_name, stock.number_of_shares)
+                        handleDecline(stock.company_id, stock.company_name, stock.id, stock.number_of_shares)
                     }
                 >
                     Decline

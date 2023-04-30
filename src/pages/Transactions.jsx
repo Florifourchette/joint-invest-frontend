@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
     getTransactionsData,
     writeTransaction,
-    confirmTransaction,
+    confirmOrCancelTransaction,
 } from "../../utils/APIcalls";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -100,11 +100,20 @@ export default function Transactions() {
         setShowProposalModal(true);
     };
 
-    const handleDecline = (companyId, companyName, number_of_shares) => {
+    const handleDecline = (companyId, companyName, transactionId, number_of_shares) => {
         setConfirmOrDeclince('decline')
         setSelectedAmmount(number_of_shares)
         setSelectedStockName(companyName)
         setSelectedStock(companyId);
+        setTransactionId(transactionId)
+        transaction({companyId, companyName}, (data) => {
+            setTransactionPrice(data);
+            setSelectedStock(companyId);
+            setTransactionData(() => ({
+                transaction_status : "canceled"
+                
+            }));
+        });
         setShowDeclineModal(true);
         
     };
@@ -123,10 +132,11 @@ export default function Transactions() {
     };
 
     const handleProposalConfirmation = () => {
-        confirmTransaction(portfolioId,transactionId, transactionData )
+        confirmOrCancelTransaction(portfolioId,transactionId, transactionData)
         setShowProposalModal(false);
     };
     const handleProposalDecline = () => {
+        confirmOrCancelTransaction(portfolioId,transactionId, transactionData)
         setShowProposalModal(false);
     };
 

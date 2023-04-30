@@ -24,16 +24,16 @@ export function writeTransaction(portfolioId, transactionData) {
     },
     body: JSON.stringify(transactionData)
   })
-  .then(response => {
+  .then(response =>{
     console.log(response);
+    if (response.ok) {
+      window.location.reload();
+    }
     return response.json();
   })
-  .catch(error => {
-    console.error(error);
-  });
 }
 
-export function confirmTransaction(portfolioId, transactionId, transactionData) {
+export function confirmOrCancelTransaction(portfolioId, transactionId, transactionData) {
   return fetch(`http://localhost:3000/api/transaction/${portfolioId}/${transactionId}`, {
     method: 'PUT',
     headers:{
