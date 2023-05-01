@@ -37,17 +37,18 @@ const AuthStateContext = ({ children }) => {
     try {
       setLoading(true);
       const {
-        data: { token: mytoken, user_id: myid },
+        data: { token: mytoken, user: myuser },
       } = await axios.post("http://localhost:3000/api/user/login", {
         email: email,
         password: password,
       });
-      console.log(mytoken);
+      console.log(myuser);
       setError(null);
       localStorage.setItem("token", JSON.stringify(mytoken));
       setToken(mytoken);
       setIsAuthenticated(true);
-      navigate(`/overview/${myid}`, { replace: true });
+      setUserLogin(myuser);
+      navigate(`/overview/${myuser.id}`, { replace: true });
     } catch (e) {
       console.error(e);
       setError(e.response.data.error);
@@ -59,18 +60,19 @@ const AuthStateContext = ({ children }) => {
     try {
       setLoading(true);
       const {
-        data: { token: mytoken, user_id: myid },
+        data: { token: mytoken, user: myuser },
       } = await axios.post("http://localhost:3000/api/user/signup", {
         username: username,
         email: email,
         password: password,
       });
-      console.log(mytoken);
+      console.log(myuser);
       setError(null);
       localStorage.setItem("token", JSON.stringify(mytoken));
       setToken(mytoken);
       setIsAuthenticated(true);
-      navigate(`/create_portfolio/${myid}`, { replace: true });
+      setUserLogin(myuser);
+      navigate(`/create_portfolio/${myuser.id}`, { replace: true });
     } catch (e) {
       console.error(e);
       setError(e.response.data.error);
