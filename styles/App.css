@@ -137,7 +137,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
 }
 
 body h1 {
@@ -172,8 +171,22 @@ body h1 {
 .assets h5 {
   margin: 0;
 }
+
+button {
+  background-color: none;
+  border: none;
+}
+
 /* Overview Page */
+/* .portfolio-cards {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
+
 .portfolio-card {
+  width: 80%;
   display: flex;
   border: 2px solid blue;
   border-radius: 10px;
@@ -181,24 +194,27 @@ body h1 {
   margin-top: 1em;
   padding: 1em;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .portfolio-card h4 {
   font-weight: bold;
-  margin: 0;
 }
 
-.portfolio-name {
+.portfolio-name-status {
+  align-items: center;
+  width: 40%;
+  margin-left: 0.5em;
+}
+
+.portfolio-name-status h4 {
   font-weight: bold;
   font-size: 1.5em;
-  align-items: center;
-  margin: auto 0;
 }
 
 .porfolio-card-values {
   align-items: center;
-  margin: 1em;
 }
 
 .porfolio-card-value {
@@ -227,7 +243,7 @@ body h1 {
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin-right: 1em;
+  width: 5%;
 }
 .friend {
   font-weight: bold;
@@ -249,6 +265,11 @@ body h1 {
 .to-portfolio-icon {
   font-size: 3rem;
   color: blue;
+}
+
+.to-portfolio-icon:hover {
+  font-size: 3rem;
+  color: rgb(2, 2, 117);
 }
 
 .portfolio-add {
@@ -275,6 +296,96 @@ body h1 {
   color: red;
 }
 
+.dashboard_buttons {
+  display: flex;
+  flex-direction: column;
+  width: 10%;
+  align-items: center;
+}
+
+.rejection_button {
+  color: white;
+  background-color: red;
+  padding: 0.2rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.rejection_button:hover {
+  color: rgb(190, 188, 188);
+  background-color: rgb(145, 3, 3);
+}
+
+.confirmation_button {
+  color: green;
+  background-color: white;
+  padding: 0.2rem;
+  width: auto;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.confirmation_button:hover {
+  color: rgb(1, 66, 1);
+  background-color: white;
+  padding: 0.2rem;
+  width: auto;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.button_portfolio_status_change {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: none;
+}
+
+.message_container {
+  font-size: 1.1em;
+  color: #fff;
+  background: rgb(2, 2, 117);
+  position: relative;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 25px auto 0 auto;
+  max-width: 320px;
+}
+
+.message_container::after {
+  content: '';
+  border: 20px solid transparent;
+  position: absolute;
+  border-bottom-color: rgb(2, 2, 117);
+  border-top: 0;
+  top: -20px;
+  left: 80%;
+  margin-left: -20px;
+}
+
+.message_container p {
+  position: relative;
+  margin: auto;
+  width: 90%;
+  background-color: rgb(2, 2, 117);
+  color: white;
+  z-index: 2;
+}
+
+.message_container span {
+  font-weight: bold;
+}
+
 /*portfolio creation page */
 .portfolioCreationPage {
   margin-top: 2em;
@@ -283,10 +394,6 @@ body h1 {
   justify-content: center;
   align-items: center;
   width: 100%;
-}
-
-.rejection_button {
-  background-color: red;
 }
 
 /* TRANSACTIONS PAGE */

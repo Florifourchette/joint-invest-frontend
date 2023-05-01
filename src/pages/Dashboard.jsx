@@ -14,6 +14,7 @@ import LogIn from './LogIn';
 import { Message } from 'semantic-ui-react';
 import Navbar from '../components/Navbar';
 import DeleteConfirmedButton from '../components/DeleteConfirmedButton';
+import StatusMessages from '../components/StatusMessages';
 
 // const fakeStocks = {
 //     AAPL: { price: "165.35000" },
@@ -66,7 +67,7 @@ export default function Dashboard(props) {
             (item) => item.portfolio_status !== 'deleted'
           )
         );
-        console.log(data);
+        // console.log(data);
         setWallet(data.portfoliosDetails);
         setDataReady(true);
         setLoading(false);
@@ -89,17 +90,17 @@ export default function Dashboard(props) {
       const companyIds = [
         ...new Set(wallet.map((item) => item.company_id)),
       ];
-      console.log(`tickers: ${companyIds}`);
+      // console.log(`tickers: ${companyIds}`);
       const apiUrl = createApiUrl(companyIds);
-      console.log(apiUrl);
+      // console.log(apiUrl);
 
-      console.log(apiUrl);
+      // console.log(apiUrl);
       const apiCall = async () => {
         try {
           fetch(apiUrl)
             .then((response) => response.json())
             .then((data) => {
-              console.log(data);
+              // console.log(data);
               setPrices(data);
             });
         } catch (error) {
@@ -110,9 +111,9 @@ export default function Dashboard(props) {
     }
   }, [dashboardData, loading]);
 
-  console.log(dashboardData);
-  console.log(wallet);
-  console.log(prices);
+  // console.log(dashboardData);
+  // console.log(wallet);
+  // console.log(prices);
 
   //totalAssets top of overview
   const totalAssets = wallet.reduce((acc, curr) => {
@@ -129,7 +130,7 @@ export default function Dashboard(props) {
     return acc;
   }, {});
 
-  console.log(totalAssets);
+  // console.log(totalAssets);
 
   const totalAssetsSum = Object.values(totalAssets)
     .reduce((acc, curr) => {
@@ -187,7 +188,7 @@ export default function Dashboard(props) {
     {}
   );
 
-  console.log(portfolioAssets);
+  // console.log(portfolioAssets);
 
   const portfolioTotals = Object.entries(portfolioAssets).reduce(
     (acc, [portfolioId, assets]) => {
@@ -199,7 +200,7 @@ export default function Dashboard(props) {
     },
     {}
   );
-  console.log(portfolioTotals);
+  // console.log(portfolioTotals);
 
   // return isAuthenticated ? (
   return (
@@ -230,51 +231,44 @@ export default function Dashboard(props) {
       </div>
       <div className="portfolio-cards">
         {dashboardData.map((data) => (
-          <div className="portfolio-card" key={data.portfolio_id}>
-            <h4 className="portfolio-name">
-              {data.name_of_portfolio}
-            </h4>
-            <div className="porfolio-card-values">
-              <div className="porfolio-card-value">
-                <h3 className="portfolio-value-title">
-                  Current Value:
-                </h3>
-                <h4>$ {portfolioTotals[data.portfolio_id]}</h4>
+          <>
+            <div className="portfolio-card" key={data.portfolio_id}>
+              <div className="portfolio-name-status">
+                <h4>{data.name_of_portfolio}</h4>
               </div>
-              <div className="porfolio-card-value">
-                <h3 className="portfolio-value-title">
-                  Profit/Loss:
-                </h3>
-                <h4
-                  className={
-                    portfolioTotals[data.portfolio_id] -
-                      data.total_buying_value >=
-                    0
-                      ? 'positive'
-                      : 'negative'
-                  }
-                >
-                  $
-                  {(
-                    portfolioTotals[data.portfolio_id] -
-                    data.total_buying_value
-                  ).toFixed(2)}
-                </h4>
+
+              <div className="porfolio-card-values">
+                <div className="porfolio-card-value">
+                  <h3 className="portfolio-value-title">
+                    Current Value:
+                  </h3>
+                  <h4>$ {portfolioTotals[data.portfolio_id]}</h4>
+                </div>
+                <div className="porfolio-card-value">
+                  <h3 className="portfolio-value-title">
+                    Profit/Loss:
+                  </h3>
+                  <h4
+                    className={
+                      portfolioTotals[data.portfolio_id] -
+                        data.total_buying_value >=
+                      0
+                        ? 'positive'
+                        : 'negative'
+                    }
+                  >
+                    $
+                    {(
+                      portfolioTotals[data.portfolio_id] -
+                      data.total_buying_value
+                    ).toFixed(2)}
+                  </h4>
+                </div>
               </div>
-            </div>
-            <div className="friend-box">
-              <IoIosContacts className="friend-icon" />
-              <h4 className="friend">{data.friend_username}</h4>
-            </div>
-            <div>
-              <button
-                className="to-portfolio-btn"
-                onClick={() =>
-                  Navigate(`/portfolio/${data.portfolio_id}`)
-                }
-              >
-                <IoIosArrowDroprightCircle className="to-portfolio-icon" />{' '}
-              </button>
+              <div className="friend-box">
+                <IoIosContacts className="friend-icon" />
+                <h4 className="friend">{data.friend_username}</h4>
+              </div>
               <DeleteConfirmedButton
                 data={data}
                 userId={userId}
@@ -284,7 +278,17 @@ export default function Dashboard(props) {
                 setNewData={setNewData}
               />
             </div>
-          </div>
+            {data.portfolio_status === 'pending_activation' ||
+            data.portfolio_status === 'pending_deletion' ? (
+              <StatusMessages
+                data={data}
+                userId={userId}
+                portfolioTotals={portfolioTotals}
+              />
+            ) : (
+              <></>
+            )}
+          </>
         ))}
       </div>
 
