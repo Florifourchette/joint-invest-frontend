@@ -18,6 +18,7 @@ const CreationPortfolio = () => {
 
   const { userId } = useParams();
 
+
   useEffect(() => {
     axios
       .get("http://localhost:3000/api/overview")
@@ -34,7 +35,7 @@ const CreationPortfolio = () => {
   };
 
   const handleSubmit = () => {
-    console.log({ userId });
+    
     axios
       .post(`http://localhost:3000/api/creation_portfolio/${userId}`, {
         initial_amount: newPortfolioInitialAmount,
