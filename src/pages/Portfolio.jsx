@@ -1,47 +1,56 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import StockListA from "../components/PortfolioStockListA";
-import StockListB from "../components/PortfolioStockListB";
-import PortfolioChart from "../components/PortfolioChart.jsx";
-import PortfolioDropdown from "../components/PortfolioDropdown";
-import { stocklistitem_data } from "../assets/stocklistitem_data";
-import { v4 as uuidv4 } from "uuid";
-import { mockPortfolioData } from "../assets/mockPortfolioData";
+import React from 'react';
+import { useState, useEffect } from 'react';
+import StockListA from '../components/PortfolioStockListA';
+import StockListB from '../components/PortfolioStockListB';
+import PortfolioChart from '../components/PortfolioChart.jsx';
+import PortfolioDropdown from '../components/PortfolioDropdown';
+import { stocklistitem_data } from '../assets/stocklistitem_data';
+import { v4 as uuidv4 } from 'uuid';
+import { mockPortfolioData } from '../assets/mockPortfolioData';
 //import chartData from "../assets/lineGraphData";
 //import { url } from "inspector";
-import axios from "axios";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
-import LogIn from "./LogIn";
-import { Message } from "semantic-ui-react";
-import Chart from "chart.js/auto";
-import { CategoryScale } from "chart.js";
-import Navbar from "../components/Navbar";
+import axios from 'axios';
+import {
+  useNavigate,
+  useParams,
+  useLocation,
+} from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
+import LogIn from './LogIn';
+import { Message } from 'semantic-ui-react';
+import Chart from 'chart.js/auto';
+import { CategoryScale } from 'chart.js';
+import Navbar from '../components/Navbar';
 
 Chart.register(CategoryScale);
 
 export default function Portfolio() {
   const { isAuthenticated } = useAuth();
-  const portfolioName = mockPortfolioData[0].overview[0].name_of_portfolio;
-  const investedAmount = mockPortfolioData[0].overview[0].invested_amount;
-  const availableAmount = mockPortfolioData[0].overview[0].available_amount;
+  const portfolioName =
+    mockPortfolioData[0].overview[0].name_of_portfolio;
+  const investedAmount =
+    mockPortfolioData[0].overview[0].invested_amount;
+  const availableAmount =
+    mockPortfolioData[0].overview[0].available_amount;
   const companiesArray = [];
 
   let { id } = useParams();
 
   const Navigate = useNavigate();
   const location = useLocation();
-  //console.log(` location at portfolio ${JSON.stringify(location.state)}`);
+  console.log(
+    ` location at portfolio ${JSON.stringify(location.state)}`
+  );
 
-  const companyIds = mockPortfolioData[0].stocks.map(
+  const companyIds = mockPortfolioData[0].stocks?.map(
     (stock) => stock.company_id
   );
   const cleanCompanyIds = companyIds.join();
   //console.log(cleanCompanyIds);
 
-  const [selectedInterval, setSelectedInterval] = useState("");
+  const [selectedInterval, setSelectedInterval] = useState('');
   const [stockItems, setStockItems] = useState([]);
-  const [stockOverview, setStockOverview] = useState("");
+  const [stockOverview, setStockOverview] = useState('');
   const [stockCompaniesId, setStockCompaniesId] = useState();
   const [externalAPIstocks, setExternalAPIstocks] = useState();
   const [allCompanies, setAllCompanies] = useState();
@@ -51,13 +60,13 @@ export default function Portfolio() {
   //console.log(allCompanies);
 
   if (allCompanies !== undefined) {
-    const stockValues = Object.values(allCompanies).map(
+    const stockValues = Object.values(allCompanies)?.map(
       (company) => company.values
     );
     //console.log(typeof stockValues);
 
-    const closeValues = stockValues.map((subArray) =>
-      subArray.map((obj) => obj.close)
+    const closeValues = stockValues?.map((subArray) =>
+      subArray?.map((obj) => obj.close)
     );
 
     //console.log(closeValues);
@@ -65,12 +74,15 @@ export default function Portfolio() {
 
     if (closeValues !== undefined) {
       for (const [index, item] of closeValues.entries()) {
-        closeValues[index]["current_total_value"] = [];
+        closeValues[index]['current_total_value'] = [];
         //console.log(index);
 
-        for (const [index2, stockValueItem] of closeValues[index].entries()) {
-          closeValues[index]["current_total_value"].push(
-            stockItems[0]?.current_number_of_stocks * parseFloat(item[index2])
+        for (const [index2, stockValueItem] of closeValues[
+          index
+        ].entries()) {
+          closeValues[index]['current_total_value'].push(
+            stockItems[0]?.current_number_of_stocks *
+              parseFloat(item[index2])
           );
           //console.log(closeValues);
         }
@@ -78,7 +90,7 @@ export default function Portfolio() {
     }
     //console.log(typeof closeValues);
 
-    const currentTotalValueArray = closeValues.map(
+    const currentTotalValueArray = closeValues?.map(
       (subArray) => subArray.current_total_value
     );
 
@@ -113,7 +125,7 @@ export default function Portfolio() {
     async function someIdRetrieving() {
       try {
         const inputStuff = await getPortfolioStocks();
-        const someId = inputStuff.map((stock) => stock.company_id);
+        const someId = inputStuff?.map((stock) => stock.company_id);
         const cleanStockIds = someId.join();
         //console.log(cleanStockIds);
         setStockCompaniesId(cleanStockIds);
@@ -152,7 +164,8 @@ export default function Portfolio() {
     fetchMultipleCompanies();
   }, []);
 
-  return isAuthenticated ? (
+  // return isAuthenticated ? (
+  return (
     <>
       <div className="portfolio_overview">
         <h1>{portfolioName}</h1>
@@ -178,15 +191,15 @@ export default function Portfolio() {
         />
       </div>
       <div className="portfolio_stocks container">
-        <h3 className="text-center" style={{ padding: "2rem" }}>
+        <h3 className="text-center" style={{ padding: '2rem' }}>
           Your Stocks
         </h3>
 
-        {selectedInterval == "since buy" ? (
+        {selectedInterval == 'since buy' ? (
           <div>
             {stockItems &&
               externalAPIstocks &&
-              stockItems.map((item) => {
+              stockItems?.map((item) => {
                 return (
                   <StockListB
                     item={item}
@@ -199,7 +212,7 @@ export default function Portfolio() {
           <div>
             {stockItems &&
               externalAPIstocks &&
-              stockItems.map((item) => {
+              stockItems?.map((item) => {
                 return (
                   <StockListA
                     item={item}
@@ -223,12 +236,12 @@ export default function Portfolio() {
       </div>
       <div
         className="d-flex justify-content-center"
-        style={{ padding: "2rem" }}
+        style={{ padding: '2rem' }}
       >
         <button
           type="button"
           class="btn btn-primary"
-          style={{ marginRight: "0.5rem" }}
+          style={{ marginRight: '0.5rem' }}
         >
           Order book
         </button>
@@ -244,16 +257,17 @@ export default function Portfolio() {
           Buy/Sell
         </button>
       </div>
-      <Navbar />
+      {/* <Navbar /> */}
     </>
-  ) : (
-    <div>
-      <div className="d-flex justify-content-center">
-        <Message style={{ color: "red" }}>
-          You are not logged in, please login!
-        </Message>
-      </div>
-      <LogIn />
-    </div>
   );
+  // : (
+  //   <div>
+  //     <div className="d-flex justify-content-center">
+  //       <Message style={{ color: "red" }}>
+  //         You are not logged in, please login!
+  //       </Message>
+  //     </div>
+  //     <LogIn />
+  //   </div>
+  // );
 }

@@ -6,6 +6,7 @@ import {
 } from 'react-icons/io';
 import { FaCheckSquare } from 'react-icons/fa';
 import { setPortfolioStatus } from '../../utils/PortfolioDeletion';
+import { useNavigate } from 'react-router-dom';
 
 const DeleteConfirmedButton = ({
   data,
@@ -14,6 +15,9 @@ const DeleteConfirmedButton = ({
   setPortfolioStatusUpdated,
   portfolioStatusUpdated,
   setNewData,
+  Navigate,
+  wallet,
+  prices,
 }) => {
   return (
     <div className="dashboard_buttons">
