@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { getDashboardData } from '../../utils/APIcalls';
-import { useParams } from 'react-router-dom';
-import OverviewChart from '../components/OverviewChart';
-import PieChart from '../components/PieOverviewChart';
+import React, { useEffect, useState } from "react";
+import { getDashboardData } from "../../utils/APIcalls";
+import { useParams } from "react-router-dom";
+import OverviewChart from "../components/OverviewChart";
+import PieChart from "../components/PieOverviewChart";
 import {
   IoIosArrowDroprightCircle,
   IoIosContacts,
   IoIosAdd,
-} from 'react-icons/io';
-import { useNavigate } from 'react-router-dom';
-import { createApiUrl } from '../../utils/CreateAPIUrl';
-import useAuth from '../hooks/useAuth';
-import LogIn from './LogIn';
-import { Message } from 'semantic-ui-react';
-import Navbar from '../components/Navbar';
-import DeleteConfirmedButton from '../components/DeleteConfirmedButton';
-import StatusMessages from '../components/StatusMessages';
+} from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+import { createApiUrl } from "../../utils/CreateAPIUrl";
+import useAuth from "../hooks/useAuth";
+import LogIn from "./LogIn";
+import { Message } from "semantic-ui-react";
+import Navbar from "../components/Navbar";
+import DeleteConfirmedButton from "../components/DeleteConfirmedButton";
+import StatusMessages from "../components/StatusMessages";
 
 export default function Dashboard(props) {
   const [dashboardData, setDashboardData] = useState([]);
@@ -23,8 +23,7 @@ export default function Dashboard(props) {
   const [prices, setPrices] = useState([]);
   const [dataReady, setDataReady] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [portfolioStatusUpdated, setPortfolioStatusUpdated] =
-    useState(false);
+  const [portfolioStatusUpdated, setPortfolioStatusUpdated] = useState(false);
   const [newData, setNewData] = useState([]);
   const { isAuthenticated } = useAuth();
 
@@ -35,9 +34,7 @@ export default function Dashboard(props) {
     getDashboardData(userId)
       .then((data) => {
         setDashboardData(
-          data.portfolios.filter(
-            (item) => item.portfolio_status !== 'deleted'
-          )
+          data.portfolios.filter((item) => item.portfolio_status !== "deleted")
         );
         // console.log(data);
         setWallet(data.portfoliosDetails);
@@ -55,13 +52,11 @@ export default function Dashboard(props) {
     //     })
     //     .catch((error) => console.error(error));
   }, [userId, newData]);
-  console.log('number of shares', wallet.number_of_shares);
+  console.log("number of shares", wallet.number_of_shares);
   //API CALL
   useEffect(() => {
     if (loading === false) {
-      const companyIds = [
-        ...new Set(wallet.map((item) => item.company_id)),
-      ];
+      const companyIds = [...new Set(wallet.map((item) => item.company_id))];
       console.log(`tickers: ${companyIds}`);
       const apiUrl = createApiUrl(companyIds);
       console.log(apiUrl);
@@ -121,9 +116,7 @@ export default function Dashboard(props) {
     )
     .toFixed(2);
 
-  const totalPandL = (totalAssetsSum - totalAmountInvested).toFixed(
-    2
-  );
+  const totalPandL = (totalAssetsSum - totalAmountInvested).toFixed(2);
 
   //portfolios current value
   const portfolioGroups = wallet.reduce((groups, item) => {
@@ -138,22 +131,19 @@ export default function Dashboard(props) {
   const portfolioAssets = Object.keys(portfolioGroups).reduce(
     (acc, portfolioId) => {
       const portfolioItems = portfolioGroups[portfolioId];
-      const portfolioTotalAssets = portfolioItems.reduce(
-        (total, item) => {
-          const { company_id, number_of_shares } = item;
-          if (prices.hasOwnProperty(company_id)) {
-            const price = Number.parseFloat(prices[company_id].price);
-            const value = Number.parseFloat(number_of_shares) * price;
-            if (!total.hasOwnProperty(company_id)) {
-              total[company_id] = value;
-            } else {
-              total[company_id] += value;
-            }
+      const portfolioTotalAssets = portfolioItems.reduce((total, item) => {
+        const { company_id, number_of_shares } = item;
+        if (prices.hasOwnProperty(company_id)) {
+          const price = Number.parseFloat(prices[company_id].price);
+          const value = Number.parseFloat(number_of_shares) * price;
+          if (!total.hasOwnProperty(company_id)) {
+            total[company_id] = value;
+          } else {
+            total[company_id] += value;
           }
-          return total;
-        },
-        {}
-      );
+        }
+        return total;
+      }, {});
       acc[portfolioId] = portfolioTotalAssets;
       return acc;
     },
@@ -185,7 +175,7 @@ export default function Dashboard(props) {
         <h5>Amount Invested</h5>
         <h4>$ {totalAmountInvested}</h4>
         <h5>Total gains</h5>
-        <h4 className={totalPandL >= 0 ? 'positive' : 'negative'}>
+        <h4 className={totalPandL >= 0 ? "positive" : "negative"}>
           $ {totalPandL}
         </h4>
       </div>
@@ -205,27 +195,21 @@ export default function Dashboard(props) {
         {dashboardData.map((data) => (
           <>
             <div className="portfolio-card" key={data.portfolio_id}>
-              <h4 className="portfolio-name">
-                {data.name_of_portfolio}
-              </h4>
+              <h4 className="portfolio-name">{data.name_of_portfolio}</h4>
               <div className="porfolio-card-values">
                 <div className="porfolio-card-value">
-                  <h3 className="portfolio-value-title">
-                    Current Value:
-                  </h3>
+                  <h3 className="portfolio-value-title">Current Value:</h3>
                   <h4>$ {portfolioTotals[data.portfolio_id]}</h4>
                 </div>
                 <div className="porfolio-card-value">
-                  <h3 className="portfolio-value-title">
-                    Profit/Loss:
-                  </h3>
+                  <h3 className="portfolio-value-title">Profit/Loss:</h3>
                   <h4
                     className={
                       portfolioTotals[data.portfolio_id] -
                         data.total_buying_value >=
                       0
-                        ? 'positive'
-                        : 'negative'
+                        ? "positive"
+                        : "negative"
                     }
                   >
                     $
@@ -253,8 +237,8 @@ export default function Dashboard(props) {
                 prices={prices}
               />
             </div>
-            {data.portfolio_status === 'pending_activation' ||
-            data.portfolio_status === 'pending_deletion' ? (
+            {data.portfolio_status === "pending_activation" ||
+            data.portfolio_status === "pending_deletion" ? (
               <StatusMessages
                 data={data}
                 userId={userId}
@@ -276,7 +260,7 @@ export default function Dashboard(props) {
           <IoIosAdd className="portfolio-add-icon" />
         </button>
       </div>
-      {/* <Navbar /> */}
+      <Navbar />
     </div>
   );
   // : (
