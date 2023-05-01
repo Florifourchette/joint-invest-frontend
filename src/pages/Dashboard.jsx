@@ -10,6 +10,11 @@ import {
 } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { createApiUrl } from "../../utils/CreateAPIUrl";
+import useAuth from "../hooks/useAuth";
+import LogIn from "./LogIn";
+import { Message } from "semantic-ui-react";
+import Navbar from "../components/Navbar";
+import DeleteConfirmedButton from "../components/DeleteConfirmedButton";
 
 export default function Dashboard(props) {
     const [dashboardData, setDashboardData] = useState([]);
@@ -17,6 +22,9 @@ export default function Dashboard(props) {
     const [prices, setPrices] = useState([]);
     const [dataReady, setDataReady] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [portfolioStatusUpdated, setPortfolioStatusUpdated] = useState(false);
+    const [newData, setNewData] = useState([]);
+    const { isAuthenticated } = useAuth();
 
     let { userId } = useParams();
     const Navigate = useNavigate();
@@ -24,7 +32,12 @@ export default function Dashboard(props) {
     useEffect(() => {
         getDashboardData(userId)
             .then((data) => {
-                setDashboardData(data.portfolios);
+                setDashboardData(
+                    data.portfolios.filter(
+                        (item) => item.portfolio_status !== "deleted"
+                    )
+                );
+                console.log(data);
                 setWallet(data.portfoliosDetails);
                 setDataReady(true);
                 setLoading(false);
@@ -160,6 +173,7 @@ export default function Dashboard(props) {
     );
     console.log(portfolioTotals);
 
+    // return isAuthenticated ? (
     return (
         <div className="overview-page">
             <h1>Overview</h1>
@@ -270,8 +284,11 @@ export default function Dashboard(props) {
                                             state: {
                                                 prices: filteredPrices,
                                                 userId: userId,
-                                                number_of_shares:filteredShares[data.portfolio_id],
-                                                friend: data.friend_username
+                                                number_of_shares:
+                                                    filteredShares[
+                                                        data.portfolio_id
+                                                    ],
+                                                friend: data.friend_username,
                                             },
                                         }
                                     );
@@ -279,6 +296,16 @@ export default function Dashboard(props) {
                             >
                                 <IoIosArrowDroprightCircle className="to-portfolio-icon" />{" "}
                             </button>
+                            <DeleteConfirmedButton
+                                data={data}
+                                userId={userId}
+                                portfolioTotals={portfolioTotals}
+                                setPortfolioStatusUpdated={
+                                    setPortfolioStatusUpdated
+                                }
+                                portfolioStatusUpdated={portfolioStatusUpdated}
+                                setNewData={setNewData}
+                            />
                         </div>
                     </div>
                 ))}
@@ -293,6 +320,17 @@ export default function Dashboard(props) {
                     <IoIosAdd className="portfolio-add-icon" />
                 </button>
             </div>
+            {/* <Navbar /> */}
         </div>
     );
+    // ) : (
+    //   <div>
+    //     <div className="d-flex justify-content-center">
+    //       <Message style={{ color: 'red' }}>
+    //         You are not logged in, please login!
+    //       </Message>
+    //     </div>
+    //     <LogIn />
+    //   </div>
+    // );
 }

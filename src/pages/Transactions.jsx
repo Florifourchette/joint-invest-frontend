@@ -6,6 +6,10 @@ import {
 } from "../../utils/APIcalls";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import LogIn from "./LogIn";
+import { Message } from "semantic-ui-react";
+import Navbar from "../components/Navbar";
 import { transaction } from "../../utils/TransactionOperations";
 import ReactModal from "react-modal";
 import ModalTransactionBuy from "../components/ModalTransaction";
@@ -16,7 +20,8 @@ import TransactionCard from "../components/TransactionCard";
 import TransactionCardPending from "../components/TransactionCardPending";
 
 export default function Transactions() {
-    let { portfolioId } = useParams();
+  const { isAuthenticated } = useAuth();
+  let { portfolioId } = useParams();
 
     const location = useLocation();
 
@@ -159,7 +164,7 @@ export default function Transactions() {
         setShowCancellationModal(false);
     };
 
-    return (
+    return isAuthenticated ?(
         <div>
             <div className="transactions-title">
                 <h1>Buy/Sell</h1>
@@ -248,6 +253,15 @@ export default function Transactions() {
                     </div>
                 </div>
             </div>
+        </div>
+    ): (
+        <div>
+          <div className="d-flex justify-content-center">
+            <Message style={{ color: "red" }}>
+              You are not logged in, please login!
+            </Message>
+          </div>
+          <LogIn />
         </div>
     );
 }

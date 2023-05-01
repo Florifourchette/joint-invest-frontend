@@ -3,6 +3,10 @@ import { useParams } from "react-router";
 import { Button, Form } from "semantic-ui-react";
 import axios from "axios";
 import "../../styles/App.css";
+import useAuth from "../hooks/useAuth";
+import LogIn from "./LogIn";
+import { Message } from "semantic-ui-react";
+import Navbar from "../components/Navbar";
 
 const CreationPortfolio = () => {
   const [newPortfolioName, setNewPortfolioName] = useState("");
@@ -10,6 +14,7 @@ const CreationPortfolio = () => {
   const [newPortfolioUsername, setNewPortfolioUsername] = useState("");
   const [uppercaseDetected, setUppercaseDetected] = useState(false);
   const [checkUsername, setCheckUsername] = useState("");
+  const { isAuthenticated } = useAuth();
 
   const { userId } = useParams();
 
@@ -49,7 +54,7 @@ const CreationPortfolio = () => {
     setUppercaseDetected(false);
   }, [newPortfolioUsername]);
 
-  return (
+  return isAuthenticated ? (
     <>
       <h1>Add portfolio</h1>
       <p className="page-description">Start a new portfolio with your friend</p>
@@ -117,7 +122,17 @@ const CreationPortfolio = () => {
           Submit
         </Button>
       </Form>
+      <Navbar />
     </>
+  ) : (
+    <div>
+      <div className="d-flex justify-content-center">
+        <Message style={{ color: "red" }}>
+          You are not logged in, please login!
+        </Message>
+      </div>
+      <LogIn />
+    </div>
   );
 };
 

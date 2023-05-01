@@ -7,21 +7,31 @@ import CreationPortfolio from "./pages/CreationPortfolio";
 import LogIn from "./pages/LogIn";
 import SignUp from "./pages/Signup";
 import Transactions from "./pages/Transactions";
+import Orderbook from "./pages/Orderbook";
+import AuthStateContext from "./contexts/AuthContext";
+import Profile from "./pages/Profile";
+import Messages from "./pages/Messages";
 
 function App() {
   return (
     <>
-      <Routes>
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/login" element={<LogIn />} />
-        <Route path="/:userId" element={<Dashboard />} />
-        <Route path="transactions/:portfolioId" element={<Transactions />} />
-        <Route path="/portfolio/:id" element={<Portfolio />} />
-        <Route
-          path="/create_portfolio/:userId"
-          element={<CreationPortfolio />}
-        />
-      </Routes>
+      <AuthStateContext>
+        <Routes>
+          <Route path="/home" />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/overview/:userId" element={<Dashboard />} />
+          <Route path="/transactions/:portfolioId" element={<Transactions />} />
+          <Route path="/portfolio/:id" element={<Portfolio />} />
+          <Route path="/messages/:userId" element={<Messages />} />
+          <Route path="/profile/:userId" element={<Profile />} />
+          <Route
+            path="/create_portfolio/:userId"
+            element={<CreationPortfolio />}
+          />
+          <Route path="/order_book/:portfolio_id" element={<Orderbook />} />
+        </Routes>
+      </AuthStateContext>
     </>
   );
 }
