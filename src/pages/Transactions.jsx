@@ -11,6 +11,7 @@ import ReactModal from "react-modal";
 import ModalTransactionBuy from "../components/ModalTransaction";
 import ModalConfirmation from "../components/ModalConfirmation";
 import ModalDecline from "../components/ModalDecline";
+import ModalCancellation from "../components/ModalCancellation";
 import TransactionCard from "../components/TransactionCard";
 import TransactionCardPending from "../components/TransactionCardPending";
 
@@ -26,12 +27,12 @@ export default function Transactions() {
     const [showModal, setShowModal] = useState(false);
     const [showProposalModal, setShowProposalModal] = useState(false);
     const [showDeclineModal, setShowDeclineModal] = useState(false);
+    const [showCancellationModal, setShowCancellationModal] = useState(false);
     const [selectedStock, setSelectedStock] = useState(null);
-    const [selectedStockName, setSelectedStockName] = useState('');
+    const [selectedStockName, setSelectedStockName] = useState("");
     const [transactionData, setTransactionData] = useState([{}]);
-    const [confirmOrDeclince, setConfirmOrDeclince] = useState('');
+    const [confirmOrDeclince, setConfirmOrDeclince] = useState("");
     const [transactionId, setTransactionId] = useState();
-    
 
     //Use Effects
     useEffect(() => {
@@ -48,7 +49,7 @@ export default function Transactions() {
     //buy - sell Transactions
     const handleBuy = (companyId, companyName, counter) => {
         setSelectedAmmount(counter);
-        transaction({companyId, counter, companyName}, (data) => {
+        transaction({ companyId, counter, companyName }, (data) => {
             setTransactionPrice(data);
             setSelectedStock(companyId);
             setTransactionData(() => ({
@@ -64,7 +65,7 @@ export default function Transactions() {
     };
     const handleSell = (companyId, companyName, counter) => {
         setSelectedAmmount(counter);
-        transaction({companyId, counter, companyName}, (data) => {
+        transaction({ companyId, counter, companyName }, (data) => {
             setTransactionPrice(data);
             setSelectedStock(companyId);
             setTransactionData(() => ({
@@ -83,41 +84,54 @@ export default function Transactions() {
 
     // proposal confirmation handlers
 
-    const handlePurchase = (companyId, companyName, transactionId, number_of_shares) => {
-        setConfirmOrDeclince('confirm')
-        setSelectedAmmount(number_of_shares)
-        setSelectedStockName(companyName)
-        setTransactionId(transactionId)
-        transaction({companyId, companyName}, (data) => {
+    const handlePurchase = (
+        companyId,
+        companyName,
+        transactionId,
+        number_of_shares
+    ) => {
+        setConfirmOrDeclince("confirm");
+        setSelectedAmmount(number_of_shares);
+        setSelectedStockName(companyName);
+        setTransactionId(transactionId);
+        transaction({ companyId, companyName }, (data) => {
             setTransactionPrice(data);
             setSelectedStock(companyId);
             setTransactionData(() => ({
-                transaction_status : "confirmed",
-                current_price_of_share : data.price
-                
+                transaction_status: "confirmed",
+                current_price_of_share: data.price,
             }));
         });
         setShowProposalModal(true);
     };
 
-    const handleDecline = (companyId, companyName, transactionId, number_of_shares) => {
-        setConfirmOrDeclince('decline')
-        setSelectedAmmount(number_of_shares)
-        setSelectedStockName(companyName)
+    const handleDecline = (
+        companyId,
+        companyName,
+        transactionId,
+        number_of_shares
+    ) => {
+        setConfirmOrDeclince("decline");
+        setSelectedAmmount(number_of_shares);
+        setSelectedStockName(companyName);
         setSelectedStock(companyId);
-        setTransactionId(transactionId)
-        transaction({companyId, companyName}, (data) => {
+        setTransactionId(transactionId);
+        transaction({ companyId, companyName }, (data) => {
             setTransactionPrice(data);
             setSelectedStock(companyId);
             setTransactionData(() => ({
-                transaction_status : "canceled"
-                
+                transaction_status: "canceled",
             }));
         });
         setShowDeclineModal(true);
-        
     };
-
+    const handleCancelRequest = (transactionId) => {
+        setTransactionId(transactionId);
+        setTransactionData(() => ({
+            transaction_status: "canceled",
+        }));
+        setShowCancellationModal(true);
+    };
 
     //Modal Controlls
     const handleConfirm = () => {
@@ -128,19 +142,22 @@ export default function Transactions() {
     const handleCancel = () => {
         setShowModal(false);
         setShowProposalModal(false);
-        setShowDeclineModal(false)
+        setShowDeclineModal(false);
+        setShowCancellationModal(false);
     };
 
     const handleProposalConfirmation = () => {
-        confirmOrCancelTransaction(portfolioId,transactionId, transactionData)
+        confirmOrCancelTransaction(portfolioId, transactionId, transactionData);
         setShowProposalModal(false);
     };
     const handleProposalDecline = () => {
-        confirmOrCancelTransaction(portfolioId,transactionId, transactionData)
+        confirmOrCancelTransaction(portfolioId, transactionId, transactionData);
         setShowProposalModal(false);
     };
-
-
+    const handleProposalCancellation = () => {
+        confirmOrCancelTransaction(portfolioId, transactionId, transactionData);
+        setShowCancellationModal(false);
+    };
 
     return (
         <div>
@@ -165,6 +182,9 @@ export default function Transactions() {
                                         location={location.state}
                                         handlePurchase={handlePurchase}
                                         handleDecline={handleDecline}
+                                        handleCancelRequest={
+                                            handleCancelRequest
+                                        }
                                     />
                                 );
                             } else {
@@ -192,23 +212,38 @@ export default function Transactions() {
                                 centered
                             />
                         )}
-                        {selectedStock && showProposalModal && (<ModalConfirmation
-                            message={`Are you sure you want to ${confirmOrDeclince} the purchase of ${selectedAmmount} stocks of ${selectedStockName}(${selectedStock}) at ${Number(
-                                transactionPrice.price
-                            ).toFixed(2)}?`}
-                            handleProposalConfirmation={handleProposalConfirmation}
-                            handleCancel={handleCancel}
-                            showProposalModal={showProposalModal}
-                            centered
-                        />
+                        {selectedStock && showProposalModal && (
+                            <ModalConfirmation
+                                message={`Are you sure you want to ${confirmOrDeclince} the purchase of ${selectedAmmount} stocks of ${selectedStockName}(${selectedStock}) at ${Number(
+                                    transactionPrice.price
+                                ).toFixed(2)}?`}
+                                handleProposalConfirmation={
+                                    handleProposalConfirmation
+                                }
+                                handleCancel={handleCancel}
+                                showProposalModal={showProposalModal}
+                                centered
+                            />
                         )}
-                        {selectedStock && showDeclineModal && (<ModalDecline
-                            message={`Are you sure you want to ${confirmOrDeclince} the purchase of ${selectedAmmount} stocks of ${selectedStockName} (${selectedStock})?`}
-                            handleProposalDecline={handleProposalDecline}
-                            handleCancel={handleCancel}
-                            showDeclineModal={showDeclineModal}
-                            centered
-                        />
+                        {selectedStock && showDeclineModal && (
+                            <ModalDecline
+                                message={`Are you sure you want to ${confirmOrDeclince} the purchase of ${selectedAmmount} stocks of ${selectedStockName} (${selectedStock})?`}
+                                handleProposalDecline={handleProposalDecline}
+                                handleCancel={handleCancel}
+                                showDeclineModal={showDeclineModal}
+                                centered
+                            />
+                        )}
+                        {showCancellationModal && (
+                            <ModalCancellation
+                                message={`Are you sure you want to cancel your purchase request?`}
+                                handleProposalCancellation={
+                                    handleProposalCancellation
+                                }
+                                handleCancel={handleCancel}
+                                showCancellationModal={showCancellationModal}
+                                centered
+                            />
                         )}
                     </div>
                 </div>

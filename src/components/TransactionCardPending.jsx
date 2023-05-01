@@ -5,6 +5,7 @@ export default function TransactionCardPending({
     location,
     handlePurchase,
     handleDecline,
+    handleCancelRequest,
 }) {
 
     console.log(location)
@@ -37,22 +38,30 @@ export default function TransactionCardPending({
                 
             </div>
             <div className="confirm-decline-btns">
-                <button
+                {location.userId != stock.user_id &&<button
                     className="confirm-decline-btn"
                     onClick={() =>
                         handlePurchase(stock.company_id, stock.company_name, stock.id, stock.number_of_shares)
                     }
                 >
                     Confirm
-                </button>
-                <button
+                </button>}
+                {location.userId != stock.user_id &&<button
                     className="confirm-decline-btn"
                     onClick={() =>
                         handleDecline(stock.company_id, stock.company_name, stock.id, stock.number_of_shares)
                     }
                 >
                     Decline
-                </button>
+                </button>}
+                {location.userId == stock.user_id && <button
+                    className="confirm-decline-btn"
+                    onClick={() =>
+                        handleCancelRequest(stock.id)
+                    }
+                >
+                    Cancel
+                </button>}
             </div>
         </div>
     );
