@@ -14,3 +14,38 @@ export function getTransactionsData(portfolioId){
       return response.json();
     })
 }
+
+export function writeTransaction(portfolioId, transactionData) {
+  
+  return fetch(`http://localhost:3000/api/transaction/${portfolioId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(transactionData)
+  })
+  .then(response =>{
+    console.log(response);
+    if (response.ok) {
+      window.location.reload();
+    }
+    return response.json();
+  })
+}
+
+export function confirmOrCancelTransaction(portfolioId, transactionId, transactionData) {
+  return fetch(`http://localhost:3000/api/transaction/${portfolioId}/${transactionId}`, {
+    method: 'PUT',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(transactionData)
+  })
+  .then(response =>{
+    console.log(response);
+    if (response.ok) {
+      window.location.reload();
+    }
+    return response.json();
+  })
+}
