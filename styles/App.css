@@ -325,7 +325,10 @@ body h1 {
   margin-top: 0.2em;
   margin-bottom: 0.2em;
 }
-
+.stock-searchbar{
+  border: 2px black solid;
+  display: flex;
+}
 
 /* Modals */
 

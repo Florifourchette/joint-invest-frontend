@@ -18,10 +18,11 @@ import ModalDecline from "../components/ModalDecline";
 import ModalCancellation from "../components/ModalCancellation";
 import TransactionCard from "../components/TransactionCard";
 import TransactionCardPending from "../components/TransactionCardPending";
+import StockSearchBar from "../components/StockSearch";
 
 export default function Transactions() {
-  const { isAuthenticated } = useAuth();
-  let { portfolioId } = useParams();
+    const { isAuthenticated } = useAuth();
+    let { portfolioId } = useParams();
 
     const location = useLocation();
 
@@ -164,7 +165,7 @@ export default function Transactions() {
         setShowCancellationModal(false);
     };
 
-    return isAuthenticated ?(
+    return isAuthenticated ? (
         <div>
             <div className="transactions-title">
                 <h1>Buy/Sell</h1>
@@ -173,7 +174,7 @@ export default function Transactions() {
                     request
                 </p>
             </div>
-            <div className="SearchBar">SearchBar goes here</div>
+            <div className="SearchBar"><StockSearchBar /></div>
             <div className="transactions-container">
                 <div className="your-stocks">
                     <h2>Your Stocks</h2>
@@ -254,14 +255,14 @@ export default function Transactions() {
                 </div>
             </div>
         </div>
-    ): (
+    ) : (
         <div>
-          <div className="d-flex justify-content-center">
-            <Message style={{ color: "red" }}>
-              You are not logged in, please login!
-            </Message>
-          </div>
-          <LogIn />
+            <div className="d-flex justify-content-center">
+                <Message style={{ color: "red" }}>
+                    You are not logged in, please login!
+                </Message>
+            </div>
+            <LogIn />
         </div>
     );
 }

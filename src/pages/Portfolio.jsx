@@ -31,7 +31,7 @@ export default function Portfolio() {
 
   const Navigate = useNavigate();
   const location = useLocation();
-  //console.log(` location at portfolio ${JSON.stringify(location.state)}`);
+  console.log(` location at portfolio ${JSON.stringify(location.state)}`);
 
   const companyIds = mockPortfolioData[0].stocks.map(
     (stock) => stock.company_id
