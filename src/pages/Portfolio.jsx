@@ -152,7 +152,8 @@ export default function Portfolio() {
     fetchMultipleCompanies();
   }, []);
 
-  return isAuthenticated ? (
+  // return isAuthenticated ? (
+    return (
     <>
       <div className="portfolio_overview">
         <h1>{portfolioName}</h1>
@@ -244,16 +245,17 @@ export default function Portfolio() {
           Buy/Sell
         </button>
       </div>
-      <Navbar />
+      {/* <Navbar /> */}
     </>
-  ) : (
-    <div>
-      <div className="d-flex justify-content-center">
-        <Message style={{ color: "red" }}>
-          You are not logged in, please login!
-        </Message>
-      </div>
-      <LogIn />
-    </div>
-  );
+  )
+//   ) : (
+//     <div>
+//       <div className="d-flex justify-content-center">
+//         <Message style={{ color: "red" }}>
+//           You are not logged in, please login!
+//         </Message>
+//       </div>
+//       <LogIn />
+//     </div>
+//   );
 }

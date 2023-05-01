@@ -15,6 +15,7 @@
     "bootstrap": "^5.2.3",
     "chart.js": "^4.2.1",
     "gridjs": "^6.0.6",
+    "jquery": "^3.6.4",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
     "react-chartjs-2": "^5.2.0",

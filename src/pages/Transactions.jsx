@@ -165,7 +165,8 @@ export default function Transactions() {
         setShowCancellationModal(false);
     };
 
-    return isAuthenticated ? (
+    // return isAuthenticated ? (
+    return (
         <div>
             <div className="transactions-title">
                 <h1>Buy/Sell</h1>
@@ -255,14 +256,15 @@ export default function Transactions() {
                 </div>
             </div>
         </div>
-    ) : (
-        <div>
-            <div className="d-flex justify-content-center">
-                <Message style={{ color: "red" }}>
-                    You are not logged in, please login!
-                </Message>
-            </div>
-            <LogIn />
-        </div>
-    );
+    )
+    // ) : (
+    //     <div>
+    //         <div className="d-flex justify-content-center">
+    //             <Message style={{ color: "red" }}>
+    //                 You are not logged in, please login!
+    //             </Message>
+    //         </div>
+    //         <LogIn />
+    //     </div>
+    // );
 }
