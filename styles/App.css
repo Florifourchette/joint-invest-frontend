@@ -130,8 +130,6 @@ table {
   border-spacing: 0;
 }
 
-
-
 /* Common CSS */
 body {
   display: flex;
@@ -391,9 +389,23 @@ button {
   margin-top: 2em;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  width: 100%;
+}
+
+.page-description {
+  text-align: center;
+  margin-bottom: 2em;
+}
+
+.creation_form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+}
+
+.creation_submitbtn {
+  align-self: center;
 }
 
 /* TRANSACTIONS PAGE */
@@ -433,7 +445,6 @@ button {
   margin-bottom: 0.2em;
 }
 
-
 /* Modals */
 
 .modal-overlay {
@@ -442,7 +453,12 @@ button {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black overlay */
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* semi-transparent black overlay */
   z-index: 1;
 }
 
