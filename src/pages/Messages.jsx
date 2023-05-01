@@ -1,7 +1,7 @@
-import Navbar from '../components/Navbar';
-import { getDashboardData } from '../../utils/APIcalls';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import Navbar from "../components/Navbar";
+import { getDashboardData } from "../../utils/APIcalls";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 
 export default function Messages() {
   const [dashboardData, setDashboardData] = useState([]);
@@ -12,9 +12,7 @@ export default function Messages() {
     getDashboardData(userId)
       .then((data) => {
         setDashboardData(
-          data.portfolios.filter(
-            (item) => item.portfolio_status !== 'deleted'
-          )
+          data.portfolios.filter((item) => item.portfolio_status !== "deleted")
         );
       })
       .catch((error) => console.error(error));
@@ -26,7 +24,7 @@ export default function Messages() {
     <div>
       <h1>Messages</h1>
 
-      {/* <Navbar /> */}
+      <Navbar />
     </div>
   );
 }
