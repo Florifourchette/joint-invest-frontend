@@ -130,14 +130,11 @@ table {
   border-spacing: 0;
 }
 
-
-
 /* Common CSS */
 body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
 }
 
 body h1 {
@@ -275,18 +272,32 @@ body h1 {
   color: red;
 }
 
+.rejection_button {
+  background-color: red;
+}
+
 /*portfolio creation page */
 .portfolioCreationPage {
   margin-top: 2em;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  width: 100%;
 }
 
-.rejection_button {
-  background-color: red;
+.page-description {
+  text-align: center;
+  margin-bottom: 2em;
+}
+
+.creation_form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+}
+
+.creation_submitbtn {
+  align-self: center;
 }
 
 /* TRANSACTIONS PAGE */
@@ -326,7 +337,6 @@ body h1 {
   margin-bottom: 0.2em;
 }
 
-
 /* Modals */
 
 .modal-overlay {
@@ -335,7 +345,12 @@ body h1 {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black overlay */
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* semi-transparent black overlay */
   z-index: 1;
 }
 
