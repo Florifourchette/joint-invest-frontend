@@ -26,6 +26,8 @@ export default function Portfolio() {
   const investedAmount = mockPortfolioData[0].overview[0].invested_amount;
   const availableAmount = mockPortfolioData[0].overview[0].available_amount;
   const companiesArray = [];
+  const hourlyValues = [];
+  const hourArray = [];
 
   let { id } = useParams();
 
@@ -45,17 +47,21 @@ export default function Portfolio() {
   const [stockCompaniesId, setStockCompaniesId] = useState();
   const [externalAPIstocks, setExternalAPIstocks] = useState();
   const [allCompanies, setAllCompanies] = useState();
+  const { totalAssets, totalAmountInvested } = location.state;
 
-  const hourlyValues = [];
-  const { available_amount } = stockOverview;
-
-  //console.log(allCompanies);
+  console.log(stockItems);
 
   if (allCompanies !== undefined) {
     const stockValues = Object.values(allCompanies).map(
       (company) => company.values
     );
     //console.log(typeof stockValues);
+
+    /*    const hourArray = stockValues.map((subArray) =>
+      subArray.map((obj) => parseInt(obj.datetime.substring(10, 13)) - 6)
+    );
+
+    console.log(hourArray); */
 
     const closeValues = stockValues.map((subArray) =>
       subArray.map((obj) => obj.close)
@@ -105,7 +111,7 @@ export default function Portfolio() {
         );
         setStockItems(response.data.stocks);
         setStockOverview(response.data.overview[0]);
-        //console.log(response);
+        console.log(response);
         return response.data.stocks;
       } catch (err) {
         console.log(err);
@@ -114,9 +120,10 @@ export default function Portfolio() {
     async function someIdRetrieving() {
       try {
         const inputStuff = await getPortfolioStocks();
+        console.log(inputStuff);
         const someId = inputStuff.map((stock) => stock.company_id);
         const cleanStockIds = someId.join();
-        //console.log(cleanStockIds);
+        console.log(cleanStockIds);
         setStockCompaniesId(cleanStockIds);
         return cleanStockIds;
       } catch (err) {
@@ -127,9 +134,11 @@ export default function Portfolio() {
       try {
         const myStocksIds = await someIdRetrieving();
         const nextResponse = await axios.get(
-          `https://api.twelvedata.com/quote?symbol=${myStocksIds}&apikey=6a897c4468e74344b1546b36728e991b`
+          `https://api.twelvedata.com/quote?symbol=${myStocksIds}&apikey=${
+            import.meta.env.VITE_API_KEY
+          }`
         );
-        //console.log(myStocksIds);
+        console.log(myStocksIds);
         //console.log(nextResponse);
         setExternalAPIstocks(nextResponse.data);
       } catch (err) {
@@ -141,7 +150,9 @@ export default function Portfolio() {
         const myStocksIds = await someIdRetrieving();
         //console.log(myStocksIds);
         const { data } = await axios.get(
-          `https://api.twelvedata.com/time_series?symbol=${myStocksIds}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=da4a4e4ca02f4f06a70e827bc75e2458`
+          `https://api.twelvedata.com/time_series?symbol=${myStocksIds}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=${
+            import.meta.env.VITE_API_KEY2
+          }`
         );
         //console.log(data);
         setAllCompanies(data);
@@ -153,24 +164,24 @@ export default function Portfolio() {
     fetchMultipleCompanies();
   }, []);
 
-  return isAuthenticated ? (
+  /* return isAuthenticated ? ( */
+  return (
     <>
       <div className="portfolio_overview">
         <h1>{portfolioName}</h1>
         <h3>Total Assets</h3>
-        <h1>153,60</h1>
+        <h1>{totalAssets}</h1>
         <h4>Amount invested</h4>
         <h4>{investedAmount}</h4>
-
         <p>Total loss</p>
-        <p>-12,01</p>
+        <p>???????</p>
       </div>
       <div className="portfolio_lineGraph">
-        <PortfolioChart hourlyValues={hourlyValues} />
+        <PortfolioChart hourlyValues={hourlyValues} hourArray={hourArray[0]} />
       </div>
       <div className="portfolio_available_amount">
         <h4>Available amount</h4>
-        <h4>{available_amount}</h4>
+        <h4>€</h4>
       </div>
       <div className="PortfolioDropdown">
         <PortfolioDropdown
@@ -245,9 +256,10 @@ export default function Portfolio() {
           Buy/Sell
         </button>
       </div>
-      <Navbar />
+      {/* <Navbar /> */}
     </>
-  ) : (
+  );
+  /* : (
     <div>
       <div className="d-flex justify-content-center">
         <Message style={{ color: "red" }}>
@@ -256,5 +268,5 @@ export default function Portfolio() {
       </div>
       <LogIn />
     </div>
-  );
+  ); */
 }

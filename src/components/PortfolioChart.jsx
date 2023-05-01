@@ -2,8 +2,8 @@ import React from "react";
 import Chart from "chart.js/auto";
 import { Line } from "react-chartjs-2";
 
-const PortfolioChart = ({ hourlyValues }) => {
-  const labels = ["-8", "-7", "-6", "-5", "-4", "-3", "-2", "-1"];
+const PortfolioChart = ({ hourlyValues, hourArray }) => {
+  const labels = hourArray;
   console.log(hourlyValues);
 
   const data = {
