@@ -47,6 +47,7 @@ export default function Portfolio() {
   const [allCompanies, setAllCompanies] = useState();
 
   const hourlyValues = [];
+  const { available_amount } = stockOverview;
 
   //console.log(allCompanies);
 
@@ -169,7 +170,7 @@ export default function Portfolio() {
       </div>
       <div className="portfolio_available_amount">
         <h4>Available amount</h4>
-        <h4>€</h4>
+        <h4>{available_amount}</h4>
       </div>
       <div className="PortfolioDropdown">
         <PortfolioDropdown

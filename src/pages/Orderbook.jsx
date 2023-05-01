@@ -10,7 +10,7 @@ export default function Orderbook() {
   const [orders, setOrders] = useState();
   let { portfolio_id } = useParams();
 
-  console.log(orders);
+  //console.log(orders);
 
   useEffect(() => {
     async function getOrders() {
@@ -19,7 +19,7 @@ export default function Orderbook() {
           `http://localhost:3000/api/order_book/${portfolio_id}`
         );
         setOrders(response.data);
-        console.log(response.data);
+        //console.log(response.data);
         return response.data;
       } catch (err) {
         console.log(err);

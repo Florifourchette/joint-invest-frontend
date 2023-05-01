@@ -2,7 +2,7 @@ import React from "react";
 import { Image, List } from "semantic-ui-react";
 
 const Orderlist = ({ item, index, arr }) => {
-  console.log(item);
+  //console.log(item);
 
   const { creating_date } = item;
   const date = creating_date.slice(2, 10).replace(/-/g, ".");
@@ -14,7 +14,7 @@ const Orderlist = ({ item, index, arr }) => {
   const prevMonth =
     prevItem && prevItem.creating_date.substring(0, 10).split("-")[1];
 
-  console.log(dateGetMonth);
+  //console.log(dateGetMonth);
 
   return (
     <>
