@@ -9,41 +9,13 @@ import {
   IoIosAdd,
 } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
+import { createApiUrl } from '../../utils/CreateAPIUrl';
 import useAuth from '../hooks/useAuth';
 import LogIn from './LogIn';
 import { Message } from 'semantic-ui-react';
 import Navbar from '../components/Navbar';
 import DeleteConfirmedButton from '../components/DeleteConfirmedButton';
 import StatusMessages from '../components/StatusMessages';
-
-// const fakeStocks = {
-//     AAPL: { price: "165.35000" },
-//     MSF: { price: "381.85000" },
-//     TSLA: { price: "125.00000" },
-//     AMZN: { price: "100.1" },
-//     Test: { price: "100" },
-//     Test2: { price: "20" },
-// };
-
-// define a function to create the API URL with the given symbols
-function createApiUrl(companyIds) {
-  const apiKey = import.meta.env.VITE_API_KEY; // replace with your actual API key
-  const tickerString = companyIds.join(',');
-  return `https://api.twelvedata.com/price?symbol=${tickerString}&apikey=${apiKey}`;
-}
-
-// function createFakeUrl(companyIds) {
-//     const tickerString = companyIds.join(",");
-//     return `https://fake.api.com/price?symbol=${tickerString}`;
-// }
-// function getFakeApiData() {
-//     return new Promise((resolve, reject) => {
-//         // Make a fake API call and return the fake data
-//         setTimeout(() => {
-//             resolve(fakeStocks);
-//         }, 1000); // You can adjust the delay time to simulate network latency
-//     });
-// }
 
 export default function Dashboard(props) {
   const [dashboardData, setDashboardData] = useState([]);
@@ -83,24 +55,24 @@ export default function Dashboard(props) {
     //     })
     //     .catch((error) => console.error(error));
   }, [userId, newData]);
-
+  console.log('number of shares', wallet.number_of_shares);
   //API CALL
   useEffect(() => {
     if (loading === false) {
       const companyIds = [
         ...new Set(wallet.map((item) => item.company_id)),
       ];
-      // console.log(`tickers: ${companyIds}`);
+      console.log(`tickers: ${companyIds}`);
       const apiUrl = createApiUrl(companyIds);
-      // console.log(apiUrl);
+      console.log(apiUrl);
 
-      // console.log(apiUrl);
+      console.log(apiUrl);
       const apiCall = async () => {
         try {
           fetch(apiUrl)
             .then((response) => response.json())
             .then((data) => {
-              // console.log(data);
+              console.log(data);
               setPrices(data);
             });
         } catch (error) {
@@ -200,10 +172,9 @@ export default function Dashboard(props) {
     },
     {}
   );
-  // console.log(portfolioTotals);
+  console.log(portfolioTotals);
 
-  // return isAuthenticated ? (
-  return (
+  return isAuthenticated ? (
     <div className="overview-page">
       <h1>Overview</h1>
 
@@ -231,44 +202,90 @@ export default function Dashboard(props) {
       </div>
       <div className="portfolio-cards">
         {dashboardData.map((data) => (
-          <>
-            <div className="portfolio-card" key={data.portfolio_id}>
-              <div className="portfolio-name-status">
-                <h4>{data.name_of_portfolio}</h4>
+          <div className="portfolio-card" key={data.portfolio_id}>
+            <h4 className="portfolio-name">
+              {data.name_of_portfolio}
+            </h4>
+            <div className="porfolio-card-values">
+              <div className="porfolio-card-value">
+                <h3 className="portfolio-value-title">
+                  Current Value:
+                </h3>
+                <h4>$ {portfolioTotals[data.portfolio_id]}</h4>
               </div>
+              <div className="porfolio-card-value">
+                <h3 className="portfolio-value-title">
+                  Profit/Loss:
+                </h3>
+                <h4
+                  className={
+                    portfolioTotals[data.portfolio_id] -
+                      data.total_buying_value >=
+                    0
+                      ? 'positive'
+                      : 'negative'
+                  }
+                >
+                  $
+                  {(
+                    portfolioTotals[data.portfolio_id] -
+                    data.total_buying_value
+                  ).toFixed(2)}
+                </h4>
+              </div>
+            </div>
+            <div className="friend-box">
+              <IoIosContacts className="friend-icon" />
+              <h4 className="friend">{data.friend_username}</h4>
+            </div>
+            <div>
+              <button
+                className="to-portfolio-btn"
+                //Navigating and passing the current prices to the portfolio page
+                onClick={() => {
+                  // Filter the wallet for the stocks in the current portfolio
+                  const filteredWallet = wallet.filter(
+                    (stock) =>
+                      stock.portfolio_id === data.portfolio_id
+                  );
 
-              <div className="porfolio-card-values">
-                <div className="porfolio-card-value">
-                  <h3 className="portfolio-value-title">
-                    Current Value:
-                  </h3>
-                  <h4>$ {portfolioTotals[data.portfolio_id]}</h4>
-                </div>
-                <div className="porfolio-card-value">
-                  <h3 className="portfolio-value-title">
-                    Profit/Loss:
-                  </h3>
-                  <h4
-                    className={
-                      portfolioTotals[data.portfolio_id] -
-                        data.total_buying_value >=
-                      0
-                        ? 'positive'
-                        : 'negative'
+                  // Filter the prices for the stocks in the current portfolio
+                  const filteredPrices = {};
+                  filteredWallet.forEach((stock) => {
+                    if (prices[stock.company_id]) {
+                      filteredPrices[stock.company_id] =
+                        prices[stock.company_id].price;
                     }
-                  >
-                    $
-                    {(
-                      portfolioTotals[data.portfolio_id] -
-                      data.total_buying_value
-                    ).toFixed(2)}
-                  </h4>
-                </div>
-              </div>
-              <div className="friend-box">
-                <IoIosContacts className="friend-icon" />
-                <h4 className="friend">{data.friend_username}</h4>
-              </div>
+                  });
+
+                  // Filter the number of shares for the stocks in the current portfolio
+                  const filteredShares = {};
+                  wallet.forEach((stock) => {
+                    if (filteredShares[stock.portfolio_id]) {
+                      filteredShares[stock.portfolio_id][
+                        stock.company_id
+                      ] = stock.number_of_shares;
+                    } else {
+                      filteredShares[stock.portfolio_id] = {
+                        [stock.company_id]: stock.number_of_shares,
+                      };
+                    }
+                  });
+
+                  // Pass the filtered data to the next page
+                  Navigate(`/portfolio/${data.portfolio_id}`, {
+                    state: {
+                      prices: filteredPrices,
+                      userId: userId,
+                      number_of_shares:
+                        filteredShares[data.portfolio_id],
+                      friend: data.friend_username,
+                    },
+                  });
+                }}
+              >
+                <IoIosArrowDroprightCircle className="to-portfolio-icon" />{' '}
+              </button>
               <DeleteConfirmedButton
                 data={data}
                 userId={userId}
@@ -288,7 +305,7 @@ export default function Dashboard(props) {
             ) : (
               <></>
             )}
-          </>
+          </div>
         ))}
       </div>
 
@@ -301,17 +318,16 @@ export default function Dashboard(props) {
           <IoIosAdd className="portfolio-add-icon" />
         </button>
       </div>
-      {/* <Navbar /> */}
+      <Navbar />
+    </div>
+  ) : (
+    <div>
+      <div className="d-flex justify-content-center">
+        <Message style={{ color: 'red' }}>
+          You are not logged in, please login!
+        </Message>
+      </div>
+      <LogIn />
     </div>
   );
-  // ) : (
-  //   <div>
-  //     <div className="d-flex justify-content-center">
-  //       <Message style={{ color: 'red' }}>
-  //         You are not logged in, please login!
-  //       </Message>
-  //     </div>
-  //     <LogIn />
-  //   </div>
-  // );
 }

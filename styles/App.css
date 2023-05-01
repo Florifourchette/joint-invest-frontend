@@ -130,7 +130,7 @@ table {
   border-spacing: 0;
 }
 
-/* CSS Start */
+
 
 /* Common CSS */
 body {
@@ -431,4 +431,29 @@ button {
 .buy-sell-btn {
   margin-top: 0.2em;
   margin-bottom: 0.2em;
+}
+
+
+/* Modals */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black overlay */
+  z-index: 1;
+}
+
+.modal-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 1px solid black;
+  z-index: 2;
+  width: 100%;
+  height: 50vh;
 }
