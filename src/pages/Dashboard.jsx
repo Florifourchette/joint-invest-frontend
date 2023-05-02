@@ -15,6 +15,7 @@ import LogIn from "./LogIn";
 import { Message } from "semantic-ui-react";
 import Navbar from "../components/Navbar";
 import DeleteConfirmedButton from "../components/DeleteConfirmedButton";
+import StatusMessages from "../components/StatusMessages";
 
 export default function Dashboard(props) {
   const [dashboardData, setDashboardData] = useState([]);
@@ -50,7 +51,7 @@ export default function Dashboard(props) {
     //         setPrices(data);
     //     })
     //     .catch((error) => console.error(error));
-  }, [userId]);
+  }, [userId, newData]);
   console.log("number of shares", wallet.number_of_shares);
   //API CALL
   useEffect(() => {
@@ -77,9 +78,9 @@ export default function Dashboard(props) {
     }
   }, [dashboardData, loading]);
 
-  console.log(dashboardData);
-  console.log(wallet);
-  console.log(prices);
+  // console.log(dashboardData);
+  // console.log(wallet);
+  // console.log(prices);
 
   //totalAssets top of overview
   const totalAssets = wallet.reduce((acc, curr) => {
@@ -96,6 +97,8 @@ export default function Dashboard(props) {
     return acc;
   }, {});
 
+  // console.log(totalAssets);
+
   const totalAssetsSum = Object.values(totalAssets)
     .reduce((acc, curr) => {
       if (!Number.isNaN(curr)) {
@@ -104,8 +107,6 @@ export default function Dashboard(props) {
       return acc;
     }, 0)
     .toFixed(2);
-
-  console.log(totalAssetsSum);
 
   const totalAmountInvested = dashboardData
     .reduce(
@@ -149,7 +150,7 @@ export default function Dashboard(props) {
     {}
   );
 
-  //console.log(portfolioAssets);
+  // console.log(portfolioAssets);
 
   const portfolioTotals = Object.entries(portfolioAssets).reduce(
     (acc, [portfolioId, assets]) => {
@@ -192,82 +193,38 @@ export default function Dashboard(props) {
       </div>
       <div className="portfolio-cards">
         {dashboardData.map((data) => (
-          <div className="portfolio-card" key={data.portfolio_id}>
-            <h4 className="portfolio-name">{data.name_of_portfolio}</h4>
-            <div className="porfolio-card-values">
-              <div className="porfolio-card-value">
-                <h3 className="portfolio-value-title">Current Value:</h3>
-                <h4>$ {portfolioTotals[data.portfolio_id]}</h4>
-              </div>
-              <div className="porfolio-card-value">
-                <h3 className="portfolio-value-title">Profit/Loss:</h3>
-                <h4
-                  className={
-                    portfolioTotals[data.portfolio_id] -
-                      data.total_buying_value >=
-                    0
-                      ? "positive"
-                      : "negative"
-                  }
-                >
-                  $
-                  {(
-                    portfolioTotals[data.portfolio_id] - data.total_buying_value
-                  ).toFixed(2)}
-                </h4>
-              </div>
-            </div>
-            <div className="friend-box">
-              <IoIosContacts className="friend-icon" />
-              <h4 className="friend">{data.friend_username}</h4>
-            </div>
-            <div>
-              <button
-                className="to-portfolio-btn"
-                //Navigating and passing the current prices to the portfolio page
-                onClick={() => {
-                  // Filter the wallet for the stocks in the current portfolio
-                  const filteredWallet = wallet.filter(
-                    (stock) => stock.portfolio_id === data.portfolio_id
-                  );
-
-                  // Filter the prices for the stocks in the current portfolio
-                  const filteredPrices = {};
-                  filteredWallet.forEach((stock) => {
-                    if (prices[stock.company_id]) {
-                      filteredPrices[stock.company_id] =
-                        prices[stock.company_id].price;
+          <>
+            <div className="portfolio-card" key={data.portfolio_id}>
+              <h4 className="portfolio-name">{data.name_of_portfolio}</h4>
+              <div className="porfolio-card-values">
+                <div className="porfolio-card-value">
+                  <h3 className="portfolio-value-title">Current Value:</h3>
+                  <h4>$ {portfolioTotals[data.portfolio_id]}</h4>
+                </div>
+                <div className="porfolio-card-value">
+                  <h3 className="portfolio-value-title">Profit/Loss:</h3>
+                  <h4
+                    className={
+                      portfolioTotals[data.portfolio_id] -
+                        data.total_buying_value >=
+                      0
+                        ? "positive"
+                        : "negative"
                     }
-                  });
+                  >
+                    $
+                    {(
+                      portfolioTotals[data.portfolio_id] -
+                      data.total_buying_value
+                    ).toFixed(2)}
+                  </h4>
+                </div>
+              </div>
+              <div className="friend-box">
+                <IoIosContacts className="friend-icon" />
+                <h4 className="friend">{data.friend_username}</h4>
+              </div>
 
-                  // Filter the number of shares for the stocks in the current portfolio
-                  const filteredShares = {};
-                  wallet.forEach((stock) => {
-                    if (filteredShares[stock.portfolio_id]) {
-                      filteredShares[stock.portfolio_id][stock.company_id] =
-                        stock.number_of_shares;
-                    } else {
-                      filteredShares[stock.portfolio_id] = {
-                        [stock.company_id]: stock.number_of_shares,
-                      };
-                    }
-                  });
-
-                  // Pass the filtered data to the next page
-                  Navigate(`/portfolio/${data.portfolio_id}`, {
-                    state: {
-                      prices: filteredPrices,
-                      userId: userId,
-                      number_of_shares: filteredShares[data.portfolio_id],
-                      friend: data.friend_username,
-                      totalAssets: totalAssetsSum,
-                      totalAmountInvested: totalAmountInvested,
-                    },
-                  });
-                }}
-              >
-                <IoIosArrowDroprightCircle className="to-portfolio-icon" />{" "}
-              </button>
               <DeleteConfirmedButton
                 data={data}
                 userId={userId}
@@ -275,9 +232,22 @@ export default function Dashboard(props) {
                 setPortfolioStatusUpdated={setPortfolioStatusUpdated}
                 portfolioStatusUpdated={portfolioStatusUpdated}
                 setNewData={setNewData}
+                wallet={wallet}
+                Navigate={Navigate}
+                prices={prices}
               />
             </div>
-          </div>
+            {data.portfolio_status === "pending_activation" ||
+            data.portfolio_status === "pending_deletion" ? (
+              <StatusMessages
+                data={data}
+                userId={userId}
+                portfolioTotals={portfolioTotals}
+              />
+            ) : (
+              <></>
+            )}
+          </>
         ))}
       </div>
 
@@ -293,7 +263,7 @@ export default function Dashboard(props) {
       {/* <Navbar /> */}
     </div>
   );
-  // ) : (
+  // : (
   //   <div>
   //     <div className="d-flex justify-content-center">
   //       <Message style={{ color: 'red' }}>

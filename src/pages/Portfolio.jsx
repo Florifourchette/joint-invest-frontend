@@ -33,9 +33,9 @@ export default function Portfolio() {
 
   const Navigate = useNavigate();
   const location = useLocation();
-  //console.log(` location at portfolio ${JSON.stringify(location.state)}`);
+  console.log(` location at portfolio ${JSON.stringify(location.state)}`);
 
-  const companyIds = mockPortfolioData[0].stocks.map(
+  const companyIds = mockPortfolioData[0].stocks?.map(
     (stock) => stock.company_id
   );
   const cleanCompanyIds = companyIds.join();
@@ -52,7 +52,7 @@ export default function Portfolio() {
   console.log(stockItems);
 
   if (allCompanies !== undefined) {
-    const stockValues = Object.values(allCompanies).map(
+    const stockValues = Object.values(allCompanies)?.map(
       (company) => company.values
     );
     //console.log(typeof stockValues);
@@ -63,8 +63,8 @@ export default function Portfolio() {
 
     console.log(hourArray); */
 
-    const closeValues = stockValues.map((subArray) =>
-      subArray.map((obj) => obj.close)
+    const closeValues = stockValues?.map((subArray) =>
+      subArray?.map((obj) => obj.close)
     );
 
     //console.log(closeValues);
@@ -85,7 +85,7 @@ export default function Portfolio() {
     }
     //console.log(typeof closeValues);
 
-    const currentTotalValueArray = closeValues.map(
+    const currentTotalValueArray = closeValues?.map(
       (subArray) => subArray.current_total_value
     );
 
@@ -198,7 +198,7 @@ export default function Portfolio() {
           <div>
             {stockItems &&
               externalAPIstocks &&
-              stockItems.map((item) => {
+              stockItems?.map((item) => {
                 return (
                   <StockListB
                     item={item}
@@ -211,7 +211,7 @@ export default function Portfolio() {
           <div>
             {stockItems &&
               externalAPIstocks &&
-              stockItems.map((item) => {
+              stockItems?.map((item) => {
                 return (
                   <StockListA
                     item={item}
