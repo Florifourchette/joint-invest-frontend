@@ -9,15 +9,14 @@ import { IoIosContacts } from 'react-icons/io';
 import { parseISO } from 'date-fns';
 import { setPortfolioStatus } from '../../utils/PortfolioDeletion';
 import { useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
+import { Message } from 'semantic-ui-react';
 
 export default function Messages() {
   const { userId } = useParams();
   const Navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [portfoliosData, setPortfoliosData] = useState([]);
-  const [
-    transactionsPendingRequests,
-    setTransactionsPendingRequests,
-  ] = useState([]);
   const [portfolioIds, setPortfolioIds] = useState([]);
   const [friends, setFriends] = useState([]);
   const [portfoliosNames, setPortfoliosNames] = useState([]);
@@ -171,7 +170,7 @@ export default function Messages() {
       return dateB - dateA;
     });
 
-  return (
+  return isAuthenticated ? (
     <div className="message_page">
       <h1>Messages</h1>
       {allData?.map((item, index) => {
@@ -249,6 +248,15 @@ export default function Messages() {
       })}
 
       <Navbar />
+    </div>
+  ) : (
+    <div>
+      <div className="d-flex justify-content-center">
+        <Message style={{ color: 'red' }}>
+          You are not logged in, please login!
+        </Message>
+      </div>
+      <LogIn />
     </div>
   );
 }
