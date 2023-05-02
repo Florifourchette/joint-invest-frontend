@@ -243,7 +243,7 @@ export default function Messages() {
         );
       })}
 
-      {/* <Navbar /> */}
+      <Navbar />
     </div>
   );
 }
