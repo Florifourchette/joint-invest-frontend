@@ -53,11 +53,11 @@ export default function Portfolio() {
   const [stockOverview, setStockOverview] = useState('');
   const [stockCompaniesId, setStockCompaniesId] = useState();
   const [externalAPIstocks, setExternalAPIstocks] = useState();
-  const [allCompanies, setAllCompanies] = useState();
+  const [allCompanies, setAllCompanies] = useState([]);
 
   const hourlyValues = [];
 
-  //console.log(allCompanies);
+  console.log(allCompanies);
 
   if (allCompanies !== undefined) {
     const stockValues = Object.values(allCompanies)?.map(
@@ -69,8 +69,8 @@ export default function Portfolio() {
       subArray?.map((obj) => obj.close)
     );
 
-    //console.log(closeValues);
-    //console.log(typeof closeValues);
+    console.log(closeValues);
+    console.log(typeof closeValues[0]);
 
     if (closeValues !== undefined) {
       for (const [index, item] of closeValues.entries()) {
@@ -87,14 +87,14 @@ export default function Portfolio() {
           //console.log(closeValues);
         }
       }
+    } else {
+      return (closeValues = [1, 1, 1]);
     }
     //console.log(typeof closeValues);
 
     const currentTotalValueArray = closeValues?.map(
       (subArray) => subArray.current_total_value
     );
-
-    //console.log(currentTotalValueArray);
 
     for (let i = 0; i < currentTotalValueArray[0].length; i++) {
       let sum = 0;
