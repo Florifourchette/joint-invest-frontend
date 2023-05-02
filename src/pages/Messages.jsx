@@ -172,15 +172,20 @@ export default function Messages() {
     });
 
   return (
-    <div>
+    <div className="message_page">
       <h1>Messages</h1>
       {allData?.map((item, index) => {
         return (
-          <div key={index}>
-            <IoIosContacts className="friend-icon" />
-            <p>{item.requester_name}</p>
-            <p>{getShorterDate(item.date)}</p>
-            <p>
+          <div key={index} className="message_body">
+            <div className="message_infos">
+              <p>
+                <IoIosContacts className="friend-icon" />
+              </p>
+              <p>{item.requester_name}</p>
+              <p>{getShorterDate(item.date)}</p>
+            </div>
+
+            <div className="message_details">
               {item.type === 'portfolio' &&
               item.action === 'pending_activation'
                 ? 'Invitation'
@@ -188,8 +193,6 @@ export default function Messages() {
                   item.action === 'pending_deletion'
                 ? 'Deletion request'
                 : item.portfolio_name}
-            </p>
-            <p>
               {item.type === 'portfolio' &&
               item.action === 'pending_activation'
                 ? `to join ${item.portfolio_name}`
@@ -200,45 +203,47 @@ export default function Messages() {
                   item.action === 'Sell'
                 ? `Selling request for ${item.company_name} ${item.number_of_shares} stock(s)`
                 : `Buying request for ${item.company_name} ${item.number_of_shares} stock(s)`}
-            </p>
-            {item.type === 'transaction' ? (
-              <button
-                onClick={() =>
-                  Navigate(`/transactions/${item.portfolio_id}`)
-                }
-              >
-                View
-              </button>
-            ) : (
-              <div>
+            </div>
+            <div className="message_page_buttons">
+              {item.type === 'transaction' ? (
                 <button
-                  onClick={() => {
-                    setPortfolioStatus(
-                      item.portfolio_id,
-                      userId,
-                      item.action,
-                      'confirmed',
-                      setNewData
-                    );
-                  }}
+                  onClick={() =>
+                    Navigate(`/transactions/${item.portfolio_id}`)
+                  }
                 >
-                  Confirm
+                  View
                 </button>
-                <button
-                  onClick={() => {
-                    setPortfolioStatus(
-                      item.portfolio_id,
-                      userId,
-                      item.action,
-                      'rejected',
-                      setNewData
-                    );
-                  }}
-                >
-                  Reject
-                </button>
-              </div>
-            )}
+              ) : (
+                <div>
+                  <button
+                    onClick={() => {
+                      setPortfolioStatus(
+                        item.portfolio_id,
+                        userId,
+                        item.action,
+                        'confirmed',
+                        setNewData
+                      );
+                    }}
+                  >
+                    Confirm
+                  </button>
+                  <button
+                    onClick={() => {
+                      setPortfolioStatus(
+                        item.portfolio_id,
+                        userId,
+                        item.action,
+                        'rejected',
+                        setNewData
+                      );
+                    }}
+                  >
+                    Reject
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         );
       })}
