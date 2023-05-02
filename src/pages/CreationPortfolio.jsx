@@ -58,7 +58,8 @@ const CreationPortfolio = () => {
     setUppercaseDetected(false);
   }, [newPortfolioUsername]);
 
-  return isAuthenticated ? (
+  // return isAuthenticated ? (
+  return (
     <>
       <h1>Add portfolio</h1>
       <p className="page-description">
@@ -132,18 +133,19 @@ const CreationPortfolio = () => {
           Submit
         </Button>
       </Form>
-      <Navbar />
+      {/* <Navbar /> */}
     </>
-  ) : (
-    <div>
-      <div className="d-flex justify-content-center">
-        <Message style={{ color: 'red' }}>
-          You are not logged in, please login!
-        </Message>
-      </div>
-      <LogIn />
-    </div>
   );
+  // : (
+  //   <div>
+  //     <div className="d-flex justify-content-center">
+  //       <Message style={{ color: 'red' }}>
+  //         You are not logged in, please login!
+  //       </Message>
+  //     </div>
+  //     <LogIn />
+  //   </div>
+  // );
 };
 
 export default CreationPortfolio;

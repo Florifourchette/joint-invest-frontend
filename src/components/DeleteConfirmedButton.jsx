@@ -7,6 +7,7 @@ import {
 import { FaCheckSquare } from 'react-icons/fa';
 import { setPortfolioStatus } from '../../utils/PortfolioDeletion';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const DeleteConfirmedButton = ({
   data,
@@ -18,7 +19,13 @@ const DeleteConfirmedButton = ({
   Navigate,
   wallet,
   prices,
+  setLocationData,
+  locationData,
 }) => {
+  useEffect(() => {
+    console.log(locationData);
+  }, [locationData]);
+
   return (
     <div className="dashboard_buttons">
       {/* current status 'activated' */}
@@ -55,6 +62,16 @@ const DeleteConfirmedButton = ({
                   };
                 }
               });
+
+              setLocationData({
+                state: {
+                  prices: filteredPrices,
+                  userId: userId,
+                  number_of_shares: filteredShares[data.portfolio_id],
+                  friend: data.friend_username,
+                },
+              });
+              console.log(locationData);
 
               // Pass the filtered data to the next page
               Navigate(`/portfolio/${data.portfolio_id}`, {
