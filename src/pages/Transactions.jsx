@@ -18,6 +18,7 @@ import ModalDecline from "../components/ModalDecline";
 import ModalCancellation from "../components/ModalCancellation";
 import TransactionCard from "../components/TransactionCard";
 import TransactionCardPending from "../components/TransactionCardPending";
+import TransactionCardSearch from "../components/TransactionCardSearch";
 import StockSearchBar from "../components/StockSearch";
 
 export default function Transactions() {
@@ -39,6 +40,7 @@ export default function Transactions() {
     const [transactionData, setTransactionData] = useState([{}]);
     const [confirmOrDeclince, setConfirmOrDeclince] = useState("");
     const [transactionId, setTransactionId] = useState();
+    const [selectedOption, setSelectedOption] = useState("");
 
     //Use Effects
     useEffect(() => {
@@ -175,11 +177,20 @@ export default function Transactions() {
                     request
                 </p>
             </div>
-            <div className="SearchBar"><StockSearchBar /></div>
+            <div className="SearchBar"><StockSearchBar 
+                selectedOption={selectedOption}
+                setSelectedOption={setSelectedOption}
+            
+            /></div>
             <div className="transactions-container">
                 <div className="your-stocks">
                     <h2>Your Stocks</h2>
                     <div className="your-portfolio-stocks">
+                        <TransactionCardSearch 
+                            selectedOption={selectedOption}
+                            handleBuy={handleBuy}
+                        
+                        />
                         {yourStocks.map((stock, index) => {
                             if (stock.status === "pending") {
                                 return (

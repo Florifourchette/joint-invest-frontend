@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Dropdown, Loader } from "semantic-ui-react";
 
-export default function StockSearchBar() {
+export default function StockSearchBar({selectedOption, setSelectedOption}) {
     const [searchQuery, setSearchQuery] = useState("");
     const [searchOptions, setSearchOptions] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [selectedOption, setSelectedOption] = useState("");
+    
 
     useEffect(() => {
         async function fetchSearchOptions() {
