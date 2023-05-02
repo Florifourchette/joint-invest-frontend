@@ -18,11 +18,7 @@ const StockListA = ({ item, externalAPIstocks, sharePrice, stockData }) => {
         <List.Item className="d-flex">
           <Image
             avatar
-            src={
-              logo
-                ? `/public/company_logos/${logo}`
-                : `/public/company_logos/NO_LOGO.png`
-            }
+            src={logo ? `/company_logos/${logo}` : `/company_logos/NO_LOGO.png`}
           />
           <List.Content className="container d-flex w-100">
             <div className="d-flex justify-content-start flex-column">
