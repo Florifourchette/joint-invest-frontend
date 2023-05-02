@@ -45,11 +45,11 @@ export default function Transactions() {
     const [selectedOptionPrice, setSelectedOptionPrice] = useState([]);
 
     //Extract search terms for API calls
-    const [substring1, substring2] = selectedOption.split('(')
-    const companyId = substring2?.slice(0,-1)
-    const companyName = substring1
-    console.log('companyId:',companyId)
-    
+    const [substring1, substring2] = selectedOption.split("(");
+    const companyId = substring2?.slice(0, -1);
+    const companyName = substring1;
+    console.log("companyId:", companyId);
+
     //Use Effects
     useEffect(() => {
         getTransactionsData(portfolioId)
@@ -61,8 +61,8 @@ export default function Transactions() {
     }, [portfolioId]);
 
     useEffect(() => {
-        if(selectedOption!==''){
-            console.log('iside the effect',companyId)
+        if (selectedOption !== "") {
+            console.log("iside the effect", companyId);
             const apiUrl = createApiUrl(companyId);
             console.log(apiUrl);
             const apiCall = async () => {
@@ -70,8 +70,10 @@ export default function Transactions() {
                     fetch(apiUrl)
                         .then((response) => response.json())
                         .then((data) => {
-                            setSelectedOptionPrice(Number(data.price).toFixed(2));
-                            console.log('price',selectedOptionPrice)
+                            setSelectedOptionPrice(
+                                Number(data.price).toFixed(2)
+                            );
+                            console.log("price", selectedOptionPrice);
                         });
                 } catch (error) {
                     console.log(error);
@@ -79,9 +81,8 @@ export default function Transactions() {
             };
             apiCall();
         }
+    }, [selectedOption, companyId]);
 
-    }, [selectedOption, companyId])
-    
     console.log(yourStocks);
 
     //buy - sell Transactions
@@ -197,8 +198,6 @@ export default function Transactions() {
         setShowCancellationModal(false);
     };
 
-
-
     // return isAuthenticated ? (
     return (
         <div>
@@ -209,48 +208,55 @@ export default function Transactions() {
                     request
                 </p>
             </div>
-            <div className="SearchBar"><StockSearchBar 
-                selectedOption={selectedOption}
-                setSelectedOption={setSelectedOption}
-                
-            /></div>
+            <div className="SearchBar">
+                <StockSearchBar
+                    selectedOption={selectedOption}
+                    setSelectedOption={setSelectedOption}
+                />
+            </div>
             <div className="transactions-container">
                 <div className="your-stocks">
                     <h2>Your Stocks</h2>
                     <div className="your-portfolio-stocks">
-                        <TransactionCardSearch 
-                            selectedOption={selectedOption}
-                            handleBuy={handleBuy}
-                            companyId={companyId}
-                            companyName={companyName}
-                            selectedOptionPrice={selectedOptionPrice}
-                        />
-                        {yourStocks.map((stock, index) => {
-                            if (stock.status === "pending") {
-                                return (
-                                    <TransactionCardPending
-                                        key={stock.id}
-                                        stock={stock}
-                                        location={location.state}
-                                        handlePurchase={handlePurchase}
-                                        handleDecline={handleDecline}
-                                        handleCancelRequest={
-                                            handleCancelRequest
-                                        }
-                                    />
-                                );
-                            } else {
-                                return (
-                                    <TransactionCard
-                                        key={stock.id}
-                                        stock={stock}
-                                        handleBuy={handleBuy}
-                                        handleSell={handleSell}
-                                        location={location.state}
-                                    />
-                                );
-                            }
-                        })}
+                        {selectedOption !== "" && (
+                            <TransactionCardSearch
+                                selectedOption={selectedOption}
+                                handleBuy={handleBuy}
+                                companyId={companyId}
+                                companyName={companyName}
+                                selectedOptionPrice={selectedOptionPrice}
+                            />
+                        )}
+                        {selectedOption === "" && (
+                            <>
+                                {yourStocks.map((stock, index) => {
+                                    if (stock.status === "pending") {
+                                        return (
+                                            <TransactionCardPending
+                                                key={stock.id}
+                                                stock={stock}
+                                                location={location.state}
+                                                handlePurchase={handlePurchase}
+                                                handleDecline={handleDecline}
+                                                handleCancelRequest={
+                                                    handleCancelRequest
+                                                }
+                                            />
+                                        );
+                                    } else {
+                                        return (
+                                            <TransactionCard
+                                                key={stock.id}
+                                                stock={stock}
+                                                handleBuy={handleBuy}
+                                                handleSell={handleSell}
+                                                location={location.state}
+                                            />
+                                        );
+                                    }
+                                })}
+                            </>
+                        )}
                         {selectedStock && showModal && (
                             <ModalTransactionBuy
                                 message={`Are you sure you want to ${
@@ -301,7 +307,7 @@ export default function Transactions() {
                 </div>
             </div>
         </div>
-    )
+    );
     // ) : (
     //     <div>
     //         <div className="d-flex justify-content-center">
