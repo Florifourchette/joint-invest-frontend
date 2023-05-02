@@ -20,6 +20,7 @@ import TransactionCard from "../components/TransactionCard";
 import TransactionCardPending from "../components/TransactionCardPending";
 import TransactionCardSearch from "../components/TransactionCardSearch";
 import StockSearchBar from "../components/StockSearch";
+import { createApiUrl } from "../../utils/CreateAPIUrl";
 
 export default function Transactions() {
     const { isAuthenticated } = useAuth();
@@ -41,7 +42,14 @@ export default function Transactions() {
     const [confirmOrDeclince, setConfirmOrDeclince] = useState("");
     const [transactionId, setTransactionId] = useState();
     const [selectedOption, setSelectedOption] = useState("");
+    const [selectedOptionPrice, setSelectedOptionPrice] = useState([]);
 
+    //Extract search terms for API calls
+    const [substring1, substring2] = selectedOption.split('(')
+    const companyId = substring2?.slice(0,-1)
+    const companyName = substring1
+    console.log('companyId:',companyId)
+    
     //Use Effects
     useEffect(() => {
         getTransactionsData(portfolioId)
@@ -52,6 +60,28 @@ export default function Transactions() {
             .catch((error) => console.error(error));
     }, [portfolioId]);
 
+    useEffect(() => {
+        if(selectedOption!==''){
+            console.log('iside the effect',companyId)
+            const apiUrl = createApiUrl(companyId);
+            console.log(apiUrl);
+            const apiCall = async () => {
+                try {
+                    fetch(apiUrl)
+                        .then((response) => response.json())
+                        .then((data) => {
+                            setSelectedOptionPrice(Number(data.price).toFixed(2));
+                            console.log('price',selectedOptionPrice)
+                        });
+                } catch (error) {
+                    console.log(error);
+                }
+            };
+            apiCall();
+        }
+
+    }, [selectedOption, companyId])
+    
     console.log(yourStocks);
 
     //buy - sell Transactions
@@ -167,6 +197,8 @@ export default function Transactions() {
         setShowCancellationModal(false);
     };
 
+
+
     // return isAuthenticated ? (
     return (
         <div>
@@ -180,7 +212,7 @@ export default function Transactions() {
             <div className="SearchBar"><StockSearchBar 
                 selectedOption={selectedOption}
                 setSelectedOption={setSelectedOption}
-            
+                
             /></div>
             <div className="transactions-container">
                 <div className="your-stocks">
@@ -189,7 +221,9 @@ export default function Transactions() {
                         <TransactionCardSearch 
                             selectedOption={selectedOption}
                             handleBuy={handleBuy}
-                        
+                            companyId={companyId}
+                            companyName={companyName}
+                            selectedOptionPrice={selectedOptionPrice}
                         />
                         {yourStocks.map((stock, index) => {
                             if (stock.status === "pending") {

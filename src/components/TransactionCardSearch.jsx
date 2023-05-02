@@ -2,7 +2,10 @@ import React, { useState } from "react";
 
 export default function TransactionCardSearch({
     selectedOption,
-    handleBuy
+    handleBuy,
+    companyId,
+    companyName,
+    selectedOptionPrice
 }) {
     const [counter, setCounter] = useState(1);
 
@@ -16,9 +19,7 @@ export default function TransactionCardSearch({
         }
     };
 
-    const [substring1, substring2] = selectedOption.split('(')
-    const companyId = substring2?.slice(0,-1)
-    const companyName = substring1
+
     return (
         <div className="your-stock-card">
             <div className="your-stock-name-price">
@@ -27,7 +28,7 @@ export default function TransactionCardSearch({
                 </h4>
                 <h4>
                     Price:{" "}
-    
+                    {selectedOptionPrice}
                 </h4>
             </div>
             <div className="stock-counter">
