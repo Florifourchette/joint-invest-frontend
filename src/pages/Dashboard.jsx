@@ -178,14 +178,14 @@ export default function Dashboard(props) {
           onClick={handleClick}
         />
       </div>  */}
-      <h1>Overview</h1>
+      <h1 className="overview-title">Overview</h1>
 
       <div className="assets">
         <h3>Total Assets</h3>
         <h2>$ {totalAssetsSum}</h2>
-        <h5>Amount Invested</h5>
+        <h3>Amount Invested</h3>
         <h4>$ {totalAmountInvested}</h4>
-        <h5>Total gains</h5>
+        <h3>Total gains</h3>
         <h4 className={totalPandL >= 0 ? "positive" : "negative"}>
           $ {totalPandL}
         </h4>
@@ -206,47 +206,57 @@ export default function Dashboard(props) {
         {dashboardData.map((data) => (
           <>
             <div className="portfolio-card" key={data.portfolio_id}>
-              <h4 className="portfolio-name">{data.name_of_portfolio}</h4>
-              <div className="porfolio-card-values">
-                <div className="porfolio-card-value">
-                  <h3 className="portfolio-value-title">Current Value:</h3>
-                  <h4>$ {portfolioTotals[data.portfolio_id]}</h4>
-                </div>
-                <div className="porfolio-card-value">
-                  <h3 className="portfolio-value-title">Profit/Loss:</h3>
-                  <h4
-                    className={
-                      portfolioTotals[data.portfolio_id] -
-                        data.total_buying_value >=
-                      0
-                        ? "positive"
-                        : "negative"
-                    }
-                  >
-                    $
-                    {(
-                      portfolioTotals[data.portfolio_id] -
-                      data.total_buying_value
-                    ).toFixed(2)}
-                  </h4>
-                </div>
+              <div className="portfolio-name-container">
+                <h5 className="portfolio-name">{data.name_of_portfolio}</h5>
               </div>
-              <div className="friend-box">
-                <IoIosContacts className="friend-icon" />
-                <h4 className="friend">{data.friend_username}</h4>
-              </div>
+              <div className="portfolio-card-container">
+                <div className="porfolio-card-values">
+                  <div className="porfolio-card-value">
+                    <h5 className="portfolio-value-title">Current Value</h5>
+                    <h5>$ {portfolioTotals[data.portfolio_id]}</h5>
+                  </div>
+                  <div className="porfolio-card-value">
+                    <h5 className="portfolio-value-title">Profit/Loss</h5>
+                    <h5
+                      className={
+                        portfolioTotals[data.portfolio_id] -
+                          data.total_buying_value >=
+                        0
+                          ? "positive"
+                          : "negative"
+                      }
+                    >
+                      $
+                      {(
+                        portfolioTotals[data.portfolio_id] -
+                        data.total_buying_value
+                      ).toFixed(2)}
+                    </h5>
+                  </div>
 
-              <DeleteConfirmedButton
-                data={data}
-                userId={userId}
-                portfolioTotals={portfolioTotals}
-                setPortfolioStatusUpdated={setPortfolioStatusUpdated}
-                portfolioStatusUpdated={portfolioStatusUpdated}
-                setNewData={setNewData}
-                wallet={wallet}
-                Navigate={Navigate}
-                prices={prices}
-              />
+                  <div className="porfolio-card-value">
+                    <img
+                      src="/bee.png"
+                      alt="friends"
+                      style={{ width: "40px" }}
+                    />
+                    <h4 className="friend">{data.friend_username}</h4>
+                  </div>
+                </div>
+                <div className="d-flex align-items-center">
+                  <DeleteConfirmedButton
+                    data={data}
+                    userId={userId}
+                    portfolioTotals={portfolioTotals}
+                    setPortfolioStatusUpdated={setPortfolioStatusUpdated}
+                    portfolioStatusUpdated={portfolioStatusUpdated}
+                    setNewData={setNewData}
+                    wallet={wallet}
+                    Navigate={Navigate}
+                    prices={prices}
+                  />
+                </div>
+              </div>
             </div>
             {data.portfolio_status === "pending_activation" ||
             data.portfolio_status === "pending_deletion" ? (
@@ -265,10 +275,14 @@ export default function Dashboard(props) {
       <div className="portfolio-add">
         <p>Add a portfolio</p>
         <button
-          className="portfolio-add-btn"
+          className="hex-button"
+          style={{ padding: "15px 25px 15px 25px" }}
           onClick={() => Navigate(`/create_portfolio/${userId}`)}
         >
-          <IoIosAdd className="portfolio-add-icon" />
+          <IoIosAdd
+            className="portfolio-add-icon"
+            style={{ fontSize: "3em" }}
+          />
         </button>
       </div>
       <Navbar />
