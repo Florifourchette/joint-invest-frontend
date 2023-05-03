@@ -17,7 +17,7 @@ import Instructions from "./pages/Instructions";
 function App() {
   return (
     <>
-      <div>
+      <div style={{ backgroundColor: "#FFF3BE", minHeight: "100vh" }}>
         <AuthStateContext>
           <Routes>
             <Route path="/" element={<LogoHome />} />
