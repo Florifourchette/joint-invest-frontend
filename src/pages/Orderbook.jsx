@@ -4,7 +4,7 @@ import useAuth from '../hooks/useAuth';
 import LogIn from './LogIn';
 import { Message } from 'semantic-ui-react';
 import axios from 'axios';
-import Orderlist from '../components/orderlist';
+import Orderlist from '../components/Orderlist';
 import { BiArrowBack } from 'react-icons/bi';
 import Navbar from '../components/Navbar';
 
