@@ -166,6 +166,13 @@ export default function Portfolio() {
   console.log('result',intervalSum);
 
 
+// Extract the summed value at the last timestamp
+const timestamps = Object.keys(datetimeValuesMap);
+const lastTimestamp = timestamps[timestamps.length - 1];
+const lastValues = datetimeValuesMap[lastTimestamp];
+console.log('Last timestamp:', lastTimestamp);
+console.log('Last values:', lastValues);
+
   //api calls
 
   useEffect(() => {
@@ -224,13 +231,13 @@ export default function Portfolio() {
     <>
       <div className="portfolio_overview">
         <h1>{portfolioName}</h1>
-        <h3>Total Assets</h3>
-        <h1>153,60</h1>
-        <h4>Amount invested</h4>
+        <h3>Total Assets at {lastValues.datetime}</h3>
+        <h1>$ {lastValues.close}</h1>
+        {/* <h4>Amount invested</h4>
         <h4>{investedAmount}</h4>
 
         <p>Total loss</p>
-        <p>-12,01</p>
+        <p>-12,01</p> */}
       </div>
       <div className="portfolio_lineGraph">
         <PortfolioChart intervalSum={intervalSum} />
