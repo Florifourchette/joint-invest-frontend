@@ -17,12 +17,12 @@ import { Message } from "semantic-ui-react";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import Navbar from "../components/Navbar";
+import { BiArrowBack } from "react-icons/bi";
 
 Chart.register(CategoryScale);
 
-
-const portfolioAPIKey1 = import.meta.env.VITE_PORTFOLIO_API_KEY1
-const portfolioAPIKey2 = import.meta.env.VITE_PORTFOLIO_API_KEY2
+const portfolioAPIKey1 = import.meta.env.VITE_PORTFOLIO_API_KEY1;
+const portfolioAPIKey2 = import.meta.env.VITE_PORTFOLIO_API_KEY2;
 
 export default function Portfolio() {
   const { isAuthenticated } = useAuth();
@@ -43,8 +43,8 @@ export default function Portfolio() {
   const tickers = Object.keys(sharePrice).join();
   const tickersArray = Object.keys(sharePrice);
 
-  console.log('SHARE PRICE',sharePrice);
-  console.log('SHARE NUKM',shareNumber);
+  console.log("SHARE PRICE", sharePrice);
+  console.log("SHARE NUKM", shareNumber);
   console.log(tickers);
 
   const companyIds = mockPortfolioData[0].stocks?.map(
@@ -60,7 +60,6 @@ export default function Portfolio() {
   const [externalAPIstocks, setExternalAPIstocks] = useState();
   const [allCompanies, setAllCompanies] = useState();
   const [stockData, getStockData] = useState();
-
 
   // const allCompanies = {
   //   AAPL: {
@@ -132,46 +131,57 @@ export default function Portfolio() {
   //     ],
   //   },}
 
+  const handleBack = (e) => {
+    e.preventDefault();
+    Navigate(-1);
+  };
+
+  // if (allCompanies !== undefined) {
+  //   const stockValues = Object.values(allCompanies)?.map(
+  //     (company) => company.values
+  //   );
+  //   //console.log(typeof stockValues);
   const datetimeValuesMap = {};
 
-  console.log('all comps',allCompanies);
+  console.log("all comps", allCompanies);
 
   for (const key in allCompanies) {
     const values = allCompanies[key].values;
-  
+
     for (const value of values) {
       const datetime = value.datetime;
-  
+
       if (datetime in datetimeValuesMap) {
         const properties = Object.keys(value);
         for (const property of properties) {
-          if (property !== 'datetime') {
-            datetimeValuesMap[datetime][property] += parseFloat(value[property]) * parseFloat(shareNumber[key]);
+          if (property !== "datetime") {
+            datetimeValuesMap[datetime][property] +=
+              parseFloat(value[property]) * parseFloat(shareNumber[key]);
           }
         }
       } else {
         datetimeValuesMap[datetime] = { datetime };
         const properties = Object.keys(value);
         for (const property of properties) {
-          if (property !== 'datetime') {
-            datetimeValuesMap[datetime][property] = parseFloat(value[property]) * parseFloat(shareNumber[key]);
+          if (property !== "datetime") {
+            datetimeValuesMap[datetime][property] =
+              parseFloat(value[property]) * parseFloat(shareNumber[key]);
           }
         }
       }
     }
   }
-  
+
   console.log(datetimeValuesMap);
   const intervalSum = Object.values(datetimeValuesMap);
-  console.log('result',intervalSum);
+  console.log("result", intervalSum);
 
-
-// Extract the summed value at the last timestamp
-const timestamps = Object.keys(datetimeValuesMap);
-const lastTimestamp = timestamps[timestamps.length - 1];
-const lastValues = datetimeValuesMap[lastTimestamp];
-console.log('Last timestamp:', lastTimestamp);
-console.log('Last values:', lastValues);
+  // Extract the summed value at the last timestamp
+  const timestamps = Object.keys(datetimeValuesMap);
+  const lastTimestamp = timestamps[timestamps.length - 1];
+  const lastValues = datetimeValuesMap[lastTimestamp];
+  console.log("Last timestamp:", lastTimestamp);
+  console.log("Last values:", lastValues);
 
   //api calls
 
@@ -228,16 +238,15 @@ console.log('Last values:', lastValues);
   }, [id]);
 
   // return isAuthenticated ? (
-    return (
+  return (
     <>
       <div className="portfolio_overview">
-      {lastValues && (
-    <>
-      <h3>Total Assets at {lastValues.datetime}</h3>
-      <h1>$ {lastValues.close}</h1>
-    </>
-    
-    )}
+        {lastValues && (
+          <>
+            <h3>Total Assets at {lastValues.datetime}</h3>
+            <h1>$ {lastValues.close}</h1>
+          </>
+        )}
         {/* <h4>Amount invested</h4>
         <h4>{investedAmount}</h4>
 
@@ -247,6 +256,24 @@ console.log('Last values:', lastValues);
 
       <div className="portfolio_lineGraph">
         <PortfolioChart intervalSum={intervalSum} />
+      </div>
+      <div className="portfolio_available_amount">
+        <h4>Available amount</h4>
+        <h4>€</h4>
+      </div>
+      <div className="PortfolioDropdown">
+        <PortfolioDropdown
+          selectedInterval={selectedInterval}
+          setSelectedInterval={setSelectedInterval}
+        />
+      </div>
+      <div className="portfolio_stocks container">
+        <h3 className="text-center" style={{ padding: "2rem" }}>
+          Your Stocks
+        </h3>
+      </div>
+      <div className="portfolio_lineGraph">
+        <PortfolioChart hourlyValues={hourlyValues} />
       </div>
       <div className="portfolio_available_amount">
         <h4>Available amount</h4>
@@ -335,15 +362,15 @@ console.log('Last values:', lastValues);
       </div>
       {/* <Navbar /> */}
     </>
-  )
-//   ) : (
-//     <div>
-//       <div className="d-flex justify-content-center">
-//         <Message style={{ color: "red" }}>
-//           You are not logged in, please login!
-//         </Message>
-//       </div>
-//       <LogIn />
-//     </div>
-//   );
+  );
+  //   ) : (
+  //     <div>
+  //       <div className="d-flex justify-content-center">
+  //         <Message style={{ color: "red" }}>
+  //           You are not logged in, please login!
+  //         </Message>
+  //       </div>
+  //       <LogIn />
+  //     </div>
+  //   );
 }
