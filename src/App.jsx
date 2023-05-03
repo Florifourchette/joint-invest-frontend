@@ -27,7 +27,7 @@ function App() {
             <Route path="/overview/:userId" element={<Dashboard />} />
             <Route path="/portfolio/:id" element={<Portfolio />} />
             <Route
-              path="/transactions/:portfolio_id"
+              path="/transactions/:portfolioId"
               element={<Transactions />}
             />
             <Route path="/orderbook/:portfolio_id" element={<Orderbook />} />

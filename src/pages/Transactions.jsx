@@ -29,6 +29,10 @@ export default function Transactions() {
 
   const location = useLocation();
 
+  console.log(
+    ` location at transactions ${JSON.stringify(location.state)}`
+  );
+
   //STATES
   const [yourStocks, setYourStocks] = useState([]);
   const [selectedAmmount, setSelectedAmmount] = useState(1);
@@ -67,6 +71,8 @@ export default function Transactions() {
       .catch((error) => console.error(error));
   }, [portfolioId]);
 
+  console.log("portfolioId:", portfolioId);
+  console.log('your strocks' , yourStocks)
   useEffect(() => {
     if (selectedOption !== "") {
       console.log("iside the effect", companyId);
@@ -234,7 +240,7 @@ export default function Transactions() {
                 selectedOptionPrice={selectedOptionPrice}
               />
             )}
-            {selectedOption === "" && (
+            {selectedOption === "" && yourStocks.length > 0 && (
               <>
                 {yourStocks.map((stock, index) => {
                   if (stock.status === "pending") {

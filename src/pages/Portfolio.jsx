@@ -153,36 +153,38 @@ export default function Portfolio() {
   const datetimeValuesMap = {};
 
   console.log('all comps', allCompanies);
-
-  for (const key in allCompanies) {
-    const values = allCompanies[key].values;
-
-    for (const value of values) {
-      const datetime = value.datetime;
-
-      if (datetime in datetimeValuesMap) {
-        const properties = Object.keys(value);
-        for (const property of properties) {
-          if (property !== 'datetime') {
-            datetimeValuesMap[datetime][property] +=
-              parseFloat(value[property]) *
-              parseFloat(shareNumber[key]);
+  
+  if (allCompanies && Object.keys(allCompanies).length > 0) {
+    for (const key in allCompanies) {
+      const values = allCompanies[key].values;
+  
+      for (const value of values) {
+        const datetime = value.datetime;
+  
+        if (datetime in datetimeValuesMap) {
+          const properties = Object.keys(value);
+          for (const property of properties) {
+            if (property !== 'datetime') {
+              datetimeValuesMap[datetime][property] +=
+                parseFloat(value[property]) *
+                parseFloat(shareNumber[key]);
+            }
           }
-        }
-      } else {
-        datetimeValuesMap[datetime] = { datetime };
-        const properties = Object.keys(value);
-        for (const property of properties) {
-          if (property !== 'datetime') {
-            datetimeValuesMap[datetime][property] =
-              parseFloat(value[property]) *
-              parseFloat(shareNumber[key]);
+        } else {
+          datetimeValuesMap[datetime] = { datetime };
+          const properties = Object.keys(value);
+          for (const property of properties) {
+            if (property !== 'datetime') {
+              datetimeValuesMap[datetime][property] =
+                parseFloat(value[property]) *
+                parseFloat(shareNumber[key]);
+            }
           }
         }
       }
     }
   }
-
+  
   console.log(datetimeValuesMap);
   const intervalSum = Object.values(datetimeValuesMap);
   console.log('result', intervalSum);
