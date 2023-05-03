@@ -83,6 +83,7 @@ export default function Messages() {
   const getTransactions = (id) => {
     getTransactionsData(id)
       .then((data) => {
+        console.log(data);
         const portfolioTransactions = data.filter(
           (transaction) => transaction.status === 'pending'
         );
@@ -221,7 +222,7 @@ export default function Messages() {
               // >
               //   View
               // </button>
-              item.requester_name !== 'You' ? (
+              item.requester_name === 'You' ? (
                 <div>
                   <button
                     onClick={() => {
@@ -251,7 +252,23 @@ export default function Messages() {
                   </button>
                 </div>
               ) : (
-                <div>Waiting for {item.requester_name}</div>
+                <div>
+                  Waiting for {item.requester_name}
+                  <button
+                    className="button_portfolio_status_change"
+                    onClick={() => {
+                      setPortfolioStatus(
+                        item.portfolio_id,
+                        userId,
+                        item.action,
+                        'rejected',
+                        setNewData
+                      );
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
               )}
             </div>
           </div>
