@@ -41,6 +41,8 @@ export default function Portfolio() {
 
   const [selectedInterval, setSelectedInterval] = useState("");
   const [stockItems, setStockItems] = useState([]);
+  const [stockOverview, setStockOverview] = useState("");
+  const [stockCompaniesId, setStockCompaniesId] = useState();
   const [externalAPIstocks, setExternalAPIstocks] = useState();
   const { totalAssets, totalAmountInvested } = location.state;
   const [hourlyCompanyValues, setHourlyCompanyValues] = useState();
@@ -490,7 +492,7 @@ export default function Portfolio() {
       >
         <button
           type="button"
-          className="btn btn-primary"
+          class="btn btn-primary"
           style={{ marginRight: "0.5rem" }}
         >
           Order book
