@@ -20,6 +20,10 @@ import Navbar from "../components/Navbar";
 
 Chart.register(CategoryScale);
 
+
+const portfolioAPIKey1 = import.meta.env.VITE_PORTFOLIO_API_KEY1
+const portfolioAPIKey2 = import.meta.env.VITE_PORTFOLIO_API_KEY2
+
 export default function Portfolio() {
   const { isAuthenticated } = useAuth();
   const portfolioName = mockPortfolioData[0].overview[0].name_of_portfolio;
@@ -126,7 +130,7 @@ export default function Portfolio() {
     async function stockDataExternal() {
       try {
         const nextResponse = await axios.get(
-          `https://api.twelvedata.com/quote?symbol=${tickers}&apikey=6a897c4468e74344b1546b36728e991b`
+          `https://api.twelvedata.com/quote?symbol=${tickers}&apikey=${portfolioAPIKey1}`
         );
         //console.log(myStocksIds);
         console.log(nextResponse);
@@ -139,7 +143,7 @@ export default function Portfolio() {
       try {
         //console.log(myStocksIds);
         const { data } = await axios.get(
-          `https://api.twelvedata.com/time_series?symbol=${tickers}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=da4a4e4ca02f4f06a70e827bc75e2458`
+          `https://api.twelvedata.com/time_series?symbol=${tickers}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=${portfolioAPIKey2}`
         );
         console.log(data);
         setAllCompanies(data);
@@ -245,7 +249,7 @@ export default function Portfolio() {
       >
         <button
           type="button"
-          class="btn btn-primary"
+          className="btn btn-primary"
           style={{ marginRight: "0.5rem" }}
         >
           Order book
