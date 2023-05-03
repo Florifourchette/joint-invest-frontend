@@ -56,41 +56,41 @@ export default function Portfolio() {
     );
     //console.log(typeof stockValues);
 
-    const closeValues = stockValues.map((subArray) =>
-      subArray.map((obj) => obj.close)
-    );
+    // const closeValues = stockValues.map((subArray) =>
+    //   subArray.map((obj) => obj.close)
+    // );
 
     //console.log(closeValues);
     //console.log(typeof closeValues);
 
-    if (closeValues !== undefined) {
-      for (const [index, item] of closeValues.entries()) {
-        closeValues[index]["current_total_value"] = [];
-        //console.log(index);
+    // if (closeValues !== undefined) {
+    //   for (const [index, item] of closeValues.entries()) {
+    //     closeValues[index]["current_total_value"] = [];
+    //     //console.log(index);
 
-        for (const [index2, stockValueItem] of closeValues[index].entries()) {
-          closeValues[index]["current_total_value"].push(
-            stockItems[0]?.current_number_of_stocks * parseFloat(item[index2])
-          );
-          //console.log(closeValues);
-        }
-      }
-    }
+    //     for (const [index2, stockValueItem] of closeValues[index].entries()) {
+    //       closeValues[index]["current_total_value"].push(
+    //         stockItems[0]?.current_number_of_stocks * parseFloat(item[index2])
+    //       );
+    //       //console.log(closeValues);
+    //     }
+    //   }
+    // }
     //console.log(typeof closeValues);
 
-    const currentTotalValueArray = closeValues.map(
-      (subArray) => subArray.current_total_value
-    );
+    // const currentTotalValueArray = closeValues.map(
+    //   (subArray) => subArray.current_total_value
+    // );
 
     //console.log(currentTotalValueArray);
 
-    for (let i = 0; i < currentTotalValueArray[0].length; i++) {
-      let sum = 0;
-      for (let j = 0; j < currentTotalValueArray.length; j++) {
-        sum += currentTotalValueArray[j][i];
-      }
-      hourlyValues.push(sum);
-    }
+    // for (let i = 0; i < currentTotalValueArray[0].length; i++) {
+    //   let sum = 0;
+    //   for (let j = 0; j < currentTotalValueArray.length; j++) {
+    //     sum += currentTotalValueArray[j][i];
+    //   }
+    //   hourlyValues.push(sum);
+    // }
     //console.log(hourlyValues);
   }
 
