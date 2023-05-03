@@ -308,7 +308,7 @@ export default function Portfolio() {
         </button>
         <button
           type="button"
-          class="btn btn-primary"
+          className="btn btn-primary"
           onClick={() =>
             Navigate(`/transactions/${id}`, {
               state: location.state,
