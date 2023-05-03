@@ -4,18 +4,23 @@ import { Dropdown } from "semantic-ui-react";
 const options = [
   {
     key: "1",
-    text: "daily",
+    text: "Hourly",
     value: "1",
   },
   {
     key: "2",
-    text: "since buy",
+    text: "Daily",
     value: "2",
   },
   {
     key: "3",
-    text: "monthly",
+    text: "Monthly",
     value: "3",
+  },
+  {
+    key: "4",
+    text: "Portfolio Creation",
+    value: "4",
   },
 ];
 
