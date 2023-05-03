@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
-    getTransactionsData,
-    writeTransaction,
-    confirmOrCancelTransaction,
-} from "../../utils/APIcalls";
-import { useParams } from "react-router-dom";
-import { useLocation } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
-import LogIn from "./LogIn";
-import { Message } from "semantic-ui-react";
-import Navbar from "../components/Navbar";
-import { transaction } from "../../utils/TransactionOperations";
-import ReactModal from "react-modal";
-import ModalTransactionBuy from "../components/ModalTransaction";
-import ModalConfirmation from "../components/ModalConfirmation";
-import ModalDecline from "../components/ModalDecline";
-import ModalCancellation from "../components/ModalCancellation";
-import TransactionCard from "../components/TransactionCard";
-import TransactionCardPending from "../components/TransactionCardPending";
+  getTransactionsData,
+  writeTransaction,
+  confirmOrCancelTransaction,
+} from '../../utils/APIcalls';
+import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
+import LogIn from './LogIn';
+import { Message } from 'semantic-ui-react';
+import Navbar from '../components/Navbar';
+import { transaction } from '../../utils/TransactionOperations';
+import ReactModal from 'react-modal';
+import ModalTransactionBuy from '../components/ModalTransaction';
+import ModalConfirmation from '../components/ModalConfirmation';
+import ModalDecline from '../components/ModalDecline';
+import ModalCancellation from '../components/ModalCancellation';
+import TransactionCard from '../components/TransactionCard';
+import TransactionCardPending from '../components/TransactionCardPending';
 import TransactionCardSearch from "../components/TransactionCardSearch";
 import StockSearchBar from "../components/StockSearch";
 import { createApiUrl } from "../../utils/CreateAPIUrl";
@@ -26,7 +26,7 @@ export default function Transactions() {
     const { isAuthenticated } = useAuth();
     let { portfolioId } = useParams();
 
-    const location = useLocation();
+  const location = useLocation();
 
     //STATES
     const [yourStocks, setYourStocks] = useState([]);
@@ -83,120 +83,132 @@ export default function Transactions() {
         }
     }, [selectedOption, companyId]);
 
-    console.log(yourStocks);
+  console.log(yourStocks);
 
-    //buy - sell Transactions
-    const handleBuy = (companyId, companyName, counter) => {
-        setSelectedAmmount(counter);
-        transaction({ companyId, counter, companyName }, (data) => {
-            setTransactionPrice(data);
-            setSelectedStock(companyId);
-            setTransactionData(() => ({
-                number_of_shares: counter.toString(),
-                company_id: companyId,
-                type_of_transaction: "Buy",
-                company_name: companyName,
-                price_of_share: data.price,
-                user_id: location.state.userId,
-            }));
-            setShowModal(true);
-        });
-    };
-    const handleSell = (companyId, companyName, counter) => {
-        setSelectedAmmount(counter);
-        transaction({ companyId, counter, companyName }, (data) => {
-            setTransactionPrice(data);
-            setSelectedStock(companyId);
-            setTransactionData(() => ({
-                number_of_shares: counter.toString(),
-                company_id: companyId,
-                type_of_transaction: "Sell",
-                company_name: companyName,
-                price_of_share: data.price,
-                user_id: location.state.userId,
-            }));
+  //buy - sell Transactions
+  const handleBuy = (companyId, companyName, counter) => {
+    setSelectedAmmount(counter);
+    transaction({ companyId, counter, companyName }, (data) => {
+      setTransactionPrice(data);
+      setSelectedStock(companyId);
+      setTransactionData(() => ({
+        number_of_shares: counter.toString(),
+        company_id: companyId,
+        type_of_transaction: 'Buy',
+        company_name: companyName,
+        price_of_share: data.price,
+        user_id: location.state.userId,
+      }));
+      setShowModal(true);
+    });
+  };
+  const handleSell = (companyId, companyName, counter) => {
+    setSelectedAmmount(counter);
+    transaction({ companyId, counter, companyName }, (data) => {
+      setTransactionPrice(data);
+      setSelectedStock(companyId);
+      setTransactionData(() => ({
+        number_of_shares: counter.toString(),
+        company_id: companyId,
+        type_of_transaction: 'Sell',
+        company_name: companyName,
+        price_of_share: data.price,
+        user_id: location.state.userId,
+      }));
 
-            setShowModal(true);
-        });
-        setShowModal(true);
-    };
+      setShowModal(true);
+    });
+    setShowModal(true);
+  };
 
-    // proposal confirmation handlers
+  // proposal confirmation handlers
 
-    const handlePurchase = (
-        companyId,
-        companyName,
-        transactionId,
-        number_of_shares
-    ) => {
-        setConfirmOrDeclince("confirm");
-        setSelectedAmmount(number_of_shares);
-        setSelectedStockName(companyName);
-        setTransactionId(transactionId);
-        transaction({ companyId, companyName }, (data) => {
-            setTransactionPrice(data);
-            setSelectedStock(companyId);
-            setTransactionData(() => ({
-                transaction_status: "confirmed",
-                current_price_of_share: data.price,
-            }));
-        });
-        setShowProposalModal(true);
-    };
+  const handlePurchase = (
+    companyId,
+    companyName,
+    transactionId,
+    number_of_shares
+  ) => {
+    setConfirmOrDeclince('confirm');
+    setSelectedAmmount(number_of_shares);
+    setSelectedStockName(companyName);
+    setTransactionId(transactionId);
+    transaction({ companyId, companyName }, (data) => {
+      setTransactionPrice(data);
+      setSelectedStock(companyId);
+      setTransactionData(() => ({
+        transaction_status: 'confirmed',
+        current_price_of_share: data.price,
+      }));
+    });
+    setShowProposalModal(true);
+  };
 
-    const handleDecline = (
-        companyId,
-        companyName,
-        transactionId,
-        number_of_shares
-    ) => {
-        setConfirmOrDeclince("decline");
-        setSelectedAmmount(number_of_shares);
-        setSelectedStockName(companyName);
-        setSelectedStock(companyId);
-        setTransactionId(transactionId);
-        transaction({ companyId, companyName }, (data) => {
-            setTransactionPrice(data);
-            setSelectedStock(companyId);
-            setTransactionData(() => ({
-                transaction_status: "canceled",
-            }));
-        });
-        setShowDeclineModal(true);
-    };
-    const handleCancelRequest = (transactionId) => {
-        setTransactionId(transactionId);
-        setTransactionData(() => ({
-            transaction_status: "canceled",
-        }));
-        setShowCancellationModal(true);
-    };
+  const handleDecline = (
+    companyId,
+    companyName,
+    transactionId,
+    number_of_shares
+  ) => {
+    setConfirmOrDeclince('decline');
+    setSelectedAmmount(number_of_shares);
+    setSelectedStockName(companyName);
+    setSelectedStock(companyId);
+    setTransactionId(transactionId);
+    transaction({ companyId, companyName }, (data) => {
+      setTransactionPrice(data);
+      setSelectedStock(companyId);
+      setTransactionData(() => ({
+        transaction_status: 'canceled',
+      }));
+    });
+    setShowDeclineModal(true);
+  };
+  const handleCancelRequest = (transactionId) => {
+    setTransactionId(transactionId);
+    setTransactionData(() => ({
+      transaction_status: 'canceled',
+    }));
+    setShowCancellationModal(true);
+  };
 
-    //Modal Controlls
-    const handleConfirm = () => {
-        setShowModal(false);
-        writeTransaction(portfolioId, transactionData);
-    };
+  //Modal Controlls
+  const handleConfirm = () => {
+    setShowModal(false);
+    writeTransaction(portfolioId, transactionData);
+  };
 
-    const handleCancel = () => {
-        setShowModal(false);
-        setShowProposalModal(false);
-        setShowDeclineModal(false);
-        setShowCancellationModal(false);
-    };
+  const handleCancel = () => {
+    setShowModal(false);
+    setShowProposalModal(false);
+    setShowDeclineModal(false);
+    setShowCancellationModal(false);
+  };
 
-    const handleProposalConfirmation = () => {
-        confirmOrCancelTransaction(portfolioId, transactionId, transactionData);
-        setShowProposalModal(false);
-    };
-    const handleProposalDecline = () => {
-        confirmOrCancelTransaction(portfolioId, transactionId, transactionData);
-        setShowProposalModal(false);
-    };
-    const handleProposalCancellation = () => {
-        confirmOrCancelTransaction(portfolioId, transactionId, transactionData);
-        setShowCancellationModal(false);
-    };
+  const handleProposalConfirmation = () => {
+    confirmOrCancelTransaction(
+      portfolioId,
+      transactionId,
+      transactionData
+    );
+    setShowProposalModal(false);
+  };
+  const handleProposalDecline = () => {
+    confirmOrCancelTransaction(
+      portfolioId,
+      transactionId,
+      transactionData
+    );
+    setShowProposalModal(false);
+  };
+  const handleProposalCancellation = () => {
+    confirmOrCancelTransaction(
+      portfolioId,
+      transactionId,
+      transactionData
+    );
+    setShowCancellationModal(false);
+  };
 
     // return isAuthenticated ? (
     return (

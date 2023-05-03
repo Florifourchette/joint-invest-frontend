@@ -20,6 +20,10 @@ import Navbar from "../components/Navbar";
 
 Chart.register(CategoryScale);
 
+
+const portfolioAPIKey1 = import.meta.env.VITE_PORTFOLIO_API_KEY1
+const portfolioAPIKey2 = import.meta.env.VITE_PORTFOLIO_API_KEY2
+
 export default function Portfolio() {
   const { isAuthenticated } = useAuth();
   const portfolioName = mockPortfolioData[0].overview[0].name_of_portfolio;
@@ -27,13 +31,23 @@ export default function Portfolio() {
   const availableAmount = mockPortfolioData[0].overview[0].available_amount;
   const companiesArray = [];
 
-  let { id } = useParams();
+  const { id } = useParams();
 
   const Navigate = useNavigate();
   const location = useLocation();
   console.log(` location at portfolio ${JSON.stringify(location.state)}`);
+  const [sharePrice, setSharePrice] = useState(location.state.prices);
+  const [shareNumber, setShareNumber] = useState(
+    location.state.number_of_shares
+  );
+  const tickers = Object.keys(sharePrice).join();
+  const tickersArray = Object.keys(sharePrice);
 
-  const companyIds = mockPortfolioData[0].stocks.map(
+  console.log('SHARE PRICE',sharePrice);
+  console.log('SHARE NUKM',shareNumber);
+  console.log(tickers);
+
+  const companyIds = mockPortfolioData[0].stocks?.map(
     (stock) => stock.company_id
   );
   const cleanCompanyIds = companyIds.join();
@@ -45,54 +59,119 @@ export default function Portfolio() {
   const [stockCompaniesId, setStockCompaniesId] = useState();
   const [externalAPIstocks, setExternalAPIstocks] = useState();
   const [allCompanies, setAllCompanies] = useState();
+  const [stockData, getStockData] = useState();
 
-  const hourlyValues = [];
 
-  //console.log(allCompanies);
+  // const allCompanies = {
+  //   AAPL: {
+  //     meta: {
+  //       symbol: 'AAPL',
+  //       interval: '1h',
+  //       currency: 'USD',
+  //       exchange_timezone: 'America/New_York',
+  //       exchange: 'NASDAQ',
+  //     },
+  //     status: 'ok',
+  //     values: [
+  //       {
+  //         datetime: '2023-05-02 15:30:00',
+  //         open: '168.97',
+  //         high: '168.98',
+  //         low: '168.39',
+  //         close: '168.55',
+  //       },
+  //       {
+  //         datetime: '2023-05-02 14:30:00',
+  //         open: '168.47',
+  //         high: '169.28',
+  //         low: '168.46',
+  //         close: '168.96',
+  //       },
+  //       {
+  //         datetime: '2023-05-02 13:30:00',
+  //         open: '168.80',
+  //         high: '168.95',
+  //         low: '168.35',
+  //         close: '168.47',
+  //       },
+  //       {
+  //         datetime: '2023-05-02 12:30:00',
+  //         open: '168.11',
+  //         high: '168.93',
+  //         low: '168.09',
+  //         close: '168.81',
+  //       },
+  //       {
+  //         datetime: '2023-05-02 11:30:00',
+  //         open: '167.82',
+  //         high: '168.23',
+  //         low: '167.54',
+  //         close: '168.11',
+  //       },
+  //       {
+  //         datetime: '2023-05-02 10:30:00',
+  //         open: '168.67',
+  //         high: '168.73',
+  //         low: '167.70',
+  //         close: '167.82',
+  //       },
+  //       {
+  //         datetime: '2023-05-02 09:30:00',
+  //         open: '170.09',
+  //         high: '170.35',
+  //         low: '168.49',
+  //         close: '168.71',
+  //       },
+  //       {
+  //         datetime: '2023-05-01 15:30:00',
+  //         open: '169.70',
+  //         high: '169.90',
+  //         low: '169.25',
+  //         close: '169.56',
+  //       },
+  //     ],
+  //   },}
 
-  if (allCompanies !== undefined) {
-    const stockValues = Object.values(allCompanies).map(
-      (company) => company.values
-    );
-    //console.log(typeof stockValues);
+  const datetimeValuesMap = {};
 
-    // const closeValues = stockValues.map((subArray) =>
-    //   subArray.map((obj) => obj.close)
-    // );
+  console.log('all comps',allCompanies);
 
-    //console.log(closeValues);
-    //console.log(typeof closeValues);
-
-    // if (closeValues !== undefined) {
-    //   for (const [index, item] of closeValues.entries()) {
-    //     closeValues[index]["current_total_value"] = [];
-    //     //console.log(index);
-
-    //     for (const [index2, stockValueItem] of closeValues[index].entries()) {
-    //       closeValues[index]["current_total_value"].push(
-    //         stockItems[0]?.current_number_of_stocks * parseFloat(item[index2])
-    //       );
-    //       //console.log(closeValues);
-    //     }
-    //   }
-    // }
-    //console.log(typeof closeValues);
-
-    // const currentTotalValueArray = closeValues.map(
-    //   (subArray) => subArray.current_total_value
-    // );
-
-    //console.log(currentTotalValueArray);
-
-    // for (let i = 0; i < currentTotalValueArray[0].length; i++) {
-    //   let sum = 0;
-    //   for (let j = 0; j < currentTotalValueArray.length; j++) {
-    //     sum += currentTotalValueArray[j][i];
-    //   }
-    //   hourlyValues.push(sum);
-    // }
-    //console.log(hourlyValues);
+  for (const key in allCompanies) {
+    const values = allCompanies[key].values;
+  
+    for (const value of values) {
+      const datetime = value.datetime;
+  
+      if (datetime in datetimeValuesMap) {
+        const properties = Object.keys(value);
+        for (const property of properties) {
+          if (property !== 'datetime') {
+            datetimeValuesMap[datetime][property] += parseFloat(value[property]) * parseFloat(shareNumber[key]);
+          }
+        }
+      } else {
+        datetimeValuesMap[datetime] = { datetime };
+        const properties = Object.keys(value);
+        for (const property of properties) {
+          if (property !== 'datetime') {
+            datetimeValuesMap[datetime][property] = parseFloat(value[property]) * parseFloat(shareNumber[key]);
+          }
+        }
+      }
+    }
   }
+  
+  console.log(datetimeValuesMap);
+  const intervalSum = Object.values(datetimeValuesMap);
+  console.log('result',intervalSum);
+
+
+// Extract the summed value at the last timestamp
+const timestamps = Object.keys(datetimeValuesMap);
+const lastTimestamp = timestamps[timestamps.length - 1];
+const lastValues = datetimeValuesMap[lastTimestamp];
+console.log('Last timestamp:', lastTimestamp);
+console.log('Last values:', lastValues);
 
   //api calls
 
@@ -103,33 +182,19 @@ export default function Portfolio() {
           `http://localhost:3000/api/portfolio/${id}`
         );
         setStockItems(response.data.stocks);
-        setStockOverview(response.data.overview[0]);
         //console.log(response);
         return response.data.stocks;
       } catch (err) {
         console.log(err);
       }
     }
-    async function someIdRetrieving() {
-      try {
-        const inputStuff = await getPortfolioStocks();
-        const someId = inputStuff.map((stock) => stock.company_id);
-        const cleanStockIds = someId.join();
-        //console.log(cleanStockIds);
-        setStockCompaniesId(cleanStockIds);
-        return cleanStockIds;
-      } catch (err) {
-        console.log(err);
-      }
-    }
     async function stockDataExternal() {
       try {
-        const myStocksIds = await someIdRetrieving();
         const nextResponse = await axios.get(
-          `https://api.twelvedata.com/quote?symbol=${myStocksIds}&apikey=6a897c4468e74344b1546b36728e991b`
+          `https://api.twelvedata.com/quote?symbol=${tickers}&apikey=${portfolioAPIKey1}`
         );
         //console.log(myStocksIds);
-        //console.log(nextResponse);
+        console.log(nextResponse);
         setExternalAPIstocks(nextResponse.data);
       } catch (err) {
         console.log(err);
@@ -137,36 +202,46 @@ export default function Portfolio() {
     }
     async function fetchMultipleCompanies() {
       try {
-        const myStocksIds = await someIdRetrieving();
         //console.log(myStocksIds);
         const { data } = await axios.get(
-          `https://api.twelvedata.com/time_series?symbol=${myStocksIds}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=da4a4e4ca02f4f06a70e827bc75e2458`
+          `https://api.twelvedata.com/time_series?symbol=${tickers}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=${portfolioAPIKey2}`
         );
-        //console.log(data);
+        console.log(data);
         setAllCompanies(data);
       } catch (error) {
         console.log(error.message);
       }
     }
+    async function fetchStocks() {
+      try {
+        const stockInfos = await axios.get("http://localhost:3000/api/stocks");
+        getStockData(stockInfos.data);
+        console.log(stockInfos.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+    getPortfolioStocks();
     stockDataExternal();
     fetchMultipleCompanies();
-  }, []);
+    fetchStocks();
+  }, [id]);
 
   // return isAuthenticated ? (
     return (
     <>
       <div className="portfolio_overview">
         <h1>{portfolioName}</h1>
-        <h3>Total Assets</h3>
-        <h1>153,60</h1>
-        <h4>Amount invested</h4>
+        <h3>Total Assets at {lastValues.datetime}</h3>
+        <h1>$ {lastValues.close}</h1>
+        {/* <h4>Amount invested</h4>
         <h4>{investedAmount}</h4>
 
         <p>Total loss</p>
-        <p>-12,01</p>
+        <p>-12,01</p> */}
       </div>
       <div className="portfolio_lineGraph">
-        <PortfolioChart hourlyValues={hourlyValues} />
+        <PortfolioChart intervalSum={intervalSum} />
       </div>
       <div className="portfolio_available_amount">
         <h4>Available amount</h4>
@@ -186,12 +261,16 @@ export default function Portfolio() {
         {selectedInterval == "since buy" ? (
           <div>
             {stockItems &&
+              sharePrice &&
+              stockData &&
               externalAPIstocks &&
-              stockItems.map((item) => {
+              stockItems?.map((item) => {
                 return (
                   <StockListB
                     item={item}
                     externalAPIstocks={externalAPIstocks}
+                    sharePrice={sharePrice}
+                    stockData={stockData}
                   />
                 );
               })}
@@ -199,12 +278,16 @@ export default function Portfolio() {
         ) : (
           <div>
             {stockItems &&
+              stockData &&
+              sharePrice &&
               externalAPIstocks &&
-              stockItems.map((item) => {
+              stockItems?.map((item) => {
                 return (
                   <StockListA
                     item={item}
                     externalAPIstocks={externalAPIstocks}
+                    sharePrice={sharePrice}
+                    stockData={stockData}
                   />
                 );
               })}
@@ -228,14 +311,14 @@ export default function Portfolio() {
       >
         <button
           type="button"
-          class="btn btn-primary"
+          className="btn btn-primary"
           style={{ marginRight: "0.5rem" }}
         >
           Order book
         </button>
         <button
           type="button"
-          class="btn btn-primary"
+          className="btn btn-primary"
           onClick={() =>
             Navigate(`/transactions/${id}`, {
               state: location.state,
