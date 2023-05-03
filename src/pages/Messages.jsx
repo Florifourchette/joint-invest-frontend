@@ -81,7 +81,6 @@ export default function Messages() {
   }, [portfolioIds, newData]);
 
   const getTransactions = (id) => {
-    console.log(typeof id);
     getTransactionsData(id)
       .then((data) => {
         const portfolioTransactions = data.filter(
