@@ -13,7 +13,7 @@ export default function Instructions() {
     <div style={{ width: "100%", background: "#FFD600" }} onClick={reDirect}>
       <div className="d-flex align-items-center" style={{ minHeight: "100vh" }}>
         <img
-          src="public/website_assets/instructions.png"
+          src="/instructions.png"
           alt="company_logo"
           style={{ maxWidth: "500px" }}
         />
