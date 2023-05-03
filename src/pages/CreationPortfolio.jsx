@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router";
-import { Button, Form } from "semantic-ui-react";
-import axios from "axios";
-import "../../styles/App.css";
-import useAuth from "../hooks/useAuth";
-import LogIn from "./LogIn";
-import { Message } from "semantic-ui-react";
-import { GrClose } from "react-icons/gr";
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router';
+import { Button, Form } from 'semantic-ui-react';
+import axios from 'axios';
+import '../../styles/App.css';
+import useAuth from '../hooks/useAuth';
+import LogIn from './LogIn';
+import { Message } from 'semantic-ui-react';
+import { GrClose } from 'react-icons/gr';
 
 const CreationPortfolio = () => {
-  const [newPortfolioName, setNewPortfolioName] = useState("");
-  const [newPortfolioInitialAmount, setNewPortfolioInitialAmount] = useState(0);
-  const [newPortfolioUsername, setNewPortfolioUsername] = useState("");
+  const [newPortfolioName, setNewPortfolioName] = useState('');
+  const [newPortfolioInitialAmount, setNewPortfolioInitialAmount] =
+    useState(0);
+  const [newPortfolioUsername, setNewPortfolioUsername] =
+    useState('');
   const [uppercaseDetected, setUppercaseDetected] = useState(false);
-  const [checkUsername, setCheckUsername] = useState("");
+  const [checkUsername, setCheckUsername] = useState('');
   const { isAuthenticated } = useAuth();
   const Navigate = useNavigate();
 
@@ -26,7 +28,7 @@ const CreationPortfolio = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/overview")
+      .get('https://joint-invest-back-end.onrender.com/api/overview')
       .then(function (response) {
         console.log(response);
       })
@@ -41,11 +43,14 @@ const CreationPortfolio = () => {
 
   const handleSubmit = () => {
     axios
-      .post(`http://localhost:3000/api/creation_portfolio/${userId}`, {
-        initial_amount: newPortfolioInitialAmount,
-        name_of_portfolio: newPortfolioName,
-        friend_username: newPortfolioUsername,
-      })
+      .post(
+        `https://joint-invest-back-end.onrender.com/api/creation_portfolio/${userId}`,
+        {
+          initial_amount: newPortfolioInitialAmount,
+          name_of_portfolio: newPortfolioName,
+          friend_username: newPortfolioUsername,
+        }
+      )
       .then(function (response) {
         setCheckUsername(response.data);
       })
@@ -55,21 +60,27 @@ const CreationPortfolio = () => {
   };
 
   useEffect(() => {
-    setCheckUsername("");
+    setCheckUsername('');
     setUppercaseDetected(false);
   }, [newPortfolioUsername]);
 
   // return isAuthenticated ? (
   return (
     <>
-      <div style={{ width: "450px" }}>
+      <div style={{ width: '450px' }}>
         <GrClose
-          style={{ fontSize: "2rem", position: "absolute", marginTop: "20px" }}
+          style={{
+            fontSize: '2rem',
+            position: 'absolute',
+            marginTop: '20px',
+          }}
           onClick={handleBack}
         />
       </div>
       <h1>Add portfolio</h1>
-      <p className="page-description">Start a new portfolio with your friend</p>
+      <p className="page-description">
+        Start a new portfolio with your friend
+      </p>
       <Form onSubmit={handleSubmit} className="creation_form">
         <Form.Field>
           <label>Portfolio name</label>
@@ -83,7 +94,9 @@ const CreationPortfolio = () => {
           <label>Initial amount</label>
           <input
             placeholder="Initial amount"
-            onChange={(e) => setNewPortfolioInitialAmount(e.target.value)}
+            onChange={(e) =>
+              setNewPortfolioInitialAmount(e.target.value)
+            }
             type="number"
             required
           />
@@ -99,12 +112,12 @@ const CreationPortfolio = () => {
             }
             required
           />
-          {checkUsername === "user not found" ? (
+          {checkUsername === 'user not found' ? (
             <p>User has not been found</p>
           ) : (
             <p></p>
           )}
-          {checkUsername === "identical ids" ? (
+          {checkUsername === 'identical ids' ? (
             <p>You cannot create a portfolio with yourself</p>
           ) : (
             <p></p>
@@ -119,18 +132,18 @@ const CreationPortfolio = () => {
           type="submit"
           className="creation_submitbtn"
           style={{
-            width: "9em",
-            height: "2em",
-            fontSize: "1.3em",
-            backgroundColor: "#074ee8",
-            border: "none",
-            color: "white",
-            borderRadius: "5px",
-            fontWeight: "bold",
-            padding: "0.5rem 1rem",
-            cursor: "pointer",
-            marginTop: "1.5em",
-            marginBottom: "1em",
+            width: '9em',
+            height: '2em',
+            fontSize: '1.3em',
+            backgroundColor: '#074ee8',
+            border: 'none',
+            color: 'white',
+            borderRadius: '5px',
+            fontWeight: 'bold',
+            padding: '0.5rem 1rem',
+            cursor: 'pointer',
+            marginTop: '1.5em',
+            marginBottom: '1em',
           }}
         >
           Submit
