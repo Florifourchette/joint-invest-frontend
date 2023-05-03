@@ -17,6 +17,7 @@ import { Message } from "semantic-ui-react";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import Navbar from "../components/Navbar";
+import { BiArrowBack } from "react-icons/bi";
 
 Chart.register(CategoryScale);
 
@@ -60,6 +61,11 @@ export default function Portfolio() {
   const hourlyValues = [];
 
   console.log(allCompanies);
+
+  const handleBack = (e) => {
+    e.preventDefault();
+    Navigate(-1);
+  };
 
   // if (allCompanies !== undefined) {
   //   const stockValues = Object.values(allCompanies)?.map(
@@ -164,71 +170,84 @@ export default function Portfolio() {
 
   return isAuthenticated ? (
     <>
-      <div className="portfolio_overview">
-        <h1>{portfolioName}</h1>
-        <h3>Total Assets</h3>
-        <h1>153,60</h1>
-        <h4>Amount invested</h4>
-        <h4>{investedAmount}</h4>
+      <div className="portfolio_overview" style={{ width: "500px" }}>
+        <div style={{ width: "450px", margin: "auto" }}>
+          <BiArrowBack
+            style={{
+              fontSize: "2rem",
+              position: "absolute",
+              marginTop: "20px",
+            }}
+            onClick={handleBack}
+          />
+          <div
+            className="portfolio_content d-flex flex-column align-items-center"
+            style={{ width: "300px", margin: "auto" }}
+          >
+            <h1 style={{ marginTop: "35px" }}>{portfolioName}</h1>
+            <h3>Total Assets</h3>
+            <h1>153,60</h1>
+            <h4>Amount invested</h4>
+            <h4>{investedAmount}</h4>
 
-        <p>Total loss</p>
-        <p>-12,01</p>
-      </div>
-      <div className="portfolio_lineGraph">
-        <PortfolioChart hourlyValues={hourlyValues} />
-      </div>
-      <div className="portfolio_available_amount">
-        <h4>Available amount</h4>
-        <h4>€</h4>
-      </div>
-      <div className="PortfolioDropdown">
-        <PortfolioDropdown
-          selectedInterval={selectedInterval}
-          setSelectedInterval={setSelectedInterval}
-        />
-      </div>
-      <div className="portfolio_stocks container">
-        <h3 className="text-center" style={{ padding: "2rem" }}>
-          Your Stocks
-        </h3>
-
-        {selectedInterval == "since buy" ? (
-          <div>
-            {stockItems &&
-              sharePrice &&
-              stockData &&
-              externalAPIstocks &&
-              stockItems?.map((item) => {
-                return (
-                  <StockListB
-                    item={item}
-                    externalAPIstocks={externalAPIstocks}
-                    sharePrice={sharePrice}
-                    stockData={stockData}
-                  />
-                );
-              })}
+            <p>Total loss</p>
+            <p>-12,01</p>
           </div>
-        ) : (
-          <div>
-            {stockItems &&
-              stockData &&
-              sharePrice &&
-              externalAPIstocks &&
-              stockItems?.map((item) => {
-                return (
-                  <StockListA
-                    item={item}
-                    externalAPIstocks={externalAPIstocks}
-                    sharePrice={sharePrice}
-                    stockData={stockData}
-                  />
-                );
-              })}
+          <div className="portfolio_lineGraph">
+            <PortfolioChart hourlyValues={hourlyValues} />
           </div>
-        )}
+          <div className="portfolio_available_amount">
+            <h4>Available amount</h4>
+            <h4>€</h4>
+          </div>
+          <div className="PortfolioDropdown">
+            <PortfolioDropdown
+              selectedInterval={selectedInterval}
+              setSelectedInterval={setSelectedInterval}
+            />
+          </div>
+          <div className="portfolio_stocks container">
+            <h3 className="text-center" style={{ padding: "2rem" }}>
+              Your Stocks
+            </h3>
 
-        {/* {stocklistitem_data &&
+            {selectedInterval == "since buy" ? (
+              <div>
+                {stockItems &&
+                  sharePrice &&
+                  stockData &&
+                  externalAPIstocks &&
+                  stockItems?.map((item) => {
+                    return (
+                      <StockListB
+                        item={item}
+                        externalAPIstocks={externalAPIstocks}
+                        sharePrice={sharePrice}
+                        stockData={stockData}
+                      />
+                    );
+                  })}
+              </div>
+            ) : (
+              <div>
+                {stockItems &&
+                  stockData &&
+                  sharePrice &&
+                  externalAPIstocks &&
+                  stockItems?.map((item) => {
+                    return (
+                      <StockListA
+                        item={item}
+                        externalAPIstocks={externalAPIstocks}
+                        sharePrice={sharePrice}
+                        stockData={stockData}
+                      />
+                    );
+                  })}
+              </div>
+            )}
+
+            {/* {stocklistitem_data &&
           stocklistitem_data.map((item) => {
             return (
               <StockListA
@@ -238,29 +257,31 @@ export default function Portfolio() {
               />
             );
           })} */}
-      </div>
-      <div
-        className="d-flex justify-content-center"
-        style={{ padding: "2rem" }}
-      >
-        <button
-          type="button"
-          class="btn btn-primary"
-          style={{ marginRight: "0.5rem" }}
-        >
-          Order book
-        </button>
-        <button
-          type="button"
-          class="btn btn-primary"
-          onClick={() =>
-            Navigate(`/transactions/${id}`, {
-              state: location.state,
-            })
-          }
-        >
-          Buy/Sell
-        </button>
+          </div>
+          <div
+            className="d-flex justify-content-center"
+            style={{ padding: "2rem" }}
+          >
+            <button
+              type="button"
+              class="btn btn-primary"
+              style={{ marginRight: "0.5rem" }}
+            >
+              Order book
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onClick={() =>
+                Navigate(`/transactions/${id}`, {
+                  state: location.state,
+                })
+              }
+            >
+              Buy/Sell
+            </button>
+          </div>
+        </div>
       </div>
       <Navbar />
     </>

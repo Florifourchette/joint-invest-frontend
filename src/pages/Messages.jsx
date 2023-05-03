@@ -1,30 +1,25 @@
-import Navbar from '../components/Navbar';
-import {
-  getDashboardData,
-  getTransactionsData,
-} from '../../utils/APIcalls';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import { IoIosContacts } from 'react-icons/io';
-import { parseISO } from 'date-fns';
-import { setPortfolioStatus } from '../../utils/PortfolioDeletion';
-import { useNavigate } from 'react-router-dom';
-import useAuth from '../hooks/useAuth';
-import { Message } from 'semantic-ui-react';
+import Navbar from "../components/Navbar";
+import { getDashboardData, getTransactionsData } from "../../utils/APIcalls";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { IoIosContacts } from "react-icons/io";
+import { parseISO } from "date-fns";
+import { setPortfolioStatus } from "../../utils/PortfolioDeletion";
+import { useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import { Message } from "semantic-ui-react";
+import { BiArrowBack } from "react-icons/bi";
+import LogIn from "./LogIn";
 
 export default function Messages() {
   const { userId } = useParams();
-  const Navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const [portfoliosData, setPortfoliosData] = useState([]);
   const [portfolioIds, setPortfolioIds] = useState([]);
   const [friends, setFriends] = useState([]);
   const [portfoliosNames, setPortfoliosNames] = useState([]);
-  const [transactionsDataCleaned, setTransactionDataCleaned] =
-    useState([]);
-  const [portfolioDataCleaned, setPortfolioDataCleaned] = useState(
-    []
-  );
+  const [transactionsDataCleaned, setTransactionDataCleaned] = useState([]);
+  const [portfolioDataCleaned, setPortfolioDataCleaned] = useState([]);
   const [newData, setNewData] = useState([]);
 
   const transactionsAll = [];
@@ -52,16 +47,14 @@ export default function Messages() {
 
         const portfolioInfos = data.portfolios.filter(
           (item) =>
-            item.portfolio_status !== 'deleted' &&
-            item.portfolio_status !== 'activated'
+            item.portfolio_status !== "deleted" &&
+            item.portfolio_status !== "activated"
         );
         setPortfoliosData(portfolioInfos);
         return data;
       })
       .then((data) => {
-        setPortfolioIds(
-          data.portfolios.map((item) => item.portfolio_id)
-        );
+        setPortfolioIds(data.portfolios.map((item) => item.portfolio_id));
       })
       .then((data) => {
         console.log(portfolioIds);
@@ -82,7 +75,7 @@ export default function Messages() {
     getTransactionsData(id)
       .then((data) => {
         const portfolioTransactions = data.filter(
-          (transaction) => transaction.status === 'pending'
+          (transaction) => transaction.status === "pending"
         );
         return portfolioTransactions;
       })
@@ -98,15 +91,15 @@ export default function Messages() {
     setPortfolioDataCleaned(
       portfolio?.map((item) => {
         return {
-          type: 'portfolio',
+          type: "portfolio",
           requester_id: item.user_id_request,
           requester_name: item.friend_username,
           date: item.request_creation_date,
           portfolio_name: item.name_of_portfolio,
           portfolio_id: item.portfolio_id,
           action: item.portfolio_status,
-          company_name: '',
-          number_of_shares: '',
+          company_name: "",
+          number_of_shares: "",
           initial_amount: item.initial_amount,
         };
       })
@@ -119,12 +112,10 @@ export default function Messages() {
         return items?.map((item) => {
           for (let j = 0; j < friends.length; j++) {
             for (let i = 0; i < portfoliosNames.length; i++) {
-              if (
-                item.portfolio_id === portfoliosNames[i].portfolio_id
-              ) {
+              if (item.portfolio_id === portfoliosNames[i].portfolio_id) {
                 if (item.user_id === friends[j].friend_id) {
                   return {
-                    type: 'transaction',
+                    type: "transaction",
                     requester_id: item.user_id,
                     requester_name: friends[j].friend_id,
                     date: item.creating_date,
@@ -133,20 +124,20 @@ export default function Messages() {
                     action: item.type_of_transaction,
                     company_name: item.company_name,
                     number_of_shares: item.number_of_shares,
-                    initial_amount: '',
+                    initial_amount: "",
                   };
                 } else if (item.user_id !== friends[j].friend_id) {
                   return {
-                    type: 'transaction',
+                    type: "transaction",
                     requester_id: item.user_id,
-                    requester_name: 'You',
+                    requester_name: "You",
                     date: item.creating_date,
                     portfolio_name: portfoliosNames[i].portfolio_name,
                     portfolio_id: item.portfolio_id,
                     action: item.type_of_transaction,
                     company_name: item.company_name,
                     number_of_shares: item.number_of_shares,
-                    initial_amount: '',
+                    initial_amount: "",
                   };
                 }
               }
@@ -158,7 +149,7 @@ export default function Messages() {
   };
 
   const getShorterDate = (date) => {
-    const index = date.indexOf('T');
+    const index = date.indexOf("T");
     return date.slice(0, index);
   };
 
@@ -171,7 +162,7 @@ export default function Messages() {
     });
 
   return isAuthenticated ? (
-    <div className="message_page">
+    <div className="message_page" style={{ width: "500px" }}>
       <h1>Messages</h1>
       {allData?.map((item, index) => {
         return (
@@ -185,30 +176,25 @@ export default function Messages() {
             </div>
 
             <div className="message_details">
-              {item.type === 'portfolio' &&
-              item.action === 'pending_activation'
-                ? 'Invitation'
-                : item.type === 'portfolio' &&
-                  item.action === 'pending_deletion'
-                ? 'Deletion request'
+              {item.type === "portfolio" && item.action === "pending_activation"
+                ? "Invitation"
+                : item.type === "portfolio" &&
+                  item.action === "pending_deletion"
+                ? "Deletion request"
                 : item.portfolio_name}
-              {item.type === 'portfolio' &&
-              item.action === 'pending_activation'
+              {item.type === "portfolio" && item.action === "pending_activation"
                 ? `to join ${item.portfolio_name}`
-                : item.type === 'portfolio' &&
-                  item.action === 'pending_deletion'
+                : item.type === "portfolio" &&
+                  item.action === "pending_deletion"
                 ? `to delete ${item.portfolio_name}`
-                : item.type === 'transaction' &&
-                  item.action === 'Sell'
+                : item.type === "transaction" && item.action === "Sell"
                 ? `Selling request for ${item.company_name} ${item.number_of_shares} stock(s)`
                 : `Buying request for ${item.company_name} ${item.number_of_shares} stock(s)`}
             </div>
             <div className="message_page_buttons">
-              {item.type === 'transaction' ? (
+              {item.type === "transaction" ? (
                 <button
-                  onClick={() =>
-                    Navigate(`/transactions/${item.portfolio_id}`)
-                  }
+                  onClick={() => Navigate(`/transactions/${item.portfolio_id}`)}
                 >
                   View
                 </button>
@@ -220,7 +206,7 @@ export default function Messages() {
                         item.portfolio_id,
                         userId,
                         item.action,
-                        'confirmed',
+                        "confirmed",
                         setNewData
                       );
                     }}
@@ -233,7 +219,7 @@ export default function Messages() {
                         item.portfolio_id,
                         userId,
                         item.action,
-                        'rejected',
+                        "rejected",
                         setNewData
                       );
                     }}
@@ -252,7 +238,7 @@ export default function Messages() {
   ) : (
     <div>
       <div className="d-flex justify-content-center">
-        <Message style={{ color: 'red' }}>
+        <Message style={{ color: "red" }}>
           You are not logged in, please login!
         </Message>
       </div>
