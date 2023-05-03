@@ -227,18 +227,24 @@ console.log('Last values:', lastValues);
     fetchStocks();
   }, [id]);
 
-  return isAuthenticated ? (
+  // return isAuthenticated ? (
+    return (
     <>
       <div className="portfolio_overview">
-        <h1>{portfolioName}</h1>
-        <h3>Total Assets at {lastValues.datetime}</h3>
-        <h1>$ {lastValues.close}</h1>
+      {lastValues && (
+    <>
+      <h3>Total Assets at {lastValues.datetime}</h3>
+      <h1>$ {lastValues.close}</h1>
+    </>
+    
+    )}
         {/* <h4>Amount invested</h4>
         <h4>{investedAmount}</h4>
 
         <p>Total loss</p>
         <p>-12,01</p> */}
       </div>
+
       <div className="portfolio_lineGraph">
         <PortfolioChart intervalSum={intervalSum} />
       </div>
@@ -327,16 +333,17 @@ console.log('Last values:', lastValues);
           Buy/Sell
         </button>
       </div>
-      <Navbar />
+      {/* <Navbar /> */}
     </>
-  ) : (
-    <div>
-      <div className="d-flex justify-content-center">
-        <Message style={{ color: "red" }}>
-          You are not logged in, please login!
-        </Message>
-      </div>
-      <LogIn />
-    </div>
-  );
+  )
+//   ) : (
+//     <div>
+//       <div className="d-flex justify-content-center">
+//         <Message style={{ color: "red" }}>
+//           You are not logged in, please login!
+//         </Message>
+//       </div>
+//       <LogIn />
+//     </div>
+//   );
 }
