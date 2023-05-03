@@ -541,3 +541,22 @@ button {
   background-color: blue;
   border-radius: 0.5em;
 }
+
+.hex-button {
+  display:inline-block;
+  position: relative;
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 50px 80px;
+  text-align: center;
+  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+  background-color: #31231E;
+  background-image: radial-gradient(200% 70% at center 20%, rgba(48,44,45,1) -30%, rgba(50,46,47,1) 49%, rgba(22,18,19,1) 50%, rgba(22,18,19,1) 150%);
+  background-repeat: no-repeat;
+  transition: background-position-y ease-in-out 250ms;
+}
+.hex-button:hover{
+  transform: scale(1.05);
+}

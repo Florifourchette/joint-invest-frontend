@@ -11,27 +11,35 @@ import Orderbook from "./pages/Orderbook";
 import AuthStateContext from "./contexts/AuthContext";
 import Profile from "./pages/Profile";
 import Messages from "./pages/Messages";
+import LogoHome from "./pages/LogoHome";
+import Instructions from "./pages/Instructions";
 
 function App() {
   return (
     <>
-      <AuthStateContext>
-        <Routes>
-          <Route path="/home" />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<LogIn />} />
-          <Route path="/overview/:userId" element={<Dashboard />} />
-          <Route path="/transactions/:portfolioId" element={<Transactions />} />
-          <Route path="/portfolio/:id" element={<Portfolio />} />
-          <Route path="/messages/:userId" element={<Messages />} />
-          <Route path="/profile/:userId" element={<Profile />} />
-          <Route
-            path="/create_portfolio/:userId"
-            element={<CreationPortfolio />}
-          />
-          <Route path="/order_book/:portfolio_id" element={<Orderbook />} />
-        </Routes>
-      </AuthStateContext>
+      <div>
+        <AuthStateContext>
+          <Routes>
+            <Route path="/" element={<LogoHome />} />
+            <Route path="/instructions" element={<Instructions />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<LogIn />} />
+            <Route path="/overview/:userId" element={<Dashboard />} />
+            <Route path="/portfolio/:id" element={<Portfolio />} />
+            <Route
+              path="/transactions/:portfolio_id"
+              element={<Transactions />}
+            />
+            <Route path="/orderbook/:portfolio_id" element={<Orderbook />} />
+            <Route path="/messages/:userId" element={<Messages />} />
+            <Route path="/profile/:userId" element={<Profile />} />
+            <Route
+              path="/create_portfolio/:userId"
+              element={<CreationPortfolio />}
+            />
+          </Routes>
+        </AuthStateContext>
+      </div>
     </>
   );
 }

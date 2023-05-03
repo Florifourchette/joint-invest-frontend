@@ -11,10 +11,11 @@ import { setPortfolioStatus } from '../../utils/PortfolioDeletion';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { Message } from 'semantic-ui-react';
+import { BiArrowBack } from 'react-icons/bi';
+import LogIn from './LogIn';
 
 export default function Messages() {
   const { userId } = useParams();
-  const Navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const [portfoliosData, setPortfoliosData] = useState([]);
   const [portfolioIds, setPortfolioIds] = useState([]);
@@ -82,6 +83,12 @@ export default function Messages() {
 
   const getTransactions = (id) => {
     getTransactionsData(id)
+      .then((data) => {
+        const portfolioTransactions = data.filter(
+          (transaction) => transaction.status === 'pending'
+        );
+        return portfolioTransactions;
+      })
       .then((data) => {
         console.log(data);
         transactionsAll.push(data);
@@ -171,7 +178,7 @@ export default function Messages() {
   console.log(transactionsDataCleaned);
 
   return isAuthenticated ? (
-    <div className="message_page">
+    <div className="message_page" style={{ width: '500px' }}>
       <h1>Messages</h1>
       {allData?.map((item, index) => {
         return (
