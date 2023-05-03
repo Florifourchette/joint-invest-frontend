@@ -32,6 +32,7 @@ export default function Messages() {
   useEffect(() => {
     getDashboardData(userId)
       .then((data) => {
+        console.log(data);
         setFriends(
           data.portfolios.map((item) => {
             return {
@@ -68,6 +69,7 @@ export default function Messages() {
         portfolioIds.forEach((id) => getTransactions(id));
       })
       .then((data) => {
+        console.log(portfoliosData);
         cleanDataPortfolio(portfoliosData);
       })
       .catch((error) => console.error(error));
@@ -79,6 +81,7 @@ export default function Messages() {
   }, [portfolioIds, newData]);
 
   const getTransactions = (id) => {
+    console.log(typeof id);
     getTransactionsData(id)
       .then((data) => {
         const portfolioTransactions = data.filter(
@@ -170,6 +173,8 @@ export default function Messages() {
       return dateB - dateA;
     });
 
+  console.log(allData);
+
   return isAuthenticated ? (
     <div className="message_page">
       <h1>Messages</h1>
@@ -205,14 +210,17 @@ export default function Messages() {
             </div>
             <div className="message_page_buttons">
               {item.type === 'transaction' ? (
-                <button
-                  onClick={() =>
-                    Navigate(`/transactions/${item.portfolio_id}`)
-                  }
-                >
-                  View
-                </button>
+                <p>
+                  Check the transaction page of ${item.portfolio_name}
+                </p>
               ) : (
+                // <button
+                //   onClick={() =>
+                //     Navigate(`/transactions/${item.portfolio_id}`)
+                //   }
+                // >
+                //   View
+                // </button>
                 <div>
                   <button
                     onClick={() => {
