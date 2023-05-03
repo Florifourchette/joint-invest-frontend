@@ -58,12 +58,111 @@ export default function Portfolio() {
   const [stockOverview, setStockOverview] = useState("");
   const [stockCompaniesId, setStockCompaniesId] = useState();
   const [externalAPIstocks, setExternalAPIstocks] = useState();
-  const [allCompanies, setAllCompanies] = useState();
+  // const [allCompanies, setAllCompanies] = useState();
   const [stockData, getStockData] = useState();
 
   const hourlyValues = [];
 
-  console.log(allCompanies);
+  const allCompanies = {
+    AAPL: {
+      meta: {
+        symbol: 'AAPL',
+        interval: '1h',
+        currency: 'USD',
+        exchange_timezone: 'America/New_York',
+        exchange: 'NASDAQ',
+      },
+      status: 'ok',
+      values: [
+        {
+          datetime: '2023-05-02 15:30:00',
+          open: '168.97',
+          high: '168.98',
+          low: '168.39',
+          close: '168.55',
+        },
+        {
+          datetime: '2023-05-02 14:30:00',
+          open: '168.47',
+          high: '169.28',
+          low: '168.46',
+          close: '168.96',
+        },
+        {
+          datetime: '2023-05-02 13:30:00',
+          open: '168.80',
+          high: '168.95',
+          low: '168.35',
+          close: '168.47',
+        },
+        {
+          datetime: '2023-05-02 12:30:00',
+          open: '168.11',
+          high: '168.93',
+          low: '168.09',
+          close: '168.81',
+        },
+        {
+          datetime: '2023-05-02 11:30:00',
+          open: '167.82',
+          high: '168.23',
+          low: '167.54',
+          close: '168.11',
+        },
+        {
+          datetime: '2023-05-02 10:30:00',
+          open: '168.67',
+          high: '168.73',
+          low: '167.70',
+          close: '167.82',
+        },
+        {
+          datetime: '2023-05-02 09:30:00',
+          open: '170.09',
+          high: '170.35',
+          low: '168.49',
+          close: '168.71',
+        },
+        {
+          datetime: '2023-05-01 15:30:00',
+          open: '169.70',
+          high: '169.90',
+          low: '169.25',
+          close: '169.56',
+        },
+      ],
+    },}
+
+  const datetimeValuesMap = {};
+
+  console.log('all comps',allCompanies);
+  for (const key in allCompanies) {
+    const values = allCompanies[key].values;
+  
+    for (const value of values) {
+      const datetime = value.datetime;
+  
+      if (datetime in datetimeValuesMap) {
+        const properties = Object.keys(value);
+        for (const property of properties) {
+          if (property !== 'datetime') {
+            datetimeValuesMap[datetime][property] += parseFloat(value[property]);
+          }
+        }
+      } else {
+        datetimeValuesMap[datetime] = { datetime };
+        const properties = Object.keys(value);
+        for (const property of properties) {
+          if (property !== 'datetime') {
+            datetimeValuesMap[datetime][property] = parseFloat(value[property]);
+          }
+        }
+      }
+    }
+  }
+  
+  const result = Object.values(datetimeValuesMap);
+  console.log('result',result);
 
   // if (allCompanies !== undefined) {
   //   const stockValues = Object.values(allCompanies)?.map(
@@ -114,57 +213,57 @@ export default function Portfolio() {
 
   //api calls
 
-  useEffect(() => {
-    async function getPortfolioStocks() {
-      try {
-        const response = await axios.get(
-          `http://localhost:3000/api/portfolio/${id}`
-        );
-        setStockItems(response.data.stocks);
-        //console.log(response);
-        return response.data.stocks;
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    async function stockDataExternal() {
-      try {
-        const nextResponse = await axios.get(
-          `https://api.twelvedata.com/quote?symbol=${tickers}&apikey=${portfolioAPIKey1}`
-        );
-        //console.log(myStocksIds);
-        console.log(nextResponse);
-        setExternalAPIstocks(nextResponse.data);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    async function fetchMultipleCompanies() {
-      try {
-        //console.log(myStocksIds);
-        const { data } = await axios.get(
-          `https://api.twelvedata.com/time_series?symbol=${tickers}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=${portfolioAPIKey2}`
-        );
-        console.log(data);
-        setAllCompanies(data);
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
-    async function fetchStocks() {
-      try {
-        const stockInfos = await axios.get("http://localhost:3000/api/stocks");
-        getStockData(stockInfos.data);
-        console.log(stockInfos.data);
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
-    getPortfolioStocks();
-    stockDataExternal();
-    fetchMultipleCompanies();
-    fetchStocks();
-  }, []);
+  // useEffect(() => {
+  //   async function getPortfolioStocks() {
+  //     try {
+  //       const response = await axios.get(
+  //         `http://localhost:3000/api/portfolio/${id}`
+  //       );
+  //       setStockItems(response.data.stocks);
+  //       //console.log(response);
+  //       return response.data.stocks;
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   }
+  //   async function stockDataExternal() {
+  //     try {
+  //       const nextResponse = await axios.get(
+  //         `https://api.twelvedata.com/quote?symbol=${tickers}&apikey=${portfolioAPIKey1}`
+  //       );
+  //       //console.log(myStocksIds);
+  //       console.log(nextResponse);
+  //       setExternalAPIstocks(nextResponse.data);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   }
+  //   async function fetchMultipleCompanies() {
+  //     try {
+  //       //console.log(myStocksIds);
+  //       const { data } = await axios.get(
+  //         `https://api.twelvedata.com/time_series?symbol=${tickers}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=${portfolioAPIKey2}`
+  //       );
+  //       console.log(data);
+  //       setAllCompanies(data);
+  //     } catch (error) {
+  //       console.log(error.message);
+  //     }
+  //   }
+  //   async function fetchStocks() {
+  //     try {
+  //       const stockInfos = await axios.get("http://localhost:3000/api/stocks");
+  //       getStockData(stockInfos.data);
+  //       console.log(stockInfos.data);
+  //     } catch (error) {
+  //       console.log(error.message);
+  //     }
+  //   }
+  //   getPortfolioStocks();
+  //   stockDataExternal();
+  //   fetchMultipleCompanies();
+  //   fetchStocks();
+  // }, [id]);
 
   return isAuthenticated ? (
     <>
