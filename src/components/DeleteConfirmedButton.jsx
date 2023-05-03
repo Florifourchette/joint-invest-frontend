@@ -20,7 +20,7 @@ const DeleteConfirmedButton = ({
   return (
     <div className="dashboard_buttons">
       {/* current status 'activated' */}
-      {data.portfolio_status === "activated" ? (
+      {data.portfolio_status === "activated"? (
         <>
           <button
             className="to-portfolio-btn"
@@ -88,6 +88,58 @@ const DeleteConfirmedButton = ({
                 <IoIosTrash size={30} />
               </i>
             </div>
+          </button>
+        </>
+      ) : (
+        <></>
+      )}
+
+{data.portfolio_status === "pending_deletion" &&
+      parseInt(userId) === data.user_id_request? (
+        <>
+          <button
+            className="to-portfolio-btn"
+            //Navigating and passing the current prices to the portfolio page
+            onClick={() => {
+              // Filter the wallet for the stocks in the current portfolio
+              const filteredWallet = wallet.filter(
+                (stock) => stock.portfolio_id === data.portfolio_id
+              );
+
+              // Filter the prices for the stocks in the current portfolio
+              const filteredPrices = {};
+              filteredWallet.forEach((stock) => {
+                if (prices[stock.company_id]) {
+                  filteredPrices[stock.company_id] =
+                    prices[stock.company_id].price;
+                }
+              });
+
+              // Filter the number of shares for the stocks in the current portfolio
+              const filteredShares = {};
+              wallet.forEach((stock) => {
+                if (filteredShares[stock.portfolio_id]) {
+                  filteredShares[stock.portfolio_id][stock.company_id] =
+                    stock.number_of_shares;
+                } else {
+                  filteredShares[stock.portfolio_id] = {
+                    [stock.company_id]: stock.number_of_shares,
+                  };
+                }
+              });
+
+              // Pass the filtered data to the next page
+              Navigate(`/portfolio/${data.portfolio_id}`, {
+                state: {
+                  prices: filteredPrices,
+                  userId: userId,
+                  number_of_shares: filteredShares[data.portfolio_id],
+                  friend: data.friend_username,
+                },
+              });
+            }}
+          >
+            <IoIosArrowDroprightCircle className="to-portfolio-icon" />{" "}
           </button>
         </>
       ) : (
