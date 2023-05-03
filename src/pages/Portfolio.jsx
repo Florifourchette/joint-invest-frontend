@@ -153,14 +153,14 @@ export default function Portfolio() {
   const datetimeValuesMap = {};
 
   console.log('all comps', allCompanies);
-  
+
   if (allCompanies && Object.keys(allCompanies).length > 0) {
     for (const key in allCompanies) {
       const values = allCompanies[key].values;
-  
+
       for (const value of values) {
         const datetime = value.datetime;
-  
+
         if (datetime in datetimeValuesMap) {
           const properties = Object.keys(value);
           for (const property of properties) {
@@ -184,7 +184,7 @@ export default function Portfolio() {
       }
     }
   }
-  
+
   console.log(datetimeValuesMap);
   const intervalSum = Object.values(datetimeValuesMap);
   console.log('result', intervalSum);
@@ -202,7 +202,7 @@ export default function Portfolio() {
     async function getPortfolioStocks() {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/portfolio/${id}`
+          `https://joint-invest-back-end.onrender.com/api/portfolio/${id}`
         );
         setStockItems(response.data.stocks);
         //console.log(response);
@@ -238,7 +238,7 @@ export default function Portfolio() {
     async function fetchStocks() {
       try {
         const stockInfos = await axios.get(
-          'http://localhost:3000/api/stocks'
+          'https://joint-invest-back-end.onrender.com/api/stocks'
         );
         getStockData(stockInfos.data);
         console.log(stockInfos.data);
