@@ -61,7 +61,6 @@ export default function Portfolio() {
   // const [allCompanies, setAllCompanies] = useState();
   const [stockData, getStockData] = useState();
 
-  const hourlyValues = [];
 
   const allCompanies = {
     AAPL: {
@@ -161,55 +160,9 @@ export default function Portfolio() {
     }
   }
   
-  const result = Object.values(datetimeValuesMap);
-  console.log('result',result);
+  const intervalSum = Object.values(datetimeValuesMap);
+  console.log('result',intervalSum);
 
-  // if (allCompanies !== undefined) {
-  //   const stockValues = Object.values(allCompanies)?.map(
-  //     (company) => company.values
-  //   );
-  //   //console.log(typeof stockValues);
-
-  //   const closeValues = stockValues?.map((subArray) =>
-  //     subArray?.map((obj) => obj.close)
-  //   );
-
-  //   console.log(closeValues);
-  //   console.log(typeof closeValues[0]);
-
-  //   if (closeValues !== undefined) {
-  //     for (const [index, item] of closeValues.entries()) {
-  //       closeValues[index]['current_total_value'] = [];
-  //       //console.log(index);
-
-  //       for (const [index2, stockValueItem] of closeValues[
-  //         index
-  //       ].entries()) {
-  //         closeValues[index]['current_total_value'].push(
-  //           stockItems[0]?.current_number_of_stocks *
-  //             parseFloat(item[index2])
-  //         );
-  //         //console.log(closeValues);
-  //       }
-  //     }
-  //   } else {
-  //     return (closeValues = [1, 1, 1]);
-  //   }
-  //   //console.log(typeof closeValues);
-
-  //   const currentTotalValueArray = closeValues?.map(
-  //     (subArray) => subArray.current_total_value
-  //   );
-
-  //   for (let i = 0; i < currentTotalValueArray[0].length; i++) {
-  //     let sum = 0;
-  //     for (let j = 0; j < currentTotalValueArray.length; j++) {
-  //       sum += currentTotalValueArray[j][i];
-  //     }
-  //     hourlyValues.push(sum);
-  //   }
-  //   //console.log(hourlyValues);
-  // }
 
   //api calls
 
@@ -278,7 +231,7 @@ export default function Portfolio() {
         <p>-12,01</p>
       </div>
       <div className="portfolio_lineGraph">
-        <PortfolioChart hourlyValues={hourlyValues} />
+        <PortfolioChart intervalSum={intervalSum} />
       </div>
       <div className="portfolio_available_amount">
         <h4>Available amount</h4>
