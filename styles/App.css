@@ -1,0 +1,562 @@
+/* CSS Reset */
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Common CSS */
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+body h1 {
+  font-size: 2.5em;
+  font-weight: bold;
+  text-align: center;
+  margin: 1em;
+  padding-top: 1em;
+}
+
+.assets {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2em;
+}
+.assets h2 {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 0;
+}
+.assets h3 {
+  margin: 0;
+  font-weight: bold;
+  font-size: 1.25em;
+}
+.assets h4 {
+  margin: 0;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+.assets h5 {
+  margin: 0;
+}
+
+button {
+  background-color: none;
+  border: none;
+}
+
+/* Overview Page */
+.portfolio-cards {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.portfolio-card {
+  width: 90%;
+  display: flex;
+  border: 2px solid blue;
+  border-radius: 10px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 1em;
+  padding: 1em;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.portfolio-card h4 {
+  font-weight: bold;
+}
+
+.portfolio-name-status {
+  align-items: center;
+  width: 40%;
+  margin-left: 0.5em;
+}
+
+.portfolio-name-status h4 {
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.porfolio-card-values {
+  align-items: center;
+}
+
+.porfolio-card-value {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 0.5em;
+}
+
+.portfolio-value-title {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin: 0;
+}
+
+.portfolio-add-btn {
+  width: 4em;
+  height: 3em;
+  background-color: #074ee8;
+  border-radius: 5px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
+.friend-box {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 5%;
+}
+.friend {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+.friend-icon {
+  font-size: 2em;
+  align-items: center;
+  fill: blue;
+}
+
+.to-portfolio-btn {
+  border-style: none;
+  color: transparent;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.to-portfolio-icon {
+  font-size: 3rem;
+  color: blue;
+}
+
+.to-portfolio-icon:hover {
+  font-size: 3rem;
+  color: rgb(2, 2, 117);
+}
+
+.portfolio-add {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2em;
+  font-weight: bold;
+}
+.portfolio-add p {
+  font-size: 1.25em;
+}
+.portfolio-add-icon {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.positive {
+  color: green;
+}
+
+.negative {
+  color: red;
+}
+
+.dashboard_buttons {
+  display: flex;
+  flex-direction: column;
+  width: 10%;
+  align-items: center;
+}
+
+.rejection_button {
+  color: white;
+  background-color: red;
+  padding: 0.2rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.rejection_button:hover {
+  color: rgb(190, 188, 188);
+  background-color: rgb(145, 3, 3);
+}
+
+.confirmation_button {
+  color: green;
+  background-color: white;
+  padding: 0.2rem;
+  width: auto;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.confirmation_button:hover {
+  color: rgb(1, 66, 1);
+  background-color: white;
+  padding: 0.2rem;
+  width: auto;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.button_portfolio_status_change {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: none;
+}
+
+.message_container {
+  font-size: 1.1em;
+  color: #fff;
+  background: rgb(2, 2, 117);
+  position: relative;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 25px auto 0 auto;
+  max-width: 320px;
+}
+
+.message_container::after {
+  content: '';
+  border: 20px solid transparent;
+  position: absolute;
+  border-bottom-color: rgb(2, 2, 117);
+  border-top: 0;
+  top: -20px;
+  left: 80%;
+  margin-left: -20px;
+}
+
+.message_container p {
+  position: relative;
+  margin: auto;
+  width: 90%;
+  background-color: rgb(2, 2, 117);
+  color: white;
+  z-index: 2;
+}
+
+.message_container span {
+  font-weight: bold;
+}
+
+/*portfolio creation page */
+.portfolioCreationPage {
+  margin-top: 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page-description {
+  text-align: center;
+  margin-bottom: 2em;
+}
+
+.creation_form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+}
+
+.creation_submitbtn {
+  align-self: center;
+}
+
+/* TRANSACTIONS PAGE */
+
+.your-portfolio-stocks {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+.your-stock-card {
+  display: flex;
+  flex-direction: row;
+  border: 2px solid blue;
+  justify-content: space-around;
+  margin-bottom: 1em;
+}
+.your-stock-logo {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.your-stock-name-price {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.stock-counter {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.buy-sell-btns {
+  display: flex;
+  flex-direction: column;
+}
+.buy-sell-btn {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+.stock-searchbar{
+  border: 2px black solid;
+  display: flex;
+}
+
+/* Modals */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); 
+  z-index: 1;
+}
+
+.modal-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 1px solid black;
+  z-index: 2;
+  width: 100%;
+  height: 50vh;
+}
+
+/* StockSearch */
+
+.transaction-search{
+  margin:0 auto;
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+
+}
+.drop-down{
+  border: 1px transparent black;
+  width: 70%;
+  margin: auto;
+  background-color: #8d9ec2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: height 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+
+/* Message page */
+.message_page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.message_body {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 90%;
+  margin: 1em;
+  padding: 1em;
+  border: solid 2px lightgrey;
+  border-radius: 1em;
+}
+
+.message_infos {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.message_infos p {
+  padding: 0;
+  margin: 0;
+}
+
+.message_details {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.message_page_buttons {
+  width: 10%;
+}
+
+.message_page_buttons button {
+  width: 120%;
+  color: white;
+  background-color: blue;
+  border-radius: 0.5em;
+}
+
+.hex-button {
+  display:inline-block;
+  position: relative;
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 50px 80px;
+  text-align: center;
+  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+  background-color: #31231E;
+  background-image: radial-gradient(200% 70% at center 20%, rgba(48,44,45,1) -30%, rgba(50,46,47,1) 49%, rgba(22,18,19,1) 50%, rgba(22,18,19,1) 150%);
+  background-repeat: no-repeat;
+  transition: background-position-y ease-in-out 250ms;
+}
+.hex-button:hover{
+  transform: scale(1.05);
+}
