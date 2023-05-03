@@ -4,10 +4,14 @@ import StockListA from "../components/PortfolioStockListA";
 import StockListB from "../components/PortfolioStockListB";
 import PortfolioChart from "../components/PortfolioChart.jsx";
 import PortfolioDropdown from "../components/PortfolioDropdown";
+import { stocklistitem_data } from "../assets/stocklistitem_data";
+import { v4 as uuidv4 } from "uuid";
 import { mockPortfolioData } from "../assets/mockPortfolioData";
 import axios from "axios";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import LogIn from "./LogIn";
+import { Message } from "semantic-ui-react";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import Navbar from "../components/Navbar";
@@ -27,15 +31,13 @@ export default function Portfolio() {
   const [shareNumber, setShareNumber] = useState(
     location.state.number_of_shares
   );
-  const tickers = Object.keys(sharePrice).join();
-  const tickersArray = Object.keys(sharePrice);
 
   console.log(sharePrice);
   console.log(shareNumber);
-  console.log(tickers);
 
-  const portfolioData = location.state;
-  const ticker = Object.keys(portfolioData.number_of_shares).join();
+  const tickers = Object.keys(sharePrice).join();
+
+  console.log(tickers);
 
   const [selectedInterval, setSelectedInterval] = useState("");
   const [stockItems, setStockItems] = useState([]);
@@ -363,11 +365,9 @@ export default function Portfolio() {
         const closeValues = getCloseValuesFromAllCompanies(data);
         console.log(closeValues);
 
-        console.log(stockItems);
-
         //working with the fetched data
 
-        if (closeValues !== undefined) {
+        /*  if (closeValues !== undefined) {
           closeValues.forEach((stockValues, index) => {
             closeValues[index] = stockValues.map((value) => {
               return (
@@ -375,7 +375,7 @@ export default function Portfolio() {
               );
             });
           });
-        }
+        } */
 
         console.log(stockValues);
 
