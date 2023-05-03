@@ -444,6 +444,10 @@ button {
   margin-top: 0.2em;
   margin-bottom: 0.2em;
 }
+.stock-searchbar{
+  border: 2px black solid;
+  display: flex;
+}
 
 /* Modals */
 
@@ -453,12 +457,7 @@ button {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(
-    0,
-    0,
-    0,
-    0.5
-  ); /* semi-transparent black overlay */
+  background-color: rgba(0, 0, 0, 0.5); 
   z-index: 1;
 }
 
@@ -473,6 +472,27 @@ button {
   width: 100%;
   height: 50vh;
 }
+
+/* StockSearch */
+
+.transaction-search{
+  margin:0 auto;
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+
+}
+.drop-down{
+  border: 1px transparent black;
+  width: 70%;
+  margin: auto;
+  background-color: #8d9ec2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: height 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  cursor: pointer;
+  overflow: hidden;
+}
+
 
 /* Message page */
 .message_page {

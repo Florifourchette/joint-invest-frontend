@@ -17,10 +17,6 @@ export default function TransactionCardPending({
                 <h4>
                     {stock.company_id} <span>{location.number_of_shares[stock.company_id]}</span> 
                 </h4>
-                <h4>
-                    Price:{" "}
-                    {Number(location.prices[stock.company_id]).toFixed(2)}
-                </h4>
             </div>
             <div className="pending-message">
                 {location.userId != stock.user_id &&  stock.number_of_shares >= 2 &&(

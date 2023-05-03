@@ -4,8 +4,8 @@ import {
   writeTransaction,
   confirmOrCancelTransaction,
 } from "../../utils/APIcalls";
-import { useParams, useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import LogIn from "./LogIn";
 import { Message } from "semantic-ui-react";
@@ -18,6 +18,9 @@ import ModalDecline from "../components/ModalDecline";
 import ModalCancellation from "../components/ModalCancellation";
 import TransactionCard from "../components/TransactionCard";
 import TransactionCardPending from "../components/TransactionCardPending";
+import TransactionCardSearch from "../components/TransactionCardSearch";
+import StockSearchBar from "../components/StockSearch";
+import { createApiUrl } from "../../utils/CreateAPIUrl";
 import { BiArrowBack } from "react-icons/bi";
 
 export default function Transactions() {
@@ -39,12 +42,20 @@ export default function Transactions() {
   const [transactionData, setTransactionData] = useState([{}]);
   const [confirmOrDeclince, setConfirmOrDeclince] = useState("");
   const [transactionId, setTransactionId] = useState();
+  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOptionPrice, setSelectedOptionPrice] = useState([]);
   const Navigate = useNavigate();
 
   const handleBack = (e) => {
     e.preventDefault();
     Navigate(-1);
   };
+
+  //Extract search terms for API calls
+  const [substring1, substring2] = selectedOption.split("(");
+  const companyId = substring2?.slice(0, -1);
+  const companyName = substring1;
+  console.log("companyId:", companyId);
 
   //Use Effects
   useEffect(() => {
@@ -55,6 +66,27 @@ export default function Transactions() {
       })
       .catch((error) => console.error(error));
   }, [portfolioId]);
+
+  useEffect(() => {
+    if (selectedOption !== "") {
+      console.log("iside the effect", companyId);
+      const apiUrl = createApiUrl(companyId);
+      console.log(apiUrl);
+      const apiCall = async () => {
+        try {
+          fetch(apiUrl)
+            .then((response) => response.json())
+            .then((data) => {
+              setSelectedOptionPrice(Number(data.price).toFixed(2));
+              console.log("price", selectedOptionPrice);
+            });
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      apiCall();
+    }
+  }, [selectedOption, companyId]);
 
   console.log(yourStocks);
 
@@ -170,8 +202,7 @@ export default function Transactions() {
     confirmOrCancelTransaction(portfolioId, transactionId, transactionData);
     setShowCancellationModal(false);
   };
-
-  // return isAuthenticated ?(
+  // return isAuthenticated ? (
   return (
     <div>
       <div style={{ width: "450px" }}>
@@ -184,35 +215,53 @@ export default function Transactions() {
         <h1>Buy/Sell</h1>
         <p>Once both partners have confirmed we will process your request</p>
       </div>
-      <div className="SearchBar">SearchBar goes here</div>
+      <div className="SearchBar">
+        <StockSearchBar
+          selectedOption={selectedOption}
+          setSelectedOption={setSelectedOption}
+        />
+      </div>
       <div className="transactions-container">
         <div className="your-stocks">
           <h2>Your Stocks</h2>
           <div className="your-portfolio-stocks">
-            {yourStocks.map((stock, index) => {
-              if (stock.status === "pending") {
-                return (
-                  <TransactionCardPending
-                    key={stock.id}
-                    stock={stock}
-                    location={location.state}
-                    handlePurchase={handlePurchase}
-                    handleDecline={handleDecline}
-                    handleCancelRequest={handleCancelRequest}
-                  />
-                );
-              } else {
-                return (
-                  <TransactionCard
-                    key={stock.id}
-                    stock={stock}
-                    handleBuy={handleBuy}
-                    handleSell={handleSell}
-                    location={location.state}
-                  />
-                );
-              }
-            })}
+            {selectedOption !== "" && (
+              <TransactionCardSearch
+                selectedOption={selectedOption}
+                handleBuy={handleBuy}
+                companyId={companyId}
+                companyName={companyName}
+                selectedOptionPrice={selectedOptionPrice}
+              />
+            )}
+            {selectedOption === "" && (
+              <>
+                {yourStocks.map((stock, index) => {
+                  if (stock.status === "pending") {
+                    return (
+                      <TransactionCardPending
+                        key={stock.id}
+                        stock={stock}
+                        location={location.state}
+                        handlePurchase={handlePurchase}
+                        handleDecline={handleDecline}
+                        handleCancelRequest={handleCancelRequest}
+                      />
+                    );
+                  } else {
+                    return (
+                      <TransactionCard
+                        key={stock.id}
+                        stock={stock}
+                        handleBuy={handleBuy}
+                        handleSell={handleSell}
+                        location={location.state}
+                      />
+                    );
+                  }
+                })}
+              </>
+            )}
             {selectedStock && showModal && (
               <ModalTransactionBuy
                 message={`Are you sure you want to ${
@@ -260,14 +309,14 @@ export default function Transactions() {
       </div>
     </div>
   );
-  // : (
+  // ) : (
   //     <div>
-  //       <div className="d-flex justify-content-center">
-  //         <Message style={{ color: "red" }}>
-  //           You are not logged in, please login!
-  //         </Message>
-  //       </div>
-  //       <LogIn />
+  //         <div className="d-flex justify-content-center">
+  //             <Message style={{ color: "red" }}>
+  //                 You are not logged in, please login!
+  //             </Message>
+  //         </div>
+  //         <LogIn />
   //     </div>
   // );
 }

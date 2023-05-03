@@ -21,6 +21,9 @@ import { BiArrowBack } from "react-icons/bi";
 
 Chart.register(CategoryScale);
 
+const portfolioAPIKey1 = import.meta.env.VITE_PORTFOLIO_API_KEY1;
+const portfolioAPIKey2 = import.meta.env.VITE_PORTFOLIO_API_KEY2;
+
 export default function Portfolio() {
   const { isAuthenticated } = useAuth();
   const portfolioName = mockPortfolioData[0].overview[0].name_of_portfolio;
@@ -40,8 +43,8 @@ export default function Portfolio() {
   const tickers = Object.keys(sharePrice).join();
   const tickersArray = Object.keys(sharePrice);
 
-  console.log(sharePrice);
-  console.log(shareNumber);
+  console.log("SHARE PRICE", sharePrice);
+  console.log("SHARE NUKM", shareNumber);
   console.log(tickers);
 
   const companyIds = mockPortfolioData[0].stocks?.map(
@@ -58,9 +61,75 @@ export default function Portfolio() {
   const [allCompanies, setAllCompanies] = useState();
   const [stockData, getStockData] = useState();
 
-  const hourlyValues = [];
-
-  console.log(allCompanies);
+  // const allCompanies = {
+  //   AAPL: {
+  //     meta: {
+  //       symbol: 'AAPL',
+  //       interval: '1h',
+  //       currency: 'USD',
+  //       exchange_timezone: 'America/New_York',
+  //       exchange: 'NASDAQ',
+  //     },
+  //     status: 'ok',
+  //     values: [
+  //       {
+  //         datetime: '2023-05-02 15:30:00',
+  //         open: '168.97',
+  //         high: '168.98',
+  //         low: '168.39',
+  //         close: '168.55',
+  //       },
+  //       {
+  //         datetime: '2023-05-02 14:30:00',
+  //         open: '168.47',
+  //         high: '169.28',
+  //         low: '168.46',
+  //         close: '168.96',
+  //       },
+  //       {
+  //         datetime: '2023-05-02 13:30:00',
+  //         open: '168.80',
+  //         high: '168.95',
+  //         low: '168.35',
+  //         close: '168.47',
+  //       },
+  //       {
+  //         datetime: '2023-05-02 12:30:00',
+  //         open: '168.11',
+  //         high: '168.93',
+  //         low: '168.09',
+  //         close: '168.81',
+  //       },
+  //       {
+  //         datetime: '2023-05-02 11:30:00',
+  //         open: '167.82',
+  //         high: '168.23',
+  //         low: '167.54',
+  //         close: '168.11',
+  //       },
+  //       {
+  //         datetime: '2023-05-02 10:30:00',
+  //         open: '168.67',
+  //         high: '168.73',
+  //         low: '167.70',
+  //         close: '167.82',
+  //       },
+  //       {
+  //         datetime: '2023-05-02 09:30:00',
+  //         open: '170.09',
+  //         high: '170.35',
+  //         low: '168.49',
+  //         close: '168.71',
+  //       },
+  //       {
+  //         datetime: '2023-05-01 15:30:00',
+  //         open: '169.70',
+  //         high: '169.90',
+  //         low: '169.25',
+  //         close: '169.56',
+  //       },
+  //     ],
+  //   },}
 
   const handleBack = (e) => {
     e.preventDefault();
@@ -72,47 +141,47 @@ export default function Portfolio() {
   //     (company) => company.values
   //   );
   //   //console.log(typeof stockValues);
+  const datetimeValuesMap = {};
 
-  //   const closeValues = stockValues?.map((subArray) =>
-  //     subArray?.map((obj) => obj.close)
-  //   );
+  console.log("all comps", allCompanies);
 
-  //   console.log(closeValues);
-  //   console.log(typeof closeValues[0]);
+  for (const key in allCompanies) {
+    const values = allCompanies[key].values;
 
-  //   if (closeValues !== undefined) {
-  //     for (const [index, item] of closeValues.entries()) {
-  //       closeValues[index]['current_total_value'] = [];
-  //       //console.log(index);
+    for (const value of values) {
+      const datetime = value.datetime;
 
-  //       for (const [index2, stockValueItem] of closeValues[
-  //         index
-  //       ].entries()) {
-  //         closeValues[index]['current_total_value'].push(
-  //           stockItems[0]?.current_number_of_stocks *
-  //             parseFloat(item[index2])
-  //         );
-  //         //console.log(closeValues);
-  //       }
-  //     }
-  //   } else {
-  //     return (closeValues = [1, 1, 1]);
-  //   }
-  //   //console.log(typeof closeValues);
+      if (datetime in datetimeValuesMap) {
+        const properties = Object.keys(value);
+        for (const property of properties) {
+          if (property !== "datetime") {
+            datetimeValuesMap[datetime][property] +=
+              parseFloat(value[property]) * parseFloat(shareNumber[key]);
+          }
+        }
+      } else {
+        datetimeValuesMap[datetime] = { datetime };
+        const properties = Object.keys(value);
+        for (const property of properties) {
+          if (property !== "datetime") {
+            datetimeValuesMap[datetime][property] =
+              parseFloat(value[property]) * parseFloat(shareNumber[key]);
+          }
+        }
+      }
+    }
+  }
 
-  //   const currentTotalValueArray = closeValues?.map(
-  //     (subArray) => subArray.current_total_value
-  //   );
+  console.log(datetimeValuesMap);
+  const intervalSum = Object.values(datetimeValuesMap);
+  console.log("result", intervalSum);
 
-  //   for (let i = 0; i < currentTotalValueArray[0].length; i++) {
-  //     let sum = 0;
-  //     for (let j = 0; j < currentTotalValueArray.length; j++) {
-  //       sum += currentTotalValueArray[j][i];
-  //     }
-  //     hourlyValues.push(sum);
-  //   }
-  //   //console.log(hourlyValues);
-  // }
+  // Extract the summed value at the last timestamp
+  const timestamps = Object.keys(datetimeValuesMap);
+  const lastTimestamp = timestamps[timestamps.length - 1];
+  const lastValues = datetimeValuesMap[lastTimestamp];
+  console.log("Last timestamp:", lastTimestamp);
+  console.log("Last values:", lastValues);
 
   //api calls
 
@@ -132,7 +201,7 @@ export default function Portfolio() {
     async function stockDataExternal() {
       try {
         const nextResponse = await axios.get(
-          `https://api.twelvedata.com/quote?symbol=${tickers}&apikey=6a897c4468e74344b1546b36728e991b`
+          `https://api.twelvedata.com/quote?symbol=${tickers}&apikey=${portfolioAPIKey1}`
         );
         //console.log(myStocksIds);
         console.log(nextResponse);
@@ -145,7 +214,7 @@ export default function Portfolio() {
       try {
         //console.log(myStocksIds);
         const { data } = await axios.get(
-          `https://api.twelvedata.com/time_series?symbol=${tickers}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=da4a4e4ca02f4f06a70e827bc75e2458`
+          `https://api.twelvedata.com/time_series?symbol=${tickers}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=${portfolioAPIKey2}`
         );
         console.log(data);
         setAllCompanies(data);
@@ -166,88 +235,98 @@ export default function Portfolio() {
     stockDataExternal();
     fetchMultipleCompanies();
     fetchStocks();
-  }, []);
+  }, [id]);
 
-  return isAuthenticated ? (
+  // return isAuthenticated ? (
+  return (
     <>
-      <div className="portfolio_overview" style={{ width: "500px" }}>
-        <div style={{ width: "450px", margin: "auto" }}>
-          <BiArrowBack
-            style={{
-              fontSize: "2rem",
-              position: "absolute",
-              marginTop: "20px",
-            }}
-            onClick={handleBack}
-          />
-          <div
-            className="portfolio_content d-flex flex-column align-items-center"
-            style={{ width: "300px", margin: "auto" }}
-          >
-            <h1 style={{ marginTop: "35px" }}>{portfolioName}</h1>
-            <h3>Total Assets</h3>
-            <h1>153,60</h1>
-            <h4>Amount invested</h4>
-            <h4>{investedAmount}</h4>
+      <div className="portfolio_overview">
+        {lastValues && (
+          <>
+            <h3>Total Assets at {lastValues.datetime}</h3>
+            <h1>$ {lastValues.close}</h1>
+          </>
+        )}
+        {/* <h4>Amount invested</h4>
+        <h4>{investedAmount}</h4>
 
-            <p>Total loss</p>
-            <p>-12,01</p>
-          </div>
-          <div className="portfolio_lineGraph">
-            <PortfolioChart hourlyValues={hourlyValues} />
-          </div>
-          <div className="portfolio_available_amount">
-            <h4>Available amount</h4>
-            <h4>€</h4>
-          </div>
-          <div className="PortfolioDropdown">
-            <PortfolioDropdown
-              selectedInterval={selectedInterval}
-              setSelectedInterval={setSelectedInterval}
-            />
-          </div>
-          <div className="portfolio_stocks container">
-            <h3 className="text-center" style={{ padding: "2rem" }}>
-              Your Stocks
-            </h3>
+        <p>Total loss</p>
+        <p>-12,01</p> */}
+      </div>
 
-            {selectedInterval == "since buy" ? (
-              <div>
-                {stockItems &&
-                  sharePrice &&
-                  stockData &&
-                  externalAPIstocks &&
-                  stockItems?.map((item) => {
-                    return (
-                      <StockListB
-                        item={item}
-                        externalAPIstocks={externalAPIstocks}
-                        sharePrice={sharePrice}
-                        stockData={stockData}
-                      />
-                    );
-                  })}
-              </div>
-            ) : (
-              <div>
-                {stockItems &&
-                  stockData &&
-                  sharePrice &&
-                  externalAPIstocks &&
-                  stockItems?.map((item) => {
-                    return (
-                      <StockListA
-                        item={item}
-                        externalAPIstocks={externalAPIstocks}
-                        sharePrice={sharePrice}
-                        stockData={stockData}
-                      />
-                    );
-                  })}
-              </div>
-            )}
+      <div className="portfolio_lineGraph">
+        <PortfolioChart intervalSum={intervalSum} />
+      </div>
+      <div className="portfolio_available_amount">
+        <h4>Available amount</h4>
+        <h4>€</h4>
+      </div>
+      <div className="PortfolioDropdown">
+        <PortfolioDropdown
+          selectedInterval={selectedInterval}
+          setSelectedInterval={setSelectedInterval}
+        />
+      </div>
+      <div className="portfolio_stocks container">
+        <h3 className="text-center" style={{ padding: "2rem" }}>
+          Your Stocks
+        </h3>
+      </div>
+      <div className="portfolio_lineGraph">
+        <PortfolioChart hourlyValues={hourlyValues} />
+      </div>
+      <div className="portfolio_available_amount">
+        <h4>Available amount</h4>
+        <h4>€</h4>
+      </div>
+      <div className="PortfolioDropdown">
+        <PortfolioDropdown
+          selectedInterval={selectedInterval}
+          setSelectedInterval={setSelectedInterval}
+        />
+      </div>
+      <div className="portfolio_stocks container">
+        <h3 className="text-center" style={{ padding: "2rem" }}>
+          Your Stocks
+        </h3>
 
-            {/* {stocklistitem_data &&
+        {selectedInterval == "since buy" ? (
+          <div>
+            {stockItems &&
+              sharePrice &&
+              stockData &&
+              externalAPIstocks &&
+              stockItems?.map((item) => {
+                return (
+                  <StockListB
+                    item={item}
+                    externalAPIstocks={externalAPIstocks}
+                    sharePrice={sharePrice}
+                    stockData={stockData}
+                  />
+                );
+              })}
+          </div>
+        ) : (
+          <div>
+            {stockItems &&
+              stockData &&
+              sharePrice &&
+              externalAPIstocks &&
+              stockItems?.map((item) => {
+                return (
+                  <StockListA
+                    item={item}
+                    externalAPIstocks={externalAPIstocks}
+                    sharePrice={sharePrice}
+                    stockData={stockData}
+                  />
+                );
+              })}
+          </div>
+        )}
+
+        {/* {stocklistitem_data &&
           stocklistitem_data.map((item) => {
             return (
               <StockListA
@@ -257,42 +336,41 @@ export default function Portfolio() {
               />
             );
           })} */}
-          </div>
-          <div
-            className="d-flex justify-content-center"
-            style={{ padding: "2rem" }}
-          >
-            <button
-              type="button"
-              class="btn btn-primary"
-              style={{ marginRight: "0.5rem" }}
-            >
-              Order book
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary"
-              onClick={() =>
-                Navigate(`/transactions/${id}`, {
-                  state: location.state,
-                })
-              }
-            >
-              Buy/Sell
-            </button>
-          </div>
-        </div>
       </div>
-      <Navbar />
+      <div
+        className="d-flex justify-content-center"
+        style={{ padding: "2rem" }}
+      >
+        <button
+          type="button"
+          className="btn btn-primary"
+          style={{ marginRight: "0.5rem" }}
+        >
+          Order book
+        </button>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={() =>
+            Navigate(`/transactions/${id}`, {
+              state: location.state,
+            })
+          }
+        >
+          Buy/Sell
+        </button>
+      </div>
+      {/* <Navbar /> */}
     </>
-  ) : (
-    <div>
-      <div className="d-flex justify-content-center">
-        <Message style={{ color: "red" }}>
-          You are not logged in, please login!
-        </Message>
-      </div>
-      <LogIn />
-    </div>
   );
+  //   ) : (
+  //     <div>
+  //       <div className="d-flex justify-content-center">
+  //         <Message style={{ color: "red" }}>
+  //           You are not logged in, please login!
+  //         </Message>
+  //       </div>
+  //       <LogIn />
+  //     </div>
+  //   );
 }
