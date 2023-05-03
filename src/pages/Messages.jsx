@@ -84,13 +84,6 @@ export default function Messages() {
     getTransactionsData(id)
       .then((data) => {
         console.log(data);
-        const portfolioTransactions = data.filter(
-          (transaction) => transaction.status === 'pending'
-        );
-        return portfolioTransactions;
-      })
-      .then((data) => {
-        console.log(data);
         transactionsAll.push(data);
         return cleanTransactionsData(transactionsAll);
       })
@@ -117,9 +110,11 @@ export default function Messages() {
   };
 
   const cleanTransactionsData = (transaction) => {
+    console.log(transaction);
     setTransactionDataCleaned(
       transaction?.flatMap((items) => {
         return items?.map((item) => {
+          console.log(item);
           for (let j = 0; j < friends.length; j++) {
             for (let i = 0; i < portfoliosNames.length; i++) {
               if (
@@ -173,7 +168,7 @@ export default function Messages() {
       return dateB - dateA;
     });
 
-  console.log(allData);
+  console.log(transactionsDataCleaned);
 
   return isAuthenticated ? (
     <div className="message_page">
@@ -213,7 +208,7 @@ export default function Messages() {
             <div className="message_page_buttons">
               {item.type === 'transaction' ? (
                 <p>
-                  Check the transaction page of ${item.portfolio_name}
+                  Check the transaction page of {item.portfolio_name}
                 </p>
               ) : // <button
               //   onClick={() =>

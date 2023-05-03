@@ -57,3 +57,15 @@ export function confirmOrCancelTransaction(
     return response.json();
   });
 }
+
+export function getPendingTransactions(portfolioId) {
+  return fetch(
+    `http://localhost:3000/api/transaction/pendingTransactions/${portfolioId}`,
+    {
+      method: 'GET',
+    }
+  ).then((response) => {
+    // console.log(response);
+    return response.json();
+  });
+}
