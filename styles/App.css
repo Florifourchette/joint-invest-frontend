@@ -512,12 +512,13 @@ button {
 }
 
 .message_page_buttons {
-  width: 10%;
+  width: 20%;
 }
 
 .message_page_buttons button {
-  width: 120%;
+  width: 100%;
   color: white;
   background-color: blue;
   border-radius: 0.5em;
+  margin: 0.3rem;
 }

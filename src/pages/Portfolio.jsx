@@ -83,8 +83,9 @@ export default function Portfolio() {
     console.log(closeValues);
     console.log(typeof closeValues[0]);
 
-    if (closeValues !== undefined) {
+    if (closeValues != undefined || closeValues[0] != undefined) {
       for (const [index, item] of closeValues.entries()) {
+        console.log(closeValues[index]['current_total_value']);
         closeValues[index]['current_total_value'] = [];
         //console.log(index);
 
@@ -99,6 +100,7 @@ export default function Portfolio() {
         }
       }
     } else {
+      console.log('else statement reached');
       return (closeValues = [1, 1, 1]);
     }
     //console.log(typeof closeValues);

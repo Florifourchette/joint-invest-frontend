@@ -29,6 +29,7 @@ export default function Messages() {
 
   const transactionsAll = [];
 
+  // get data from the portfolios table and usertoportfolio and users
   useEffect(() => {
     getDashboardData(userId)
       .then((data) => {
@@ -73,6 +74,7 @@ export default function Messages() {
       .catch((error) => console.error(error));
   }, [newData]);
 
+  // get data from transactions table
   useEffect(() => {
     portfolioIds.forEach((id) => getTransactions(id));
     cleanDataPortfolio(portfoliosData);
@@ -94,6 +96,7 @@ export default function Messages() {
       .catch((error) => error.message);
   };
 
+  // function to format the data coming from portfolio
   const cleanDataPortfolio = (portfolio) => {
     setPortfolioDataCleaned(
       portfolio?.map((item) => {
@@ -113,6 +116,7 @@ export default function Messages() {
     );
   };
 
+  // function to format the data coming from transactions
   const cleanTransactionsData = (transaction) => {
     setTransactionDataCleaned(
       transaction?.flatMap((items) => {
@@ -157,11 +161,13 @@ export default function Messages() {
     );
   };
 
+  // function to shorten the date and make only the year, month and day to appear
   const getShorterDate = (date) => {
     const index = date.indexOf('T');
     return date.slice(0, index);
   };
 
+  // function to sort out the messages from the oldest one to the most recent
   const allData = portfolioDataCleaned
     .concat(transactionsDataCleaned)
     .sort((a, b) => {
@@ -169,6 +175,18 @@ export default function Messages() {
       const dateB = new Date(b.date);
       return dateB - dateA;
     });
+
+  //function to create confirmation message
+  // const [toggle, setToggle] = useState(false)
+  //   const handleClick = (message) => {
+  //     setTimeout(() => {
+  //       setToggle(true)
+  //     }, 5000);
+
+  //     return () => {
+  //       setToggle(false)
+  //       clearTimeout}, [];
+  //   };
 
   return isAuthenticated ? (
     <div className="message_page">
@@ -216,7 +234,7 @@ export default function Messages() {
                 <div>
                   <button
                     onClick={() => {
-                      setPortfolioStatus(
+                      return setPortfolioStatus(
                         item.portfolio_id,
                         userId,
                         item.action,

@@ -20,6 +20,9 @@ const DeleteConfirmedButton = ({
   wallet,
   prices,
 }) => {
+  const portfolioInvestedAmount =
+    portfolioTotals[data.portfolio_id] - data.total_buying_value;
+
   return (
     <div className="dashboard_buttons">
       {/* current status 'activated' */}
@@ -64,6 +67,9 @@ const DeleteConfirmedButton = ({
                   userId: userId,
                   number_of_shares: filteredShares[data.portfolio_id],
                   friend: data.friend_username,
+                  portfolioInvestedAmount: portfolioInvestedAmount,
+                  portfolioTotalAssets:
+                    portfolioTotals[data.portfolio_id],
                 },
               });
             }}
