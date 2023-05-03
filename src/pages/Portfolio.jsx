@@ -34,13 +34,23 @@ export default function Portfolio() {
     mockPortfolioData[0].overview[0].available_amount;
   const companiesArray = [];
 
-  let { id } = useParams();
+  const { id } = useParams();
 
   const Navigate = useNavigate();
   const location = useLocation();
   console.log(
     ` location at portfolio ${JSON.stringify(location.state)}`
   );
+  const [sharePrice, setSharePrice] = useState(location.state.prices);
+  const [shareNumber, setShareNumber] = useState(
+    location.state.number_of_shares
+  );
+  const tickers = Object.keys(sharePrice).join();
+  const tickersArray = Object.keys(sharePrice);
+
+  console.log(sharePrice);
+  console.log(shareNumber);
+  console.log(tickers);
 
   const companyIds = mockPortfolioData[0].stocks?.map(
     (stock) => stock.company_id
@@ -54,10 +64,11 @@ export default function Portfolio() {
   const [stockCompaniesId, setStockCompaniesId] = useState();
   const [externalAPIstocks, setExternalAPIstocks] = useState();
   const [allCompanies, setAllCompanies] = useState();
+  const [stockData, getStockData] = useState();
 
   const hourlyValues = [];
 
-  //console.log(allCompanies);
+  console.log(allCompanies);
 
   if (allCompanies !== undefined) {
     const stockValues = Object.values(allCompanies)?.map(
@@ -69,8 +80,8 @@ export default function Portfolio() {
       subArray?.map((obj) => obj.close)
     );
 
-    //console.log(closeValues);
-    //console.log(typeof closeValues);
+    console.log(closeValues);
+    console.log(typeof closeValues[0]);
 
     if (closeValues !== undefined) {
       for (const [index, item] of closeValues.entries()) {
@@ -87,14 +98,14 @@ export default function Portfolio() {
           //console.log(closeValues);
         }
       }
+    } else {
+      return (closeValues = [1, 1, 1]);
     }
     //console.log(typeof closeValues);
 
     const currentTotalValueArray = closeValues?.map(
       (subArray) => subArray.current_total_value
     );
-
-    //console.log(currentTotalValueArray);
 
     for (let i = 0; i < currentTotalValueArray[0].length; i++) {
       let sum = 0;
@@ -115,33 +126,19 @@ export default function Portfolio() {
           `http://localhost:3000/api/portfolio/${id}`
         );
         setStockItems(response.data.stocks);
-        setStockOverview(response.data.overview[0]);
         //console.log(response);
         return response.data.stocks;
       } catch (err) {
         console.log(err);
       }
     }
-    async function someIdRetrieving() {
-      try {
-        const inputStuff = await getPortfolioStocks();
-        const someId = inputStuff?.map((stock) => stock.company_id);
-        const cleanStockIds = someId.join();
-        //console.log(cleanStockIds);
-        setStockCompaniesId(cleanStockIds);
-        return cleanStockIds;
-      } catch (err) {
-        console.log(err);
-      }
-    }
     async function stockDataExternal() {
       try {
-        const myStocksIds = await someIdRetrieving();
         const nextResponse = await axios.get(
-          `https://api.twelvedata.com/quote?symbol=${myStocksIds}&apikey=6a897c4468e74344b1546b36728e991b`
+          `https://api.twelvedata.com/quote?symbol=${tickers}&apikey=6a897c4468e74344b1546b36728e991b`
         );
         //console.log(myStocksIds);
-        //console.log(nextResponse);
+        console.log(nextResponse);
         setExternalAPIstocks(nextResponse.data);
       } catch (err) {
         console.log(err);
@@ -149,23 +146,34 @@ export default function Portfolio() {
     }
     async function fetchMultipleCompanies() {
       try {
-        const myStocksIds = await someIdRetrieving();
         //console.log(myStocksIds);
         const { data } = await axios.get(
-          `https://api.twelvedata.com/time_series?symbol=${myStocksIds}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=da4a4e4ca02f4f06a70e827bc75e2458`
+          `https://api.twelvedata.com/time_series?symbol=${tickers}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=da4a4e4ca02f4f06a70e827bc75e2458`
         );
-        //console.log(data);
+        console.log(data);
         setAllCompanies(data);
       } catch (error) {
         console.log(error.message);
       }
     }
+    async function fetchStocks() {
+      try {
+        const stockInfos = await axios.get(
+          'http://localhost:3000/api/stocks'
+        );
+        getStockData(stockInfos.data);
+        console.log(stockInfos.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+    getPortfolioStocks();
     stockDataExternal();
     fetchMultipleCompanies();
+    fetchStocks();
   }, []);
 
-  // return isAuthenticated ? (
-  return (
+  return isAuthenticated ? (
     <>
       <div className="portfolio_overview">
         <h1>{portfolioName}</h1>
@@ -198,12 +206,16 @@ export default function Portfolio() {
         {selectedInterval == 'since buy' ? (
           <div>
             {stockItems &&
+              sharePrice &&
+              stockData &&
               externalAPIstocks &&
               stockItems?.map((item) => {
                 return (
                   <StockListB
                     item={item}
                     externalAPIstocks={externalAPIstocks}
+                    sharePrice={sharePrice}
+                    stockData={stockData}
                   />
                 );
               })}
@@ -211,12 +223,16 @@ export default function Portfolio() {
         ) : (
           <div>
             {stockItems &&
+              stockData &&
+              sharePrice &&
               externalAPIstocks &&
               stockItems?.map((item) => {
                 return (
                   <StockListA
                     item={item}
                     externalAPIstocks={externalAPIstocks}
+                    sharePrice={sharePrice}
+                    stockData={stockData}
                   />
                 );
               })}
@@ -257,17 +273,16 @@ export default function Portfolio() {
           Buy/Sell
         </button>
       </div>
-      {/* <Navbar /> */}
+      <Navbar />
     </>
+  ) : (
+    <div>
+      <div className="d-flex justify-content-center">
+        <Message style={{ color: 'red' }}>
+          You are not logged in, please login!
+        </Message>
+      </div>
+      <LogIn />
+    </div>
   );
-  // : (
-  //   <div>
-  //     <div className="d-flex justify-content-center">
-  //       <Message style={{ color: "red" }}>
-  //         You are not logged in, please login!
-  //       </Message>
-  //     </div>
-  //     <LogIn />
-  //   </div>
-  // );
 }

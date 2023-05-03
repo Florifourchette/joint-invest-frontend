@@ -164,8 +164,7 @@ export default function Dashboard(props) {
   );
   console.log(portfolioTotals);
 
-  // return isAuthenticated ? (
-  return (
+  return isAuthenticated ? (
     <div className="overview-page">
       <h1>Overview</h1>
 
@@ -260,17 +259,16 @@ export default function Dashboard(props) {
           <IoIosAdd className="portfolio-add-icon" />
         </button>
       </div>
-      {/* <Navbar /> */}
+      <Navbar />
+    </div>
+  ) : (
+    <div>
+      <div className="d-flex justify-content-center">
+        <Message style={{ color: 'red' }}>
+          You are not logged in, please login!
+        </Message>
+      </div>
+      <LogIn />
     </div>
   );
-  // : (
-  //   <div>
-  //     <div className="d-flex justify-content-center">
-  //       <Message style={{ color: 'red' }}>
-  //         You are not logged in, please login!
-  //       </Message>
-  //     </div>
-  //     <LogIn />
-  //   </div>
-  // );
 }
