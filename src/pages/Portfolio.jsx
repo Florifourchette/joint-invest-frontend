@@ -43,8 +43,8 @@ export default function Portfolio() {
   const tickers = Object.keys(sharePrice).join();
   const tickersArray = Object.keys(sharePrice);
 
-  console.log(sharePrice);
-  console.log(shareNumber);
+  console.log('SHARE PRICE',sharePrice);
+  console.log('SHARE NUKM',shareNumber);
   console.log(tickers);
 
   const companyIds = mockPortfolioData[0].stocks?.map(
@@ -135,6 +135,7 @@ export default function Portfolio() {
   const datetimeValuesMap = {};
 
   console.log('all comps',allCompanies);
+
   for (const key in allCompanies) {
     const values = allCompanies[key].values;
   
@@ -145,7 +146,7 @@ export default function Portfolio() {
         const properties = Object.keys(value);
         for (const property of properties) {
           if (property !== 'datetime') {
-            datetimeValuesMap[datetime][property] += parseFloat(value[property]);
+            datetimeValuesMap[datetime][property] += parseFloat(value[property]) * parseFloat(shareNumber[key]);
           }
         }
       } else {
@@ -153,13 +154,14 @@ export default function Portfolio() {
         const properties = Object.keys(value);
         for (const property of properties) {
           if (property !== 'datetime') {
-            datetimeValuesMap[datetime][property] = parseFloat(value[property]);
+            datetimeValuesMap[datetime][property] = parseFloat(value[property]) * parseFloat(shareNumber[key]);
           }
         }
       }
     }
   }
   
+  console.log(datetimeValuesMap);
   const intervalSum = Object.values(datetimeValuesMap);
   console.log('result',intervalSum);
 
