@@ -52,7 +52,7 @@ export default function Portfolio() {
   console.log(stockItems);
 
   const getCloseValuesFromAllCompanies = (data) => {
-    return data.map((companyData) => {
+    return Object.values(data).map((companyData) => {
       console.log(companyData);
       return companyData.map((stockData) => {
         return parseFloat(stockData.close);
@@ -77,7 +77,7 @@ export default function Portfolio() {
     async function stockDataExternal() {
       try {
         const nextResponse = await axios.get(
-          `https://api.twelvedata.com/quote?symbol=${ticker}&apikey=${
+          `https://api.twelvedata.com/quote?symbol=${tickers}&apikey=${
             import.meta.env.VITE_API_KEY
           }`
         );
@@ -88,307 +88,179 @@ export default function Portfolio() {
         console.log(err);
       }
     }
+
     async function fetchMultipleCompanies() {
       try {
         const { data } = await axios.get(
-          `https://api.twelvedata.com/time_series?symbol=${ticker}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=${
+          `https://api.twelvedata.com/time_series?symbol=${tickers}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=${
             import.meta.env.VITE_API_KEY3
           }`
         );
 
-        /* const data = [
-          [
+        /* const data = {
+    "TSLA": {
+        "meta": {
+            "symbol": "TSLA",
+            "interval": "1h",
+            "currency": "USD",
+            "exchange_timezone": "America/New_York",
+            "exchange": "NASDAQ",
+            "mic_code": "XNGS",
+            "type": "Common Stock"
+        },
+        "values": [
             {
-              datetime: "2023-05-02 09:30:00",
-              open: "170.09",
-              high: "170.35",
-              low: "169.48",
-              close: "169.50",
-              volume: "4246286",
+                "datetime": "2023-05-02 15:30:00",
+                "open": "159.98",
+                "high": "160.62",
+                "low": "158.93",
+                "close": "160.26",
+                "volume": "10504295"
             },
             {
-              datetime: "2023-05-01 15:30:00",
-              open: "169.70",
-              high: "169.90",
-              low: "169.25",
-              close: "169.56",
-              volume: "5100536",
+                "datetime": "2023-05-02 14:30:00",
+                "open": "160.32",
+                "high": "161.07",
+                "low": "159.86",
+                "close": "159.97",
+                "volume": "14112392"
             },
             {
-              datetime: "2023-05-01 14:30:00",
-              open: "169.90",
-              high: "169.96",
-              low: "169.20",
-              close: "169.69",
-              volume: "5042479",
+                "datetime": "2023-05-02 13:30:00",
+                "open": "161.22",
+                "high": "162.24",
+                "low": "160.16",
+                "close": "160.30",
+                "volume": "12797673"
             },
             {
-              datetime: "2023-05-01 13:30:00",
-              open: "170.13",
-              high: "170.41",
-              low: "169.82",
-              close: "169.92",
-              volume: "3838143",
+                "datetime": "2023-05-02 12:30:00",
+                "open": "161.32",
+                "high": "162.41",
+                "low": "161.16",
+                "close": "161.22",
+                "volume": "12148058"
             },
             {
-              datetime: "2023-05-01 12:30:00",
-              open: "169.99",
-              high: "170.45",
-              low: "169.99",
-              close: "170.14",
-              volume: "5044388",
+                "datetime": "2023-05-02 11:30:00",
+                "open": "161.19",
+                "high": "161.42",
+                "low": "159.75",
+                "close": "161.33",
+                "volume": "18864054"
             },
             {
-              datetime: "2023-05-01 11:30:00",
-              open: "169.14",
-              high: "170.19",
-              low: "169.05",
-              close: "169.98",
-              volume: "4752404",
+                "datetime": "2023-05-02 10:30:00",
+                "open": "164.32",
+                "high": "164.45",
+                "low": "161.01",
+                "close": "161.17",
+                "volume": "23654055"
             },
             {
-              datetime: "2023-05-01 10:30:00",
-              open: "169.04",
-              high: "169.83",
-              low: "168.64",
-              close: "169.13",
-              volume: "6766083",
+                "datetime": "2023-05-02 09:30:00",
+                "open": "162.59",
+                "high": "165.49",
+                "low": "161.90",
+                "close": "164.03",
+                "volume": "33941232"
             },
             {
-              datetime: "2023-05-01 09:30:00",
-              open: "169.28",
-              high: "170.29",
-              low: "169.02",
-              close: "169.04",
-              volume: "13041419",
-            },
-          ],
-          [
+                "datetime": "2023-05-01 15:30:00",
+                "open": "161.13",
+                "high": "162.11",
+                "low": "160.93",
+                "close": "161.78",
+                "volume": "7078978"
+            }
+        ],
+        "status": "ok"
+    },
+    "GOOG": {
+        "meta": {
+            "symbol": "GOOG",
+            "interval": "1h",
+            "currency": "USD",
+            "exchange_timezone": "America/New_York",
+            "exchange": "NASDAQ",
+            "mic_code": "XNGS",
+            "type": "Common Stock"
+        },
+        "values": [
             {
-              datetime: "2023-05-02 09:30:00",
-              open: "107.66",
-              high: "107.72",
-              low: "106.91",
-              close: "106.93",
-              volume: "1848978",
-            },
-            {
-              datetime: "2023-05-01 15:30:00",
-              open: "107.92",
-              high: "108.01",
-              low: "107.59",
-              close: "107.70",
-              volume: "3206595",
-            },
-            {
-              datetime: "2023-05-01 14:30:00",
-              open: "108.19",
-              high: "108.19",
-              low: "107.78",
-              close: "107.92",
-              volume: "2972866",
+                "datetime": "2023-05-02 15:30:00",
+                "open": "106.17",
+                "high": "106.18",
+                "low": "105.90",
+                "close": "105.99",
+                "volume": "1769338"
             },
             {
-              datetime: "2023-05-01 13:30:00",
-              open: "108.42",
-              high: "108.68",
-              low: "108.19",
-              close: "108.20",
-              volume: "1622081",
+                "datetime": "2023-05-02 14:30:00",
+                "open": "106.04",
+                "high": "106.34",
+                "low": "105.94",
+                "close": "106.17",
+                "volume": "1371693"
             },
             {
-              datetime: "2023-05-01 12:30:00",
-              open: "108.15",
-              high: "108.57",
-              low: "108.08",
-              close: "108.43",
-              volume: "1836880",
+                "datetime": "2023-05-02 13:30:00",
+                "open": "106.21",
+                "high": "106.49",
+                "low": "105.98",
+                "close": "106.04",
+                "volume": "1488288"
             },
             {
-              datetime: "2023-05-01 11:30:00",
-              open: "107.89",
-              high: "108.22",
-              low: "107.71",
-              close: "108.14",
-              volume: "1860294",
+                "datetime": "2023-05-02 12:30:00",
+                "open": "105.88",
+                "high": "106.23",
+                "low": "105.82",
+                "close": "106.22",
+                "volume": "1465810"
             },
             {
-              datetime: "2023-05-01 10:30:00",
-              open: "108.02",
-              high: "108.42",
-              low: "107.50",
-              close: "107.88",
-              volume: "2872994",
+                "datetime": "2023-05-02 11:30:00",
+                "open": "105.40",
+                "high": "105.96",
+                "low": "105.28",
+                "close": "105.89",
+                "volume": "2214677"
             },
             {
-              datetime: "2023-05-01 09:30:00",
-              open: "107.76",
-              high: "108.33",
-              low: "107.62",
-              close: "108.01",
-              volume: "3848401",
-            },
-          ],
-          [
-            {
-              datetime: "2023-05-02 09:30:00",
-              open: "161.92",
-              high: "165.49",
-              low: "161.90",
-              close: "163.93",
-              volume: "13094278",
+                "datetime": "2023-05-02 10:30:00",
+                "open": "105.39",
+                "high": "105.61",
+                "low": "104.50",
+                "close": "105.41",
+                "volume": "4022546"
             },
             {
-              datetime: "2023-05-01 15:30:00",
-              open: "161.13",
-              high: "162.11",
-              low: "160.93",
-              close: "161.78",
-              volume: "7078978",
+                "datetime": "2023-05-02 09:30:00",
+                "open": "107.66",
+                "high": "107.73",
+                "low": "105.35",
+                "close": "105.44",
+                "volume": "5500244"
             },
             {
-              datetime: "2023-05-01 14:30:00",
-              open: "161.59",
-              high: "161.61",
-              low: "160.56",
-              close: "161.12",
-              volume: "11290405",
-            },
-            {
-              datetime: "2023-05-01 13:30:00",
-              open: "161.93",
-              high: "162.64",
-              low: "161.41",
-              close: "161.58",
-              volume: "10629849",
-            },
-            {
-              datetime: "2023-05-01 12:30:00",
-              open: "160.98",
-              high: "162.43",
-              low: "160.94",
-              close: "161.94",
-              volume: "12520029",
-            },
-            {
-              datetime: "2023-05-01 11:30:00",
-              open: "159.08",
-              high: "161.12",
-              low: "158.95",
-              close: "160.96",
-              volume: "15462301",
-            },
-            {
-              datetime: "2023-05-01 10:30:00",
-              open: "162.29",
-              high: "162.57",
-              low: "158.83",
-              close: "159.09",
-              volume: "21137020",
-            },
-            {
-              datetime: "2023-05-01 09:30:00",
-              open: "163.17",
-              high: "163.28",
-              low: "160.27",
-              close: "162.30",
-              volume: "28793808",
-            },
-          ],
-          [
-            {
-              datetime: "2023-05-02 09:30:00",
-              open: "101.48",
-              high: "102.48",
-              low: "101.15",
-              close: "102.31",
-              volume: "7079450",
-            },
-            {
-              datetime: "2023-05-01 15:30:00",
-              open: "102.25",
-              high: "102.38",
-              low: "101.82",
-              close: "102.04",
-              volume: "7964718",
-            },
-            {
-              datetime: "2023-05-01 14:30:00",
-              open: "102.50",
-              high: "102.59",
-              low: "102.02",
-              close: "102.24",
-              volume: "8274687",
-            },
-            {
-              datetime: "2023-05-01 13:30:00",
-              open: "102.89",
-              high: "103.05",
-              low: "102.43",
-              close: "102.50",
-              volume: "5411815",
-            },
-            {
-              datetime: "2023-05-01 12:30:00",
-              open: "102.83",
-              high: "103.24",
-              low: "102.81",
-              close: "102.88",
-              volume: "5259115",
-            },
-            {
-              datetime: "2023-05-01 11:30:00",
-              open: "102.36",
-              high: "103.16",
-              low: "102.24",
-              close: "102.84",
-              volume: "7922380",
-            },
-            {
-              datetime: "2023-05-01 10:30:00",
-              open: "103.79",
-              high: "103.92",
-              low: "102.20",
-              close: "102.35",
-              volume: "14935580",
-            },
-            {
-              datetime: "2023-05-01 09:30:00",
-              open: "104.90",
-              high: "105.23",
-              low: "103.47",
-              close: "103.80",
-              volume: "17283743",
-            },
-          ],
-        ]; */
+                "datetime": "2023-05-01 15:30:00",
+                "open": "107.92",
+                "high": "108.01",
+                "low": "107.59",
+                "close": "107.70",
+                "volume": "3206595"
+            }
+        ],
+        "status": "ok"
+    }
+} */
 
-        //console.log(data);
+        console.log(data);
         const closeValues = getCloseValuesFromAllCompanies(data);
         console.log(closeValues);
 
         //working with the fetched data
-
-        /*  if (closeValues !== undefined) {
-          closeValues.forEach((stockValues, index) => {
-            closeValues[index] = stockValues.map((value) => {
-              return (
-                stockItems[0]?.current_number_of_stocks * parseFloat(value)
-              );
-            });
-          });
-        } */
-
-        console.log(stockValues);
-
-        /* for (let i = 0; i < currentTotalValueArray[0].length; i++) {
-          let sum = 0;
-          for (let j = 0; j < currentTotalValueArray.length; j++) {
-            sum += currentTotalValueArray[j][i];
-          }
-          hourlyValues.push(sum);
-          setHourlyCompanyValues(hourlyValues);
-        } */
       } catch (error) {
         console.log(error.message);
       }

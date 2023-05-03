@@ -5,13 +5,6 @@ import { FaCheckSquare } from "react-icons/fa";
 import { setPortfolioStatus } from "../../utils/PortfolioDeletion";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { useState } from "react";
-import React from "react";
-import { IoIosTrash, IoIosArrowDroprightCircle } from "react-icons/io";
-import { FaCheckSquare } from "react-icons/fa";
-import { setPortfolioStatus } from "../../utils/PortfolioDeletion";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 const DeleteConfirmedButton = ({
   data,
