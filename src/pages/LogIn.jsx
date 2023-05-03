@@ -30,7 +30,11 @@ export default function LogIn() {
             >
               <div
                 className="ui stacked secondary segment d-flex flex-column align-items-center"
-                style={{ background: "#FFD600", minHeight: "200px" }}
+                style={{
+                  background: "#FFD600",
+                  minHeight: "200px",
+                  boxShadow: "0 6px 6px hsl(0deg 0% 0% / 0.3)",
+                }}
               >
                 <Form.Field className="field">
                   <div
@@ -76,7 +80,13 @@ export default function LogIn() {
                 <Message error header={error} />
               </div>
             </Form>
-            <div className="ui message" style={{ background: "#FFD600" }}>
+            <div
+              className="ui message"
+              style={{
+                background: "#FFD600",
+                boxShadow: "0 6px 6px hsl(0deg 0% 0% / 0.3)",
+              }}
+            >
               <p style={{ fontWeight: "600", textAlign: "center" }}>
                 New to us? <Link to="/signup">Register</Link>
               </p>

@@ -35,7 +35,11 @@ export default function SignUp() {
             >
               <div
                 className="ui stacked secondary  segment"
-                style={{ background: "#FFD600", minHeight: "250px" }}
+                style={{
+                  background: "#FFD600",
+                  minHeight: "250px",
+                  boxShadow: "0 6px 6px hsl(0deg 0% 0% / 0.3)",
+                }}
               >
                 <Form.Field className="field">
                   <div
@@ -94,7 +98,13 @@ export default function SignUp() {
                 <Message error header={error} />
               </div>
             </Form>
-            <div className="ui message" style={{ background: "#FFD600" }}>
+            <div
+              className="ui message"
+              style={{
+                background: "#FFD600",
+                boxShadow: "0 6px 6px hsl(0deg 0% 0% / 0.3)",
+              }}
+            >
               <p style={{ fontWeight: "600" }}>
                 Already have an account? <Link to="/login">Login</Link>
               </p>
