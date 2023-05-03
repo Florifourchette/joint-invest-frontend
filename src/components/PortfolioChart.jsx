@@ -2,12 +2,10 @@ import React from "react";
 import Chart from "chart.js/auto";
 import { Line } from "react-chartjs-2";
 
-const PortfolioChart = ({ hourlyValues, hourArray }) => {
-  const labels = hourArray;
+const PortfolioChart = ({ hourlyValues }) => {
   console.log(hourlyValues);
 
   const data = {
-    labels: labels,
     datasets: [
       {
         label: "Total value in the past hours",

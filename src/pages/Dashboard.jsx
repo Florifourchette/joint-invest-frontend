@@ -162,7 +162,7 @@ export default function Dashboard(props) {
     },
     {}
   );
-  console.log(portfolioTotals);
+  //console.log(ticker);
 
   // return isAuthenticated ? (
   return (
@@ -235,6 +235,7 @@ export default function Dashboard(props) {
                 wallet={wallet}
                 Navigate={Navigate}
                 prices={prices}
+                totalAssets={totalAssetsSum}
               />
             </div>
             {data.portfolio_status === "pending_activation" ||
