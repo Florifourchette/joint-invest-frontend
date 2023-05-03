@@ -247,6 +247,11 @@ export default function Portfolio() {
           type="button"
           class="btn btn-primary"
           style={{ marginRight: "0.5rem" }}
+          onClick={() =>
+            Navigate(`/order_book/${id}`, {
+              state: location.state,
+            })
+          }
         >
           Order book
         </button>

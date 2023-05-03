@@ -52,6 +52,7 @@ export default function Dashboard(props) {
     //     })
     //     .catch((error) => console.error(error));
   }, [userId, newData]);
+
   console.log("number of shares", wallet.number_of_shares);
   //API CALL
   useEffect(() => {
@@ -264,7 +265,7 @@ export default function Dashboard(props) {
   ) : (
     <div>
       <div className="d-flex justify-content-center">
-        <Message style={{ color: 'red' }}>
+        <Message style={{ color: "red" }}>
           You are not logged in, please login!
         </Message>
       </div>

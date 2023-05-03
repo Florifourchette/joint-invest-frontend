@@ -1,20 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Image, List } from "semantic-ui-react";
 
-const Orderlist = ({ item, index, arr }) => {
-  console.log(item);
+const Orderlist = ({ item, index, arr, contextStockData }) => {
+  //console.log(item);
 
   const { creating_date } = item;
   const date = creating_date.slice(2, 10).replace(/-/g, ".");
   const [year, month, day] = date.split(".");
   const newDateString = `${day}.${month}.${year}`;
   const dateGetMonth = creating_date.substring(0, 10);
+  const [logo, setLogo] = useState();
 
   const prevItem = arr[index - 1];
   const prevMonth =
     prevItem && prevItem.creating_date.substring(0, 10).split("-")[1];
 
-  console.log(dateGetMonth);
+  //console.log(dateGetMonth);
+
+  useEffect(() => {
+    const theLogo = contextStockData.find(
+      (alogo) => alogo.companyid == item.company_id
+    );
+    setLogo(theLogo.logo);
+    console.log(theLogo.logo);
+  }, []);
 
   return (
     <>
@@ -46,7 +55,11 @@ const Orderlist = ({ item, index, arr }) => {
                   style={{ borderRadius: "50%" }}
                   ui
                   size="mini"
-                  src="../src/assets/company_logos/AAPL.png"
+                  src={
+                    logo
+                      ? `/company_logos/${logo}`
+                      : `/company_logos/NO_LOGO.png`
+                  }
                 />
               </div>
             </div>
