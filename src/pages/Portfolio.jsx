@@ -45,8 +45,8 @@ export default function Portfolio() {
   const [shareNumber, setShareNumber] = useState(
     location.state.number_of_shares
   );
-  const tickers = Object.keys(sharePrice).join();
-  const tickersArray = Object.keys(sharePrice);
+  // const tickers = Object.keys(sharePrice).join();
+  const tickers = Object.keys(sharePrice);
 
   console.log(sharePrice);
   console.log(shareNumber);
@@ -67,57 +67,6 @@ export default function Portfolio() {
   const [stockData, getStockData] = useState();
 
   const hourlyValues = [];
-
-  console.log(allCompanies);
-
-  if (allCompanies !== undefined) {
-    const stockValues = Object.values(allCompanies)?.map(
-      (company) => company.values
-    );
-    //console.log(typeof stockValues);
-
-    const closeValues = stockValues?.map((subArray) =>
-      subArray?.map((obj) => obj.close)
-    );
-
-    console.log(closeValues);
-    console.log(typeof closeValues[0]);
-
-    if (closeValues != undefined || closeValues[0] != undefined) {
-      for (const [index, item] of closeValues.entries()) {
-        console.log(closeValues[index]['current_total_value']);
-        closeValues[index]['current_total_value'] = [];
-        //console.log(index);
-
-        for (const [index2, stockValueItem] of closeValues[
-          index
-        ].entries()) {
-          closeValues[index]['current_total_value'].push(
-            stockItems[0]?.current_number_of_stocks *
-              parseFloat(item[index2])
-          );
-          //console.log(closeValues);
-        }
-      }
-    } else {
-      console.log('else statement reached');
-      return (closeValues = [1, 1, 1]);
-    }
-    //console.log(typeof closeValues);
-
-    const currentTotalValueArray = closeValues?.map(
-      (subArray) => subArray.current_total_value
-    );
-
-    for (let i = 0; i < currentTotalValueArray[0].length; i++) {
-      let sum = 0;
-      for (let j = 0; j < currentTotalValueArray.length; j++) {
-        sum += currentTotalValueArray[j][i];
-      }
-      hourlyValues.push(sum);
-    }
-    //console.log(hourlyValues);
-  }
 
   //api calls
 
@@ -174,6 +123,62 @@ export default function Portfolio() {
     fetchMultipleCompanies();
     fetchStocks();
   }, []);
+
+  console.log('allcompanys!', allCompanies);
+
+  if (allCompanies !== undefined) {
+    const stockValues = Object.values(allCompanies).map(
+      (company) => company.values
+    );
+    //console.log(typeof stockValues);
+    console.log(stockValues);
+    let closeValues = stockValues?.map(
+      (item) => {
+        if (item.open !== undefined) {
+          return item.close;
+        } else {
+          return { close: 1 };
+        }
+      }
+      // (subArray) => console.log(typeof subArray)
+      // subArray?.map((obj) => obj.close)
+    );
+    console.log(stockValues);
+    console.log(closeValues);
+    console.log(typeof closeValues[0]);
+
+    if (closeValues !== undefined || closeValues !== [1, 1, 1]) {
+      console.log(closeValues);
+      for (const [index, item] of closeValues) {
+        closeValues[index]['close'] = [];
+        //console.log(index);
+
+        for (const [index2, stockValueItem] of closeValues[index]) {
+          closeValues[index]['close'].push(
+            stockItems[0]?.current_number_of_stocks *
+              parseFloat(item[index2])
+          );
+          //console.log(closeValues);
+        }
+      }
+    } else {
+      return (closeValues = [1, 1, 1]);
+    }
+    //console.log(typeof closeValues);
+
+    const currentTotalValueArray = closeValues?.map(
+      (subArray) => subArray.current_total_value
+    );
+
+    for (let i = 0; i < currentTotalValueArray[0].length; i++) {
+      let sum = 0;
+      for (let j = 0; j < currentTotalValueArray.length; j++) {
+        sum += currentTotalValueArray[j][i];
+      }
+      hourlyValues.push(sum);
+    }
+    //console.log(hourlyValues);
+  }
 
   return isAuthenticated ? (
     <>
