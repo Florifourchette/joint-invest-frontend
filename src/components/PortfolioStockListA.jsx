@@ -28,7 +28,7 @@ const StockListA = ({ item, externalAPIstocks, sharePrice, stockData }) => {
               </List.Description>
             </div>
             <div className="d-flex justify-content-end w-100 align-items-center">
-              {parseFloat(sharePrice[item.company_id]) > 0 ? (
+              {parseFloat(externalAPIstocks[item.company_id]?.change) > 0 ? (
                 <List.Description
                   style={{ fontWeight: "600", color: "#7AD982" }}
                 >
