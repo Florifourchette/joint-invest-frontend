@@ -190,18 +190,20 @@ export default function Messages() {
 
             <div className="message_details">
               {item.type === 'portfolio' &&
-              item.action === 'pending_activation'
-                ? 'Invitation'
-                : item.type === 'portfolio' &&
-                  item.action === 'pending_deletion'
-                ? 'Deletion request'
-                : item.portfolio_name}
+              item.action === 'pending_activation' ? (
+                <p>'Invitation'</p>
+              ) : item.type === 'portfolio' &&
+                item.action === 'pending_deletion' ? (
+                <p>Deletion request</p>
+              ) : (
+                <p>item.portfolio_name</p>
+              )}
               {item.type === 'portfolio' &&
               item.action === 'pending_activation'
                 ? `to join ${item.portfolio_name}`
                 : item.type === 'portfolio' &&
                   item.action === 'pending_deletion'
-                ? `to delete ${item.portfolio_name}`
+                ? `for ${item.portfolio_name}`
                 : item.type === 'transaction' &&
                   item.action === 'Sell'
                 ? `Selling request for ${item.company_name} ${item.number_of_shares} stock(s)`
@@ -212,14 +214,14 @@ export default function Messages() {
                 <p>
                   Check the transaction page of ${item.portfolio_name}
                 </p>
-              ) : (
-                // <button
-                //   onClick={() =>
-                //     Navigate(`/transactions/${item.portfolio_id}`)
-                //   }
-                // >
-                //   View
-                // </button>
+              ) : // <button
+              //   onClick={() =>
+              //     Navigate(`/transactions/${item.portfolio_id}`)
+              //   }
+              // >
+              //   View
+              // </button>
+              item.requester_name !== 'You' ? (
                 <div>
                   <button
                     onClick={() => {
@@ -248,6 +250,8 @@ export default function Messages() {
                     Reject
                   </button>
                 </div>
+              ) : (
+                <div>Waiting for {item.requester_name}</div>
               )}
             </div>
           </div>
