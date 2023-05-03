@@ -18,11 +18,21 @@ export default function Portfolio() {
   const { isAuthenticated } = useAuth();
   const hourArray = [];
 
-  let { id } = useParams();
+  const { id } = useParams();
 
   const Navigate = useNavigate();
   const location = useLocation();
   console.log(` location at portfolio ${JSON.stringify(location.state)}`);
+  const [sharePrice, setSharePrice] = useState(location.state.prices);
+  const [shareNumber, setShareNumber] = useState(
+    location.state.number_of_shares
+  );
+  const tickers = Object.keys(sharePrice).join();
+  const tickersArray = Object.keys(sharePrice);
+
+  console.log(sharePrice);
+  console.log(shareNumber);
+  console.log(tickers);
 
   const portfolioData = location.state;
   const ticker = Object.keys(portfolioData.number_of_shares).join();
@@ -32,6 +42,7 @@ export default function Portfolio() {
   const [externalAPIstocks, setExternalAPIstocks] = useState();
   const { totalAssets, totalAmountInvested } = location.state;
   const [hourlyCompanyValues, setHourlyCompanyValues] = useState();
+  const [stockData, getStockData] = useState();
   const hourlyValues = [];
 
   console.log(stockItems);
@@ -380,16 +391,22 @@ export default function Portfolio() {
         console.log(error.message);
       }
     }
-    console.log("calling api");
-    /*   stockDataExternal().then((ExternalAPIstocks) =>
-      console.log(ExternalAPIstocks)
-    ); */
+    async function fetchStocks() {
+      try {
+        const stockInfos = await axios.get("http://localhost:3000/api/stocks");
+        getStockData(stockInfos.data);
+        console.log(stockInfos.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
     getPortfolioStocks();
     stockDataExternal();
     fetchMultipleCompanies();
+    fetchStocks();
   }, []);
 
-  return (
+  return isAuthenticated ? (
     <>
       <div className="portfolio_overview">
         <h1>portfolioName</h1>
@@ -423,12 +440,16 @@ export default function Portfolio() {
         {selectedInterval == "since buy" ? (
           <div>
             {stockItems &&
+              sharePrice &&
+              stockData &&
               externalAPIstocks &&
               stockItems?.map((item) => {
                 return (
                   <StockListB
                     item={item}
                     externalAPIstocks={externalAPIstocks}
+                    sharePrice={sharePrice}
+                    stockData={stockData}
                   />
                 );
               })}
@@ -436,12 +457,16 @@ export default function Portfolio() {
         ) : (
           <div>
             {stockItems &&
+              stockData &&
+              sharePrice &&
               externalAPIstocks &&
               stockItems?.map((item) => {
                 return (
                   <StockListA
                     item={item}
                     externalAPIstocks={externalAPIstocks}
+                    sharePrice={sharePrice}
+                    stockData={stockData}
                   />
                 );
               })}
@@ -482,6 +507,16 @@ export default function Portfolio() {
           Buy/Sell
         </button>
       </div>
+      <Navbar />
     </>
+  ) : (
+    <div>
+      <div className="d-flex justify-content-center">
+        <Message style={{ color: "red" }}>
+          You are not logged in, please login!
+        </Message>
+      </div>
+      <LogIn />
+    </div>
   );
 }

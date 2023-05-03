@@ -468,3 +468,51 @@ button {
   width: 100%;
   height: 50vh;
 }
+
+/* Message page */
+.message_page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.message_body {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 90%;
+  margin: 1em;
+  padding: 1em;
+  border: solid 2px lightgrey;
+  border-radius: 1em;
+}
+
+.message_infos {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.message_infos p {
+  padding: 0;
+  margin: 0;
+}
+
+.message_details {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.message_page_buttons {
+  width: 10%;
+}
+
+.message_page_buttons button {
+  width: 120%;
+  color: white;
+  background-color: blue;
+  border-radius: 0.5em;
+}
