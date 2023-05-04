@@ -594,15 +594,3 @@ button {
 .hex-button:hover {
   transform: scale(1.05);
 }
-
-.hex-button a {
-  color: #fff;
-  text-decoration: none;
-  text-transform: uppercase;
-}
-
-.hex-button a:hover {
-  color: #fff;
-  text-decoration: none;
-  text-transform: uppercase;
-}

@@ -7,7 +7,6 @@ import useAuth from '../hooks/useAuth';
 import LogIn from './LogIn';
 import { Message } from 'semantic-ui-react';
 import { GrClose } from 'react-icons/gr';
-import { Link } from '@react-spectrum/link';
 
 const CreationPortfolio = () => {
   const [newPortfolioName, setNewPortfolioName] = useState('');
@@ -42,7 +41,9 @@ const CreationPortfolio = () => {
     return Boolean(str.match(/[A-Z]/));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('handlesubmit reached');
     axios
       .post(
         `http://localhost:3000/api/creation_portfolio/${userId}`,
@@ -55,6 +56,10 @@ const CreationPortfolio = () => {
       .then(function (response) {
         setCheckUsername(response.data);
       })
+      .then(() => {
+        console.log('handleback reached');
+        handleBack(e);
+      })
       .catch(function (error) {
         console.log(error);
       });
@@ -65,8 +70,7 @@ const CreationPortfolio = () => {
     setUppercaseDetected(false);
   }, [newPortfolioUsername]);
 
-  // return isAuthenticated ? (
-  return (
+  return isAuthenticated ? (
     <>
       <div style={{ width: '500px' }}>
         <div style={{ width: '450px' }}>
@@ -152,7 +156,6 @@ const CreationPortfolio = () => {
                 <p></p>
               )}
             </Form.Field>
-
             <Button
               type="submit"
               className="hex-button"
@@ -163,24 +166,23 @@ const CreationPortfolio = () => {
                 padding: '15px 20px 15px 20px',
               }}
             >
-              <a href={`/overview/${userId}`}>Submit</a>
+              Submit
             </Button>
           </Form>
-          {/* <Navbar /> */}
+          <Navbar />
         </div>
       </div>
     </>
+  ) : (
+    <div>
+      <div className="d-flex justify-content-center">
+        <Message style={{ color: 'red' }}>
+          You are not logged in, please login!
+        </Message>
+      </div>
+      <LogIn />
+    </div>
   );
-  // : (
-  //   <div>
-  //     <div className="d-flex justify-content-center">
-  //       <Message style={{ color: 'red' }}>
-  //         You are not logged in, please login!
-  //       </Message>
-  //     </div>
-  //     <LogIn />
-  //   </div>
-  // );
 };
 
 export default CreationPortfolio;
