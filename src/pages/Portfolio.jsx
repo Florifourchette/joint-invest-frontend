@@ -26,96 +26,93 @@ const portfolioAPIKey1 = import.meta.env.VITE_PORTFOLIO_API_KEY1;
 const portfolioAPIKey2 = import.meta.env.VITE_PORTFOLIO_API_KEY2;
 
 export default function Portfolio() {
-    const { isAuthenticated } = useAuth();
-    const portfolioName = mockPortfolioData[0].overview[0].name_of_portfolio;
-    const investedAmount = mockPortfolioData[0].overview[0].invested_amount;
-    const availableAmount = mockPortfolioData[0].overview[0].available_amount;
-    const companiesArray = [];
+  const { isAuthenticated } = useAuth();
+  const portfolioName = mockPortfolioData[0].overview[0].name_of_portfolio;
+  const investedAmount = mockPortfolioData[0].overview[0].invested_amount;
+  const availableAmount = mockPortfolioData[0].overview[0].available_amount;
+  const companiesArray = [];
 
-    const { id } = useParams();
+  const { id } = useParams();
 
-    const Navigate = useNavigate();
-    const location = useLocation();
-    console.log(` location at portfolio ${JSON.stringify(location.state)}`);
-    const [sharePrice, setSharePrice] = useState(location.state.prices);
-    const [shareNumber, setShareNumber] = useState(
-        location.state.number_of_shares
-    );
-    const tickers = Object.keys(sharePrice).join();
-    const tickersArray = Object.keys(sharePrice);
+  const Navigate = useNavigate();
+  const location = useLocation();
+  console.log(` location at portfolio ${JSON.stringify(location.state)}`);
+  const [sharePrice, setSharePrice] = useState(location.state.prices);
+  const [shareNumber, setShareNumber] = useState(
+    location.state.number_of_shares
+  );
+  const tickers = Object.keys(sharePrice).join();
+  const tickersArray = Object.keys(sharePrice);
 
-    console.log("SHARE PRICE", sharePrice);
-    console.log("SHARE NUKM", shareNumber);
-    console.log(tickers);
+  console.log("SHARE PRICE", sharePrice);
+  console.log("SHARE NUKM", shareNumber);
+  console.log(tickers);
 
+  const companyIds = mockPortfolioData[0].stocks?.map(
+    (stock) => stock.company_id
+  );
+  const cleanCompanyIds = companyIds.join();
+  //console.log(cleanCompanyIds);
 
-    const companyIds = mockPortfolioData[0].stocks?.map(
-        (stock) => stock.company_id
-    );
-    const cleanCompanyIds = companyIds.join();
-    //console.log(cleanCompanyIds);
+  const [selectedInterval, setSelectedInterval] = useState("");
+  const [stockItems, setStockItems] = useState([]);
+  const [stockOverview, setStockOverview] = useState();
+  const [stockCompaniesId, setStockCompaniesId] = useState();
+  const [externalAPIstocks, setExternalAPIstocks] = useState();
+  const [allCompanies, setAllCompanies] = useState();
+  const [stockData, setStockData] = useState();
+  const [orderBook, setOrderBook] = useState();
 
-    const [selectedInterval, setSelectedInterval] = useState("");
-    const [stockItems, setStockItems] = useState([]);
-    const [stockOverview, setStockOverview] = useState();
-    const [stockCompaniesId, setStockCompaniesId] = useState();
-    const [externalAPIstocks, setExternalAPIstocks] = useState();
-    const [allCompanies, setAllCompanies] = useState();
-    const [stockData, setStockData] = useState();
-    const [orderBook, setOrderBook] = useState();
+  const handleBack = (e) => {
+    e.preventDefault();
+    Navigate(-1);
+  };
 
-    const handleBack = (e) => {
-        e.preventDefault();
-        Navigate(-1);
-    };
+  const datetimeValuesMap = {};
 
-    const datetimeValuesMap = {};
+  console.log("all comps", allCompanies);
 
-    console.log("all comps", allCompanies);
+  if (allCompanies && Object.keys(allCompanies).length > 0) {
+    for (const key in allCompanies) {
+      const values = allCompanies[key].values;
 
-    if (allCompanies && Object.keys(allCompanies).length > 0) {
-        for (const key in allCompanies) {
-            const values = allCompanies[key].values;
+      for (const value of values) {
+        const datetime = value.datetime;
 
-            for (const value of values) {
-                const datetime = value.datetime;
-
-                if (datetime in datetimeValuesMap) {
-                    const properties = Object.keys(value);
-                    for (const property of properties) {
-                        if (property !== "datetime") {
-                            datetimeValuesMap[datetime][property] +=
-                                parseFloat(value[property]) *
-                                parseFloat(shareNumber[key]);
-                        }
-                    }
-                } else {
-                    datetimeValuesMap[datetime] = { datetime };
-                    const properties = Object.keys(value);
-                    for (const property of properties) {
-                        if (property !== "datetime") {
-                            datetimeValuesMap[datetime][property] =
-                                parseFloat(value[property]) *
-                                parseFloat(shareNumber[key]);
-                        }
-                    }
-                }
+        if (datetime in datetimeValuesMap) {
+          const properties = Object.keys(value);
+          for (const property of properties) {
+            if (property !== "datetime") {
+              datetimeValuesMap[datetime][property] +=
+                parseFloat(value[property]) * parseFloat(shareNumber[key]);
             }
+          }
+        } else {
+          datetimeValuesMap[datetime] = { datetime };
+          const properties = Object.keys(value);
+          for (const property of properties) {
+            if (property !== "datetime") {
+              datetimeValuesMap[datetime][property] =
+                parseFloat(value[property]) * parseFloat(shareNumber[key]);
+            }
+          }
         }
+      }
     }
+  }
 
-    console.log(datetimeValuesMap);
-    const intervalSum = Object.values(datetimeValuesMap);
-    console.log("result", intervalSum);
+  console.log(datetimeValuesMap);
+  const intervalSum = Object.values(datetimeValuesMap);
+  console.log("result", intervalSum);
 
-    // Extract the summed value at the last timestamp
-    const timestamps = Object.keys(datetimeValuesMap);
-    const lastTimestamp = timestamps[timestamps.length - 1];
-    const lastValues = datetimeValuesMap[lastTimestamp];
-    console.log("Last timestamp:", lastTimestamp);
-    console.log("Last values:", lastValues);
+  // Extract the summed value at the last timestamp
+  const timestamps = Object.keys(datetimeValuesMap);
+  const lastTimestamp = timestamps[timestamps.length - 1];
+  const lastValues = datetimeValuesMap[lastTimestamp];
+  console.log("Last timestamp:", lastTimestamp);
+  console.log("Last values:", lastValues);
 
-    //api calls
+  //api calls
 
   useEffect(() => {
     async function getOrderBook() {
@@ -190,9 +187,12 @@ export default function Portfolio() {
   }, [id]);
 
   // return isAuthenticated ? (
-  return (
-    <>
-      <div>
+  return isAuthenticated ? (
+    <div>
+      <div className="portfolio-back-button-container">
+        <BiArrowBack className="portfolio-back-button" onClick={handleBack} />
+      </div>
+      <div className="portfolio_overview">
         <div className="overview_page">
           <h1 className="portfolio-title">Portfolio</h1>
           {stockOverview && <h4>{stockOverview.name_of_portfolio}</h4>}
@@ -263,56 +263,46 @@ export default function Portfolio() {
                 })}
             </div>
           )}
-
-          {/* {stocklistitem_data &&
-          stocklistitem_data.map((item) => {
-            return (
-              <StockListA
-                url={item.url}
-                symbol={item.meta.symbol}
-                id={uuidv4()}
-              />
-            );
-          })} */}
-            </div>
-            <div
-                className="d-flex justify-content-center"
-                style={{ padding: "2rem" }}
-            >
-                <button
-                    type="button"
-                    class="btn btn-primary"
-                    style={{ marginRight: "0.5rem" }}
-                    onClick={() =>
-                        Navigate(`/orderbook/${id}`, {
-                            state: location.state,
-                        })
-                    }
-                >
-                    Order book
-                </button>
-                <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() =>
-                        Navigate(`/transactions/${id}`, {
-                            state: location.state,
-                        })
-                    }
-                >
-                    Buy/Sell
-                </button>
-            </div>
-            <Navbar />
-        </>
-      ) : (
-        <div>
-          <div className="d-flex justify-content-center">
-            <Message style={{ color: "red" }}>
-              You are not logged in, please login!
-            </Message>
-          </div>
-          <LogIn />
         </div>
-      );
+        <div
+          className="d-flex justify-content-center"
+          style={{ padding: "2rem" }}
+        >
+          <button
+            type="button"
+            class="btn btn-primary"
+            style={{ marginRight: "0.5rem" }}
+            onClick={() =>
+              Navigate(`/orderbook/${id}`, {
+                state: location.state,
+              })
+            }
+          >
+            Order book
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() =>
+              Navigate(`/transactions/${id}`, {
+                state: location.state,
+              })
+            }
+          >
+            Buy/Sell
+          </button>
+        </div>
+        <Navbar />
+      </div>
+    </div>
+  ) : (
+    <div>
+      <div className="d-flex justify-content-center">
+        <Message style={{ color: "red" }}>
+          You are not logged in, please login!
+        </Message>
+      </div>
+      <LogIn />
+    </div>
+  );
 }
