@@ -48,6 +48,7 @@ export default function Portfolio() {
     console.log("SHARE NUKM", shareNumber);
     console.log(tickers);
 
+
     const companyIds = mockPortfolioData[0].stocks?.map(
         (stock) => stock.company_id
     );

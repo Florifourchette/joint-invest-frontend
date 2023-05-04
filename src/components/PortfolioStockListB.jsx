@@ -55,12 +55,15 @@ const StockListB = ({ item, externalAPIstocks, stockData, sharePrice }) => {
                   style={{ fontWeight: "600", color: "#DD7060" }}
                 >
                   {parseFloat(
-                    (sharePrice[item.company_id] / item.average_price_buy) * 100
-                  ).toFixed(2) - 100}
+                    (sharePrice[item.company_id] / item.average_price_buy) *
+                      100 -
+                      100
+                  ).toFixed(2)}
                   % /
                   {parseFloat(
-                    sharePrice[item.company_id] - item.average_price_buy
-                  ).toFixed(2) * parseInt(item.current_number_of_stocks)}
+                    (sharePrice[item.company_id] - item.average_price_buy) *
+                      parseInt(item.current_number_of_stocks)
+                  ).toFixed(2)}
                   $
                 </List.Description>
               )}
