@@ -1,7 +1,7 @@
 import Navbar from '../components/Navbar';
 import {
   getDashboardData,
-  getTransactionsData,
+  getPendingTransactions,
 } from '../../utils/APIcalls';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
@@ -82,11 +82,11 @@ export default function Messages() {
   }, [portfolioIds, newData]);
 
   const getTransactions = (id) => {
-    getTransactionsData(id)
+    getPendingTransactions(id)
       .then((data) => {
-        const portfolioTransactions = data.filter(
-          (transaction) => transaction.status === 'pending'
-        );
+        console.log(data);
+        const portfolioTransactions = data.overview;
+        console.log(portfolioTransactions);
         return portfolioTransactions;
       })
       .then((data) => {
@@ -119,48 +119,49 @@ export default function Messages() {
   const cleanTransactionsData = (transaction) => {
     console.log(transaction);
     setTransactionDataCleaned(
-      transaction?.flatMap((items) => {
-        return items?.map((item) => {
-          console.log(item);
-          for (let j = 0; j < friends.length; j++) {
-            for (let i = 0; i < portfoliosNames.length; i++) {
+      transaction?.map((item) => {
+        for (let j = 0; j < friends.length; j++) {
+          for (let i = 0; i < portfoliosNames.length; i++) {
+            if (
+              item.portfolio_id === portfoliosNames[i].portfolio_id
+            ) {
               if (
-                item.portfolio_id === portfoliosNames[i].portfolio_id
+                item.user_id_status_request === friends[j].friend_id
               ) {
-                if (item.user_id === friends[j].friend_id) {
-                  return {
-                    type: 'transaction',
-                    requester_id: item.user_id,
-                    requester_name: friends[j].friend_id,
-                    date: item.creating_date,
-                    portfolio_name: portfoliosNames[i].portfolio_name,
-                    portfolio_id: item.portfolio_id,
-                    action: item.type_of_transaction,
-                    company_name: item.company_name,
-                    number_of_shares: item.number_of_shares,
-                    initial_amount: '',
-                  };
-                } else if (item.user_id !== friends[j].friend_id) {
-                  return {
-                    type: 'transaction',
-                    requester_id: item.user_id,
-                    requester_name: 'You',
-                    date: item.creating_date,
-                    portfolio_name: portfoliosNames[i].portfolio_name,
-                    portfolio_id: item.portfolio_id,
-                    action: item.type_of_transaction,
-                    company_name: item.company_name,
-                    number_of_shares: item.number_of_shares,
-                    initial_amount: '',
-                  };
-                }
+                return {
+                  type: 'transaction',
+                  requester_id: item.user_id,
+                  requester_name: friends[j].friend_username,
+                  date: item.request_creation_date,
+                  portfolio_name: portfoliosNames[i].portfolio_name,
+                  portfolio_id: item.portfolio_id,
+                  action: item.type_of_transaction,
+                  company_name: item.company_name,
+                  number_of_shares: item.number_of_shares,
+                  initial_amount: '',
+                };
+              } else if (item.user_id !== friends[j].friend_id) {
+                return {
+                  type: 'transaction',
+                  requester_id: item.user_id,
+                  requester_name: 'You',
+                  date: item.creating_date,
+                  portfolio_name: portfoliosNames[i].portfolio_name,
+                  portfolio_id: item.portfolio_id,
+                  action: item.type_of_transaction,
+                  company_name: item.company_name,
+                  number_of_shares: item.number_of_shares,
+                  initial_amount: '',
+                };
               }
             }
           }
-        });
+        }
       })
     );
   };
+
+  console.log(transactionsDataCleaned);
 
   const getShorterDate = (date) => {
     const index = date.indexOf('T');
@@ -175,7 +176,7 @@ export default function Messages() {
       return dateB - dateA;
     });
 
-  console.log(transactionsDataCleaned);
+  console.log(allData);
 
   return isAuthenticated ? (
     <div className="message_page" style={{ width: '500px' }}>
