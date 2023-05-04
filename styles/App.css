@@ -352,6 +352,7 @@ button {
   border-radius: 50%;
 }
 
+
 .confirmation_button:hover {
   color: rgb(1, 66, 1);
   background-color: white;
@@ -412,9 +413,71 @@ button {
   position: relative;
   margin-bottom: 0.8em;
   cursor: pointer;
-
-
 }
+.portfolio-title{
+  font-size: 2.5em;
+  font-weight: bold;
+  text-align: center;
+  margin: 0 1em 0 1em;
+  padding-top: 0;
+}
+
+.portfolio-name{
+  text-align: center;
+}
+
+.portfolio-dropdown{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2rem;
+  max-width: 100%;
+}
+.dropdown{
+  max-width: 17%;
+  margin-right: 30px;
+  font-size: 1em;
+}
+
+.portfolio_lineGraph{
+  padding-left: 20px;
+  width: 490px;
+  padding-bottom: 1rem;
+}
+.portfolio_barGraph{
+  padding-right: 20px;
+  width: 475px;
+  height: 350px;
+  padding-bottom: 1rem;
+  margin: 0 auto 0 auto;
+}
+
+.stock-container{
+  width: 470px;
+  margin: 1rem auto 1rem auto;
+}
+
+.one-stock{
+  background-color: #FFD600;
+  margin: 1.1rem 1rem 1.1rem 1rem;
+  height: 80px;
+  border-radius: 10px;
+  box-shadow: 0 6px 6px hsl(0deg 0% 0% / 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stock-shade{
+  height: 60px;
+  width: 420px;
+  padding: 0 20px 0 20px;
+  display: flex;
+  align-items:center;
+  justify-content: space-around;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+}
+
 
 /*portfolio creation page */
 .portfolioCreationPage {
@@ -578,7 +641,6 @@ button {
   color: #fff;
   font-weight: 500;
   text-decoration: none;
-  text-transform: uppercase;
   padding: 50px 80px;
   text-align: center;
   clip-path: polygon(
@@ -602,4 +664,31 @@ button {
 }
 .hex-button:hover {
   transform: scale(1.05);
+}
+
+.hex-button-small {
+  display: inline-block;
+  position: relative;
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+  text-align: center;
+  clip-path: polygon(
+    10% 0,
+    90% 0,
+    100% 50%,
+    90% 100%,
+    10% 100%,
+    0 50%
+  );
+  background-color: #FFF3BE;
+  background-image: radial-gradient(
+    200% 70% at center 20%,
+    rgba(48, 44, 45, 1) -30%,
+    rgba(50, 46, 47, 1) 49%,
+    rgba(22, 18, 19, 1) 50%,
+    rgba(22, 18, 19, 1) 150%
+  );
+  background-repeat: no-repeat;
+  transition: background-position-y ease-in-out 250ms;
 }
