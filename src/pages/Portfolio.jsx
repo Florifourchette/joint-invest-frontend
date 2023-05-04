@@ -191,8 +191,8 @@ export default function Portfolio() {
         fetchStocks();
     }, [id]);
 
-    // return isAuthenticated ? (
-    return (
+    return isAuthenticated ? (
+    
         <>
             <div className='portfolio-back-button-container'>
                 <BiArrowBack
@@ -304,17 +304,16 @@ export default function Portfolio() {
                     Buy/Sell
                 </button>
             </div>
-            {/* <Navbar /> */}
+            <Navbar />
         </>
-    );
-    //   ) : (
-    //     <div>
-    //       <div className="d-flex justify-content-center">
-    //         <Message style={{ color: "red" }}>
-    //           You are not logged in, please login!
-    //         </Message>
-    //       </div>
-    //       <LogIn />
-    //     </div>
-    //   );
+      ) : (
+        <div>
+          <div className="d-flex justify-content-center">
+            <Message style={{ color: "red" }}>
+              You are not logged in, please login!
+            </Message>
+          </div>
+          <LogIn />
+        </div>
+      );
 }
