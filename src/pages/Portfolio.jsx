@@ -1,27 +1,23 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import StockListA from '../components/PortfolioStockListA';
-import StockListB from '../components/PortfolioStockListB';
-import PortfolioChart from '../components/PortfolioChart.jsx';
-import PortfolioDropdown from '../components/PortfolioDropdown';
-import { stocklistitem_data } from '../assets/stocklistitem_data';
-import { v4 as uuidv4 } from 'uuid';
-import { mockPortfolioData } from '../assets/mockPortfolioData';
+import React from "react";
+import { useState, useEffect } from "react";
+import StockListA from "../components/PortfolioStockListA";
+import StockListB from "../components/PortfolioStockListB";
+import PortfolioChart from "../components/PortfolioChart.jsx";
+import PortfolioDropdown from "../components/PortfolioDropdown";
+import { stocklistitem_data } from "../assets/stocklistitem_data";
+import { v4 as uuidv4 } from "uuid";
+import { mockPortfolioData } from "../assets/mockPortfolioData";
 //import chartData from "../assets/lineGraphData";
 //import { url } from "inspector";
-import axios from 'axios';
-import {
-  useNavigate,
-  useParams,
-  useLocation,
-} from 'react-router-dom';
-import useAuth from '../hooks/useAuth';
-import LogIn from './LogIn';
-import { Message } from 'semantic-ui-react';
-import Chart from 'chart.js/auto';
-import { CategoryScale } from 'chart.js';
-import Navbar from '../components/Navbar';
-import { BiArrowBack } from 'react-icons/bi';
+import axios from "axios";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import LogIn from "./LogIn";
+import { Message } from "semantic-ui-react";
+import Chart from "chart.js/auto";
+import { CategoryScale } from "chart.js";
+import Navbar from "../components/Navbar";
+import { BiArrowBack } from "react-icons/bi";
 
 Chart.register(CategoryScale);
 
@@ -30,21 +26,16 @@ const portfolioAPIKey2 = import.meta.env.VITE_PORTFOLIO_API_KEY2;
 
 export default function Portfolio() {
   const { isAuthenticated } = useAuth();
-  const portfolioName =
-    mockPortfolioData[0].overview[0].name_of_portfolio;
-  const investedAmount =
-    mockPortfolioData[0].overview[0].invested_amount;
-  const availableAmount =
-    mockPortfolioData[0].overview[0].available_amount;
+  const portfolioName = mockPortfolioData[0].overview[0].name_of_portfolio;
+  const investedAmount = mockPortfolioData[0].overview[0].invested_amount;
+  const availableAmount = mockPortfolioData[0].overview[0].available_amount;
   const companiesArray = [];
 
   const { id } = useParams();
 
   const Navigate = useNavigate();
   const location = useLocation();
-  console.log(
-    ` location at portfolio ${JSON.stringify(location.state)}`
-  );
+  console.log(` location at portfolio ${JSON.stringify(location.state)}`);
   const [sharePrice, setSharePrice] = useState(location.state.prices);
   const [shareNumber, setShareNumber] = useState(
     location.state.number_of_shares
@@ -52,8 +43,8 @@ export default function Portfolio() {
   const tickers = Object.keys(sharePrice).join();
   const tickersArray = Object.keys(sharePrice);
 
-  console.log('SHARE PRICE', sharePrice);
-  console.log('SHARE NUKM', shareNumber);
+  console.log("SHARE PRICE", sharePrice);
+  console.log("SHARE NUKM", shareNumber);
   console.log(tickers);
 
   const companyIds = mockPortfolioData[0].stocks?.map(
@@ -62,9 +53,9 @@ export default function Portfolio() {
   const cleanCompanyIds = companyIds.join();
   //console.log(cleanCompanyIds);
 
-  const [selectedInterval, setSelectedInterval] = useState('');
+  const [selectedInterval, setSelectedInterval] = useState("");
   const [stockItems, setStockItems] = useState([]);
-  const [stockOverview, setStockOverview] = useState('');
+  const [stockOverview, setStockOverview] = useState("");
   const [stockCompaniesId, setStockCompaniesId] = useState();
   const [externalAPIstocks, setExternalAPIstocks] = useState();
   const [allCompanies, setAllCompanies] = useState();
@@ -152,49 +143,47 @@ export default function Portfolio() {
   //   //console.log(typeof stockValues);
   const datetimeValuesMap = {};
 
-  console.log('all comps', allCompanies);
-  
+  console.log("all comps", allCompanies);
+
   if (allCompanies && Object.keys(allCompanies).length > 0) {
     for (const key in allCompanies) {
       const values = allCompanies[key].values;
-  
+
       for (const value of values) {
         const datetime = value.datetime;
-  
+
         if (datetime in datetimeValuesMap) {
           const properties = Object.keys(value);
           for (const property of properties) {
-            if (property !== 'datetime') {
+            if (property !== "datetime") {
               datetimeValuesMap[datetime][property] +=
-                parseFloat(value[property]) *
-                parseFloat(shareNumber[key]);
+                parseFloat(value[property]) * parseFloat(shareNumber[key]);
             }
           }
         } else {
           datetimeValuesMap[datetime] = { datetime };
           const properties = Object.keys(value);
           for (const property of properties) {
-            if (property !== 'datetime') {
+            if (property !== "datetime") {
               datetimeValuesMap[datetime][property] =
-                parseFloat(value[property]) *
-                parseFloat(shareNumber[key]);
+                parseFloat(value[property]) * parseFloat(shareNumber[key]);
             }
           }
         }
       }
     }
   }
-  
+
   console.log(datetimeValuesMap);
   const intervalSum = Object.values(datetimeValuesMap);
-  console.log('result', intervalSum);
+  console.log("result", intervalSum);
 
   // Extract the summed value at the last timestamp
   const timestamps = Object.keys(datetimeValuesMap);
   const lastTimestamp = timestamps[timestamps.length - 1];
   const lastValues = datetimeValuesMap[lastTimestamp];
-  console.log('Last timestamp:', lastTimestamp);
-  console.log('Last values:', lastValues);
+  console.log("Last timestamp:", lastTimestamp);
+  console.log("Last values:", lastValues);
 
   //api calls
 
@@ -214,7 +203,7 @@ export default function Portfolio() {
     async function stockDataExternal() {
       try {
         const nextResponse = await axios.get(
-          `https://api.twelvedata.com/quote?symbol=${tickers}&apikey=${portfolioAPIKey1}`
+          `https://api.twelvedata.com/quote?symbol=${tickers}&apikey=${portfolioAPIKey2}`
         );
         //console.log(myStocksIds);
         console.log(nextResponse);
@@ -237,9 +226,7 @@ export default function Portfolio() {
     }
     async function fetchStocks() {
       try {
-        const stockInfos = await axios.get(
-          'http://localhost:3000/api/stocks'
-        );
+        const stockInfos = await axios.get("http://localhost:3000/api/stocks");
         getStockData(stockInfos.data);
         console.log(stockInfos.data);
       } catch (error) {
@@ -283,11 +270,11 @@ export default function Portfolio() {
         />
       </div>
       <div className="portfolio_stocks container">
-        <h3 className="text-center" style={{ padding: '2rem' }}>
+        <h3 className="text-center" style={{ padding: "2rem" }}>
           Your Stocks
         </h3>
 
-        {selectedInterval == 'since buy' ? (
+        {selectedInterval == "since buy" ? (
           <div>
             {stockItems &&
               sharePrice &&
@@ -336,12 +323,17 @@ export default function Portfolio() {
       </div>
       <div
         className="d-flex justify-content-center"
-        style={{ padding: '2rem' }}
+        style={{ padding: "2rem" }}
       >
         <button
           type="button"
-          className="btn btn-primary"
-          style={{ marginRight: '0.5rem' }}
+          class="btn btn-primary"
+          style={{ marginRight: "0.5rem" }}
+          onClick={() =>
+            Navigate(`/orderbook/${id}`, {
+              state: location.state,
+            })
+          }
         >
           Order book
         </button>

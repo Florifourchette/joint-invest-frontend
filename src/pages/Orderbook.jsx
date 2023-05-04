@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { useAppContext } from "../contexts/AppContext";
 import { useParams, useNavigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
-import LogIn from "./LogIn";
-import { Message } from "semantic-ui-react";
 import axios from "axios";
 import Orderlist from "../components/orderlist";
 import { BiArrowBack } from "react-icons/bi";
 import Navbar from "../components/Navbar";
 
 export default function Orderbook() {
+  const { contextStockData } = useAppContext();
   const [orders, setOrders] = useState();
   let { portfolio_id } = useParams();
   const navigate = useNavigate();
@@ -21,12 +20,13 @@ export default function Orderbook() {
   useEffect(() => {
     async function getOrders() {
       try {
-        const response = await axios.get(
+        const stockInfos = await axios.get(
           `http://localhost:3000/api/order_book/${portfolio_id}`
         );
-        setOrders(response.data);
-        console.log(response.data);
-        return response.data;
+        console.log("Response data:", stockInfos.data);
+        setOrders(stockInfos.data);
+        // console.log(response.data);
+        return stockInfos.data;
       } catch (err) {
         console.log(err);
       }
@@ -51,7 +51,14 @@ export default function Orderbook() {
         <div style={{ marginBottom: "40px" }}>
           {orders &&
             orders.map((item, index, arr) => {
-              return <Orderlist item={item} index={index} arr={arr} />;
+              return (
+                <Orderlist
+                  item={item}
+                  index={index}
+                  arr={arr}
+                  contextStockData={contextStockData}
+                />
+              );
             })}
         </div>
         <Navbar />
