@@ -33,6 +33,7 @@ export default function Messages() {
   useEffect(() => {
     getDashboardData(userId)
       .then((data) => {
+        console.log(data);
         setFriends(
           data.portfolios.map((item) => {
             return {
@@ -137,7 +138,7 @@ export default function Messages() {
                   return {
                     type: 'transaction',
                     requester_id: item.user_id,
-                    requester_name: 'You',
+                    requester_name: 'you',
                     date: item.creating_date,
                     portfolio_name: portfoliosNames[i].portfolio_name,
                     portfolio_id: item.portfolio_id,
@@ -174,15 +175,21 @@ export default function Messages() {
       {allData?.map((item, index) => {
         return (
           <div key={index} className="message_body">
+            {/* Info part who created the request and when */}
             <div className="message_infos">
-              <p>
-                <IoIosContacts className="friend-icon" />
-              </p>
-              <p>{item.requester_name}</p>
+              <div className="porfolio-card-value">
+                <img
+                  src="/bee.png"
+                  alt="friends"
+                  style={{ width: '40px' }}
+                />
+                <h4 className="friend">{item.requester_name}</h4>
+              </div>
               <p>{getShorterDate(item.date)}</p>
             </div>
 
             <div className="message_details">
+              {/* If it concerns a portfolio then you can either activate or delete it */}
               {item.type === 'portfolio' &&
               item.action === 'pending_activation' ? (
                 <p>'Invitation'</p>
@@ -190,18 +197,18 @@ export default function Messages() {
                 item.action === 'pending_deletion' ? (
                 <p>Deletion request</p>
               ) : (
-                <p>item.portfolio_name</p>
+                <p>{item.portfolio_name}</p>
               )}
               {item.type === 'portfolio' &&
               item.action === 'pending_activation'
-                ? `to join ${item.portfolio_name}`
+                ? `to join ${item.portfolio_name}. Requested by ${item.requester_name}`
                 : item.type === 'portfolio' &&
                   item.action === 'pending_deletion'
-                ? `for ${item.portfolio_name}`
+                ? `for ${item.portfolio_name}. Requested by ${item.requester_name}`
                 : item.type === 'transaction' &&
                   item.action === 'Sell'
-                ? `Selling request for ${item.company_name} ${item.number_of_shares} stock(s)`
-                : `Buying request for ${item.company_name} ${item.number_of_shares} stock(s)`}
+                ? `Selling request for ${item.company_name} ${item.number_of_shares} stock(s). Requested by ${item.requester_name}`
+                : `Buying request for ${item.company_name} ${item.number_of_shares} stock(s). Requested by ${item.requester_name}`}
             </div>
             <div className="message_page_buttons">
               {item.type === 'transaction' ? (
@@ -215,7 +222,7 @@ export default function Messages() {
               // >
               //   View
               // </button>
-              item.requester_name === 'You' ? (
+              item.requester_name === 'you' ? (
                 <div>
                   <button
                     onClick={() => {
