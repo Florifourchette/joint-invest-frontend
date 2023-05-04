@@ -66,11 +66,9 @@ export default function Messages() {
         );
       })
       .then((data) => {
-        console.log(portfolioIds);
         portfolioIds.forEach((id) => getTransactions(id));
       })
       .then((data) => {
-        console.log(portfoliosData);
         cleanDataPortfolio(portfoliosData);
       })
       .catch((error) => console.error(error));
@@ -84,13 +82,11 @@ export default function Messages() {
   const getTransactions = (id) => {
     getTransactionsData(id)
       .then((data) => {
-        const portfolioTransactions = data.filter(
-          (transaction) => transaction.status === 'pending'
-        );
+        const portfolioTransactions = data;
+
         return portfolioTransactions;
       })
       .then((data) => {
-        console.log(data);
         transactionsAll.push(data);
         return cleanTransactionsData(transactionsAll);
       })
@@ -117,11 +113,9 @@ export default function Messages() {
   };
 
   const cleanTransactionsData = (transaction) => {
-    console.log(transaction);
     setTransactionDataCleaned(
       transaction?.flatMap((items) => {
         return items?.map((item) => {
-          console.log(item);
           for (let j = 0; j < friends.length; j++) {
             for (let i = 0; i < portfoliosNames.length; i++) {
               if (
@@ -144,7 +138,7 @@ export default function Messages() {
                   return {
                     type: 'transaction',
                     requester_id: item.user_id,
-                    requester_name: 'You',
+                    requester_name: 'you',
                     date: item.creating_date,
                     portfolio_name: portfoliosNames[i].portfolio_name,
                     portfolio_id: item.portfolio_id,
@@ -175,23 +169,27 @@ export default function Messages() {
       return dateB - dateA;
     });
 
-  console.log(transactionsDataCleaned);
-
   return isAuthenticated ? (
     <div className="message_page" style={{ width: '500px' }}>
       <h1>Messages</h1>
       {allData?.map((item, index) => {
         return (
           <div key={index} className="message_body">
+            {/* Info part who created the request and when */}
             <div className="message_infos">
-              <p>
-                <IoIosContacts className="friend-icon" />
-              </p>
-              <p>{item.requester_name}</p>
+              <div className="porfolio-card-value">
+                <img
+                  src="/bee.png"
+                  alt="friends"
+                  style={{ width: '40px' }}
+                />
+                <h4 className="friend">{item.requester_name}</h4>
+              </div>
               <p>{getShorterDate(item.date)}</p>
             </div>
 
             <div className="message_details">
+              {/* If it concerns a portfolio then you can either activate or delete it */}
               {item.type === 'portfolio' &&
               item.action === 'pending_activation' ? (
                 <p>'Invitation'</p>
@@ -199,18 +197,18 @@ export default function Messages() {
                 item.action === 'pending_deletion' ? (
                 <p>Deletion request</p>
               ) : (
-                <p>item.portfolio_name</p>
+                <p>{item.portfolio_name}</p>
               )}
               {item.type === 'portfolio' &&
               item.action === 'pending_activation'
-                ? `to join ${item.portfolio_name}`
+                ? `to join ${item.portfolio_name}. Requested by ${item.requester_name}`
                 : item.type === 'portfolio' &&
                   item.action === 'pending_deletion'
-                ? `for ${item.portfolio_name}`
+                ? `for ${item.portfolio_name}. Requested by ${item.requester_name}`
                 : item.type === 'transaction' &&
                   item.action === 'Sell'
-                ? `Selling request for ${item.company_name} ${item.number_of_shares} stock(s)`
-                : `Buying request for ${item.company_name} ${item.number_of_shares} stock(s)`}
+                ? `Selling request for ${item.company_name} ${item.number_of_shares} stock(s). Requested by ${item.requester_name}`
+                : `Buying request for ${item.company_name} ${item.number_of_shares} stock(s). Requested by ${item.requester_name}`}
             </div>
             <div className="message_page_buttons">
               {item.type === 'transaction' ? (
@@ -224,7 +222,7 @@ export default function Messages() {
               // >
               //   View
               // </button>
-              item.requester_name === 'You' ? (
+              item.requester_name === 'you' ? (
                 <div>
                   <button
                     onClick={() => {

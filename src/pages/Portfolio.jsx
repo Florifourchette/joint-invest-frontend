@@ -18,7 +18,6 @@ import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import Navbar from "../components/Navbar";
 import { BiArrowBack } from "react-icons/bi";
-import PortfolioChartOverall from "../components/PortfolioChartOverall";
 
 Chart.register(CategoryScale);
 
@@ -37,7 +36,6 @@ export default function Portfolio() {
   const Navigate = useNavigate();
   const location = useLocation();
   console.log(` location at portfolio ${JSON.stringify(location.state)}`);
-
   const [sharePrice, setSharePrice] = useState(location.state.prices);
   const [shareNumber, setShareNumber] = useState(
     location.state.number_of_shares
@@ -142,7 +140,7 @@ export default function Portfolio() {
     async function stockDataExternal() {
       try {
         const nextResponse = await axios.get(
-          `https://api.twelvedata.com/quote?symbol=${tickers}&apikey=${portfolioAPIKey1}`
+          `https://api.twelvedata.com/quote?symbol=${tickers}&apikey=${portfolioAPIKey2}`
         );
         //console.log(myStocksIds);
         console.log(nextResponse);
@@ -272,8 +270,13 @@ export default function Portfolio() {
       >
         <button
           type="button"
-          className="btn btn-primary"
+          class="btn btn-primary"
           style={{ marginRight: "0.5rem" }}
+          onClick={() =>
+            Navigate(`/orderbook/${id}`, {
+              state: location.state,
+            })
+          }
         >
           Order book
         </button>
