@@ -808,8 +808,8 @@ button {
 .navbar {
   position: fixed;
   width: 100%;
-  max-width: 750px;
-  min-width: 400px;
+  max-width: 550px;
+  min-width: 200px;
   /* padding: 0.5rem 4rem, 0.55rem, 4rem; */
   background-color: #84714f;
   border-radius: 10px;
