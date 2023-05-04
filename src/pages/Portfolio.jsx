@@ -196,10 +196,10 @@ export default function Portfolio() {
           </>
         )}
         <h4>Amount invested</h4>
-        <h4>{investedAmount}</h4>
+        <h4>{location.state.investedAmount.toFixed(2)}</h4>
 
         <p>Total Profit/loss</p>
-        <p>{location.state.PortfolioProfitLoss}</p>
+        <p>{location.state.portfolioProfitLoss}</p>
       </div>
       <div className="portfolio_available_amount">
         <h4>Available amount</h4>

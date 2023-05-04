@@ -138,7 +138,8 @@ const DeleteConfirmedButton = ({
                   userId: userId,
                   number_of_shares: filteredShares[data.portfolio_id],
                   friend: data.friend_username,
-                  PortfolioProfitLoss: PortfolioProfitLoss,
+                  portfolioProfitLoss: PortfolioProfitLoss,
+                  investedAmount: data.invested_amount
                 },
               });
             }}
