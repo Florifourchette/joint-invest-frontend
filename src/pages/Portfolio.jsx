@@ -18,6 +18,7 @@ import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import Navbar from "../components/Navbar";
 import { BiArrowBack } from "react-icons/bi";
+import PortfolioChartOverall from "../components/PortfolioChartOverall";
 
 Chart.register(CategoryScale);
 
