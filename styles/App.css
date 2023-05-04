@@ -131,10 +131,19 @@ table {
 }
 
 /* Common CSS */
+html {
+  background-color: #fff3be;
+}
+
 body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #fff3be !important;
+}
+
+#root {
+  background-color: #fff3be;
 }
 
 body h1 {
@@ -176,13 +185,18 @@ button {
   border: none;
 }
 
+.background {
+  background-color: #fff3be;
+  min-height: '100vh';
+}
+
 /* Overview Page */
 .portfolio-cards {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 2rem;
+  margin: 1rem auto 1rem auto;
 }
 
 .portfolio-card {
@@ -192,6 +206,7 @@ button {
   border-radius: 10px;
   box-shadow: 0 6px 6px hsl(0deg 0% 0% / 0.3);
   margin-top: 1em;
+  margin: 0.5em auto 0.5em auto;
   padding: 1em;
   align-items: center;
   justify-content: space-between;
@@ -352,7 +367,6 @@ button {
   border-radius: 50%;
 }
 
-
 .confirmation_button:hover {
   color: rgb(1, 66, 1);
   background-color: white;
@@ -408,13 +422,13 @@ button {
   font-weight: bold;
 }
 /* Portfolio Page */
-.portfolio-back-button{
+.portfolio-back-button {
   font-size: 3em;
   position: relative;
   margin-bottom: 0.8em;
   cursor: pointer;
 }
-.portfolio-title{
+.portfolio-title {
   font-size: 2.5em;
   font-weight: bold;
   text-align: center;
@@ -422,28 +436,28 @@ button {
   padding-top: 0;
 }
 
-.portfolio-name{
+.portfolio-name {
   text-align: center;
 }
 
-.portfolio-dropdown{
+.portfolio-dropdown {
   display: flex;
   justify-content: flex-end;
   margin-top: 2rem;
   max-width: 100%;
 }
-.dropdown{
+.dropdown {
   max-width: 17%;
   margin-right: 30px;
   font-size: 1em;
 }
 
-.portfolio_lineGraph{
+.portfolio_lineGraph {
   padding-left: 20px;
   width: 490px;
   padding-bottom: 1rem;
 }
-.portfolio_barGraph{
+.portfolio_barGraph {
   padding-right: 20px;
   width: 475px;
   height: 350px;
@@ -451,13 +465,13 @@ button {
   margin: 0 auto 0 auto;
 }
 
-.stock-container{
+.stock-container {
   width: 470px;
   margin: 1rem auto 1rem auto;
 }
 
-.one-stock{
-  background-color: #FFD600;
+.one-stock {
+  background-color: #ffd600;
   margin: 1.1rem 1rem 1.1rem 1rem;
   height: 80px;
   border-radius: 10px;
@@ -467,17 +481,16 @@ button {
   align-items: center;
 }
 
-.stock-shade{
+.stock-shade {
   height: 60px;
   width: 420px;
   padding: 0 20px 0 20px;
   display: flex;
-  align-items:center;
+  align-items: center;
   justify-content: space-around;
   background-color: rgba(255, 255, 255, 0.4);
   border-radius: 10px;
 }
-
 
 /*portfolio creation page */
 .portfolioCreationPage {
@@ -592,48 +605,147 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  margin: auto;
+  margin-bottom: 8%;
 }
 
-.message_body {
+.message-cards {
+  width: 100%;
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
   align-items: center;
-  width: 90%;
-  margin: 1em;
+  margin: 1rem auto 1rem auto;
+}
+
+.message-card {
+  width: 80%;
+  display: flex;
+  background-color: #ffd600;
+  border-radius: 10px;
+  box-shadow: 0 6px 6px hsl(0deg 0% 0% / 0.3);
+  margin-top: 1em;
+  margin: 0.5em auto 0.5em auto;
   padding: 1em;
-  border: solid 2px lightgrey;
-  border-radius: 1em;
-}
-
-.message_infos {
-  width: 20%;
-  display: flex;
-  flex-direction: column;
   align-items: center;
-}
-
-.message_infos p {
-  padding: 0;
-  margin: 0;
-}
-
-.message_details {
-  width: 50%;
-  display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   flex-wrap: wrap;
 }
 
-.message_page_buttons {
-  width: 10%;
+.message-card h4 {
+  font-weight: bold;
 }
 
-.message_page_buttons button {
-  width: 120%;
-  color: white;
-  background-color: blue;
-  border-radius: 0.5em;
+.message-name-container {
+  text-align: center;
+  width: 100%;
+  padding: 0.5rem 0 1rem 0;
 }
+
+.message-name-container h5 {
+  font-weight: 800;
+}
+
+.message-name-status {
+  align-items: center;
+  width: 40%;
+  margin-left: 0.5em;
+}
+
+.message-name-status h4 {
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.message-card-values {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.message-card-container {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+  padding: 1em;
+}
+
+.message-card-value-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5em;
+  width: 20%;
+}
+.message-card-value-mainDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5em;
+  width: 60%;
+}
+
+.message-card-value-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5em;
+  width: 20%;
+}
+
+.message_bold_span {
+  font-weight: bold;
+}
+
+.message_button_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.message_button {
+  display: inline-block;
+  position: relative;
+  color: #fff;
+  font-weight: 500;
+  margin: 0.5em;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 5px 8px;
+  text-align: center;
+  clip-path: polygon(
+    10% 0,
+    90% 0,
+    100% 50%,
+    90% 100%,
+    10% 100%,
+    0 50%
+  );
+  background-color: #31231e;
+  background-image: radial-gradient(
+    200% 70% at center 20%,
+    rgba(48, 44, 45, 1) -30%,
+    rgba(50, 46, 47, 1) 49%,
+    rgba(22, 18, 19, 1) 50%,
+    rgba(22, 18, 19, 1) 150%
+  );
+  background-repeat: no-repeat;
+  transition: background-position-y ease-in-out 250ms;
+}
+.cancellation_button:hover {
+  transform: scale(1.05);
+}
+
+.message-card-value-mainDetails p {
+  text-align: center;
+}
+
+.message-card-value-status p {
+  text-align: center;
+}
+
+/*////////////////////////////////*/
 
 .hex-button {
   display: inline-block;
@@ -681,7 +793,7 @@ button {
     10% 100%,
     0 50%
   );
-  background-color: #FFF3BE;
+  background-color: #fff3be;
   background-image: radial-gradient(
     200% 70% at center 20%,
     rgba(48, 44, 45, 1) -30%,
@@ -691,4 +803,30 @@ button {
   );
   background-repeat: no-repeat;
   transition: background-position-y ease-in-out 250ms;
+}
+
+.navbar {
+  position: fixed;
+  width: 100%;
+  max-width: 550px;
+  min-width: 200px;
+  /* padding: 0.5rem 4rem, 0.55rem, 4rem; */
+  background-color: #84714f;
+  border-radius: 10px;
+  margin: auto;
+  display: flex;
+  align-content: space-around;
+}
+
+.navBar_container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.navBarLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
