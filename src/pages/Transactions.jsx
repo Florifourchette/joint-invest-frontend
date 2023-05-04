@@ -208,8 +208,7 @@ export default function Transactions() {
     confirmOrCancelTransaction(portfolioId, transactionId, transactionData);
     setShowCancellationModal(false);
   };
-  // return isAuthenticated ? (
-  return (
+  return isAuthenticated ? (
     <div>
       <div style={{ width: "450px" }}>
         <BiArrowBack
@@ -314,15 +313,14 @@ export default function Transactions() {
         </div>
       </div>
     </div>
+  ) : (
+      <div>
+          <div className="d-flex justify-content-center">
+              <Message style={{ color: "red" }}>
+                  You are not logged in, please login!
+              </Message>
+          </div>
+          <LogIn />
+      </div>
   );
-  // ) : (
-  //     <div>
-  //         <div className="d-flex justify-content-center">
-  //             <Message style={{ color: "red" }}>
-  //                 You are not logged in, please login!
-  //             </Message>
-  //         </div>
-  //         <LogIn />
-  //     </div>
-  // );
 }
