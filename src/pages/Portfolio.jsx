@@ -132,8 +132,8 @@ export default function Portfolio() {
           `http://localhost:3000/api/portfolio/${id}`
         );
         setStockItems(response.data.stocks);
-        setStockOverview(response.data.overview);
-        //console.log(response);
+        setStockOverview(response.data.overview[0]);
+        console.log("aaaaaaahhhhhhhhh", response.data.overview[0]);
       } catch (err) {
         console.log(err);
       }
@@ -189,72 +189,81 @@ export default function Portfolio() {
   // return isAuthenticated ? (
   return (
     <>
-      <div className="portfolio_overview">
-        {lastValues && (
-          <>
-            <h3>Total Assets at {lastValues.datetime}</h3>
-            <h1>$ {lastValues.close}</h1>
-          </>
-        )}
-        <h4>Amount invested</h4>
-        <h4>{location.state.investedAmount.toFixed(2)}</h4>
-
-        <p>Total Profit/loss</p>
-        <p>{location.state.portfolioProfitLoss}</p>
-      </div>
-      <div className="portfolio_available_amount">
-        <h4>Available amount</h4>
-      </div>
-      <div className="PortfolioDropdown">
-        <PortfolioDropdown
-          selectedInterval={selectedInterval}
-          setSelectedInterval={setSelectedInterval}
-        />
-      </div>
-      <div className="portfolio_stocks container">
-        {selectedInterval == "Overall" ? (
-          <div>
-            <div className="portfolio_lineGraph">
-              <PortfolioChartOverall orderBook={orderBook} />
+      <div>
+        <div className="portfolio_overview">
+          <h1>Portfolio</h1>
+          {stockOverview && <h4>{stockOverview.name_of_portfolio}</h4>}
+          {lastValues && (
+            <>
+              <h3>Total Assets at</h3>
+              <h2>$ {lastValues.close}</h2>
+            </>
+          )}
+          <h4>Amount invested</h4>
+          {stockOverview && (
+            <h3>{parseFloat(stockOverview.invested_amount).toFixed(2)}</h3>
+          )}
+          <h4>Total Profit/loss</h4>
+          <h3>{location.state.portfolioProfitLoss}</h3>
+        </div>
+        <div className="portfolio_available_amount">
+          <h4>Available amount</h4>
+          {stockOverview && (
+            <h3>{parseFloat(stockOverview.available_amount).toFixed(2)}</h3>
+          )}
+        </div>
+        <div className="PortfolioDropdown">
+          <PortfolioDropdown
+            selectedInterval={selectedInterval}
+            setSelectedInterval={setSelectedInterval}
+          />
+        </div>
+        <div className="portfolio_stocks container">
+          {selectedInterval == "Overall" ? (
+            <div>
+              <div className="portfolio_lineGraph">
+                {lastValues && <p>{lastValues.datetime}</p>}
+                <PortfolioChartOverall orderBook={orderBook} />
+              </div>
+              {stockItems &&
+                sharePrice &&
+                stockData &&
+                externalAPIstocks &&
+                stockItems?.map((item) => {
+                  return (
+                    <StockListB
+                      item={item}
+                      externalAPIstocks={externalAPIstocks}
+                      sharePrice={sharePrice}
+                      stockData={stockData}
+                    />
+                  );
+                })}
             </div>
-            {stockItems &&
-              sharePrice &&
-              stockData &&
-              externalAPIstocks &&
-              stockItems?.map((item) => {
-                return (
-                  <StockListB
-                    item={item}
-                    externalAPIstocks={externalAPIstocks}
-                    sharePrice={sharePrice}
-                    stockData={stockData}
-                  />
-                );
-              })}
-          </div>
-        ) : (
-          <div>
-            <div className="portfolio_lineGraph">
-              <PortfolioChart intervalSum={intervalSum} />
+          ) : (
+            <div>
+              <div className="portfolio_lineGraph">
+                {lastValues && <p>{lastValues.datetime}</p>}
+                <PortfolioChart intervalSum={intervalSum} />
+              </div>
+              {stockItems &&
+                stockData &&
+                sharePrice &&
+                externalAPIstocks &&
+                stockItems?.map((item) => {
+                  return (
+                    <StockListA
+                      item={item}
+                      externalAPIstocks={externalAPIstocks}
+                      sharePrice={sharePrice}
+                      stockData={stockData}
+                    />
+                  );
+                })}
             </div>
-            {stockItems &&
-              stockData &&
-              sharePrice &&
-              externalAPIstocks &&
-              stockItems?.map((item) => {
-                return (
-                  <StockListA
-                    item={item}
-                    externalAPIstocks={externalAPIstocks}
-                    sharePrice={sharePrice}
-                    stockData={stockData}
-                  />
-                );
-              })}
-          </div>
-        )}
+          )}
 
-        {/* {stocklistitem_data &&
+          {/* {stocklistitem_data &&
           stocklistitem_data.map((item) => {
             return (
               <StockListA
@@ -264,36 +273,37 @@ export default function Portfolio() {
               />
             );
           })} */}
-      </div>
-      <div
-        className="d-flex justify-content-center"
-        style={{ padding: "2rem" }}
-      >
-        <button
-          type="button"
-          class="btn btn-primary"
-          style={{ marginRight: "0.5rem" }}
-          onClick={() =>
-            Navigate(`/orderbook/${id}`, {
-              state: location.state,
-            })
-          }
+        </div>
+        <div
+          className="d-flex justify-content-center"
+          style={{ padding: "2rem" }}
         >
-          Order book
-        </button>
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={() =>
-            Navigate(`/transactions/${id}`, {
-              state: location.state,
-            })
-          }
-        >
-          Buy/Sell
-        </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            style={{ marginRight: "0.5rem" }}
+            onClick={() =>
+              Navigate(`/orderbook/${id}`, {
+                state: location.state,
+              })
+            }
+          >
+            Order book
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() =>
+              Navigate(`/transactions/${id}`, {
+                state: location.state,
+              })
+            }
+          >
+            Buy/Sell
+          </button>
+        </div>
+        <Navbar />
       </div>
-      {/* <Navbar /> */}
     </>
   );
   //   ) : (
