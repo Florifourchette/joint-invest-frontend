@@ -26,10 +26,10 @@ export default function TransactionCard({
           {stock.company_id}{' '}
           <span>{location.number_of_shares[stock.company_id]}</span>
         </h4>
-        <h4>
+        {Object.keys(location.prices).length !== 0 && (<h4>
           Price:{' '}
           {Number(location.prices[stock.company_id]).toFixed(2)}
-        </h4>
+        </h4>)}
       </div>
       <div className="stock-counter">
         <button
