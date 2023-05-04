@@ -85,7 +85,7 @@ export default function Messages() {
     getTransactionsData(id)
       .then((data) => {
         console.log(data);
-        const portfolioTransactions = data.overview;
+        const portfolioTransactions = data;
         console.log(portfolioTransactions);
         return portfolioTransactions;
       })
@@ -119,43 +119,48 @@ export default function Messages() {
   const cleanTransactionsData = (transaction) => {
     console.log(transaction);
     setTransactionDataCleaned(
-      transaction?.map((item) => {
-        console.log(item[0]);
-        for (let j = 0; j < friends.length; j++) {
-          if (
-            item[0].user_id_status_request === friends[j].friend_id
-          ) {
-            return {
-              type: 'transaction',
-              requester_id: item[0].user_id_status_request,
-              requester_name: friends[j].friend_username,
-              date: item[0].request_creation_date,
-              portfolio_name: item[0].name_of_portfolio,
-              portfolio_id: item[0].portfolio_id,
-              action: item[0].type_of_transaction,
-              company_name: item[0].company_name,
-              number_of_shares: item[0].number_of_shares,
-              initial_amount: '',
-            };
-          } else if (item.user_id !== friends[j].friend_id) {
-            return {
-              type: 'transaction',
-              requester_id: item[0].user_id,
-              requester_name: 'You',
-              date: item[0].creating_date,
-              portfolio_name: item[0].name_of_portfolio,
-              portfolio_id: item[0].portfolio_id,
-              action: item[0].type_of_transaction,
-              company_name: item[0].company_name,
-              number_of_shares: item[0].number_of_shares,
-              initial_amount: '',
-            };
+      transaction?.flatMap((items) => {
+        return items?.map((item) => {
+          console.log(item);
+          for (let j = 0; j < friends.length; j++) {
+            for (let i = 0; i < portfoliosNames.length; i++) {
+              if (
+                item.portfolio_id === portfoliosNames[i].portfolio_id
+              ) {
+                if (item.user_id === friends[j].friend_id) {
+                  return {
+                    type: 'transaction',
+                    requester_id: item.user_id,
+                    requester_name: friends[j].friend_id,
+                    date: item.creating_date,
+                    portfolio_name: portfoliosNames[i].portfolio_name,
+                    portfolio_id: item.portfolio_id,
+                    action: item.type_of_transaction,
+                    company_name: item.company_name,
+                    number_of_shares: item.number_of_shares,
+                    initial_amount: '',
+                  };
+                } else if (item.user_id !== friends[j].friend_id) {
+                  return {
+                    type: 'transaction',
+                    requester_id: item.user_id,
+                    requester_name: 'You',
+                    date: item.creating_date,
+                    portfolio_name: portfoliosNames[i].portfolio_name,
+                    portfolio_id: item.portfolio_id,
+                    action: item.type_of_transaction,
+                    company_name: item.company_name,
+                    number_of_shares: item.number_of_shares,
+                    initial_amount: '',
+                  };
+                }
+              }
+            }
           }
-        }
+        });
       })
     );
   };
-
   console.log(transactionsDataCleaned);
 
   const getShorterDate = (date) => {
