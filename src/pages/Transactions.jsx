@@ -127,8 +127,13 @@ export default function Transactions() {
         price_of_share: data.price,
         user_id: location.state.userId,
       }));
-
-      setShowModal(true);
+      setLocation(prevState => ({
+        ...prevState,
+        prices: {
+          ...prevState.prices,
+          [companyId]: data.price
+        }
+      }));
     });
     setShowModal(true);
   };

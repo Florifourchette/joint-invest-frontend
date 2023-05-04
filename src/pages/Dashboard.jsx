@@ -61,7 +61,7 @@ export default function Dashboard(props) {
   console.log("number of shares", wallet.number_of_shares);
   //API CALL
   useEffect(() => {
-    if (loading === false) {
+    if (loading === false && wallet.length> 0) {
       const companyIds = [...new Set(wallet.map((item) => item.company_id))];
       console.log(`tickers: ${companyIds}`);
       const apiUrl = createApiUrl(companyIds);
