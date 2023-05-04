@@ -583,12 +583,6 @@ button {
 
 /* StockSearch */
 
-.transaction-search {
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  width: 70%;
-}
 .drop-down {
   border: 1px transparent black;
   width: 70%;
@@ -733,7 +727,7 @@ button {
   background-repeat: no-repeat;
   transition: background-position-y ease-in-out 250ms;
 }
-.cancellation_button:hover {
+.message_button:hover {
   transform: scale(1.05);
 }
 
@@ -829,4 +823,132 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+/* transactions page */
+.transactions-cards {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem auto 1rem auto;
+}
+
+.transactions-card {
+  width: 80%;
+  display: flex;
+  background-color: #ffd600;
+  border-radius: 10px;
+  box-shadow: 0 6px 6px hsl(0deg 0% 0% / 0.3);
+  margin-top: 1em;
+  margin: 0.5em auto 0.5em auto;
+  padding: 1em;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.transactions_button {
+  display: inline-block;
+  position: relative;
+  color: #fff;
+  font-weight: 500;
+  margin: 0.5em;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 5px 8px;
+  text-align: center;
+  clip-path: polygon(
+    10% 0,
+    90% 0,
+    100% 50%,
+    90% 100%,
+    10% 100%,
+    0 50%
+  );
+  background-color: #31231e;
+  background-image: radial-gradient(
+    200% 70% at center 20%,
+    rgba(48, 44, 45, 1) -30%,
+    rgba(50, 46, 47, 1) 49%,
+    rgba(22, 18, 19, 1) 50%,
+    rgba(22, 18, 19, 1) 150%
+  );
+  background-repeat: no-repeat;
+  transition: background-position-y ease-in-out 250ms;
+}
+.transactions_button:hover {
+  transform: scale(1.05);
+}
+
+.hex-button-small {
+  display: inline-block;
+  position: relative;
+  color: #fff;
+  font-weight: 500;
+  margin: 0.5em;
+  text-decoration: none;
+  text-align: center;
+  clip-path: polygon(
+    10% 0,
+    90% 0,
+    100% 50%,
+    90% 100%,
+    10% 100%,
+    0 50%
+  );
+  background-color: #fff3be;
+  background-image: radial-gradient(
+    200% 70% at center 20%,
+    rgba(48, 44, 45, 1) -30%,
+    rgba(50, 46, 47, 1) 49%,
+    rgba(22, 18, 19, 1) 50%,
+    rgba(22, 18, 19, 1) 150%
+  );
+  background-repeat: no-repeat;
+  transition: background-position-y ease-in-out 250ms;
+}
+
+.hex-button-small:hover {
+  transform: scale(1.05);
+}
+
+.SearchBar {
+  margin: 2em;
+}
+
+.StockSearchBar {
+  background-color: red;
+}
+
+.your-stocks h2 {
+  text-align: center;
+}
+
+.overview-title p {
+  text-align: center;
+}
+
+.SearchBar p {
+  text-align: center;
+}
+
+.transaction-search {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}
+
+.transaction-search p {
+  margin: 0.5em;
+}
+
+.search_bar {
+  background-color: red;
+  color: red;
+}
+
+.transactions-title p {
+  text-align: center;
 }

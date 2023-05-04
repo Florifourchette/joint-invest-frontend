@@ -24,11 +24,7 @@ const DeleteConfirmedButton = ({
   return (
     <div className="dashboard_buttons">
       {/* current status 'activated' */}
-<<<<<<< HEAD
       {data.portfolio_status === 'activated' ? (
-=======
-      {data.portfolio_status === "activated" ? (
->>>>>>> dev
         <>
           <button
             className="to-portfolio-btn"
@@ -61,8 +57,6 @@ const DeleteConfirmedButton = ({
                   };
                 }
               });
-
-          
 
               // Pass the filtered data to the next page
               Navigate(`/portfolio/${data.portfolio_id}`, {
@@ -105,11 +99,7 @@ const DeleteConfirmedButton = ({
         <></>
       )}
 
-<<<<<<< HEAD
       {data.portfolio_status === 'pending_deletion' &&
-=======
-      {data.portfolio_status === "pending_deletion" &&
->>>>>>> dev
       parseInt(userId) === data.user_id_request ? (
         <>
           <button
@@ -152,7 +142,7 @@ const DeleteConfirmedButton = ({
                   number_of_shares: filteredShares[data.portfolio_id],
                   friend: data.friend_username,
                   portfolioProfitLoss: PortfolioProfitLoss,
-                  investedAmount: data.invested_amount
+                  investedAmount: data.invested_amount,
                 },
               });
             }}
