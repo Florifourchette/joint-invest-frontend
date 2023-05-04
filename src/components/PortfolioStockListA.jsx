@@ -32,7 +32,11 @@ const StockListA = ({ item, externalAPIstocks, sharePrice, stockData }) => {
                 <List.Description
                   style={{ fontWeight: "600", color: "#7AD982" }}
                 >
-                  +{parseFloat(sharePrice[item.company_id]).toFixed(2)}% / +
+                  +
+                  {parseFloat(
+                    externalAPIstocks[item.company_id]?.change
+                  ).toFixed(2)}
+                  % / +
                   {(
                     parseFloat(sharePrice[item.company_id]) *
                     (parseFloat(externalAPIstocks[item.company_id]?.change) /
