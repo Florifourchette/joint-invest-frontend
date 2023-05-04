@@ -190,27 +190,27 @@ export default function Portfolio() {
   return (
     <>
       <div>
-        <div className="portfolio_overview">
-          <h1>Portfolio</h1>
+        <div className="overview_page">
+          <h1 className="portfolio-title">Portfolio</h1>
           {stockOverview && <h4>{stockOverview.name_of_portfolio}</h4>}
-          {lastValues && (
-            <>
-              <h3>Total Assets at</h3>
-              <h2>$ {lastValues.close}</h2>
-            </>
-          )}
-          <h4>Amount invested</h4>
-          {stockOverview && (
-            <h3>{parseFloat(stockOverview.invested_amount).toFixed(2)}</h3>
-          )}
-          <h4>Total Profit/loss</h4>
-          <h3>{location.state.portfolioProfitLoss}</h3>
-        </div>
-        <div className="portfolio_available_amount">
-          <h4>Available amount</h4>
-          {stockOverview && (
-            <h3>{parseFloat(stockOverview.available_amount).toFixed(2)}</h3>
-          )}
+          <div className="assets">
+            {lastValues && (
+              <>
+                <h3>Total Assets</h3>
+                <h2>$ {lastValues.close}</h2>
+              </>
+            )}
+            <h3>Amount invested</h3>
+            {stockOverview && (
+              <h4>{parseFloat(stockOverview.invested_amount).toFixed(2)}</h4>
+            )}
+            <h3>Total Profit/loss</h3>
+            <h4>{location.state.portfolioProfitLoss}</h4>
+            <h3>Available amount</h3>
+            {stockOverview && (
+              <h4>{parseFloat(stockOverview.available_amount).toFixed(2)}</h4>
+            )}
+          </div>
         </div>
         <div className="PortfolioDropdown">
           <PortfolioDropdown
@@ -222,7 +222,6 @@ export default function Portfolio() {
           {selectedInterval == "Overall" ? (
             <div>
               <div className="portfolio_lineGraph">
-                {lastValues && <p>{lastValues.datetime}</p>}
                 <PortfolioChartOverall orderBook={orderBook} />
               </div>
               {stockItems &&
@@ -243,7 +242,6 @@ export default function Portfolio() {
           ) : (
             <div>
               <div className="portfolio_lineGraph">
-                {lastValues && <p>{lastValues.datetime}</p>}
                 <PortfolioChart intervalSum={intervalSum} />
               </div>
               {stockItems &&
