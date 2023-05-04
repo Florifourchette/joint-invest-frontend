@@ -50,6 +50,7 @@ const PortfolioChartOverall = ({ orderBook }) => {
   }, []);
 
   const options = {
+    maintainAspectRatio: false,
     responsive: true,
     plugins: {
       legend: {
@@ -74,7 +75,7 @@ const PortfolioChartOverall = ({ orderBook }) => {
     return () => chart.destroy();
   }, [data, options]);
 
-  return <canvas ref={canvasRef} />;
+  return <canvas ref={canvasRef} style={{ height: "300px" }} />;
 };
 
 export default PortfolioChartOverall;

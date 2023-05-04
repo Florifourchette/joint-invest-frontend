@@ -44,6 +44,8 @@ export default function Portfolio() {
   const tickers = Object.keys(sharePrice).join();
   const tickersArray = Object.keys(sharePrice);
 
+  console.log("PROFIT", location.state.portfolioProfitLoss);
+
   console.log("SHARE PRICE", sharePrice);
   console.log("SHARE NUKM", shareNumber);
   console.log(tickers);
@@ -195,7 +197,11 @@ export default function Portfolio() {
       <div className="portfolio_overview">
         <div className="overview_page">
           <h1 className="portfolio-title">Portfolio</h1>
-          {stockOverview && <h4>{stockOverview.name_of_portfolio}</h4>}
+          {stockOverview && (
+            <h4 className="portfolio-name">
+              {stockOverview.name_of_portfolio}
+            </h4>
+          )}
           <div className="assets">
             {lastValues && (
               <>
@@ -215,63 +221,80 @@ export default function Portfolio() {
             )}
           </div>
         </div>
-        <div className="PortfolioDropdown">
+        <div className="portfolio-dropdown">
           <PortfolioDropdown
+            className="dropdown"
             selectedInterval={selectedInterval}
             setSelectedInterval={setSelectedInterval}
           />
         </div>
-        <div className="portfolio_stocks container">
+        <div className="portfolio_stocks-container">
           {selectedInterval == "Overall" ? (
             <div>
-              <div className="portfolio_lineGraph">
+              <div className="portfolio_barGraph">
                 <PortfolioChartOverall orderBook={orderBook} />
               </div>
-              {stockItems &&
-                sharePrice &&
-                stockData &&
-                externalAPIstocks &&
-                stockItems?.map((item) => {
-                  return (
-                    <StockListB
-                      item={item}
-                      externalAPIstocks={externalAPIstocks}
-                      sharePrice={sharePrice}
-                      stockData={stockData}
-                    />
-                  );
-                })}
+              <div className="assets">
+                <h3>Your stocks</h3>
+              </div>
+              <div className="stock-container">
+                {stockItems &&
+                  sharePrice &&
+                  stockData &&
+                  externalAPIstocks &&
+                  stockItems?.map((item) => {
+                    return (
+                      <StockListB
+                        item={item}
+                        externalAPIstocks={externalAPIstocks}
+                        sharePrice={sharePrice}
+                        stockData={stockData}
+                      />
+                    );
+                  })}
+              </div>
             </div>
           ) : (
             <div>
               <div className="portfolio_lineGraph">
                 <PortfolioChart intervalSum={intervalSum} />
               </div>
-              {stockItems &&
-                stockData &&
-                sharePrice &&
-                externalAPIstocks &&
-                stockItems?.map((item) => {
-                  return (
-                    <StockListA
-                      item={item}
-                      externalAPIstocks={externalAPIstocks}
-                      sharePrice={sharePrice}
-                      stockData={stockData}
-                    />
-                  );
-                })}
+              <div className="assets">
+                <h3>Your stocks</h3>
+              </div>
+              <div className="stock-container">
+                {stockItems &&
+                  stockData &&
+                  sharePrice &&
+                  externalAPIstocks &&
+                  stockItems?.map((item) => {
+                    return (
+                      <StockListA
+                        item={item}
+                        externalAPIstocks={externalAPIstocks}
+                        sharePrice={sharePrice}
+                        stockData={stockData}
+                      />
+                    );
+                  })}
+              </div>
             </div>
           )}
         </div>
         <div
           className="d-flex justify-content-center"
-          style={{ padding: "2rem" }}
+          style={{ padding: "2rem 0 4rem 0" }}
         >
           <button
             type="button"
-            class="btn btn-primary"
-            style={{ marginRight: "0.5rem" }}
+            className="hex-button"
+            style={{
+              marginRight: "1rem",
+              padding: "0px",
+              height: "60px",
+              width: "120px",
+              background: "#84714F",
+            }}
             onClick={() =>
               Navigate(`/orderbook/${id}`, {
                 state: location.state,
@@ -280,9 +303,43 @@ export default function Portfolio() {
           >
             Order book
           </button>
+          {/* <button
+            type="button"
+            className="hex-button"
+            style={{
+              marginRight: "1rem",
+              padding: "0px",
+              height: "60px",
+              width: "120px",
+            }}
+            onClick={() =>
+              Navigate(`/orderbook/${id}`, {
+                state: location.state,
+              })
+            }
+          >
+            <div
+              className="hex-button-small d-flex justify-content-center align-items-center"
+              style={{
+                height: "50px",
+                width: "110px",
+                background: "#FFF3BE",
+                color: "#31231e",
+                margin: "0 auto 0 auto",
+              }}
+            >
+              <p>Order book</p>
+            </div>
+          </button> */}
           <button
             type="button"
-            className="btn btn-primary"
+            className="hex-button"
+            style={{
+              marginRight: "0.5rem",
+              padding: "10px",
+              height: "60px",
+              width: "120px",
+            }}
             onClick={() =>
               Navigate(`/transactions/${id}`, {
                 state: location.state,

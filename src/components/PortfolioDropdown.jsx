@@ -36,6 +36,11 @@ export default class PortfolioDropdown extends Component {
         options={options}
         onChange={this.handleChange}
         value={value}
+        style={{
+          backgroundColor: "#FFF3BE",
+          border: "1px solid #5A3A31",
+          boxShadow: "0 1px 1px hsl(0deg 0% 0% / 0.3)",
+        }}
       />
     );
   }

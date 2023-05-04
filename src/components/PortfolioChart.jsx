@@ -32,10 +32,13 @@ const PortfolioChart = ({ intervalSum }) => {
     <>
       <div className="chart-container">
         <Line
+          style={{ height: "300px" }}
           data={data}
           options={{
+            maintainAspectRatio: false,
+            responsive: true,
             layout: {
-              padding: "20px",
+              padding: "10px",
             },
             plugins: {
               legend: {
