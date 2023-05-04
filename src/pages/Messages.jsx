@@ -33,7 +33,6 @@ export default function Messages() {
   useEffect(() => {
     getDashboardData(userId)
       .then((data) => {
-        console.log(data);
         setFriends(
           data.portfolios.map((item) => {
             return {
@@ -66,11 +65,9 @@ export default function Messages() {
         );
       })
       .then((data) => {
-        console.log(portfolioIds);
         portfolioIds.forEach((id) => getTransactions(id));
       })
       .then((data) => {
-        console.log(portfoliosData);
         cleanDataPortfolio(portfoliosData);
       })
       .catch((error) => console.error(error));
@@ -84,13 +81,11 @@ export default function Messages() {
   const getTransactions = (id) => {
     getTransactionsData(id)
       .then((data) => {
-        console.log(data);
         const portfolioTransactions = data;
-        console.log(portfolioTransactions);
+
         return portfolioTransactions;
       })
       .then((data) => {
-        console.log(data);
         transactionsAll.push(data);
         return cleanTransactionsData(transactionsAll);
       })
@@ -117,11 +112,9 @@ export default function Messages() {
   };
 
   const cleanTransactionsData = (transaction) => {
-    console.log(transaction);
     setTransactionDataCleaned(
       transaction?.flatMap((items) => {
         return items?.map((item) => {
-          console.log(item);
           for (let j = 0; j < friends.length; j++) {
             for (let i = 0; i < portfoliosNames.length; i++) {
               if (
@@ -161,7 +154,6 @@ export default function Messages() {
       })
     );
   };
-  console.log(transactionsDataCleaned);
 
   const getShorterDate = (date) => {
     const index = date.indexOf('T');
@@ -175,8 +167,6 @@ export default function Messages() {
       const dateB = new Date(b.date);
       return dateB - dateA;
     });
-
-  console.log(allData);
 
   return isAuthenticated ? (
     <div className="message_page" style={{ width: '500px' }}>
