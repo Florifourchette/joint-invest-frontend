@@ -170,6 +170,7 @@ export default function Dashboard(props) {
   );
   console.log(portfolioTotals);
 
+
   return isAuthenticated ? (
     <div className="overview-page">
       {/* <div style={{ width: "450px" }}>
@@ -205,6 +206,7 @@ export default function Dashboard(props) {
       <div className="portfolio-cards">
         {dashboardData.map((data) => (
           <>
+          
             <div className="portfolio-card" key={data.portfolio_id}>
               <div className="portfolio-name-container">
                 <h5 className="portfolio-name">{data.name_of_portfolio}</h5>
@@ -254,6 +256,10 @@ export default function Dashboard(props) {
                     wallet={wallet}
                     Navigate={Navigate}
                     prices={prices}
+                    PortfolioProfitLoss=   {(
+                      portfolioTotals[data.portfolio_id] -
+                      data.total_buying_value
+                    ).toFixed(2)}
                   />
                 </div>
               </div>

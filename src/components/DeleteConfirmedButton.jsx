@@ -16,6 +16,7 @@ const DeleteConfirmedButton = ({
   Navigate,
   wallet,
   prices,
+  PortfolioProfitLoss,
 }) => {
   return (
     <div className="dashboard_buttons">
@@ -52,6 +53,8 @@ const DeleteConfirmedButton = ({
                   };
                 }
               });
+
+          
 
               // Pass the filtered data to the next page
               Navigate(`/portfolio/${data.portfolio_id}`, {
@@ -135,6 +138,8 @@ const DeleteConfirmedButton = ({
                   userId: userId,
                   number_of_shares: filteredShares[data.portfolio_id],
                   friend: data.friend_username,
+                  portfolioProfitLoss: PortfolioProfitLoss,
+                  investedAmount: data.invested_amount
                 },
               });
             }}
