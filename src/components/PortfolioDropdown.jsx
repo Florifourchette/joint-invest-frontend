@@ -9,18 +9,8 @@ const options = [
   },
   {
     key: "2",
-    text: "Daily",
+    text: "Overall",
     value: "2",
-  },
-  {
-    key: "3",
-    text: "Monthly",
-    value: "3",
-  },
-  {
-    key: "4",
-    text: "Portfolio Creation",
-    value: "4",
   },
 ];
 

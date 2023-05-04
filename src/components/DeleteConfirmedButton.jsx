@@ -20,7 +20,7 @@ const DeleteConfirmedButton = ({
   return (
     <div className="dashboard_buttons">
       {/* current status 'activated' */}
-      {data.portfolio_status === "activated"? (
+      {data.portfolio_status === "activated" ? (
         <>
           <button
             className="to-portfolio-btn"
@@ -94,8 +94,8 @@ const DeleteConfirmedButton = ({
         <></>
       )}
 
-{data.portfolio_status === "pending_deletion" &&
-      parseInt(userId) === data.user_id_request? (
+      {data.portfolio_status === "pending_deletion" &&
+      parseInt(userId) === data.user_id_request ? (
         <>
           <button
             className="to-portfolio-btn"
@@ -135,6 +135,7 @@ const DeleteConfirmedButton = ({
                   userId: userId,
                   number_of_shares: filteredShares[data.portfolio_id],
                   friend: data.friend_username,
+                  profit: portfolioProfit,
                 },
               });
             }}
