@@ -45,7 +45,7 @@ export default function Portfolio() {
   const tickersArray = Object.keys(sharePrice);
 
   console.log("SHARE PRICE", sharePrice);
-  console.log("SHARE NUKM", shareNumber);
+  console.log("SHARE NUM", shareNumber);
   console.log(tickers);
 
   const companyIds = mockPortfolioData[0].stocks?.map(
