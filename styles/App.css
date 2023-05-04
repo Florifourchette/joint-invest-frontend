@@ -406,6 +406,15 @@ button {
 .message_container span {
   font-weight: bold;
 }
+/* Portfolio Page */
+.portfolio-back-button{
+  font-size: 3em;
+  position: relative;
+  margin-bottom: 0.8em;
+  cursor: pointer;
+
+
+}
 
 /*portfolio creation page */
 .portfolioCreationPage {
