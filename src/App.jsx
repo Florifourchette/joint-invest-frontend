@@ -12,32 +12,37 @@ import AuthStateContext from "./contexts/AuthContext";
 import AppContextWrapper from "./contexts/AppContext";
 import Profile from "./pages/Profile";
 import Messages from "./pages/Messages";
+import LogoHome from "./pages/LogoHome";
+import Instructions from "./pages/Instructions";
 
 function App() {
   return (
     <>
-      <AuthStateContext>
-        <AppContextWrapper>
-          <Routes>
-            <Route path="/home" />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/login" element={<LogIn />} />
-            <Route path="/overview/:userId" element={<Dashboard />} />
-            <Route
-              path="/transactions/:portfolioId"
-              element={<Transactions />}
-            />
-            <Route path="/portfolio/:id" element={<Portfolio />} />
-            <Route path="/messages/:userId" element={<Messages />} />
-            <Route path="/profile/:userId" element={<Profile />} />
-            <Route
-              path="/create_portfolio/:userId"
-              element={<CreationPortfolio />}
-            />
-            <Route path="/order_book/:portfolio_id" element={<Orderbook />} />
-          </Routes>
-        </AppContextWrapper>
-      </AuthStateContext>
+      <div style={{ backgroundColor: "#FFF3BE", minHeight: "100vh" }}>
+        <AuthStateContext>
+          <AppContextWrapper>
+            <Routes>
+              <Route path="/" element={<LogoHome />} />
+              <Route path="/instructions" element={<Instructions />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/login" element={<LogIn />} />
+              <Route path="/overview/:userId" element={<Dashboard />} />
+              <Route path="/portfolio/:id" element={<Portfolio />} />
+              <Route
+                path="/transactions/:portfolioId"
+                element={<Transactions />}
+              />
+              <Route path="/orderbook/:portfolio_id" element={<Orderbook />} />
+              <Route path="/messages/:userId" element={<Messages />} />
+              <Route path="/profile/:userId" element={<Profile />} />
+              <Route
+                path="/create_portfolio/:userId"
+                element={<CreationPortfolio />}
+              />
+            </Routes>
+          </AppContextWrapper>
+        </AuthStateContext>
+      </div>
     </>
   );
 }

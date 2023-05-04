@@ -29,7 +29,7 @@ const Orderlist = ({ item, index, arr, contextStockData }) => {
     <>
       <List>
         {month !== prevMonth && (
-          <List.Item>
+          <List.Item style={{ margin: "35px 0 15px 0" }}>
             <List.Content>
               <h4>
                 {new Date(creating_date).toLocaleString("default", {
@@ -39,7 +39,7 @@ const Orderlist = ({ item, index, arr, contextStockData }) => {
             </List.Content>
           </List.Item>
         )}
-        <List.Item className="">
+        <List.Item style={{ maxWidth: "450px", margin: "auto" }}>
           <List.Content className="ui grid">
             <div className="three wide column">
               <List.Header>{item.type_of_transaction}</List.Header>
@@ -89,7 +89,10 @@ const Orderlist = ({ item, index, arr, contextStockData }) => {
                     textAlign: "right",
                   }}
                 >
-                  +{item.price_of_share * item.number_of_shares}
+                  +
+                  {parseFloat(
+                    item.price_of_share * item.number_of_shares
+                  ).toFixed(2)}
                 </List.Header>
               ) : (
                 <List.Header
@@ -99,7 +102,10 @@ const Orderlist = ({ item, index, arr, contextStockData }) => {
                     textAlign: "right",
                   }}
                 >
-                  -{item.price_of_share * item.number_of_shares}
+                  -
+                  {parseFloat(
+                    item.price_of_share * item.number_of_shares
+                  ).toFixed(2)}
                 </List.Header>
               )}
             </div>

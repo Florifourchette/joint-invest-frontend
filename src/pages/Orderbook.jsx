@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useAppContext } from "../contexts/AppContext";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Orderlist from "../components/orderlist";
+import { BiArrowBack } from "react-icons/bi";
+import Navbar from "../components/Navbar";
 
 export default function Orderbook() {
   const { contextStockData } = useAppContext();
   const [orders, setOrders] = useState();
   let { portfolio_id } = useParams();
+  const navigate = useNavigate();
 
-  // console.log(logo);
-  //console.log("context data", contextStockData);
+  const handleClick = (e) => {
+    e.preventDefault();
+    navigate(-1);
+  };
 
   useEffect(() => {
     async function getOrders() {
@@ -31,19 +36,32 @@ export default function Orderbook() {
 
   return (
     <>
-      <h1>Order Book</h1>
-      <div>
-        {orders &&
-          orders.map((item, index, arr) => {
-            return (
-              <Orderlist
-                item={item}
-                index={index}
-                arr={arr}
-                contextStockData={contextStockData}
-              />
-            );
-          })}
+      <div style={{ width: "500px" }}>
+        <div style={{ width: "450px" }}>
+          <BiArrowBack
+            style={{
+              fontSize: "2rem",
+              position: "absolute",
+              marginTop: "20px",
+            }}
+            onClick={handleClick}
+          />
+        </div>
+        <h1>Order Book</h1>
+        <div style={{ marginBottom: "40px" }}>
+          {orders &&
+            orders.map((item, index, arr) => {
+              return (
+                <Orderlist
+                  item={item}
+                  index={index}
+                  arr={arr}
+                  contextStockData={contextStockData}
+                />
+              );
+            })}
+        </div>
+        <Navbar />
       </div>
     </>
   );

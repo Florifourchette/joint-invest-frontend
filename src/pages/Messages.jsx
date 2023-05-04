@@ -11,10 +11,11 @@ import { setPortfolioStatus } from '../../utils/PortfolioDeletion';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { Message } from 'semantic-ui-react';
+import { BiArrowBack } from 'react-icons/bi';
+import LogIn from './LogIn';
 
 export default function Messages() {
   const { userId } = useParams();
-  const Navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const [portfoliosData, setPortfoliosData] = useState([]);
   const [portfolioIds, setPortfolioIds] = useState([]);
@@ -32,6 +33,7 @@ export default function Messages() {
   useEffect(() => {
     getDashboardData(userId)
       .then((data) => {
+        console.log(data);
         setFriends(
           data.portfolios.map((item) => {
             return {
@@ -68,6 +70,7 @@ export default function Messages() {
         portfolioIds.forEach((id) => getTransactions(id));
       })
       .then((data) => {
+        console.log(portfoliosData);
         cleanDataPortfolio(portfoliosData);
       })
       .catch((error) => console.error(error));
@@ -114,9 +117,11 @@ export default function Messages() {
   };
 
   const cleanTransactionsData = (transaction) => {
+    console.log(transaction);
     setTransactionDataCleaned(
       transaction?.flatMap((items) => {
         return items?.map((item) => {
+          console.log(item);
           for (let j = 0; j < friends.length; j++) {
             for (let i = 0; i < portfoliosNames.length; i++) {
               if (
@@ -170,8 +175,10 @@ export default function Messages() {
       return dateB - dateA;
     });
 
+  console.log(transactionsDataCleaned);
+
   return isAuthenticated ? (
-    <div className="message_page">
+    <div className="message_page" style={{ width: '500px' }}>
       <h1>Messages</h1>
       {allData?.map((item, index) => {
         return (
@@ -186,18 +193,20 @@ export default function Messages() {
 
             <div className="message_details">
               {item.type === 'portfolio' &&
-              item.action === 'pending_activation'
-                ? 'Invitation'
-                : item.type === 'portfolio' &&
-                  item.action === 'pending_deletion'
-                ? 'Deletion request'
-                : item.portfolio_name}
+              item.action === 'pending_activation' ? (
+                <p>'Invitation'</p>
+              ) : item.type === 'portfolio' &&
+                item.action === 'pending_deletion' ? (
+                <p>Deletion request</p>
+              ) : (
+                <p>item.portfolio_name</p>
+              )}
               {item.type === 'portfolio' &&
               item.action === 'pending_activation'
                 ? `to join ${item.portfolio_name}`
                 : item.type === 'portfolio' &&
                   item.action === 'pending_deletion'
-                ? `to delete ${item.portfolio_name}`
+                ? `for ${item.portfolio_name}`
                 : item.type === 'transaction' &&
                   item.action === 'Sell'
                 ? `Selling request for ${item.company_name} ${item.number_of_shares} stock(s)`
@@ -205,14 +214,17 @@ export default function Messages() {
             </div>
             <div className="message_page_buttons">
               {item.type === 'transaction' ? (
-                <button
-                  onClick={() =>
-                    Navigate(`/transactions/${item.portfolio_id}`)
-                  }
-                >
-                  View
-                </button>
-              ) : (
+                <p>
+                  Check the transaction page of {item.portfolio_name}
+                </p>
+              ) : // <button
+              //   onClick={() =>
+              //     Navigate(`/transactions/${item.portfolio_id}`)
+              //   }
+              // >
+              //   View
+              // </button>
+              item.requester_name === 'You' ? (
                 <div>
                   <button
                     onClick={() => {
@@ -239,6 +251,24 @@ export default function Messages() {
                     }}
                   >
                     Reject
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  Waiting for {item.requester_name}
+                  <button
+                    className="button_portfolio_status_change"
+                    onClick={() => {
+                      setPortfolioStatus(
+                        item.portfolio_id,
+                        userId,
+                        item.action,
+                        'rejected',
+                        setNewData
+                      );
+                    }}
+                  >
+                    Cancel
                   </button>
                 </div>
               )}
