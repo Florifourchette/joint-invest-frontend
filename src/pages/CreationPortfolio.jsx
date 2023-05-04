@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router";
-import { Button, Form } from "semantic-ui-react";
-import axios from "axios";
-import "../../styles/App.css";
-import useAuth from "../hooks/useAuth";
-import LogIn from "./LogIn";
-import { Message } from "semantic-ui-react";
-import { GrClose } from "react-icons/gr";
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router';
+import { Button, Form } from 'semantic-ui-react';
+import axios from 'axios';
+import '../../styles/App.css';
+import useAuth from '../hooks/useAuth';
+import LogIn from './LogIn';
+import { Message } from 'semantic-ui-react';
+import { GrClose } from 'react-icons/gr';
+import { Link } from '@react-spectrum/link';
 
 const CreationPortfolio = () => {
-  const [newPortfolioName, setNewPortfolioName] = useState("");
-  const [newPortfolioInitialAmount, setNewPortfolioInitialAmount] = useState(0);
-  const [newPortfolioUsername, setNewPortfolioUsername] = useState("");
+  const [newPortfolioName, setNewPortfolioName] = useState('');
+  const [newPortfolioInitialAmount, setNewPortfolioInitialAmount] =
+    useState(0);
+  const [newPortfolioUsername, setNewPortfolioUsername] =
+    useState('');
   const [uppercaseDetected, setUppercaseDetected] = useState(false);
-  const [checkUsername, setCheckUsername] = useState("");
+  const [checkUsername, setCheckUsername] = useState('');
   const { isAuthenticated } = useAuth();
   const Navigate = useNavigate();
 
@@ -26,7 +29,7 @@ const CreationPortfolio = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/overview")
+      .get('http://localhost:3000/api/overview')
       .then(function (response) {
         console.log(response);
       })
@@ -41,11 +44,14 @@ const CreationPortfolio = () => {
 
   const handleSubmit = () => {
     axios
-      .post(`http://localhost:3000/api/creation_portfolio/${userId}`, {
-        initial_amount: newPortfolioInitialAmount,
-        name_of_portfolio: newPortfolioName,
-        friend_username: newPortfolioUsername,
-      })
+      .post(
+        `http://localhost:3000/api/creation_portfolio/${userId}`,
+        {
+          initial_amount: newPortfolioInitialAmount,
+          name_of_portfolio: newPortfolioName,
+          friend_username: newPortfolioUsername,
+        }
+      )
       .then(function (response) {
         setCheckUsername(response.data);
       })
@@ -55,56 +61,64 @@ const CreationPortfolio = () => {
   };
 
   useEffect(() => {
-    setCheckUsername("");
+    setCheckUsername('');
     setUppercaseDetected(false);
   }, [newPortfolioUsername]);
 
   // return isAuthenticated ? (
   return (
     <>
-      <div style={{ width: "500px" }}>
-        <div style={{ width: "450px" }}>
+      <div style={{ width: '500px' }}>
+        <div style={{ width: '450px' }}>
           <GrClose
             style={{
-              fontSize: "2rem",
-              margin: "20px 0 0 20px",
+              fontSize: '2rem',
+              margin: '20px 0 0 20px',
             }}
             onClick={handleBack}
           />
         </div>
-        <div style={{ width: "350px", margin: "0 auto 0 auto" }}>
+        <div style={{ width: '350px', margin: '0 auto 0 auto' }}>
           <h1>New Portfolio</h1>
           <p className="page-description">
-            Start a new portfolio by setting an initial amount and inviting your
-            friend to the portfolio.
+            Start a new portfolio by setting an initial amount and
+            inviting your friend to the portfolio.
           </p>
           <Form
             onSubmit={handleSubmit}
             className="creation_form"
             style={{
-              background: "#FFD600",
-              minHeight: "200px",
-              boxShadow: "0 6px 6px hsl(0deg 0% 0% / 0.3)",
-              borderRadius: "10px",
+              background: '#FFD600',
+              minHeight: '200px',
+              boxShadow: '0 6px 6px hsl(0deg 0% 0% / 0.3)',
+              borderRadius: '10px',
             }}
           >
-            <Form.Field style={{ marginTop: "2em" }}>
+            <Form.Field style={{ marginTop: '2em' }}>
               <label>Portfolio name</label>
               <input
                 placeholder="Portfolio name"
                 onChange={(e) => setNewPortfolioName(e.target.value)}
                 requires
-                style={{ border: "solid 1px #31231E", width: "300px" }}
+                style={{
+                  border: 'solid 1px #31231E',
+                  width: '300px',
+                }}
               />
             </Form.Field>
             <Form.Field>
               <label>Initial amount</label>
               <input
                 placeholder="Initial amount"
-                onChange={(e) => setNewPortfolioInitialAmount(e.target.value)}
+                onChange={(e) =>
+                  setNewPortfolioInitialAmount(e.target.value)
+                }
                 type="number"
                 required
-                style={{ border: "solid 1px #31231E", width: "300px" }}
+                style={{
+                  border: 'solid 1px #31231E',
+                  width: '300px',
+                }}
               />
             </Form.Field>
             <Form.Field>
@@ -117,14 +131,17 @@ const CreationPortfolio = () => {
                     : setNewPortfolioUsername(e.target.value)
                 }
                 required
-                style={{ border: "solid 1px #31231E", width: "300px" }}
+                style={{
+                  border: 'solid 1px #31231E',
+                  width: '300px',
+                }}
               />
-              {checkUsername === "user not found" ? (
+              {checkUsername === 'user not found' ? (
                 <p>User has not been found</p>
               ) : (
                 <p></p>
               )}
-              {checkUsername === "identical ids" ? (
+              {checkUsername === 'identical ids' ? (
                 <p>You cannot create a portfolio with yourself</p>
               ) : (
                 <p></p>
@@ -135,17 +152,18 @@ const CreationPortfolio = () => {
                 <p></p>
               )}
             </Form.Field>
+
             <Button
               type="submit"
               className="hex-button"
               style={{
-                background: "#31231E",
-                color: "white",
-                margin: "0 auto 2em auto",
-                padding: "15px 20px 15px 20px",
+                background: '#31231E',
+                color: 'white',
+                margin: '0 auto 2em auto',
+                padding: '15px 20px 15px 20px',
               }}
             >
-              Submit
+              <a href={`/overview/${userId}`}>Submit</a>
             </Button>
           </Form>
           {/* <Navbar /> */}
