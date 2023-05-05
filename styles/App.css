@@ -122,7 +122,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 table {
@@ -138,6 +138,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* background-color: #fff3be !important; */
 }
 
 #root {
@@ -184,7 +185,7 @@ button {
 
 .background {
   background-color: #fff3be;
-  min-height: "100vh";
+  min-height: '100vh';
   width: 375px;
 }
 
@@ -474,8 +475,7 @@ button {
   border-radius: 10px;
 }
 
-
-.button-box-portfolio{
+.button-box-portfolio {
   margin-bottom: 2rem;
   padding: 2rem 0 4rem 0;
 }
@@ -696,7 +696,14 @@ button {
   text-transform: uppercase;
   padding: 5px 8px;
   text-align: center;
-  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+  clip-path: polygon(
+    10% 0,
+    90% 0,
+    100% 50%,
+    90% 100%,
+    10% 100%,
+    0 50%
+  );
   background-color: #31231e;
   background-image: radial-gradient(
     200% 70% at center 20%,
@@ -730,7 +737,14 @@ button {
   text-decoration: none;
   padding: 50px 80px;
   text-align: center;
-  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+  clip-path: polygon(
+    10% 0,
+    90% 0,
+    100% 50%,
+    90% 100%,
+    10% 100%,
+    0 50%
+  );
   background-color: #31231e;
   background-image: radial-gradient(
     200% 70% at center 20%,
@@ -761,7 +775,14 @@ button {
   text-transform: uppercase;
   color: #31231e;
   text-align: center;
-  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+  clip-path: polygon(
+    10% 0,
+    90% 0,
+    100% 50%,
+    90% 100%,
+    10% 100%,
+    0 50%
+  );
   background-color: #ffd600;
   /* border-style: solid;
   border-width: 4px;
@@ -784,7 +805,14 @@ button {
   font-weight: 500;
   text-decoration: none;
   text-align: center;
-  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+  clip-path: polygon(
+    10% 0,
+    90% 0,
+    100% 50%,
+    90% 100%,
+    10% 100%,
+    0 50%
+  );
   background-color: #fff3be;
   background-image: radial-gradient(
     200% 70% at center 20%,
@@ -819,7 +847,6 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  
 }
 
 /* transactions page */
@@ -855,7 +882,14 @@ button {
   text-transform: uppercase;
   padding: 5px 8px;
   text-align: center;
-  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+  clip-path: polygon(
+    10% 0,
+    90% 0,
+    100% 50%,
+    90% 100%,
+    10% 100%,
+    0 50%
+  );
   background-color: #31231e;
   background-image: radial-gradient(
     200% 70% at center 20%,
@@ -879,7 +913,14 @@ button {
   margin: 0.5em;
   text-decoration: none;
   text-align: center;
-  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+  clip-path: polygon(
+    10% 0,
+    90% 0,
+    100% 50%,
+    90% 100%,
+    10% 100%,
+    0 50%
+  );
   background-color: #fff3be;
   background-image: radial-gradient(
     200% 70% at center 20%,
@@ -935,4 +976,3 @@ button {
 .transactions-title p {
   text-align: center;
 }
-
