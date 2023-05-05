@@ -131,7 +131,7 @@ export default function Portfolio() {
     async function getOrderBook() {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/order_book/${id}`
+          `https://joint-invest-back-end.onrender.com/api/order_book/${id}`
         );
         setOrderBook(response.data);
         console.log('orderbook api', response.data);

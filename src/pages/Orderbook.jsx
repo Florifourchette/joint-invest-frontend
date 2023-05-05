@@ -1,11 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
+import { useAppContext } from '../contexts/AppContext';
 import { useParams, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import LogIn from './LogIn';
 import { Message } from 'semantic-ui-react';
 import axios from 'axios';
-import Orderlist from '../components/Orderlist';
+import Orderlist from '../components/orderlist';
 import { BiArrowBack } from 'react-icons/bi';
 import Navbar from '../components/Navbar';
 
@@ -24,11 +25,12 @@ export default function Orderbook() {
     async function getOrders() {
       try {
 
+
         const stockInfos = await axios.get(
           `https://joint-invest-back-end.onrender.com/api/order_book/${portfolio_id}`
 
         );
-        console.log("Response data:", stockInfos.data);
+        console.log('Response data:', stockInfos.data);
         setOrders(stockInfos.data);
         // console.log(response.data);
         return stockInfos.data;
