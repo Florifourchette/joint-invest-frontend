@@ -382,6 +382,7 @@ button {
 .message_container {
   font-size: 1.1em;
   color: #fff;
+  text-align: center;
 
   position: relative;
   padding: 20px;
