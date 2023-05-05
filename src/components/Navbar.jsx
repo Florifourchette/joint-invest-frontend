@@ -89,7 +89,6 @@ const Navbar = () => {
               style={({ isActive }) => {
                 return isActive
                   ? {
-                      border: '3px solid red',
                       color: 'white',
                       fontWeight: 'bolder',
                       fontsize: '1rem',
