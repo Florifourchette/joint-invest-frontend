@@ -1,7 +1,7 @@
 import { useState } from "react";
 import React from "react";
 import { IoIosTrash, IoIosArrowDroprightCircle } from "react-icons/io";
-import { FaCheckSquare } from "react-icons/fa";
+import { FaCheckSquare, FaArrowCircleRight } from "react-icons/fa";
 import { setPortfolioStatus } from "../../utils/PortfolioDeletion";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -20,10 +20,33 @@ const DeleteConfirmedButton = ({
   return (
     <div className="dashboard_buttons">
       {/* current status 'activated' */}
-      {data.portfolio_status === "activated"? (
+      {data.portfolio_status === "activated" ? (
         <>
           <button
-            className="to-portfolio-btn"
+            className="hex-button-default"
+            onClick={() => {
+              setPortfolioStatus(
+                data.portfolio_id,
+                userId,
+                data.portfolio_status,
+                "deletion_requested",
+                setNewData
+              );
+              setPortfolioStatusUpdated((prev) => !prev);
+              console.log(portfolioStatusUpdated);
+            }}
+          >
+            {/* <i
+              class="trash alternate icon rejection_button"
+            ></i> */}
+            <div className="rejection_button">
+              <i className="status_icons">
+                <IoIosTrash size={30} />
+              </i>
+            </div>
+          </button>
+          <button
+            className="hex-button-default"
             //Navigating and passing the current prices to the portfolio page
             onClick={() => {
               // Filter the wallet for the stocks in the current portfolio
@@ -64,41 +87,32 @@ const DeleteConfirmedButton = ({
               });
             }}
           >
-            <IoIosArrowDroprightCircle className="to-portfolio-icon" />{" "}
-          </button>
-          <button
-            className="button_portfolio_status_change"
-            onClick={() => {
-              setPortfolioStatus(
-                data.portfolio_id,
-                userId,
-                data.portfolio_status,
-                "deletion_requested",
-                setNewData
-              );
-              setPortfolioStatusUpdated((prev) => !prev);
-              console.log(portfolioStatusUpdated);
-            }}
-          >
-            {/* <i
-              class="trash alternate icon rejection_button"
-            ></i> */}
-            <div className="rejection_button">
-              <i className="status_icons">
-                <IoIosTrash size={30} />
-              </i>
-            </div>
+            <FaArrowCircleRight className="to-portfolio-icon" />{" "}
           </button>
         </>
       ) : (
         <></>
       )}
 
-{data.portfolio_status === "pending_deletion" &&
-      parseInt(userId) === data.user_id_request? (
+      {data.portfolio_status === "pending_deletion" &&
+      parseInt(userId) === data.user_id_request ? (
         <>
           <button
-            className="to-portfolio-btn"
+            className="hex-button-default"
+            onClick={() => {
+              setPortfolioStatus(
+                data.portfolio_id,
+                userId,
+                data.portfolio_status,
+                "rejected",
+                setNewData
+              );
+            }}
+          >
+            Cancel
+          </button>
+          <button
+            className="hex-button-default"
             //Navigating and passing the current prices to the portfolio page
             onClick={() => {
               // Filter the wallet for the stocks in the current portfolio
@@ -151,26 +165,7 @@ const DeleteConfirmedButton = ({
       parseInt(userId) !== data.user_id_request ? (
         <>
           <button
-            className="button_portfolio_status_change"
-            onClick={() => {
-              setPortfolioStatus(
-                data.portfolio_id,
-                userId,
-                data.portfolio_status,
-                "confirmed",
-                setNewData
-              );
-              setPortfolioStatusUpdated((prev) => !prev);
-            }}
-          >
-            <div className="confirmation_button">
-              <i className="status_icons">
-                <FaCheckSquare size={30} />
-              </i>
-            </div>
-          </button>
-          <button
-            className="button_portfolio_status_change"
+            className="hex-button-default"
             onClick={() => {
               setPortfolioStatus(
                 data.portfolio_id,
@@ -185,6 +180,25 @@ const DeleteConfirmedButton = ({
             <div className="rejection_button">
               <i className="status_icons">
                 <IoIosTrash size={30} />
+              </i>
+            </div>
+          </button>
+          <button
+            className="hex-button-default"
+            onClick={() => {
+              setPortfolioStatus(
+                data.portfolio_id,
+                userId,
+                data.portfolio_status,
+                "confirmed",
+                setNewData
+              );
+              setPortfolioStatusUpdated((prev) => !prev);
+            }}
+          >
+            <div className="confirmation_button">
+              <i className="status_icons">
+                <FaCheckSquare size={30} />
               </i>
             </div>
           </button>
@@ -198,26 +212,7 @@ const DeleteConfirmedButton = ({
       parseInt(userId) !== data.user_id_request ? (
         <>
           <button
-            className="button_portfolio_status_change"
-            onClick={() => {
-              setPortfolioStatus(
-                data.portfolio_id,
-                userId,
-                data.portfolio_status,
-                "confirmed",
-                setNewData
-              );
-              setPortfolioStatusUpdated((prev) => !prev);
-            }}
-          >
-            <div className="confirmation_button">
-              <i className="status_icons">
-                <FaCheckSquare size={30} />
-              </i>
-            </div>
-          </button>
-          <button
-            className="button_portfolio_status_change"
+            className="hex-button-default"
             onClick={() => {
               setPortfolioStatus(
                 data.portfolio_id,
@@ -232,6 +227,25 @@ const DeleteConfirmedButton = ({
             <div className="rejection_button">
               <i className="status_icons">
                 <IoIosTrash size={30} />
+              </i>
+            </div>
+          </button>
+          <button
+            className="hex-button-default"
+            onClick={() => {
+              setPortfolioStatus(
+                data.portfolio_id,
+                userId,
+                data.portfolio_status,
+                "confirmed",
+                setNewData
+              );
+              setPortfolioStatusUpdated((prev) => !prev);
+            }}
+          >
+            <div className="confirmation_button">
+              <i className="status_icons">
+                <FaCheckSquare size={30} />
               </i>
             </div>
           </button>
