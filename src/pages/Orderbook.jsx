@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
@@ -8,15 +8,6 @@ import axios from 'axios';
 import Orderlist from '../components/Orderlist';
 import { BiArrowBack } from 'react-icons/bi';
 import Navbar from '../components/Navbar';
-=======
-import React, { useState, useEffect } from "react";
-import { useAppContext } from "../contexts/AppContext";
-import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
-import Orderlist from "../components/orderlist";
-import { BiArrowBack } from "react-icons/bi";
-import Navbar from "../components/Navbar";
->>>>>>> dev
 
 export default function Orderbook() {
   const { contextStockData } = useAppContext();
@@ -32,13 +23,10 @@ export default function Orderbook() {
   useEffect(() => {
     async function getOrders() {
       try {
-<<<<<<< HEAD
-        const response = await axios.get(
-          `https://joint-invest-back-end.onrender.com/api/order_book/${portfolio_id}`
-=======
+
         const stockInfos = await axios.get(
-          `http://localhost:3000/api/order_book/${portfolio_id}`
->>>>>>> dev
+          `https://joint-invest-back-end.onrender.com/api/order_book/${portfolio_id}`
+
         );
         console.log("Response data:", stockInfos.data);
         setOrders(stockInfos.data);
@@ -69,16 +57,12 @@ export default function Orderbook() {
           {orders &&
             orders.map((item, index, arr) => {
               return (
-<<<<<<< HEAD
-                <Orderlist item={item} index={index} arr={arr} />
-=======
                 <Orderlist
                   item={item}
                   index={index}
                   arr={arr}
                   contextStockData={contextStockData}
                 />
->>>>>>> dev
               );
             })}
         </div>
