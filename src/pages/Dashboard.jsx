@@ -61,7 +61,7 @@ export default function Dashboard(props) {
   console.log("number of shares", wallet.number_of_shares);
   //API CALL
   useEffect(() => {
-    if (loading === false) {
+    if (loading === false && wallet.length> 0) {
       const companyIds = [...new Set(wallet.map((item) => item.company_id))];
       console.log(`tickers: ${companyIds}`);
       const apiUrl = createApiUrl(companyIds);
@@ -262,18 +262,18 @@ export default function Dashboard(props) {
                     ).toFixed(2)}
                   />
                 </div>
+                {data.portfolio_status === "pending_activation" ||
+                data.portfolio_status === "pending_deletion" ? (
+                  <StatusMessages
+                    data={data}
+                    userId={userId}
+                    portfolioTotals={portfolioTotals}
+                  />
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
-            {data.portfolio_status === "pending_activation" ||
-            data.portfolio_status === "pending_deletion" ? (
-              <StatusMessages
-                data={data}
-                userId={userId}
-                portfolioTotals={portfolioTotals}
-              />
-            ) : (
-              <></>
-            )}
           </>
         ))}
       </div>
@@ -281,7 +281,7 @@ export default function Dashboard(props) {
       <div className="portfolio-add">
         <p>Add a portfolio</p>
         <button
-          className="hex-button"
+          className="hex-button space-under-add-button"
           style={{ padding: "15px 25px 15px 25px" }}
           onClick={() => Navigate(`/create_portfolio/${userId}`)}
         >

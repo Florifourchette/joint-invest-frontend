@@ -10,7 +10,7 @@ const Navbar = () => {
   const { userLogin, loading } = useAuth();
 
   return (
-    <div className="navi fixed-bottom navbar w-100">
+    <div className="navi fixed-bottom navbar">
       {loading ? (
         <div>
           <CgSpinner />
@@ -18,15 +18,9 @@ const Navbar = () => {
         </div>
       ) : (
         <div className="navBar_container">
-          <div className="navBarLink">
-            <AiFillPieChart
-              style={{
-                fontSize: '1.7rem',
-                color: 'white',
-                marginBottom: '2px',
-              }}
-            />
+          <div>
             <NavLink
+              className="navBarLink"
               to={`/overview/${userLogin?.id}`}
               style={({ isActive }) => {
                 return isActive
@@ -44,18 +38,19 @@ const Navbar = () => {
                     };
               }}
             >
+              <AiFillPieChart
+                style={{
+                  fontSize: '1.7rem',
+                  color: 'white',
+                  marginBottom: '2px',
+                }}
+              />
               Overview
             </NavLink>
           </div>
-          <div className="navBarLink">
-            <GrMail
-              style={{
-                fontSize: '1.65rem',
-                color: 'white',
-                marginBottom: '2px',
-              }}
-            />
+          <div>
             <NavLink
+              className="navBarLink"
               to={`/messages/${userLogin?.id}`}
               style={({ isActive }) => {
                 return isActive
@@ -73,18 +68,19 @@ const Navbar = () => {
                     };
               }}
             >
+              <GrMail
+                style={{
+                  fontSize: '1.65rem',
+                  color: 'white',
+                  marginBottom: '2px',
+                }}
+              />
               Messages
             </NavLink>
           </div>
           <div className="navBarLink">
-            <FaUserAlt
-              style={{
-                fontSize: '1.5rem',
-                color: 'white',
-                marginBottom: '2px',
-              }}
-            />
             <NavLink
+              className="navBarLink"
               to={`/profile/${userLogin?.id}`}
               style={({ isActive }) => {
                 return isActive
@@ -104,6 +100,13 @@ const Navbar = () => {
                     };
               }}
             >
+              <FaUserAlt
+                style={{
+                  fontSize: '1.5rem',
+                  color: 'white',
+                  marginBottom: '2px',
+                }}
+              />
               Profile
             </NavLink>
           </div>

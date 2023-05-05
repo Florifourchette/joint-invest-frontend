@@ -281,18 +281,16 @@ export default function Portfolio() {
             </div>
           )}
         </div>
-        <div
-          className="d-flex justify-content-center"
-          style={{ padding: "2rem 0 4rem 0" }}
-        >
+        <div className="button-box-portfolio d-flex justify-content-center flex-column align-items-center">
           <button
             type="button"
             className="hex-button"
             style={{
               marginRight: "1rem",
+              marginBottom: "0.7rem",
               padding: "0px",
-              height: "60px",
-              width: "120px",
+              height: "50px",
+              width: "180px",
               background: "#84714F",
             }}
             onClick={() =>
@@ -337,8 +335,8 @@ export default function Portfolio() {
             style={{
               marginRight: "0.5rem",
               padding: "10px",
-              height: "60px",
-              width: "120px",
+              height: "50px",
+              width: "180px",
             }}
             onClick={() =>
               Navigate(`/transactions/${id}`, {
