@@ -122,7 +122,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: '';
+  content: "";
   content: none;
 }
 table {
@@ -184,8 +184,8 @@ button {
 
 .background {
   background-color: #fff3be;
+  min-height: "100vh";
   width: 375px;
-  min-height: '100vh';
 }
 
 /* Overview Page */
@@ -194,7 +194,7 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 1rem auto 1rem auto;
+  margin-top: 2rem;
 }
 
 .portfolio-card {
@@ -296,13 +296,13 @@ button {
 }
 
 .to-portfolio-icon {
-  font-size: 3rem;
-  color: blue;
+  font-size: 2.3rem;
+  color: #31231e;
 }
 
 .to-portfolio-icon:hover {
-  font-size: 3rem;
-  color: rgb(2, 2, 117);
+  font-size: 2.3rem;
+  color: #84714F(2, 2, 117);
 }
 
 .portfolio-add {
@@ -332,14 +332,15 @@ button {
 .dashboard_buttons {
   display: flex;
   flex-direction: row;
-  width: 10%;
+  width: 100%;
   margin: 0.5rem auto 0.5rem auto;
-  align-items: center;
+  /* align-items: center; */
+  justify-content: center;
 }
 
 .rejection_button {
-  color: white;
-  background-color: red;
+  color: #31231e;
+  background-color: transparent;
   padding: 0.2rem;
   cursor: pointer;
   display: flex;
@@ -348,14 +349,9 @@ button {
   border-radius: 50%;
 }
 
-.rejection_button:hover {
-  color: rgb(190, 188, 188);
-  background-color: rgb(145, 3, 3);
-}
-
 .confirmation_button {
-  color: green;
-  background-color: white;
+  color: #31231e;
+  background-color: transparent;
   padding: 0.2rem;
   width: auto;
   cursor: pointer;
@@ -365,7 +361,7 @@ button {
   border-radius: 50%;
 }
 
-.confirmation_button:hover {
+/* .confirmation_button:hover {
   color: rgb(1, 66, 1);
   background-color: white;
   padding: 0.2rem;
@@ -375,7 +371,7 @@ button {
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-}
+} */
 
 .button_portfolio_status_change {
   background-color: white;
@@ -388,31 +384,19 @@ button {
 .message_container {
   font-size: 1.1em;
   color: #fff;
-  background: rgb(2, 2, 117);
+
   position: relative;
   padding: 20px;
   border-radius: 10px;
-  margin: 25px auto 0 auto;
+  margin: 0 auto 0 auto;
   max-width: 320px;
-}
-
-.message_container::after {
-  content: '';
-  border: 20px solid transparent;
-  position: absolute;
-  border-bottom-color: rgb(2, 2, 117);
-  border-top: 0;
-  top: -20px;
-  left: 80%;
-  margin-left: -20px;
 }
 
 .message_container p {
   position: relative;
   margin: auto;
   width: 90%;
-  background-color: rgb(2, 2, 117);
-  color: white;
+  color: #31231e;
   z-index: 2;
 }
 
@@ -712,14 +696,7 @@ button {
   text-transform: uppercase;
   padding: 5px 8px;
   text-align: center;
-  clip-path: polygon(
-    10% 0,
-    90% 0,
-    100% 50%,
-    90% 100%,
-    10% 100%,
-    0 50%
-  );
+  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
   background-color: #31231e;
   background-image: radial-gradient(
     200% 70% at center 20%,
@@ -753,14 +730,7 @@ button {
   text-decoration: none;
   padding: 50px 80px;
   text-align: center;
-  clip-path: polygon(
-    10% 0,
-    90% 0,
-    100% 50%,
-    90% 100%,
-    10% 100%,
-    0 50%
-  );
+  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
   background-color: #31231e;
   background-image: radial-gradient(
     200% 70% at center 20%,
@@ -776,6 +746,37 @@ button {
   transform: scale(1.05);
 }
 
+.space-under-add-button {
+  margin-bottom: 15%;
+}
+
+/* Button, used on overview page */
+
+.hex-button-default {
+  display: inline-block;
+  position: relative;
+  color: transparent;
+  font-weight: 500;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #31231e;
+  text-align: center;
+  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+  background-color: #ffd600;
+  /* border-style: solid;
+  border-width: 4px;
+  border: 5px solid #ffd600; */
+  height: 4em;
+  width: 10em;
+
+  background-repeat: no-repeat;
+  transition: background-position-y ease-in-out 250ms;
+}
+.hex-button-default:hover {
+  /* transform: scale(1.05); */
+  background-color: #f6e7a1;
+}
+
 .hex-button-small {
   display: inline-block;
   position: relative;
@@ -783,14 +784,7 @@ button {
   font-weight: 500;
   text-decoration: none;
   text-align: center;
-  clip-path: polygon(
-    10% 0,
-    90% 0,
-    100% 50%,
-    90% 100%,
-    10% 100%,
-    0 50%
-  );
+  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
   background-color: #fff3be;
   background-image: radial-gradient(
     200% 70% at center 20%,
@@ -861,14 +855,7 @@ button {
   text-transform: uppercase;
   padding: 5px 8px;
   text-align: center;
-  clip-path: polygon(
-    10% 0,
-    90% 0,
-    100% 50%,
-    90% 100%,
-    10% 100%,
-    0 50%
-  );
+  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
   background-color: #31231e;
   background-image: radial-gradient(
     200% 70% at center 20%,
@@ -892,14 +879,7 @@ button {
   margin: 0.5em;
   text-decoration: none;
   text-align: center;
-  clip-path: polygon(
-    10% 0,
-    90% 0,
-    100% 50%,
-    90% 100%,
-    10% 100%,
-    0 50%
-  );
+  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
   background-color: #fff3be;
   background-image: radial-gradient(
     200% 70% at center 20%,

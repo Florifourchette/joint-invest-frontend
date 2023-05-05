@@ -262,18 +262,18 @@ export default function Dashboard(props) {
                     ).toFixed(2)}
                   />
                 </div>
+                {data.portfolio_status === "pending_activation" ||
+                data.portfolio_status === "pending_deletion" ? (
+                  <StatusMessages
+                    data={data}
+                    userId={userId}
+                    portfolioTotals={portfolioTotals}
+                  />
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
-            {data.portfolio_status === "pending_activation" ||
-            data.portfolio_status === "pending_deletion" ? (
-              <StatusMessages
-                data={data}
-                userId={userId}
-                portfolioTotals={portfolioTotals}
-              />
-            ) : (
-              <></>
-            )}
           </>
         ))}
       </div>
@@ -281,7 +281,7 @@ export default function Dashboard(props) {
       <div className="portfolio-add">
         <p>Add a portfolio</p>
         <button
-          className="hex-button"
+          className="hex-button space-under-add-button"
           style={{ padding: "15px 25px 15px 25px" }}
           onClick={() => Navigate(`/create_portfolio/${userId}`)}
         >
