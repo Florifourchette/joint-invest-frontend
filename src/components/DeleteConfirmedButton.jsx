@@ -187,6 +187,29 @@ const DeleteConfirmedButton = ({
               </i>
             </div>
           </button>
+          <button
+            className="hex-button-default"
+            onClick={() => {
+              setPortfolioStatus(
+                data.portfolio_id,
+                userId,
+                data.portfolio_status,
+                "rejected",
+                setNewData
+              );
+              setPortfolioStatusUpdated((prev) => !prev);
+              console.log(portfolioStatusUpdated);
+            }}
+          >
+            {/* <i
+              class="trash alternate icon rejection_button"
+            ></i> */}
+            <div className="rejection_button">
+              <i className="status_icons">
+                <IoIosTrash size={30} />
+              </i>
+            </div>
+          </button>
         </>
       ) : (
         <></>

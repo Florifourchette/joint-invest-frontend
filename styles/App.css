@@ -351,11 +351,6 @@ button {
   border-radius: 50%;
 }
 
-.rejection_button:hover {
-  color: rgb(190, 188, 188);
-  background-color: rgb(145, 3, 3);
-}
-
 .confirmation_button {
   color: #31231e;
   background-color: transparent;
@@ -397,17 +392,6 @@ button {
   border-radius: 10px;
   margin: 0 auto 0 auto;
   max-width: 320px;
-}
-
-.message_container::after {
-  content: "";
-  border: 20px solid transparent;
-  position: absolute;
-  border-bottom-color: rgb(2, 2, 117);
-  border-top: 0;
-  top: -20px;
-  left: 80%;
-  margin-left: -20px;
 }
 
 .message_container p {
