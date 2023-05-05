@@ -238,7 +238,7 @@ export default function Messages() {
                     ) : item.type === 'portfolio' &&
                       item.action === 'pending_deletion' ? (
                       <p>
-                        for {item.portfolio_name}. Requested by
+                        for {item.portfolio_name}. Requested by{' '}
                         {item.requester_name}
                       </p>
                     ) : item.type === 'transaction' &&

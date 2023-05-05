@@ -17,6 +17,8 @@ const CreationPortfolio = () => {
   const [checkUsername, setCheckUsername] = useState("");
   const { isAuthenticated } = useAuth();
   const Navigate = useNavigate();
+  const [countDownToggle, setCountDownToggle] = useState(false);
+  const [countDown, setCountDown] = useState(10);
 
   const { userId } = useParams();
 
@@ -42,7 +44,6 @@ const CreationPortfolio = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("handlesubmit reached");
     axios
       .post(`http://localhost:3000/api/creation_portfolio/${userId}`, {
         initial_amount: newPortfolioInitialAmount,
@@ -53,8 +54,7 @@ const CreationPortfolio = () => {
         setCheckUsername(response.data);
       })
       .then(() => {
-        console.log("handleback reached");
-        handleBack(e);
+        setCountDownToggle((prev) => !prev);
       })
       .catch(function (error) {
         console.log(error);
@@ -66,10 +66,27 @@ const CreationPortfolio = () => {
     setUppercaseDetected(false);
   }, [newPortfolioUsername]);
 
+  useEffect(
+    (e) => {
+      const interval = setInterval(() => {
+        if (countDownToggle) {
+          if (countDown === 1) {
+            Navigate(`/overview/${userId}`);
+          } else {
+            setCountDown((prev) => prev - 1);
+          }
+        }
+        console.log(countDownToggle);
+      }, 1000);
+      return () => clearInterval(interval);
+    },
+    [countDown, countDownToggle]
+  );
+
   return isAuthenticated ? (
     <>
-      <div style={{ width: "500px" }}>
-        <div style={{ width: "450px" }}>
+      <div style={{ height: "100vh" }}>
+        <div style={{ width: "350px" }}>
           <GrClose
             style={{
               fontSize: "2rem",
@@ -162,6 +179,15 @@ const CreationPortfolio = () => {
             >
               Submit
             </Button>
+            {countDownToggle ? (
+              <p>
+                Congratulations!!! The portfolio{newPortfolioName} has been
+                created. You will be redirected to the overview page in{" "}
+                {countDown} seconds.{" "}
+              </p>
+            ) : (
+              <></>
+            )}
           </Form>
         </div>
         {/* <Navbar /> */}

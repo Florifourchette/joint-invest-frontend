@@ -299,7 +299,7 @@ export default function Dashboard(props) {
         <p>Add a portfolio</p>
         <button
           className="hex-button space-under-add-button"
-          style={{ padding: '15px 25px 15px 25px' }}
+          style={{ padding: '10px 20px 10px 20px' }}
           onClick={() => Navigate(`/create_portfolio/${userId}`)}
         >
           <IoIosAdd

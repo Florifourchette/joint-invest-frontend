@@ -29,7 +29,7 @@ const StockListB = ({ item, externalAPIstocks, stockData, sharePrice }) => {
                 <div>
                   <List.Header
                     className="d-flex flex-row text-nowrap "
-                    style={{ color: "#31231E", fontSize: "1.2em" }}
+                    style={{ color: "#31231E", fontSize: "1.1em" }}
                   >
                     {item.company_id} ({item.current_number_of_stocks})
                   </List.Header>
@@ -52,7 +52,7 @@ const StockListB = ({ item, externalAPIstocks, stockData, sharePrice }) => {
                       style={{
                         fontWeight: "600",
                         color: "#698D1B",
-                        fontSize: "1.2em",
+                        fontSize: "1.1em",
                       }}
                     >
                       +
@@ -74,7 +74,7 @@ const StockListB = ({ item, externalAPIstocks, stockData, sharePrice }) => {
                       style={{
                         fontWeight: "600",
                         color: "#922727",
-                        fontSize: "1.2em",
+                        fontSize: "1.1em",
                       }}
                     >
                       {parseFloat(

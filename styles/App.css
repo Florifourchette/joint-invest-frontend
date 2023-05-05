@@ -122,7 +122,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 table {
@@ -138,6 +138,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* background-color: #fff3be !important; */
 }
 
 #root {
@@ -184,7 +185,7 @@ button {
 
 .background {
   background-color: #fff3be;
-  min-height: "100vh";
+  min-height: '100vh';
   width: 375px;
 }
 
@@ -297,24 +298,22 @@ button {
 
 .to-portfolio-icon {
   font-size: 2.3rem;
-  color: #31231e;
+  color: #FFF3BE;
 }
 
-.to-portfolio-icon:hover {
-  font-size: 2.3rem;
-  color: #84714F(2, 2, 117);
-}
 
 .portfolio-add {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 2em;
+  margin-bottom: 2rem; 
   font-weight: bold;
 }
+
 .portfolio-add p {
   font-size: 1.25em;
+  color: #FFF3BE;
 }
 .portfolio-add-icon {
   font-size: 2em;
@@ -339,7 +338,7 @@ button {
 }
 
 .rejection_button {
-  color: #31231e;
+  color: #FFF3BE;;
   background-color: transparent;
   padding: 0.2rem;
   cursor: pointer;
@@ -384,6 +383,7 @@ button {
 .message_container {
   font-size: 1.1em;
   color: #fff;
+  text-align: center;
 
   position: relative;
   padding: 20px;
@@ -473,11 +473,39 @@ button {
   background-color: rgba(255, 255, 255, 0.4);
   border-radius: 10px;
 }
-
-
-.button-box-portfolio{
+.button-box-portfolio {
   margin-bottom: 2rem;
   padding: 2rem 0 4rem 0;
+}
+
+//Profile page
+.user-container {
+  width: 360px;
+  margin: 0 auto 0.5rem auto;
+}
+
+.one-user {
+  background-color: #ffd600;
+  margin: 1rem;
+  height: 60px;
+  border-radius: 10px;
+  box-shadow: 0 6px 6px hsl(0deg 0% 0% / 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-shade {
+  padding: 0 20px 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+  width: 95%;
+  height: 80%;
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
 /*portfolio creation page */
@@ -693,10 +721,16 @@ button {
   font-weight: 500;
   margin: 0.5em;
   text-decoration: none;
-  text-transform: uppercase;
   padding: 5px 8px;
   text-align: center;
-  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+  clip-path: polygon(
+    10% 0,
+    90% 0,
+    100% 50%,
+    90% 100%,
+    10% 100%,
+    0 50%
+  );
   background-color: #31231e;
   background-image: radial-gradient(
     200% 70% at center 20%,
@@ -730,7 +764,14 @@ button {
   text-decoration: none;
   padding: 50px 80px;
   text-align: center;
-  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+  clip-path: polygon(
+    10% 0,
+    90% 0,
+    100% 50%,
+    90% 100%,
+    10% 100%,
+    0 50%
+  );
   background-color: #31231e;
   background-image: radial-gradient(
     200% 70% at center 20%,
@@ -755,26 +796,32 @@ button {
 .hex-button-default {
   display: inline-block;
   position: relative;
-  color: transparent;
   font-weight: 500;
   text-decoration: none;
-  text-transform: uppercase;
-  color: #31231e;
+  color: #FFF3BE;
   text-align: center;
-  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
-  background-color: #ffd600;
+  clip-path: polygon(
+    10% 0,
+    90% 0,
+    100% 50%,
+    90% 100%,
+    10% 100%,
+    0 50%
+  );
+  background-color: #31231E;
   /* border-style: solid;
   border-width: 4px;
   border: 5px solid #ffd600; */
-  height: 4em;
-  width: 10em;
+  height: 2.5em;
+  width: 5em;
+  margin-right: 0.5em;
 
   background-repeat: no-repeat;
   transition: background-position-y ease-in-out 250ms;
 }
 .hex-button-default:hover {
   /* transform: scale(1.05); */
-  background-color: #f6e7a1;
+  background-color: #84714F;
 }
 
 .hex-button-small {
@@ -784,7 +831,14 @@ button {
   font-weight: 500;
   text-decoration: none;
   text-align: center;
-  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+  clip-path: polygon(
+    10% 0,
+    90% 0,
+    100% 50%,
+    90% 100%,
+    10% 100%,
+    0 50%
+  );
   background-color: #fff3be;
   background-image: radial-gradient(
     200% 70% at center 20%,
@@ -819,7 +873,6 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  
 }
 
 /* transactions page */
@@ -855,7 +908,14 @@ button {
   text-transform: uppercase;
   padding: 5px 8px;
   text-align: center;
-  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+  clip-path: polygon(
+    10% 0,
+    90% 0,
+    100% 50%,
+    90% 100%,
+    10% 100%,
+    0 50%
+  );
   background-color: #31231e;
   background-image: radial-gradient(
     200% 70% at center 20%,
@@ -879,7 +939,14 @@ button {
   margin: 0.5em;
   text-decoration: none;
   text-align: center;
-  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+  clip-path: polygon(
+    10% 0,
+    90% 0,
+    100% 50%,
+    90% 100%,
+    10% 100%,
+    0 50%
+  );
   background-color: #fff3be;
   background-image: radial-gradient(
     200% 70% at center 20%,
@@ -935,4 +1002,3 @@ button {
 .transactions-title p {
   text-align: center;
 }
-

@@ -12,6 +12,7 @@ const PortfolioChart = ({ intervalSum }) => {
   Chart.defaults.font.size = 14;
   Chart.defaults.font.family = "sans-serif";
   Chart.defaults.font.weight = "600";
+  Chart.defaults.color = "#31231E";
 
   const data = {
     labels: labels,
