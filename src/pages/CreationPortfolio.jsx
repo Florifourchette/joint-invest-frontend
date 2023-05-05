@@ -1,22 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router";
-import { Button, Form } from "semantic-ui-react";
-import axios from "axios";
-import "../../styles/App.css";
-import useAuth from "../hooks/useAuth";
-import LogIn from "./LogIn";
-import { Message } from "semantic-ui-react";
-import { GrClose } from "react-icons/gr";
-import Navbar from "../components/Navbar";
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router';
+import { Button, Form } from 'semantic-ui-react';
+import axios from 'axios';
+import '../../styles/App.css';
+import useAuth from '../hooks/useAuth';
+import LogIn from './LogIn';
+import { Message } from 'semantic-ui-react';
+import { GrClose } from 'react-icons/gr';
+import Navbar from '../components/Navbar';
 
 const CreationPortfolio = () => {
-  const [newPortfolioName, setNewPortfolioName] = useState("");
-  const [newPortfolioInitialAmount, setNewPortfolioInitialAmount] = useState(0);
-  const [newPortfolioUsername, setNewPortfolioUsername] = useState("");
+  const [newPortfolioName, setNewPortfolioName] = useState('');
+  const [newPortfolioInitialAmount, setNewPortfolioInitialAmount] =
+    useState(0);
+  const [newPortfolioUsername, setNewPortfolioUsername] =
+    useState('');
   const [uppercaseDetected, setUppercaseDetected] = useState(false);
-  const [checkUsername, setCheckUsername] = useState("");
+  const [checkUsername, setCheckUsername] = useState('');
   const { isAuthenticated } = useAuth();
   const Navigate = useNavigate();
+  const [countDownToggle, setCountDownToggle] = useState(false);
+  const [countDown, setCountDown] = useState(10);
 
   const { userId } = useParams();
 
@@ -27,7 +31,7 @@ const CreationPortfolio = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/overview")
+      .get('http://localhost:3000/api/overview')
       .then(function (response) {
         console.log(response);
       })
@@ -42,19 +46,20 @@ const CreationPortfolio = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("handlesubmit reached");
     axios
-      .post(`http://localhost:3000/api/creation_portfolio/${userId}`, {
-        initial_amount: newPortfolioInitialAmount,
-        name_of_portfolio: newPortfolioName,
-        friend_username: newPortfolioUsername,
-      })
+      .post(
+        `http://localhost:3000/api/creation_portfolio/${userId}`,
+        {
+          initial_amount: newPortfolioInitialAmount,
+          name_of_portfolio: newPortfolioName,
+          friend_username: newPortfolioUsername,
+        }
+      )
       .then(function (response) {
         setCheckUsername(response.data);
       })
       .then(() => {
-        console.log("handleback reached");
-        handleBack(e);
+        setCountDownToggle((prev) => !prev);
       })
       .catch(function (error) {
         console.log(error);
@@ -62,47 +67,64 @@ const CreationPortfolio = () => {
   };
 
   useEffect(() => {
-    setCheckUsername("");
+    setCheckUsername('');
     setUppercaseDetected(false);
   }, [newPortfolioUsername]);
 
+  useEffect(
+    (e) => {
+      const interval = setInterval(() => {
+        if (countDownToggle) {
+          if (countDown === 1) {
+            Navigate(`/overview/${userId}`);
+          } else {
+            setCountDown((prev) => prev - 1);
+          }
+        }
+        console.log(countDownToggle);
+      }, 1000);
+      return () => clearInterval(interval);
+    },
+    [countDown, countDownToggle]
+  );
+
   return isAuthenticated ? (
     <>
-      <div style={{ width: "500px" }}>
-        <div style={{ width: "450px" }}>
+      <div style={{ width: '500px' }}>
+        <div style={{ width: '450px' }}>
           <GrClose
             style={{
-              fontSize: "2rem",
-              margin: "20px 0 0 20px",
+              fontSize: '2rem',
+              margin: '20px 0 0 20px',
             }}
             onClick={handleBack}
           />
         </div>
-        <div style={{ width: "350px", margin: "0 auto 5rem auto" }}>
+        <div style={{ width: '350px', margin: '0 auto 5rem auto' }}>
           <h1>New Portfolio</h1>
           <p className="page-description">
-            Start a new portfolio by setting an initial amount and inviting your
-            friend to the portfolio.
+            Start a new portfolio by setting an initial amount and
+            inviting your friend to the portfolio.
           </p>
           <Form
             onSubmit={handleSubmit}
             className="creation_form"
             style={{
-              background: "#FFD600",
-              minHeight: "200px",
-              boxShadow: "0 6px 6px hsl(0deg 0% 0% / 0.3)",
-              borderRadius: "10px",
+              background: '#FFD600',
+              minHeight: '200px',
+              boxShadow: '0 6px 6px hsl(0deg 0% 0% / 0.3)',
+              borderRadius: '10px',
             }}
           >
-            <Form.Field style={{ marginTop: "2em" }}>
+            <Form.Field style={{ marginTop: '2em' }}>
               <label>Portfolio name</label>
               <input
                 placeholder="Portfolio name"
                 onChange={(e) => setNewPortfolioName(e.target.value)}
                 requires
                 style={{
-                  border: "solid 1px #31231E",
-                  width: "300px",
+                  border: 'solid 1px #31231E',
+                  width: '300px',
                 }}
               />
             </Form.Field>
@@ -110,12 +132,14 @@ const CreationPortfolio = () => {
               <label>Initial amount</label>
               <input
                 placeholder="Initial amount"
-                onChange={(e) => setNewPortfolioInitialAmount(e.target.value)}
+                onChange={(e) =>
+                  setNewPortfolioInitialAmount(e.target.value)
+                }
                 type="number"
                 required
                 style={{
-                  border: "solid 1px #31231E",
-                  width: "300px",
+                  border: 'solid 1px #31231E',
+                  width: '300px',
                 }}
               />
             </Form.Field>
@@ -130,16 +154,16 @@ const CreationPortfolio = () => {
                 }
                 required
                 style={{
-                  border: "solid 1px #31231E",
-                  width: "300px",
+                  border: 'solid 1px #31231E',
+                  width: '300px',
                 }}
               />
-              {checkUsername === "user not found" ? (
+              {checkUsername === 'user not found' ? (
                 <p>User has not been found</p>
               ) : (
                 <p></p>
               )}
-              {checkUsername === "identical ids" ? (
+              {checkUsername === 'identical ids' ? (
                 <p>You cannot create a portfolio with yourself</p>
               ) : (
                 <p></p>
@@ -154,14 +178,23 @@ const CreationPortfolio = () => {
               type="submit"
               className="hex-button"
               style={{
-                background: "#31231E",
-                color: "white",
-                margin: "0 auto 2em auto",
-                padding: "15px 20px 15px 20px",
+                background: '#31231E',
+                color: 'white',
+                margin: '0 auto 2em auto',
+                padding: '15px 20px 15px 20px',
               }}
             >
               Submit
             </Button>
+            {countDownToggle ? (
+              <p>
+                Congratulations!!! The portfolio{newPortfolioName} has
+                been created. You will be redirected to the overview
+                page in {countDown} seconds.{' '}
+              </p>
+            ) : (
+              <></>
+            )}
           </Form>
         </div>
         {/* <Navbar /> */}
@@ -170,7 +203,7 @@ const CreationPortfolio = () => {
   ) : (
     <div>
       <div className="d-flex justify-content-center">
-        <Message style={{ color: "red" }}>
+        <Message style={{ color: 'red' }}>
           You are not logged in, please login!
         </Message>
       </div>
