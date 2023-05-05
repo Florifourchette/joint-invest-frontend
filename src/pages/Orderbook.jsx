@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useAppContext } from '../contexts/AppContext';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -23,8 +24,11 @@ export default function Orderbook() {
   useEffect(() => {
     async function getOrders() {
       try {
+
+
         const stockInfos = await axios.get(
           `https://joint-invest-back-end.onrender.com/api/order_book/${portfolio_id}`
+
         );
         console.log('Response data:', stockInfos.data);
         setOrders(stockInfos.data);
