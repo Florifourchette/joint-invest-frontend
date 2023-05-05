@@ -157,7 +157,7 @@ const DeleteConfirmedButton = ({
               });
             }}
           >
-            <IoIosArrowDroprightCircle className="to-portfolio-icon" />{" "}
+            <FaArrowCircleRight className="to-portfolio-icon" />{" "}
           </button>
         </>
       ) : (
@@ -232,60 +232,8 @@ const DeleteConfirmedButton = ({
               setPortfolioStatusUpdated((prev) => !prev);
             }}
           >
-            <div className="rejection_button">
-              <i className="status_icons">
-                <IoIosTrash size={30} />
-              </i>
-            </div>
-          </button>
-          <button
-            className="hex-button-default"
-            onClick={() => {
-              setPortfolioStatus(
-                data.portfolio_id,
-                userId,
-                data.portfolio_status,
-                "confirmed",
-                setNewData
-              );
-              setPortfolioStatusUpdated((prev) => !prev);
-            }}
-          >
-            confirm
-          </button>
-        </>
-      ) : (
-        <></>
-      )}
-
-      {/* current status 'pending_deletion' */}
-      {data.portfolio_status === "pending_deletion" &&
-      parseInt(userId) !== data.user_id_request ? (
-        <>
-          <button
-            className="hex-button-default"
-            onClick={() => {
-              setPortfolioStatus(
-                data.portfolio_id,
-                userId,
-                data.portfolio_status,
-                "rejected",
-                setNewData
-              );
-              setPortfolioStatusUpdated((prev) => !prev);
-            }}
-          >
             reject
           </button>
-        </>
-      ) : (
-        <></>
-      )}
-
-      {/* current status 'pending_deletion' */}
-      {data.portfolio_status === "pending_deletion" &&
-      parseInt(userId) !== data.user_id_request ? (
-        <>
           <button
             className="hex-button-default"
             onClick={() => {
