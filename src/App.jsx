@@ -5,7 +5,7 @@ import '../styles/App.css';
 import { Link, Routes, Route } from 'react-router-dom';
 import CreationPortfolio from './pages/CreationPortfolio';
 import LogIn from './pages/LogIn';
-import SignUp from './pages/Signup';
+import SignUp from './pages/SignUp';
 import Transactions from './pages/Transactions';
 import Orderbook from './pages/Orderbook';
 import AuthStateContext from './contexts/AuthContext';
