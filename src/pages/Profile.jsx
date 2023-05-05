@@ -18,10 +18,7 @@ export default function Profile() {
   };
 
   return (
-    <div
-      className="d-flex flex-column justify-content-center"
-      style={{ width: "500px" }}
-    >
+    <div className="d-flex flex-column justify-content-center">
       <div style={{ margin: "auto" }}>
         {/* <div style={{ width: "450px" }}>
           <BiArrowBack
