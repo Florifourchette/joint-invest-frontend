@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
@@ -7,8 +8,18 @@ import axios from 'axios';
 import Orderlist from '../components/Orderlist';
 import { BiArrowBack } from 'react-icons/bi';
 import Navbar from '../components/Navbar';
+=======
+import React, { useState, useEffect } from "react";
+import { useAppContext } from "../contexts/AppContext";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import Orderlist from "../components/orderlist";
+import { BiArrowBack } from "react-icons/bi";
+import Navbar from "../components/Navbar";
+>>>>>>> dev
 
 export default function Orderbook() {
+  const { contextStockData } = useAppContext();
   const [orders, setOrders] = useState();
   let { portfolio_id } = useParams();
   const navigate = useNavigate();
@@ -21,12 +32,18 @@ export default function Orderbook() {
   useEffect(() => {
     async function getOrders() {
       try {
+<<<<<<< HEAD
         const response = await axios.get(
           `https://joint-invest-back-end.onrender.com/api/order_book/${portfolio_id}`
+=======
+        const stockInfos = await axios.get(
+          `http://localhost:3000/api/order_book/${portfolio_id}`
+>>>>>>> dev
         );
-        setOrders(response.data);
-        console.log(response.data);
-        return response.data;
+        console.log("Response data:", stockInfos.data);
+        setOrders(stockInfos.data);
+        // console.log(response.data);
+        return stockInfos.data;
       } catch (err) {
         console.log(err);
       }
@@ -52,7 +69,16 @@ export default function Orderbook() {
           {orders &&
             orders.map((item, index, arr) => {
               return (
+<<<<<<< HEAD
                 <Orderlist item={item} index={index} arr={arr} />
+=======
+                <Orderlist
+                  item={item}
+                  index={index}
+                  arr={arr}
+                  contextStockData={contextStockData}
+                />
+>>>>>>> dev
               );
             })}
         </div>
