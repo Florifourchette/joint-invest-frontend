@@ -6,6 +6,19 @@ import { BiArrowBack } from "react-icons/bi";
 export default function Profile() {
   const { userLogin, logout } = useAuth();
   const Navigate = useNavigate();
+  const { creation_date } = userLogin;
+  const date = creation_date.slice(2, 10).replace(/-/g, ".");
+  const [year, month, day] = date.split(".");
+  const newDateString = `${day}.${month}.${year}`;
+
+  const profilePics = [
+    "profile_1.png",
+    "profile_2.png",
+    "profile_3.png",
+    "profile_4.png",
+    "profile_5.png",
+  ];
+  const myPic = Math.floor(Math.random() * 4);
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -19,54 +32,43 @@ export default function Profile() {
 
   return (
     <div className="d-flex flex-column justify-content-center">
-      <div style={{ margin: "auto" }}>
-        {/* <div style={{ width: "450px" }}>
-          <BiArrowBack
-            style={{
-              fontSize: "2rem",
-              position: "absolute",
-              marginTop: "20px",
-            }}
-            onClick={handleBack}
-          />
-        </div> */}
+      <div>
         <h1>Profile</h1>
         <div className="d-flex flex-column align-items-center">
           <img
-            src="https://picsum.photos/id/237/200/200"
+            src={`/${profilePics[myPic]}`}
             style={{
-              borderRadius: "50%",
-              width: "200px",
-              height: "200px",
+              width: "150px",
+              height: "150px",
             }}
           />
-          <h2>{userLogin.username}</h2>
-          <p style={{ fontWeight: "600" }}>
-            Member since: {userLogin.creation_date.split("T")[0]}
-          </p>
-          <div
-            style={{
-              fontSize: "1.25rem",
-              border: "1px solid grey",
-              paddingTop: "1.25rem",
-              paddingBottom: "1.25rem",
-              paddingLeft: "4rem",
-              paddingRight: "4rem",
-              borderRadius: "10px",
-              marginTop: "1rem",
-            }}
-          >
-            <p className="text-left">Email: {userLogin.email}</p>
-            <p className="text-left">Password: ***********</p>
+          <h2 style={{ fontWeight: "800", marginTop: "10px" }}>
+            {userLogin.username}
+          </h2>
+          <p style={{ fontWeight: "600" }}>Member since: {newDateString}</p>
+          <div className="user-container" style={{ width: "90%" }}>
+            <div className="one-user" style={{ justifyContent: "center" }}>
+              <div className="user-shade">
+                <p style={{ marginBottom: 0 }}>Email:</p>
+                <p>{userLogin.email}</p>
+              </div>
+            </div>
+            <div className="one-user" style={{ justifyContent: "center" }}>
+              <div className="user-shade">
+                <p style={{ marginBottom: 0 }}>Password:</p>
+                <p>***********</p>
+              </div>
+            </div>
           </div>
           <button
             onClick={handleClick}
-            className="btn btn-primary"
+            className="hex-button user-button"
             type="btn"
             style={{
-              marginTop: "3.5rem",
-              marginBottom: "1rem",
+              marginTop: "0.5rem",
+              marginBottom: "6rem",
               padding: "1rem",
+              width: "6rem",
             }}
           >
             Logout
