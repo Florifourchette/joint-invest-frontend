@@ -1,24 +1,28 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import StockListA from "../components/PortfolioStockListA";
-import StockListB from "../components/PortfolioStockListB";
-import PortfolioChart from "../components/PortfolioChart.jsx";
-import PortfolioDropdown from "../components/PortfolioDropdown";
-import { stocklistitem_data } from "../assets/stocklistitem_data";
-import { v4 as uuidv4 } from "uuid";
-import { mockPortfolioData } from "../assets/mockPortfolioData";
+import React from 'react';
+import { useState, useEffect } from 'react';
+import StockListA from '../components/PortfolioStockListA';
+import StockListB from '../components/PortfolioStockListB';
+import PortfolioChart from '../components/PortfolioChart.jsx';
+import PortfolioDropdown from '../components/PortfolioDropdown';
+import { stocklistitem_data } from '../assets/stocklistitem_data';
+import { v4 as uuidv4 } from 'uuid';
+import { mockPortfolioData } from '../assets/mockPortfolioData';
 //import chartData from "../assets/lineGraphData";
 //import { url } from "inspector";
-import axios from "axios";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
-import LogIn from "./LogIn";
-import { Message } from "semantic-ui-react";
-import Chart from "chart.js/auto";
-import { CategoryScale } from "chart.js";
-import Navbar from "../components/Navbar";
-import { BiArrowBack } from "react-icons/bi";
-import PortfolioChartOverall from "../components/PortfolioChartOverall";
+import axios from 'axios';
+import {
+  useNavigate,
+  useParams,
+  useLocation,
+} from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
+import LogIn from './LogIn';
+import { Message } from 'semantic-ui-react';
+import Chart from 'chart.js/auto';
+import { CategoryScale } from 'chart.js';
+import Navbar from '../components/Navbar';
+import { BiArrowBack } from 'react-icons/bi';
+import PortfolioChartOverall from '../components/PortfolioChartOverall';
 
 Chart.register(CategoryScale);
 
@@ -27,16 +31,21 @@ const portfolioAPIKey2 = import.meta.env.VITE_PORTFOLIO_API_KEY2;
 
 export default function Portfolio() {
   const { isAuthenticated } = useAuth();
-  const portfolioName = mockPortfolioData[0].overview[0].name_of_portfolio;
-  const investedAmount = mockPortfolioData[0].overview[0].invested_amount;
-  const availableAmount = mockPortfolioData[0].overview[0].available_amount;
+  const portfolioName =
+    mockPortfolioData[0].overview[0].name_of_portfolio;
+  const investedAmount =
+    mockPortfolioData[0].overview[0].invested_amount;
+  const availableAmount =
+    mockPortfolioData[0].overview[0].available_amount;
   const companiesArray = [];
 
   const { id } = useParams();
 
   const Navigate = useNavigate();
   const location = useLocation();
-  console.log(` location at portfolio ${JSON.stringify(location.state)}`);
+  console.log(
+    ` location at portfolio ${JSON.stringify(location.state)}`
+  );
   const [sharePrice, setSharePrice] = useState(location.state.prices);
   const [shareNumber, setShareNumber] = useState(
     location.state.number_of_shares
@@ -44,10 +53,10 @@ export default function Portfolio() {
   const tickers = Object.keys(sharePrice).join();
   const tickersArray = Object.keys(sharePrice);
 
-  console.log("PROFIT", location.state.portfolioProfitLoss);
+  console.log('PROFIT', location.state.portfolioProfitLoss);
 
-  console.log("SHARE PRICE", sharePrice);
-  console.log("SHARE NUKM", shareNumber);
+  console.log('SHARE PRICE', sharePrice);
+  console.log('SHARE NUKM', shareNumber);
   console.log(tickers);
 
   const companyIds = mockPortfolioData[0].stocks?.map(
@@ -56,7 +65,7 @@ export default function Portfolio() {
   const cleanCompanyIds = companyIds.join();
   //console.log(cleanCompanyIds);
 
-  const [selectedInterval, setSelectedInterval] = useState("");
+  const [selectedInterval, setSelectedInterval] = useState('');
   const [stockItems, setStockItems] = useState([]);
   const [stockOverview, setStockOverview] = useState();
   const [stockCompaniesId, setStockCompaniesId] = useState();
@@ -72,7 +81,7 @@ export default function Portfolio() {
 
   const datetimeValuesMap = {};
 
-  console.log("all comps", allCompanies);
+  console.log('all comps', allCompanies);
 
   if (allCompanies && Object.keys(allCompanies).length > 0) {
     for (const key in allCompanies) {
@@ -84,18 +93,20 @@ export default function Portfolio() {
         if (datetime in datetimeValuesMap) {
           const properties = Object.keys(value);
           for (const property of properties) {
-            if (property !== "datetime") {
+            if (property !== 'datetime') {
               datetimeValuesMap[datetime][property] +=
-                parseFloat(value[property]) * parseFloat(shareNumber[key]);
+                parseFloat(value[property]) *
+                parseFloat(shareNumber[key]);
             }
           }
         } else {
           datetimeValuesMap[datetime] = { datetime };
           const properties = Object.keys(value);
           for (const property of properties) {
-            if (property !== "datetime") {
+            if (property !== 'datetime') {
               datetimeValuesMap[datetime][property] =
-                parseFloat(value[property]) * parseFloat(shareNumber[key]);
+                parseFloat(value[property]) *
+                parseFloat(shareNumber[key]);
             }
           }
         }
@@ -105,14 +116,14 @@ export default function Portfolio() {
 
   console.log(datetimeValuesMap);
   const intervalSum = Object.values(datetimeValuesMap);
-  console.log("result", intervalSum);
+  console.log('result', intervalSum);
 
   // Extract the summed value at the last timestamp
   const timestamps = Object.keys(datetimeValuesMap);
   const lastTimestamp = timestamps[timestamps.length - 1];
   const lastValues = datetimeValuesMap[lastTimestamp];
-  console.log("Last timestamp:", lastTimestamp);
-  console.log("Last values:", lastValues);
+  console.log('Last timestamp:', lastTimestamp);
+  console.log('Last values:', lastValues);
 
   //api calls
 
@@ -123,7 +134,7 @@ export default function Portfolio() {
           `http://localhost:3000/api/order_book/${id}`
         );
         setOrderBook(response.data);
-        console.log("orderbook api", response.data);
+        console.log('orderbook api', response.data);
       } catch (err) {
         console.log(err);
       }
@@ -135,7 +146,7 @@ export default function Portfolio() {
         );
         setStockItems(response.data.stocks);
         setStockOverview(response.data.overview[0]);
-        console.log("aaaaaaahhhhhhhhh", response.data.overview[0]);
+        console.log('aaaaaaahhhhhhhhh', response.data.overview[0]);
       } catch (err) {
         console.log(err);
       }
@@ -147,7 +158,7 @@ export default function Portfolio() {
         );
         //console.log(myStocksIds);
         console.log(nextResponse);
-        if (nextResponse.data?.status !== "error") {
+        if (nextResponse.data?.status !== 'error') {
           setExternalAPIstocks(nextResponse.data);
         } else {
           console.log(nextResponse.data.status);
@@ -163,7 +174,7 @@ export default function Portfolio() {
           `https://api.twelvedata.com/time_series?symbol=${tickers}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=${portfolioAPIKey2}`
         );
         console.log(data);
-        if (data.data?.status !== "error") {
+        if (data.data?.status !== 'error') {
           setAllCompanies(data.data);
         } else {
           console.log(data.data.status);
@@ -174,7 +185,9 @@ export default function Portfolio() {
     }
     async function fetchStocks() {
       try {
-        const stockInfos = await axios.get("http://localhost:3000/api/stocks");
+        const stockInfos = await axios.get(
+          'http://localhost:3000/api/stocks'
+        );
         setStockData(stockInfos.data);
         console.log(stockInfos.data);
       } catch (error) {
@@ -192,7 +205,10 @@ export default function Portfolio() {
   return isAuthenticated ? (
     <div>
       <div className="portfolio-back-button-container">
-        <BiArrowBack className="portfolio-back-button" onClick={handleBack} />
+        <BiArrowBack
+          className="portfolio-back-button"
+          onClick={handleBack}
+        />
       </div>
       <div className="portfolio_overview">
         <div className="overview_page">
@@ -206,18 +222,24 @@ export default function Portfolio() {
             {lastValues && (
               <>
                 <h3>Total Assets</h3>
-                <h2>$ {lastValues.close}</h2>
+                <h2>$ {lastValues.close.toFixed(2)}</h2>
               </>
             )}
             <h3>Amount invested</h3>
             {stockOverview && (
-              <h4>{parseFloat(stockOverview.invested_amount).toFixed(2)}</h4>
+              <h4>
+                {parseFloat(stockOverview.invested_amount).toFixed(2)}
+              </h4>
             )}
             <h3>Total Profit/loss</h3>
             <h4>{location.state.portfolioProfitLoss}</h4>
             <h3>Available amount</h3>
             {stockOverview && (
-              <h4>{parseFloat(stockOverview.available_amount).toFixed(2)}</h4>
+              <h4>
+                {parseFloat(stockOverview.available_amount).toFixed(
+                  2
+                )}
+              </h4>
             )}
           </div>
         </div>
@@ -229,7 +251,7 @@ export default function Portfolio() {
           />
         </div>
         <div className="portfolio_stocks-container">
-          {selectedInterval == "Overall" ? (
+          {selectedInterval == 'Overall' ? (
             <div>
               <div className="portfolio_barGraph">
                 <PortfolioChartOverall orderBook={orderBook} />
@@ -286,12 +308,12 @@ export default function Portfolio() {
             type="button"
             className="hex-button"
             style={{
-              marginRight: "1rem",
-              marginBottom: "0.7rem",
-              padding: "0px",
-              height: "50px",
-              width: "180px",
-              background: "#84714F",
+              marginRight: '1rem',
+              marginBottom: '0.7rem',
+              padding: '0px',
+              height: '50px',
+              width: '180px',
+              background: '#84714F',
             }}
             onClick={() =>
               Navigate(`/orderbook/${id}`, {
@@ -333,10 +355,10 @@ export default function Portfolio() {
             type="button"
             className="hex-button"
             style={{
-              marginRight: "0.5rem",
-              padding: "10px",
-              height: "50px",
-              width: "180px",
+              marginRight: '0.5rem',
+              padding: '10px',
+              height: '50px',
+              width: '180px',
             }}
             onClick={() =>
               Navigate(`/transactions/${id}`, {
@@ -353,7 +375,7 @@ export default function Portfolio() {
   ) : (
     <div>
       <div className="d-flex justify-content-center">
-        <Message style={{ color: "red" }}>
+        <Message style={{ color: 'red' }}>
           You are not logged in, please login!
         </Message>
       </div>
