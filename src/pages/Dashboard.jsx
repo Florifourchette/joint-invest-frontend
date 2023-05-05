@@ -61,7 +61,7 @@ export default function Dashboard(props) {
   console.log("number of shares", wallet.number_of_shares);
   //API CALL
   useEffect(() => {
-    if (loading === false && wallet.length> 0) {
+    if (loading === false && wallet.length > 0) {
       const companyIds = [...new Set(wallet.map((item) => item.company_id))];
       console.log(`tickers: ${companyIds}`);
       const apiUrl = createApiUrl(companyIds);
@@ -170,7 +170,6 @@ export default function Dashboard(props) {
   );
   console.log(portfolioTotals);
 
-
   return isAuthenticated ? (
     <div className="overview-page">
       {/* <div style={{ width: "450px" }}>
@@ -206,7 +205,6 @@ export default function Dashboard(props) {
       <div className="portfolio-cards">
         {dashboardData.map((data) => (
           <>
-          
             <div className="portfolio-card" key={data.portfolio_id}>
               <div className="portfolio-name-container">
                 <h5 className="portfolio-name">{data.name_of_portfolio}</h5>
@@ -256,7 +254,7 @@ export default function Dashboard(props) {
                     wallet={wallet}
                     Navigate={Navigate}
                     prices={prices}
-                    PortfolioProfitLoss=   {(
+                    PortfolioProfitLoss={(
                       portfolioTotals[data.portfolio_id] -
                       data.total_buying_value
                     ).toFixed(2)}
@@ -282,7 +280,7 @@ export default function Dashboard(props) {
         <p>Add a portfolio</p>
         <button
           className="hex-button space-under-add-button"
-          style={{ padding: "15px 25px 15px 25px" }}
+          style={{ padding: "10px 20px 10px 20px" }}
           onClick={() => Navigate(`/create_portfolio/${userId}`)}
         >
           <IoIosAdd
