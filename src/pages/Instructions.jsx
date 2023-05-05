@@ -15,7 +15,7 @@ export default function Instructions() {
         <img
           src="/instructions.png"
           alt="company_logo"
-          style={{ maxWidth: "500px" }}
+          style={{ width: "375px" }}
         />
       </div>
     </div>

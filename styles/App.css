@@ -297,13 +297,9 @@ button {
 
 .to-portfolio-icon {
   font-size: 2.3rem;
-  color: #31231e;
+  color: #FFF3BE;
 }
 
-.to-portfolio-icon:hover {
-  font-size: 2.3rem;
-  color: #84714F(2, 2, 117);
-}
 
 .portfolio-add {
   display: flex;
@@ -315,6 +311,7 @@ button {
 }
 .portfolio-add p {
   font-size: 1.25em;
+  color: #FFF3BE;
 }
 .portfolio-add-icon {
   font-size: 2em;
@@ -339,7 +336,7 @@ button {
 }
 
 .rejection_button {
-  color: #31231e;
+  color: #FFF3BE;;
   background-color: transparent;
   padding: 0.2rem;
   cursor: pointer;
@@ -693,7 +690,6 @@ button {
   font-weight: 500;
   margin: 0.5em;
   text-decoration: none;
-  text-transform: uppercase;
   padding: 5px 8px;
   text-align: center;
   clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
@@ -755,26 +751,25 @@ button {
 .hex-button-default {
   display: inline-block;
   position: relative;
-  color: transparent;
   font-weight: 500;
   text-decoration: none;
-  text-transform: uppercase;
-  color: #31231e;
+  color: #FFF3BE;
   text-align: center;
   clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
-  background-color: #ffd600;
+  background-color: #31231E;
   /* border-style: solid;
   border-width: 4px;
   border: 5px solid #ffd600; */
-  height: 4em;
-  width: 10em;
+  height: 2.5em;
+  width: 5em;
+  margin-right: 0.5em;
 
   background-repeat: no-repeat;
   transition: background-position-y ease-in-out 250ms;
 }
 .hex-button-default:hover {
   /* transform: scale(1.05); */
-  background-color: #f6e7a1;
+  background-color: #84714F;
 }
 
 .hex-button-small {

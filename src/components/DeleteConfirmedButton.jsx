@@ -42,7 +42,7 @@ const DeleteConfirmedButton = ({
             ></i> */}
             <div className="rejection_button">
               <i className="status_icons">
-                <IoIosTrash size={30} />
+                <IoIosTrash size={25} />
               </i>
             </div>
           </button>
@@ -88,7 +88,10 @@ const DeleteConfirmedButton = ({
               });
             }}
           >
-            <FaArrowCircleRight className="to-portfolio-icon" />{" "}
+            <FaArrowCircleRight
+              className="to-portfolio-icon"
+              style={{ fontSize: "1.5em" }}
+            />{" "}
           </button>
         </>
       ) : (
@@ -157,7 +160,10 @@ const DeleteConfirmedButton = ({
               });
             }}
           >
-            <FaArrowCircleRight className="to-portfolio-icon" />{" "}
+            <FaArrowCircleRight
+              className="to-portfolio-icon"
+              style={{ fontSize: "1.5em" }}
+            />{" "}
           </button>
         </>
       ) : (
@@ -183,7 +189,7 @@ const DeleteConfirmedButton = ({
           >
             <div className="confirmation_button">
               <i className="status_icons">
-                <FaCheckSquare size={30} />
+                <FaCheckSquare size={25} />
               </i>
             </div>
           </button>
