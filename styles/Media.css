@@ -1,0 +1,50 @@
+@media only screen and (max-width: 710px) {
+  .message_page {
+    width: 100%;
+    margin-bottom: 8%;
+  }
+
+  .message-card {
+    width: 85%;
+    margin-bottom: 1em;
+  }
+
+  .message-card-values {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .message-card-value-info {
+    display: flex;
+    align-items: center;
+    padding-top: 0.5em;
+    width: 100%;
+  }
+  .message-card-value-mainDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 0.5em;
+    width: 80%;
+  }
+  .message-card-value-mainDetails p {
+    text-align: center;
+  }
+
+  .message-card-value-status p {
+    text-align: center;
+  }
+
+  .navbar {
+    width: 80%;
+    max-width: 420px;
+    min-width: 20px;
+    background-color: #84714f;
+    border-radius: 10px;
+    margin: auto;
+    display: flex;
+    align-content: space-around;
+  }
+}

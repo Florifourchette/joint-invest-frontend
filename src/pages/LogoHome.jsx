@@ -12,11 +12,7 @@ export default function LogoHome() {
   return (
     <div style={{ width: "100%", background: "#FFD600" }} onClick={reDirect}>
       <div className="d-flex align-items-center" style={{ minHeight: "100vh" }}>
-        <img
-          src="public/website_assets/beehive.png"
-          alt="company_logo"
-          style={{ minWidth: "390px" }}
-        />
+        <img src="/beehive.png" alt="company_logo" style={{ width: "375px" }} />
       </div>
     </div>
   );

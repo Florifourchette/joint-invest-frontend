@@ -22,6 +22,7 @@ import Chart from 'chart.js/auto';
 import { CategoryScale } from 'chart.js';
 import Navbar from '../components/Navbar';
 import { BiArrowBack } from 'react-icons/bi';
+import PortfolioChartOverall from '../components/PortfolioChartOverall';
 
 Chart.register(CategoryScale);
 
@@ -52,6 +53,8 @@ export default function Portfolio() {
   const tickers = Object.keys(sharePrice).join();
   const tickersArray = Object.keys(sharePrice);
 
+  console.log('PROFIT', location.state.portfolioProfitLoss);
+
   console.log('SHARE PRICE', sharePrice);
   console.log('SHARE NUKM', shareNumber);
   console.log(tickers);
@@ -64,92 +67,18 @@ export default function Portfolio() {
 
   const [selectedInterval, setSelectedInterval] = useState('');
   const [stockItems, setStockItems] = useState([]);
-  const [stockOverview, setStockOverview] = useState('');
+  const [stockOverview, setStockOverview] = useState();
   const [stockCompaniesId, setStockCompaniesId] = useState();
   const [externalAPIstocks, setExternalAPIstocks] = useState();
   const [allCompanies, setAllCompanies] = useState();
-  const [stockData, getStockData] = useState();
-
-  // const allCompanies = {
-  //   AAPL: {
-  //     meta: {
-  //       symbol: 'AAPL',
-  //       interval: '1h',
-  //       currency: 'USD',
-  //       exchange_timezone: 'America/New_York',
-  //       exchange: 'NASDAQ',
-  //     },
-  //     status: 'ok',
-  //     values: [
-  //       {
-  //         datetime: '2023-05-02 15:30:00',
-  //         open: '168.97',
-  //         high: '168.98',
-  //         low: '168.39',
-  //         close: '168.55',
-  //       },
-  //       {
-  //         datetime: '2023-05-02 14:30:00',
-  //         open: '168.47',
-  //         high: '169.28',
-  //         low: '168.46',
-  //         close: '168.96',
-  //       },
-  //       {
-  //         datetime: '2023-05-02 13:30:00',
-  //         open: '168.80',
-  //         high: '168.95',
-  //         low: '168.35',
-  //         close: '168.47',
-  //       },
-  //       {
-  //         datetime: '2023-05-02 12:30:00',
-  //         open: '168.11',
-  //         high: '168.93',
-  //         low: '168.09',
-  //         close: '168.81',
-  //       },
-  //       {
-  //         datetime: '2023-05-02 11:30:00',
-  //         open: '167.82',
-  //         high: '168.23',
-  //         low: '167.54',
-  //         close: '168.11',
-  //       },
-  //       {
-  //         datetime: '2023-05-02 10:30:00',
-  //         open: '168.67',
-  //         high: '168.73',
-  //         low: '167.70',
-  //         close: '167.82',
-  //       },
-  //       {
-  //         datetime: '2023-05-02 09:30:00',
-  //         open: '170.09',
-  //         high: '170.35',
-  //         low: '168.49',
-  //         close: '168.71',
-  //       },
-  //       {
-  //         datetime: '2023-05-01 15:30:00',
-  //         open: '169.70',
-  //         high: '169.90',
-  //         low: '169.25',
-  //         close: '169.56',
-  //       },
-  //     ],
-  //   },}
+  const [stockData, setStockData] = useState();
+  const [orderBook, setOrderBook] = useState();
 
   const handleBack = (e) => {
     e.preventDefault();
     Navigate(-1);
   };
 
-  // if (allCompanies !== undefined) {
-  //   const stockValues = Object.values(allCompanies)?.map(
-  //     (company) => company.values
-  //   );
-  //   //console.log(typeof stockValues);
   const datetimeValuesMap = {};
 
   console.log('all comps', allCompanies);
@@ -199,14 +128,25 @@ export default function Portfolio() {
   //api calls
 
   useEffect(() => {
+    async function getOrderBook() {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/order_book/${id}`
+        );
+        setOrderBook(response.data);
+        console.log('orderbook api', response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
     async function getPortfolioStocks() {
       try {
         const response = await axios.get(
           `https://joint-invest-back-end.onrender.com/api/portfolio/${id}`
         );
         setStockItems(response.data.stocks);
-        //console.log(response);
-        return response.data.stocks;
+        setStockOverview(response.data.overview[0]);
+        console.log('aaaaaaahhhhhhhhh', response.data.overview[0]);
       } catch (err) {
         console.log(err);
       }
@@ -214,11 +154,15 @@ export default function Portfolio() {
     async function stockDataExternal() {
       try {
         const nextResponse = await axios.get(
-          `https://api.twelvedata.com/quote?symbol=${tickers}&apikey=${portfolioAPIKey1}`
+          `https://api.twelvedata.com/quote?symbol=${tickers}&apikey=${portfolioAPIKey2}`
         );
         //console.log(myStocksIds);
         console.log(nextResponse);
-        setExternalAPIstocks(nextResponse.data);
+        if (nextResponse.data?.status !== 'error') {
+          setExternalAPIstocks(nextResponse.data);
+        } else {
+          console.log(nextResponse.data.status);
+        }
       } catch (err) {
         console.log(err);
       }
@@ -226,11 +170,15 @@ export default function Portfolio() {
     async function fetchMultipleCompanies() {
       try {
         //console.log(myStocksIds);
-        const { data } = await axios.get(
+        const data = await axios.get(
           `https://api.twelvedata.com/time_series?symbol=${tickers}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=${portfolioAPIKey2}`
         );
         console.log(data);
-        setAllCompanies(data);
+        if (data.data?.status !== 'error') {
+          setAllCompanies(data.data);
+        } else {
+          console.log(data.data.status);
+        }
       } catch (error) {
         console.log(error.message);
       }
@@ -240,12 +188,13 @@ export default function Portfolio() {
         const stockInfos = await axios.get(
           'https://joint-invest-back-end.onrender.com/api/stocks'
         );
-        getStockData(stockInfos.data);
+        setStockData(stockInfos.data);
         console.log(stockInfos.data);
       } catch (error) {
         console.log(error.message);
       }
     }
+    getOrderBook();
     getPortfolioStocks();
     stockDataExternal();
     fetchMultipleCompanies();
@@ -253,121 +202,184 @@ export default function Portfolio() {
   }, [id]);
 
   // return isAuthenticated ? (
-  return (
-    <>
-      <div className="portfolio_overview">
-        {lastValues && (
-          <>
-            <h3>Total Assets at {lastValues.datetime}</h3>
-            <h1>$ {lastValues.close}</h1>
-          </>
-        )}
-        {/* <h4>Amount invested</h4>
-        <h4>{investedAmount}</h4>
-
-        <p>Total loss</p>
-        <p>-12,01</p> */}
-      </div>
-
-      <div className="portfolio_lineGraph">
-        <PortfolioChart intervalSum={intervalSum} />
-      </div>
-      <div className="portfolio_available_amount">
-        <h4>Available amount</h4>
-        <h4>€</h4>
-      </div>
-      <div className="PortfolioDropdown">
-        <PortfolioDropdown
-          selectedInterval={selectedInterval}
-          setSelectedInterval={setSelectedInterval}
+  return isAuthenticated ? (
+    <div>
+      <div className="portfolio-back-button-container">
+        <BiArrowBack
+          className="portfolio-back-button"
+          onClick={handleBack}
         />
       </div>
-      <div className="portfolio_stocks container">
-        <h3 className="text-center" style={{ padding: '2rem' }}>
-          Your Stocks
-        </h3>
-
-        {selectedInterval == 'since buy' ? (
-          <div>
-            {stockItems &&
-              sharePrice &&
-              stockData &&
-              externalAPIstocks &&
-              stockItems?.map((item) => {
-                return (
-                  <StockListB
-                    item={item}
-                    externalAPIstocks={externalAPIstocks}
-                    sharePrice={sharePrice}
-                    stockData={stockData}
-                  />
-                );
-              })}
+      <div className="portfolio_overview">
+        <div className="overview_page">
+          <h1 className="portfolio-title">Portfolio</h1>
+          {stockOverview && (
+            <h4 className="portfolio-name">
+              {stockOverview.name_of_portfolio}
+            </h4>
+          )}
+          <div className="assets">
+            {lastValues && (
+              <>
+                <h3>Total Assets</h3>
+                <h2>$ {lastValues.close.toFixed(2)}</h2>
+              </>
+            )}
+            <h3>Amount invested</h3>
+            {stockOverview && (
+              <h4>
+                {parseFloat(stockOverview.invested_amount).toFixed(2)}
+              </h4>
+            )}
+            <h3>Total Profit/loss</h3>
+            <h4>{location.state.portfolioProfitLoss}</h4>
+            <h3>Available amount</h3>
+            {stockOverview && (
+              <h4>
+                {parseFloat(stockOverview.available_amount).toFixed(
+                  2
+                )}
+              </h4>
+            )}
           </div>
-        ) : (
-          <div>
-            {stockItems &&
-              stockData &&
-              sharePrice &&
-              externalAPIstocks &&
-              stockItems?.map((item) => {
-                return (
-                  <StockListA
-                    item={item}
-                    externalAPIstocks={externalAPIstocks}
-                    sharePrice={sharePrice}
-                    stockData={stockData}
-                  />
-                );
-              })}
-          </div>
-        )}
-
-        {/* {stocklistitem_data &&
-          stocklistitem_data.map((item) => {
-            return (
-              <StockListA
-                url={item.url}
-                symbol={item.meta.symbol}
-                id={uuidv4()}
-              />
-            );
-          })} */}
+        </div>
+        <div className="portfolio-dropdown">
+          <PortfolioDropdown
+            className="dropdown"
+            selectedInterval={selectedInterval}
+            setSelectedInterval={setSelectedInterval}
+          />
+        </div>
+        <div className="portfolio_stocks-container">
+          {selectedInterval == 'Overall' ? (
+            <div>
+              <div className="portfolio_barGraph">
+                <PortfolioChartOverall orderBook={orderBook} />
+              </div>
+              <div className="assets">
+                <h3>Your stocks</h3>
+              </div>
+              <div className="stock-container">
+                {stockItems &&
+                  sharePrice &&
+                  stockData &&
+                  externalAPIstocks &&
+                  stockItems?.map((item) => {
+                    return (
+                      <StockListB
+                        item={item}
+                        externalAPIstocks={externalAPIstocks}
+                        sharePrice={sharePrice}
+                        stockData={stockData}
+                      />
+                    );
+                  })}
+              </div>
+            </div>
+          ) : (
+            <div>
+              <div className="portfolio_lineGraph">
+                <PortfolioChart intervalSum={intervalSum} />
+              </div>
+              <div className="assets">
+                <h3>Your stocks</h3>
+              </div>
+              <div className="stock-container">
+                {stockItems &&
+                  stockData &&
+                  sharePrice &&
+                  externalAPIstocks &&
+                  stockItems?.map((item) => {
+                    return (
+                      <StockListA
+                        item={item}
+                        externalAPIstocks={externalAPIstocks}
+                        sharePrice={sharePrice}
+                        stockData={stockData}
+                      />
+                    );
+                  })}
+              </div>
+            </div>
+          )}
+        </div>
+        <div className="button-box-portfolio d-flex justify-content-center flex-column align-items-center">
+          <button
+            type="button"
+            className="hex-button"
+            style={{
+              marginRight: '1rem',
+              marginBottom: '0.7rem',
+              padding: '0px',
+              height: '50px',
+              width: '180px',
+              background: '#84714F',
+            }}
+            onClick={() =>
+              Navigate(`/orderbook/${id}`, {
+                state: location.state,
+              })
+            }
+          >
+            Order book
+          </button>
+          {/* <button
+            type="button"
+            className="hex-button"
+            style={{
+              marginRight: "1rem",
+              padding: "0px",
+              height: "60px",
+              width: "120px",
+            }}
+            onClick={() =>
+              Navigate(`/orderbook/${id}`, {
+                state: location.state,
+              })
+            }
+          >
+            <div
+              className="hex-button-small d-flex justify-content-center align-items-center"
+              style={{
+                height: "50px",
+                width: "110px",
+                background: "#FFF3BE",
+                color: "#31231e",
+                margin: "0 auto 0 auto",
+              }}
+            >
+              <p>Order book</p>
+            </div>
+          </button> */}
+          <button
+            type="button"
+            className="hex-button"
+            style={{
+              marginRight: '0.5rem',
+              padding: '10px',
+              height: '50px',
+              width: '180px',
+            }}
+            onClick={() =>
+              Navigate(`/transactions/${id}`, {
+                state: location.state,
+              })
+            }
+          >
+            Buy/Sell
+          </button>
+        </div>
+        <Navbar />
       </div>
-      <div
-        className="d-flex justify-content-center"
-        style={{ padding: '2rem' }}
-      >
-        <button
-          type="button"
-          className="btn btn-primary"
-          style={{ marginRight: '0.5rem' }}
-        >
-          Order book
-        </button>
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={() =>
-            Navigate(`/transactions/${id}`, {
-              state: location.state,
-            })
-          }
-        >
-          Buy/Sell
-        </button>
+    </div>
+  ) : (
+    <div>
+      <div className="d-flex justify-content-center">
+        <Message style={{ color: 'red' }}>
+          You are not logged in, please login!
+        </Message>
       </div>
-      {/* <Navbar /> */}
-    </>
+      <LogIn />
+    </div>
   );
-  //   ) : (
-  //     <div>
-  //       <div className="d-flex justify-content-center">
-  //         <Message style={{ color: "red" }}>
-  //           You are not logged in, please login!
-  //         </Message>
-  //       </div>
-  //       <LogIn />
-  //     </div>
-  //   );
 }

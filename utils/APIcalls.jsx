@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export function getDashboardData(userId) {
   return fetch(
     `https://joint-invest-back-end.onrender.com/api/overview/${userId}`,
@@ -72,3 +74,14 @@ export function getPendingTransactions(portfolioId) {
     return response.json();
   });
 }
+
+export const getOverviewData = () => {
+  axios
+    .get('http://localhost:3000/api/overview')
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+};
