@@ -16,6 +16,7 @@ const DeleteConfirmedButton = ({
   Navigate,
   wallet,
   prices,
+  PortfolioProfitLoss,
 }) => {
   return (
     <div className="dashboard_buttons">
@@ -149,6 +150,9 @@ const DeleteConfirmedButton = ({
                   userId: userId,
                   number_of_shares: filteredShares[data.portfolio_id],
                   friend: data.friend_username,
+                  portfolioProfitLoss: PortfolioProfitLoss,
+                  investedAmount: data.invested_amount,
+                  investedAmount: data.invested_amount,
                 },
               });
             }}
@@ -164,25 +168,6 @@ const DeleteConfirmedButton = ({
       {data.portfolio_status === "pending_activation" &&
       parseInt(userId) !== data.user_id_request ? (
         <>
-          <button
-            className="hex-button-default"
-            onClick={() => {
-              setPortfolioStatus(
-                data.portfolio_id,
-                userId,
-                data.portfolio_status,
-                "rejected",
-                setNewData
-              );
-              setPortfolioStatusUpdated((prev) => !prev);
-            }}
-          >
-            <div className="rejection_button">
-              <i className="status_icons">
-                <IoIosTrash size={30} />
-              </i>
-            </div>
-          </button>
           <button
             className="hex-button-default"
             onClick={() => {
@@ -243,11 +228,55 @@ const DeleteConfirmedButton = ({
               setPortfolioStatusUpdated((prev) => !prev);
             }}
           >
-            <div className="confirmation_button">
-              <i className="status_icons">
-                <FaCheckSquare size={30} />
-              </i>
-            </div>
+            confirm
+          </button>
+        </>
+      ) : (
+        <></>
+      )}
+
+      {/* current status 'pending_deletion' */}
+      {data.portfolio_status === "pending_deletion" &&
+      parseInt(userId) !== data.user_id_request ? (
+        <>
+          <button
+            className="hex-button-default"
+            onClick={() => {
+              setPortfolioStatus(
+                data.portfolio_id,
+                userId,
+                data.portfolio_status,
+                "rejected",
+                setNewData
+              );
+              setPortfolioStatusUpdated((prev) => !prev);
+            }}
+          >
+            reject
+          </button>
+        </>
+      ) : (
+        <></>
+      )}
+
+      {/* current status 'pending_deletion' */}
+      {data.portfolio_status === "pending_deletion" &&
+      parseInt(userId) !== data.user_id_request ? (
+        <>
+          <button
+            className="hex-button-default"
+            onClick={() => {
+              setPortfolioStatus(
+                data.portfolio_id,
+                userId,
+                data.portfolio_status,
+                "confirmed",
+                setNewData
+              );
+              setPortfolioStatusUpdated((prev) => !prev);
+            }}
+          >
+            confirm
           </button>
         </>
       ) : (

@@ -7,6 +7,7 @@ import useAuth from "../hooks/useAuth";
 import LogIn from "./LogIn";
 import { Message } from "semantic-ui-react";
 import { GrClose } from "react-icons/gr";
+import Navbar from "../components/Navbar";
 
 const CreationPortfolio = () => {
   const [newPortfolioName, setNewPortfolioName] = useState("");
@@ -39,7 +40,9 @@ const CreationPortfolio = () => {
     return Boolean(str.match(/[A-Z]/));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("handlesubmit reached");
     axios
       .post(`http://localhost:3000/api/creation_portfolio/${userId}`, {
         initial_amount: newPortfolioInitialAmount,
@@ -48,6 +51,10 @@ const CreationPortfolio = () => {
       })
       .then(function (response) {
         setCheckUsername(response.data);
+      })
+      .then(() => {
+        console.log("handleback reached");
+        handleBack(e);
       })
       .catch(function (error) {
         console.log(error);
@@ -59,8 +66,7 @@ const CreationPortfolio = () => {
     setUppercaseDetected(false);
   }, [newPortfolioUsername]);
 
-  // return isAuthenticated ? (
-  return (
+  return isAuthenticated ? (
     <>
       <div style={{ width: "500px" }}>
         <div style={{ width: "450px" }}>
@@ -72,7 +78,7 @@ const CreationPortfolio = () => {
             onClick={handleBack}
           />
         </div>
-        <div style={{ width: "350px", margin: "0 auto 0 auto" }}>
+        <div style={{ width: "350px", margin: "0 auto 5rem auto" }}>
           <h1>New Portfolio</h1>
           <p className="page-description">
             Start a new portfolio by setting an initial amount and inviting your
@@ -94,7 +100,10 @@ const CreationPortfolio = () => {
                 placeholder="Portfolio name"
                 onChange={(e) => setNewPortfolioName(e.target.value)}
                 requires
-                style={{ border: "solid 1px #31231E", width: "300px" }}
+                style={{
+                  border: "solid 1px #31231E",
+                  width: "300px",
+                }}
               />
             </Form.Field>
             <Form.Field>
@@ -104,7 +113,10 @@ const CreationPortfolio = () => {
                 onChange={(e) => setNewPortfolioInitialAmount(e.target.value)}
                 type="number"
                 required
-                style={{ border: "solid 1px #31231E", width: "300px" }}
+                style={{
+                  border: "solid 1px #31231E",
+                  width: "300px",
+                }}
               />
             </Form.Field>
             <Form.Field>
@@ -117,7 +129,10 @@ const CreationPortfolio = () => {
                     : setNewPortfolioUsername(e.target.value)
                 }
                 required
-                style={{ border: "solid 1px #31231E", width: "300px" }}
+                style={{
+                  border: "solid 1px #31231E",
+                  width: "300px",
+                }}
               />
               {checkUsername === "user not found" ? (
                 <p>User has not been found</p>
@@ -148,21 +163,20 @@ const CreationPortfolio = () => {
               Submit
             </Button>
           </Form>
-          {/* <Navbar /> */}
         </div>
+        {/* <Navbar /> */}
       </div>
     </>
+  ) : (
+    <div>
+      <div className="d-flex justify-content-center">
+        <Message style={{ color: "red" }}>
+          You are not logged in, please login!
+        </Message>
+      </div>
+      <LogIn />
+    </div>
   );
-  // : (
-  //   <div>
-  //     <div className="d-flex justify-content-center">
-  //       <Message style={{ color: 'red' }}>
-  //         You are not logged in, please login!
-  //       </Message>
-  //     </div>
-  //     <LogIn />
-  //   </div>
-  // );
 };
 
 export default CreationPortfolio;

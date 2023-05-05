@@ -9,18 +9,8 @@ const options = [
   },
   {
     key: "2",
-    text: "Daily",
+    text: "Overall",
     value: "2",
-  },
-  {
-    key: "3",
-    text: "Monthly",
-    value: "3",
-  },
-  {
-    key: "4",
-    text: "Portfolio Creation",
-    value: "4",
   },
 ];
 
@@ -46,6 +36,11 @@ export default class PortfolioDropdown extends Component {
         options={options}
         onChange={this.handleChange}
         value={value}
+        style={{
+          backgroundColor: "#FFF3BE",
+          border: "1px solid #5A3A31",
+          boxShadow: "0 1px 1px hsl(0deg 0% 0% / 0.3)",
+        }}
       />
     );
   }
