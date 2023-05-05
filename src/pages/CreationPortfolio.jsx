@@ -75,7 +75,7 @@ const CreationPortfolio = () => {
     (e) => {
       const interval = setInterval(() => {
         if (countDownToggle) {
-          if (countDown === 0) {
+          if (countDown === 1) {
             Navigate(`/overview/${userId}`);
           } else {
             setCountDown((prev) => prev - 1);
