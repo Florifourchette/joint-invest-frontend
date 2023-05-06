@@ -817,28 +817,27 @@ button {
 
 /* Order book */
 
-.orderbook-container {
-  width: 100%;
+#orderBookHeadline {
+  color: #31231e;
+}
+
+.OrderBookListItemContainer {
+  background-color: #fff3be;
+  display: flex;
+  flex-direction: column;
 }
 
 .orderBookListItem {
-  background-color: "#FFF3BE";
-  border: "none";
-}
-
-#OrderBookListItemContainer {
   background-color: #fff3be;
-}
-
-#orderBookListItem {
-  background-color: #fff3be;
+  padding-bottom: 1em;
 }
 
 #orderBookListEntry {
-  background-color: #fff3be;
+  background-color: #ffe566;
   border: 7px solid #ffd600;
   padding: 1em;
   border-radius: 15px;
+  box-shadow: 0 6px 6px hsl(0deg 0% 0% / 0.3);
 }
 /* transactions page */
 .transactions-cards {

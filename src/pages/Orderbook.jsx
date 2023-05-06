@@ -36,7 +36,7 @@ export default function Orderbook() {
 
   return (
     <>
-      <div className="orderbook-container hidden divider">
+      <div>
         <div>
           <BiArrowBack
             style={{
@@ -52,7 +52,7 @@ export default function Orderbook() {
           {orders &&
             orders.map((item, index, arr) => {
               return (
-                <div id="OrderBookListItemContainer">
+                <div className="OrderBookListItemContainer ">
                   <Orderlist
                     item={item}
                     index={index}
