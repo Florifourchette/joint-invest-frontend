@@ -17,6 +17,7 @@ import Navbar from "../components/Navbar";
 import DeleteConfirmedButton from "../components/DeleteConfirmedButton";
 import StatusMessages from "../components/StatusMessages";
 import { BiArrowBack } from "react-icons/bi";
+import axios from "axios";
 
 export default function Dashboard(props) {
   const [dashboardData, setDashboardData] = useState([]);
@@ -71,12 +72,23 @@ export default function Dashboard(props) {
       console.log(apiUrl);
       const apiCall = async () => {
         try {
-          fetch(apiUrl)
-            .then((response) => response.json())
-            .then((data) => {
-              console.log(data);
-              setPrices(data);
-            });
+          const data = await axios.post("http://localhost:3000/api/external", {
+            cacheKey: "currentPrices",
+            remoteUrl: apiUrl,
+          });
+          if (data.data?.status !== "error") {
+            console.log("WORKING", data);
+            setPrices(data.data);
+          } else {
+            console.log("FAILING", data.data.status);
+          }
+          // try {
+          //   fetch(apiUrl)
+          //     .then((response) => response.json())
+          //     .then((data) => {
+          //       console.log("THE ORIGINAL", data);
+          //       setPrices(data);
+          //     });
         } catch (error) {
           console.log(error);
         }
