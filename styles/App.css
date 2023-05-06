@@ -320,11 +320,11 @@ button {
 }
 
 .positive {
-  color: green;
+  color: #698D1B;
 }
 
 .negative {
-  color: red;
+  color: #922727;
 }
 
 .dashboard_buttons {
