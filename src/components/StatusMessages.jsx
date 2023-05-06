@@ -10,9 +10,8 @@ const statusMessages = ({ data, userId, portfolioTotals }) => {
       {data.portfolio_status === "pending_deletion" &&
       parseInt(userId) !== data.user_id_request ? (
         <p className="message">
-          Deletion request from <span>{data.friend_username}</span>.
-          <br />
-          Estimated value: <span>{portfolioTotals[data.portfolio_id] / 2}</span>
+          Deletion request from <span>{data.friend_username}</span>. Estimated
+          value: <span>{portfolioTotals[data.portfolio_id] / 2}</span>
         </p>
       ) : (
         <></>
@@ -22,7 +21,6 @@ const statusMessages = ({ data, userId, portfolioTotals }) => {
       parseInt(userId) === data.user_id_request ? (
         <p>
           Waiting for <span>{data.friend_username}</span> to confirm deletion.{" "}
-          <br />
           Estimated value: <span>{portfolioTotals[data.portfolio_id] / 2}</span>
         </p>
       ) : (

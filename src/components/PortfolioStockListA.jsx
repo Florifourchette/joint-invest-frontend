@@ -27,7 +27,7 @@ const StockListA = ({ item, externalAPIstocks, sharePrice, stockData }) => {
               />
               <List.Content className="container d-flex w-100">
                 <div className="d-flex justify-content-start flex-column">
-                  <List.Header style={{ color: "#31231E", fontSize: "1.2em" }}>
+                  <List.Header style={{ color: "#31231E", fontSize: "1.1em" }}>
                     {item.company_id}
                   </List.Header>
                   <List.Description
@@ -48,7 +48,7 @@ const StockListA = ({ item, externalAPIstocks, sharePrice, stockData }) => {
                       style={{
                         fontWeight: "600",
                         color: "#698D1B",
-                        fontSize: "1.2em",
+                        fontSize: "1.1em",
                       }}
                     >
                       +
@@ -70,7 +70,7 @@ const StockListA = ({ item, externalAPIstocks, sharePrice, stockData }) => {
                       style={{
                         fontWeight: "600",
                         color: "#922727",
-                        fontSize: "1.2em",
+                        fontSize: "1.1em",
                       }}
                     >
                       {parseFloat(

@@ -279,7 +279,7 @@ export default function Transactions() {
                         handleCancelRequest={handleCancelRequest}
                       />
                     );
-                  } else {
+                  } else if (stock.status === 'confirmed') {
                     return (
                       <TransactionCard
                         key={stock.id}
