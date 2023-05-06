@@ -76,13 +76,19 @@ export default function Dashboard(props) {
             cacheKey: "currentPrices",
             remoteUrl: apiUrl,
           });
-
           if (data.data?.status !== "error") {
             console.log("WORKING", data);
-            setPrices(data);
+            setPrices(data.data);
           } else {
             console.log("FAILING", data.data.status);
           }
+          // try {
+          //   fetch(apiUrl)
+          //     .then((response) => response.json())
+          //     .then((data) => {
+          //       console.log("THE ORIGINAL", data);
+          //       setPrices(data);
+          //     });
         } catch (error) {
           console.log(error);
         }

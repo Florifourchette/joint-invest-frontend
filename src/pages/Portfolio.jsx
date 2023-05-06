@@ -47,7 +47,7 @@ export default function Portfolio() {
   console.log("PROFIT", location.state.portfolioProfitLoss);
 
   console.log("SHARE PRICE", sharePrice);
-  console.log("SHARE NUKM", shareNumber);
+  console.log("SHARE NUM", shareNumber);
   console.log(tickers);
 
   const companyIds = mockPortfolioData[0].stocks?.map(
@@ -142,15 +142,23 @@ export default function Portfolio() {
     }
     async function stockDataExternal() {
       try {
-        const nextResponse = await axios.get(
-          `https://api.twelvedata.com/quote?symbol=${tickers}&apikey=${portfolioAPIKey2}`
+        const nextResponse = await axios.post(
+          "http://localhost:3000/api/external",
+          {
+            cacheKey: `currentQuotes_${tickers}`,
+            remoteUrl: `https://api.twelvedata.com/quote?symbol=${tickers}&apikey=${portfolioAPIKey2}`,
+          }
         );
-        //console.log(myStocksIds);
-        console.log(nextResponse);
+        // const nextResponse = await axios.get(
+        //   `https://api.twelvedata.com/quote?symbol=${tickers}&apikey=${portfolioAPIKey2}`
+        // );
+        // //console.log(myStocksIds);
+        // console.log(nextResponse);
         if (nextResponse.data?.status !== "error") {
+          console.log("WORKING", nextResponse.data);
           setExternalAPIstocks(nextResponse.data);
         } else {
-          console.log(nextResponse.data.status);
+          console.log("FAILING", nextResponse.data.status);
         }
       } catch (err) {
         console.log(err);
@@ -159,14 +167,17 @@ export default function Portfolio() {
     async function fetchMultipleCompanies() {
       try {
         //console.log(myStocksIds);
-        const data = await axios.get(
-          `https://api.twelvedata.com/time_series?symbol=${tickers}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=${portfolioAPIKey2}`
-        );
-        console.log(data);
+        const data = await axios.post("http://localhost:3000/api/external", {
+          cacheKey: `currentTimeSeries_${tickers}`,
+          remoteUrl: `https://api.twelvedata.com/time_series?symbol=${tickers}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=${portfolioAPIKey2}`,
+        });
+        // const data = await axios.get();
+        // console.log(data);
         if (data.data?.status !== "error") {
+          console.log("WORKING", data.data);
           setAllCompanies(data.data);
         } else {
-          console.log(data.data.status);
+          console.log("FAILING", data.data.status);
         }
       } catch (error) {
         console.log(error.message);
