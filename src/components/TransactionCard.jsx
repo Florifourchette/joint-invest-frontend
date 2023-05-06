@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
+import { useAppContext } from "../contexts/AppContext";
+import { Image } from "semantic-ui-react";
 
 export default function TransactionCard({
   stock,
@@ -6,6 +8,9 @@ export default function TransactionCard({
   handleSell,
   location,
 }) {
+  const { contextStockData } = useAppContext();
+  const [logo, setLogo] = useState();
+
   const [counter, setCounter] = useState(1);
 
   const increaseCounter = () => {
@@ -18,31 +23,38 @@ export default function TransactionCard({
     }
   };
 
+  useEffect(() => {
+    const theLogo = contextStockData.find(
+      (alogo) => alogo.companyid == stock.company_id
+    );
+    setLogo(theLogo.logo);
+    console.log(theLogo.logo);
+  }, []);
+
   return (
     <div key={stock.id} className="transactions-card">
-      <span className="your-stock-logo">Logo</span>
+      <div>
+        <Image
+          style={{ height: "40px", width: "40px" }}
+          avatar
+          src={logo ? `/company_logos/${logo}` : `/company_logos/NO_LOGO.png`}
+        />
+      </div>
       <div className="your-stock-name-price">
         <h4>
-          {stock.company_id}{' '}
+          {stock.company_id}{" "}
           <span>{location.number_of_shares[stock.company_id]}</span>
         </h4>
-        {Object.keys(location.prices).length !== 0 && (<h4>
-          Price:{' '}
-          {Number(location.prices[stock.company_id]).toFixed(2)}
-        </h4>)}
+        {Object.keys(location.prices).length !== 0 && (
+          <h4>Price: {Number(location.prices[stock.company_id]).toFixed(2)}</h4>
+        )}
       </div>
       <div className="stock-counter">
-        <button
-          onClick={decreaseCounter}
-          className="hex-button-small"
-        >
+        <button onClick={decreaseCounter} className="hex-button-small">
           -
         </button>
         {counter}
-        <button
-          onClick={increaseCounter}
-          className="hex-button-small"
-        >
+        <button onClick={increaseCounter} className="hex-button-small">
           +
         </button>
       </div>

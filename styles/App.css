@@ -306,7 +306,7 @@ button {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 2rem; 
+  margin-bottom: 2rem;
   font-weight: bold;
 }
 
@@ -320,7 +320,7 @@ button {
 }
 
 .positive {
-  color: #698D1B;
+  color: #698d1b;
 }
 
 .negative {

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Image, List } from "semantic-ui-react";
+import { useAppContext } from "../contexts/AppContext";
 
-const StockListB = ({ item, externalAPIstocks, stockData, sharePrice }) => {
+const StockListB = ({ item, externalAPIstocks, sharePrice }) => {
   const [logo, setLogo] = useState();
+  const { contextStockData } = useAppContext();
 
   useEffect(() => {
-    const theLogo = stockData.find(
+    const theLogo = contextStockData.find(
       (alogo) => alogo.companyid == item.company_id
     );
     setLogo(theLogo.logo);

@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   getTransactionsData,
   writeTransaction,
   confirmOrCancelTransaction,
-} from '../../utils/APIcalls';
-import { useParams } from 'react-router-dom';
-import { useLocation, useNavigate } from 'react-router-dom';
-import useAuth from '../hooks/useAuth';
-import LogIn from './LogIn';
-import { Message } from 'semantic-ui-react';
-import Navbar from '../components/Navbar';
-import { transaction } from '../../utils/TransactionOperations';
-import ReactModal from 'react-modal';
-import ModalTransactionBuy from '../components/ModalTransaction';
-import ModalConfirmation from '../components/ModalConfirmation';
-import ModalDecline from '../components/ModalDecline';
-import ModalCancellation from '../components/ModalCancellation';
-import TransactionCard from '../components/TransactionCard';
-import TransactionCardPending from '../components/TransactionCardPending';
-import TransactionCardSearch from '../components/TransactionCardSearch';
-import StockSearchBar from '../components/StockSearch';
-import { createApiUrl } from '../../utils/CreateAPIUrl';
-import { BiArrowBack } from 'react-icons/bi';
+} from "../../utils/APIcalls";
+import { useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import LogIn from "./LogIn";
+import { Message } from "semantic-ui-react";
+import Navbar from "../components/Navbar";
+import { transaction } from "../../utils/TransactionOperations";
+import ReactModal from "react-modal";
+import ModalTransactionBuy from "../components/ModalTransaction";
+import ModalConfirmation from "../components/ModalConfirmation";
+import ModalDecline from "../components/ModalDecline";
+import ModalCancellation from "../components/ModalCancellation";
+import TransactionCard from "../components/TransactionCard";
+import TransactionCardPending from "../components/TransactionCardPending";
+import TransactionCardSearch from "../components/TransactionCardSearch";
+import StockSearchBar from "../components/StockSearch";
+import { createApiUrl } from "../../utils/CreateAPIUrl";
+import { BiArrowBack } from "react-icons/bi";
 
 export default function Transactions() {
   const { isAuthenticated } = useAuth();
@@ -29,9 +29,7 @@ export default function Transactions() {
 
   const location = useLocation();
 
-  console.log(
-    ` location at transactions ${JSON.stringify(location.state)}`
-  );
+  console.log(` location at transactions ${JSON.stringify(location.state)}`);
 
   //STATES
   const [yourStocks, setYourStocks] = useState([]);
@@ -40,14 +38,13 @@ export default function Transactions() {
   const [showModal, setShowModal] = useState(false);
   const [showProposalModal, setShowProposalModal] = useState(false);
   const [showDeclineModal, setShowDeclineModal] = useState(false);
-  const [showCancellationModal, setShowCancellationModal] =
-    useState(false);
+  const [showCancellationModal, setShowCancellationModal] = useState(false);
   const [selectedStock, setSelectedStock] = useState(null);
-  const [selectedStockName, setSelectedStockName] = useState('');
+  const [selectedStockName, setSelectedStockName] = useState("");
   const [transactionData, setTransactionData] = useState([{}]);
-  const [confirmOrDeclince, setConfirmOrDeclince] = useState('');
+  const [confirmOrDeclince, setConfirmOrDeclince] = useState("");
   const [transactionId, setTransactionId] = useState();
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState("");
   const [selectedOptionPrice, setSelectedOptionPrice] = useState([]);
   const Navigate = useNavigate();
 
@@ -57,10 +54,10 @@ export default function Transactions() {
   };
 
   //Extract search terms for API calls
-  const [substring1, substring2] = selectedOption.split('(');
+  const [substring1, substring2] = selectedOption.split("(");
   const companyId = substring2?.slice(0, -1);
   const companyName = substring1;
-  console.log('companyId:', companyId);
+  console.log("companyId:", companyId);
 
   //Use Effects
   useEffect(() => {
@@ -72,11 +69,11 @@ export default function Transactions() {
       .catch((error) => console.error(error));
   }, [portfolioId]);
 
-  console.log('portfolioId:', portfolioId);
-  console.log('your strocks', yourStocks);
+  console.log("portfolioId:", portfolioId);
+  console.log("your strocks", yourStocks);
   useEffect(() => {
-    if (selectedOption !== '') {
-      console.log('iside the effect', companyId);
+    if (selectedOption !== "") {
+      console.log("iside the effect", companyId);
       const apiUrl = createApiUrl(companyId);
       console.log(apiUrl);
       const apiCall = async () => {
@@ -85,7 +82,7 @@ export default function Transactions() {
             .then((response) => response.json())
             .then((data) => {
               setSelectedOptionPrice(Number(data.price).toFixed(2));
-              console.log('price', selectedOptionPrice);
+              console.log("price", selectedOptionPrice);
             });
         } catch (error) {
           console.log(error);
@@ -106,7 +103,7 @@ export default function Transactions() {
       setTransactionData(() => ({
         number_of_shares: counter.toString(),
         company_id: companyId,
-        type_of_transaction: 'Buy',
+        type_of_transaction: "Buy",
         company_name: companyName,
         price_of_share: data.price,
         user_id: location.state.userId,
@@ -122,17 +119,17 @@ export default function Transactions() {
       setTransactionData(() => ({
         number_of_shares: counter.toString(),
         company_id: companyId,
-        type_of_transaction: 'Sell',
+        type_of_transaction: "Sell",
         company_name: companyName,
         price_of_share: data.price,
         user_id: location.state.userId,
       }));
-      setLocation(prevState => ({
+      setLocation((prevState) => ({
         ...prevState,
         prices: {
           ...prevState.prices,
-          [companyId]: data.price
-        }
+          [companyId]: data.price,
+        },
       }));
     });
     setShowModal(true);
@@ -146,7 +143,7 @@ export default function Transactions() {
     transactionId,
     number_of_shares
   ) => {
-    setConfirmOrDeclince('confirm');
+    setConfirmOrDeclince("confirm");
     setSelectedAmmount(number_of_shares);
     setSelectedStockName(companyName);
     setTransactionId(transactionId);
@@ -154,7 +151,7 @@ export default function Transactions() {
       setTransactionPrice(data);
       setSelectedStock(companyId);
       setTransactionData(() => ({
-        transaction_status: 'confirmed',
+        transaction_status: "confirmed",
         current_price_of_share: data.price,
       }));
     });
@@ -167,7 +164,7 @@ export default function Transactions() {
     transactionId,
     number_of_shares
   ) => {
-    setConfirmOrDeclince('decline');
+    setConfirmOrDeclince("decline");
     setSelectedAmmount(number_of_shares);
     setSelectedStockName(companyName);
     setSelectedStock(companyId);
@@ -176,7 +173,7 @@ export default function Transactions() {
       setTransactionPrice(data);
       setSelectedStock(companyId);
       setTransactionData(() => ({
-        transaction_status: 'canceled',
+        transaction_status: "canceled",
       }));
     });
     setShowDeclineModal(true);
@@ -184,7 +181,7 @@ export default function Transactions() {
   const handleCancelRequest = (transactionId) => {
     setTransactionId(transactionId);
     setTransactionData(() => ({
-      transaction_status: 'canceled',
+      transaction_status: "canceled",
     }));
     setShowCancellationModal(true);
   };
@@ -203,47 +200,32 @@ export default function Transactions() {
   };
 
   const handleProposalConfirmation = () => {
-    confirmOrCancelTransaction(
-      portfolioId,
-      transactionId,
-      transactionData
-    );
+    confirmOrCancelTransaction(portfolioId, transactionId, transactionData);
     setShowProposalModal(false);
   };
   const handleProposalDecline = () => {
-    confirmOrCancelTransaction(
-      portfolioId,
-      transactionId,
-      transactionData
-    );
+    confirmOrCancelTransaction(portfolioId, transactionId, transactionData);
     setShowProposalModal(false);
   };
   const handleProposalCancellation = () => {
-    confirmOrCancelTransaction(
-      portfolioId,
-      transactionId,
-      transactionData
-    );
+    confirmOrCancelTransaction(portfolioId, transactionId, transactionData);
     setShowCancellationModal(false);
   };
   return isAuthenticated ? (
     <div>
-      <div style={{ width: '450px' }}>
+      <div style={{ width: "450px" }}>
         <BiArrowBack
           style={{
-            fontSize: '2rem',
-            position: 'absolute',
-            marginTop: '20px',
+            fontSize: "2rem",
+            position: "absolute",
+            marginTop: "20px",
           }}
           onClick={handleBack}
         />
       </div>
       <div className="transactions-title">
         <h1 className="overview-title">Buy/Sell</h1>
-        <p>
-          Once both partners have confirmed we will process your
-          request
-        </p>
+        <p>Once both partners have confirmed we will process your request</p>
       </div>
       <div className="SearchBar">
         <StockSearchBar
@@ -256,7 +238,7 @@ export default function Transactions() {
         <div className="your-stocks">
           <h2>Your Stocks</h2>
           <div className="transactions-cards">
-            {selectedOption !== '' && (
+            {selectedOption !== "" && (
               <TransactionCardSearch
                 selectedOption={selectedOption}
                 handleBuy={handleBuy}
@@ -265,10 +247,10 @@ export default function Transactions() {
                 selectedOptionPrice={selectedOptionPrice}
               />
             )}
-            {selectedOption === '' && yourStocks.length > 0 && (
+            {selectedOption === "" && yourStocks.length > 0 && (
               <>
                 {yourStocks.map((stock, index) => {
-                  if (stock.status === 'pending') {
+                  if (stock.status === "pending") {
                     return (
                       <TransactionCardPending
                         key={stock.id}
@@ -279,7 +261,7 @@ export default function Transactions() {
                         handleCancelRequest={handleCancelRequest}
                       />
                     );
-                  } else if (stock.status === 'confirmed') {
+                  } else if (stock.status === "confirmed") {
                     return (
                       <TransactionCard
                         key={stock.id}
@@ -311,9 +293,7 @@ export default function Transactions() {
                 message={`Are you sure you want to ${confirmOrDeclince} the purchase of ${selectedAmmount} stocks of ${selectedStockName}(${selectedStock}) at ${Number(
                   transactionPrice.price
                 ).toFixed(2)}?`}
-                handleProposalConfirmation={
-                  handleProposalConfirmation
-                }
+                handleProposalConfirmation={handleProposalConfirmation}
                 handleCancel={handleCancel}
                 showProposalModal={showProposalModal}
                 centered
@@ -331,9 +311,7 @@ export default function Transactions() {
             {showCancellationModal && (
               <ModalCancellation
                 message={`Are you sure you want to cancel your purchase request?`}
-                handleProposalCancellation={
-                  handleProposalCancellation
-                }
+                handleProposalCancellation={handleProposalCancellation}
                 handleCancel={handleCancel}
                 showCancellationModal={showCancellationModal}
                 centered
@@ -346,7 +324,7 @@ export default function Transactions() {
   ) : (
     <div>
       <div className="d-flex justify-content-center">
-        <Message style={{ color: 'red' }}>
+        <Message style={{ color: "red" }}>
           You are not logged in, please login!
         </Message>
       </div>
