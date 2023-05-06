@@ -36,8 +36,8 @@ export default function Orderbook() {
 
   return (
     <>
-      <div style={{ width: "500px" }}>
-        <div style={{ width: "450px" }}>
+      <div>
+        <div>
           <BiArrowBack
             style={{
               fontSize: "2rem",
@@ -52,12 +52,14 @@ export default function Orderbook() {
           {orders &&
             orders.map((item, index, arr) => {
               return (
-                <Orderlist
-                  item={item}
-                  index={index}
-                  arr={arr}
-                  contextStockData={contextStockData}
-                />
+                <div className="OrderBookListItemContainer ">
+                  <Orderlist
+                    item={item}
+                    index={index}
+                    arr={arr}
+                    contextStockData={contextStockData}
+                  />
+                </div>
               );
             })}
         </div>
