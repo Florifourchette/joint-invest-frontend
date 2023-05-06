@@ -39,7 +39,7 @@
 
   .navbar {
     width: 80%;
-    max-width: 420px;
+    width: 375px;
     min-width: 20px;
     background-color: #84714f;
     border-radius: 10px;

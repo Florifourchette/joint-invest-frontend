@@ -31,9 +31,12 @@ export default function Profile() {
   };
 
   return (
-    <div className="d-flex flex-column justify-content-center">
+    <div
+      className="d-flex flex-column justify-content-center"
+      style={{ height: "100vh" }}
+    >
       <div>
-        <h1>Profile</h1>
+        <h1 className="profile-title">Profile</h1>
         <div className="d-flex flex-column align-items-center">
           <img
             src={`/${profilePics[myPic]}`}
