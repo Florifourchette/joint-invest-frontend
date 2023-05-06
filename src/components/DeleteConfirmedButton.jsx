@@ -155,7 +155,6 @@ const DeleteConfirmedButton = ({
                   friend: data.friend_username,
                   portfolioProfitLoss: PortfolioProfitLoss,
                   investedAmount: data.invested_amount,
-
                 },
               });
             }}

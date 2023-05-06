@@ -62,7 +62,7 @@ export default function Portfolio() {
   const [stockCompaniesId, setStockCompaniesId] = useState();
   const [externalAPIstocks, setExternalAPIstocks] = useState();
   const [allCompanies, setAllCompanies] = useState();
-  const [stockData, setStockData] = useState();
+  //const [stockData, setStockData] = useState();
   const [orderBook, setOrderBook] = useState();
 
   const handleBack = (e) => {
@@ -172,7 +172,7 @@ export default function Portfolio() {
         console.log(error.message);
       }
     }
-    async function fetchStocks() {
+    /* async function fetchStocks() {
       try {
         const stockInfos = await axios.get("http://localhost:3000/api/stocks");
         setStockData(stockInfos.data);
@@ -180,12 +180,12 @@ export default function Portfolio() {
       } catch (error) {
         console.log(error.message);
       }
-    }
+    } */
     getOrderBook();
     getPortfolioStocks();
     stockDataExternal();
     fetchMultipleCompanies();
-    fetchStocks();
+    //fetchStocks();
   }, [id]);
 
   // return isAuthenticated ? (
@@ -240,7 +240,7 @@ export default function Portfolio() {
               <div className="stock-container">
                 {stockItems &&
                   sharePrice &&
-                  stockData &&
+                  //stockData &&
                   externalAPIstocks &&
                   stockItems?.map((item) => {
                     return (
@@ -248,7 +248,6 @@ export default function Portfolio() {
                         item={item}
                         externalAPIstocks={externalAPIstocks}
                         sharePrice={sharePrice}
-                        stockData={stockData}
                       />
                     );
                   })}
@@ -264,7 +263,7 @@ export default function Portfolio() {
               </div>
               <div className="stock-container">
                 {stockItems &&
-                  stockData &&
+                  //stockData &&
                   sharePrice &&
                   externalAPIstocks &&
                   stockItems?.map((item) => {
@@ -273,7 +272,6 @@ export default function Portfolio() {
                         item={item}
                         externalAPIstocks={externalAPIstocks}
                         sharePrice={sharePrice}
-                        stockData={stockData}
                       />
                     );
                   })}
