@@ -212,8 +212,8 @@ export default function Transactions() {
     setShowCancellationModal(false);
   };
   return isAuthenticated ? (
-    <div>
-      <div style={{ width: "450px" }}>
+    <div style={{ width: "375px" }}>
+      <div>
         <BiArrowBack
           style={{
             fontSize: "2rem",

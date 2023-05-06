@@ -190,7 +190,7 @@ export default function Portfolio() {
 
   // return isAuthenticated ? (
   return isAuthenticated ? (
-    <div>
+    <div className="portfolio-page">
       <div className="portfolio-back-button-container">
         <BiArrowBack className="portfolio-back-button" onClick={handleBack} />
       </div>

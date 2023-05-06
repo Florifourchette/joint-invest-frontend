@@ -33,7 +33,7 @@ export default function Profile() {
   return (
     <div
       className="d-flex flex-column justify-content-center"
-      style={{ height: "100vh" }}
+      style={{ height: "100vh", width: "375px" }}
     >
       <div>
         <h1 className="profile-title">Profile</h1>

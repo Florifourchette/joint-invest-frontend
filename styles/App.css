@@ -190,6 +190,10 @@ button {
 }
 
 /* Overview Page */
+.overview-page{
+  width: 375px;
+}
+
 .portfolio-cards {
   width: 100%;
   display: flex;
@@ -403,6 +407,10 @@ button {
   font-weight: bold;
 }
 /* Portfolio Page */
+.portfolio-page{
+  width: 375px;
+}
+
 .portfolio-back-button {
   font-size: 3em;
   position: relative;
