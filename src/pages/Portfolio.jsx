@@ -224,7 +224,25 @@ export default function Portfolio() {
             {stockOverview && (
               <h4>{parseFloat(stockOverview.invested_amount).toFixed(2)}</h4>
             )}
-            <h3>Total Profit/loss</h3>
+            <h3>Total profit/loss</h3>
+            {stockOverview && lastValues ? (
+              lastValues.close - stockOverview.invested_amount > 0 ? (
+                <h4 className="positive">
+                  {parseFloat(
+                    lastValues.close - stockOverview.invested_amount
+                  ).toFixed(2)}
+                </h4>
+              ) : (
+                <h4 className="negative">
+                  {parseFloat(
+                    lastValues.close - stockOverview.invested_amount
+                  ).toFixed(2)}
+                </h4>
+              )
+            ) : (
+              <div></div>
+            )}
+
             <h4>{location.state.portfolioProfitLoss}</h4>
             <h3>Available amount</h3>
             {stockOverview && (

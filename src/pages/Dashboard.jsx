@@ -198,7 +198,7 @@ export default function Dashboard(props) {
         <h2>$ {totalAssetsSum}</h2>
         <h3>Amount Invested</h3>
         <h4>$ {totalAmountInvested}</h4>
-        <h3>Total gains</h3>
+        <h3>Total profit/loss</h3>
         <h4 className={totalPandL >= 0 ? "positive" : "negative"}>
           $ {totalPandL}
         </h4>
