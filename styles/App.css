@@ -131,8 +131,6 @@ table {
 }
 
 /* Common CSS */
-html {
-}
 
 body {
   display: flex;
@@ -190,7 +188,7 @@ button {
 }
 
 /* Overview Page */
-.overview-page{
+.overview-page {
   width: 375px;
 }
 
@@ -407,7 +405,7 @@ button {
   font-weight: bold;
 }
 /* Portfolio Page */
-.portfolio-page{
+.portfolio-page {
   width: 375px;
 }
 
@@ -856,6 +854,29 @@ button {
 
 /* Order book */
 
+.orderBookTitle {
+  font-size: 2.5em;
+  font-weight: bold;
+  text-align: center;
+  margin: 0 1em 1em 1em;
+  padding-top: 0;
+}
+
+.orderBookBackButton {
+  font-size: 3em;
+  margin-bottom: 0.8em;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+.bodyOrderbook {
+  height: 100vh;
+  width: 375px;
+  background-color: #fff3be;
+  margin-bottom: 10%;
+}
+
 #orderBookHeadline {
   color: #31231e;
 }
@@ -864,11 +885,13 @@ button {
   background-color: #fff3be;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .orderBookListItem {
   background-color: #fff3be;
   padding-bottom: 1em;
+  width: 90%;
 }
 
 #orderBookListEntry {
