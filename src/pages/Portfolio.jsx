@@ -42,13 +42,14 @@ export default function Portfolio() {
     location.state.number_of_shares
   );
   const tickers = Object.keys(sharePrice).join();
-  const tickersArray = Object.keys(sharePrice);
+  const tickers_cache = Object.keys(sharePrice).join("");
 
   console.log("PROFIT", location.state.portfolioProfitLoss);
 
   console.log("SHARE PRICE", sharePrice);
   console.log("SHARE NUM", shareNumber);
   console.log(tickers);
+  console.log(tickers_cache);
 
   const companyIds = mockPortfolioData[0].stocks?.map(
     (stock) => stock.company_id
@@ -135,7 +136,6 @@ export default function Portfolio() {
         );
         setStockItems(response.data.stocks);
         setStockOverview(response.data.overview[0]);
-        console.log("aaaaaaahhhhhhhhh", response.data.overview[0]);
       } catch (err) {
         console.log(err);
       }
@@ -145,7 +145,7 @@ export default function Portfolio() {
         const nextResponse = await axios.post(
           "http://localhost:3000/api/external",
           {
-            cacheKey: `currentQuotes_${tickers}`,
+            cacheKey: `currentQuotes_${tickers_cache}`,
             remoteUrl: `https://api.twelvedata.com/quote?symbol=${tickers}&apikey=${portfolioAPIKey2}`,
           }
         );
@@ -168,7 +168,7 @@ export default function Portfolio() {
       try {
         //console.log(myStocksIds);
         const data = await axios.post("http://localhost:3000/api/external", {
-          cacheKey: `currentTimeSeries_${tickers}`,
+          cacheKey: `currentTimeSeries_${tickers_cache}`,
           remoteUrl: `https://api.twelvedata.com/time_series?symbol=${tickers}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=${portfolioAPIKey2}`,
         });
         // const data = await axios.get();
