@@ -13,7 +13,7 @@ const AuthStateContext = ({ children }) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userLogin, setUserLogin] = useState(null);
+  const [userLogin, setUserLogin] = useState({ id: 0, password: '' });
 
   useEffect(() => {
     if (!isAuthenticated) {

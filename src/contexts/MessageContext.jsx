@@ -33,7 +33,7 @@ const MessageContextWrapper = ({ children }) => {
         if (portfolioInfos.lenght === 0) {
           setPortfoliosDataLenght(0);
         } else {
-          setPortfoliosDataLenght(portfolioInfos.lenght);
+          setPortfoliosDataLenght(portfolioInfos);
         }
         return data;
       })
@@ -47,6 +47,8 @@ const MessageContextWrapper = ({ children }) => {
       })
       .catch((error) => console.error(error));
   }, []);
+
+  console.log(portfoliosDataLenght);
 
   return (
     <div>
