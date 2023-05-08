@@ -283,12 +283,15 @@ button {
 }
 .friend {
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 1em;
 }
 .friend-icon {
   font-size: 2em;
   align-items: center;
   fill: blue;
+}
+.message-text {
+  text-align: left;
 }
 
 .to-portfolio-btn {
@@ -387,7 +390,7 @@ button {
   text-align: center;
 
   position: relative;
-  padding: 20px;
+  padding: 0px 10px 10px 10px;
   border-radius: 10px;
   margin: 0 auto 0 auto;
   max-width: 320px;
@@ -403,6 +406,10 @@ button {
 
 .message_container span {
   font-weight: bold;
+}
+
+.countdown-text {
+  text-align: center;
 }
 /* Portfolio Page */
 .portfolio-page {
@@ -601,7 +608,8 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 375px;
+  min-height: 100vh;
   margin: auto;
   margin-bottom: 8%;
 }
@@ -615,13 +623,12 @@ button {
 }
 
 .message-card {
-  width: 80%;
+  width: 90%;
   display: flex;
   background-color: #ffd600;
   border-radius: 10px;
   box-shadow: 0 6px 6px hsl(0deg 0% 0% / 0.3);
-  margin-top: 1em;
-  margin: 0.5em auto 0.5em auto;
+  margin: 1em auto 1em auto;
   padding: 1em;
   align-items: center;
   justify-content: space-between;
@@ -637,14 +644,31 @@ button {
   width: 100%;
   padding: 0.5rem 0 1rem 0;
 }
+.message-card-container {
+  display: flex;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+  padding: 1em;
+}
 
+.message-info-and-main {
+  width: 100%;
+  justify-content: flex-start;
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+}
 .message-name-container h5 {
   font-weight: 800;
 }
 
+.message_page_container {
+  margin-bottom: 2.5rem;
+}
+
 .message-name-status {
   align-items: center;
-  width: 40%;
   margin-left: 0.5em;
 }
 
@@ -655,39 +679,34 @@ button {
 
 .message-card-values {
   display: flex;
-  width: 100%;
   justify-content: space-around;
   align-items: center;
-}
-
-.message-card-container {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.4);
-  border-radius: 10px;
-  padding: 1em;
+  flex-direction: column;
 }
 
 .message-card-value-status {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  padding: 0.5em;
-  width: 20%;
 }
 .message-card-value-mainDetails {
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: left;
   padding: 0.5em;
-  width: 60%;
+}
+
+.message-date {
+  font-size: 0.9em;
+  font-weight: 600;
 }
 
 .message-card-value-info {
   display: flex;
+  justify-content: flex-start;
   flex-direction: column;
   align-items: center;
   padding: 0.5em;
-  width: 20%;
 }
 
 .message_bold_span {
@@ -705,9 +724,9 @@ button {
   position: relative;
   color: #fff;
   font-weight: 500;
-  margin: 0.5em;
+  margin: 0.3em;
   text-decoration: none;
-  padding: 5px 8px;
+  padding: 6px 12px;
   text-align: center;
   clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
   background-color: #31231e;

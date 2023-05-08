@@ -8,8 +8,10 @@ export default function TransactionCardPending({
   handlePurchase,
   handleDecline,
   handleCancelRequest,
+  locationState,
 }) {
   console.log(location);
+  console.log("locationState", locationState);
 
   const { contextStockData } = useAppContext();
   const [logo, setLogo] = useState();

@@ -18,6 +18,7 @@ import DeleteConfirmedButton from "../components/DeleteConfirmedButton";
 import StatusMessages from "../components/StatusMessages";
 import { BiArrowBack } from "react-icons/bi";
 import axios from "axios";
+import AuthIssue from "../components/AuthIssue";
 
 export default function Dashboard(props) {
   const [dashboardData, setDashboardData] = useState([]);
@@ -256,23 +257,20 @@ export default function Dashboard(props) {
                     <h4 className="friend">{data.friend_username}</h4>
                   </div>
                 </div>
-                <div className="d-flex align-items-center">
-                  <DeleteConfirmedButton
-                    data={data}
-                    userId={userId}
-                    portfolioTotals={portfolioTotals}
-                    setPortfolioStatusUpdated={setPortfolioStatusUpdated}
-                    portfolioStatusUpdated={portfolioStatusUpdated}
-                    setNewData={setNewData}
-                    wallet={wallet}
-                    Navigate={Navigate}
-                    prices={prices}
-                    PortfolioProfitLoss={(
-                      portfolioTotals[data.portfolio_id] -
-                      data.total_buying_value
-                    ).toFixed(2)}
-                  />
-                </div>
+                <DeleteConfirmedButton
+                  data={data}
+                  userId={userId}
+                  portfolioTotals={portfolioTotals}
+                  setPortfolioStatusUpdated={setPortfolioStatusUpdated}
+                  portfolioStatusUpdated={portfolioStatusUpdated}
+                  setNewData={setNewData}
+                  wallet={wallet}
+                  Navigate={Navigate}
+                  prices={prices}
+                  PortfolioProfitLoss={(
+                    portfolioTotals[data.portfolio_id] - data.total_buying_value
+                  ).toFixed(2)}
+                />
                 {data.portfolio_status === "pending_activation" ||
                 data.portfolio_status === "pending_deletion" ? (
                   <StatusMessages
@@ -305,13 +303,6 @@ export default function Dashboard(props) {
       <Navbar />
     </div>
   ) : (
-    <div>
-      <div className="d-flex justify-content-center">
-        <Message style={{ color: "red" }}>
-          You are not logged in, please login!
-        </Message>
-      </div>
-      <LogIn />
-    </div>
+    <AuthIssue />
   );
 }
