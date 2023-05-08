@@ -6,8 +6,10 @@ export default function TransactionCardPending({
     handlePurchase,
     handleDecline,
     handleCancelRequest,
+    locationState,
 }) {
     console.log(location);
+    console.log('locationState', locationState);
 
     return (
         <div key={stock.id} className="your-stock-card">
@@ -16,10 +18,7 @@ export default function TransactionCardPending({
                 <h4>
                     {stock?.company_id && (
                         <>
-                            {stock.company_id}{" "}
-                            <span>
-                                {location.number_of_shares[stock.company_id]}
-                            </span>
+                            {stock?.company_id}{" "}
                         </>
                     )}
                 </h4>
