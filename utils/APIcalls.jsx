@@ -11,7 +11,7 @@ export function getDashboardData(userId) {
 
 export function getTransactionsData(portfolioId) {
   return fetch(
-    `https://joint-invest-back-end.onrender.com/api/transaction/${portfolioId}`,
+    `https://localhost:3000/api/transaction/${portfolioId}`,
     {
       method: 'GET',
     }

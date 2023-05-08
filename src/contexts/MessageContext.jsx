@@ -18,9 +18,11 @@ export const useMessageContext = () => useContext(MessageContextObj);
 const MessageContextWrapper = ({ children }) => {
   const userDetails = useAuth();
   const userId = userDetails.userLogin.id;
-  const [portfoliosDataLenght, setPortfoliosDataLenght] = useState(0);
+  const [portfoliosData, setPortfoliosData] = useState(0);
+  const [transactionsData, setTransactionsData] = useState([]);
   const [portfolioIds, setPortfolioIds] = useState([]);
   const [allData, setAllData] = useState([]);
+  const transactionsAll = [];
 
   useEffect(() => {
     getDashboardData(userId)
@@ -30,12 +32,9 @@ const MessageContextWrapper = ({ children }) => {
             item.portfolio_status !== 'deleted' &&
             item.portfolio_status !== 'activated'
         );
-        if (portfolioInfos.lenght === 0) {
-          setPortfoliosDataLenght(0);
-        } else {
-          setPortfoliosDataLenght(portfolioInfos);
-        }
-        return data;
+
+        setPortfoliosData(portfolioInfos.length);
+        data;
       })
       .then((data) => {
         setPortfolioIds(
@@ -43,18 +42,18 @@ const MessageContextWrapper = ({ children }) => {
         );
       })
       .then((data) => {
-        portfolioIds.forEach((id) => getTransactionsData(id));
+        const transactions = portfolioIds.forEach((id) =>
+          getTransactionsData(id)
+        );
+        setTransactionsData(transactions);
       })
       .catch((error) => console.error(error));
   }, []);
 
-  console.log(portfoliosDataLenght);
-
+  console.log(transactionsData);
   return (
     <div>
-      <MessageContextObj.Provider
-        value={{ userId, portfoliosDataLenght }}
-      >
+      <MessageContextObj.Provider value={{ userId, portfoliosData }}>
         {children}
       </MessageContextObj.Provider>
     </div>
