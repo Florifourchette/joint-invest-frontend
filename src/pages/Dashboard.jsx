@@ -257,23 +257,20 @@ export default function Dashboard(props) {
                     <h4 className="friend">{data.friend_username}</h4>
                   </div>
                 </div>
-                <div className="d-flex align-items-center">
-                  <DeleteConfirmedButton
-                    data={data}
-                    userId={userId}
-                    portfolioTotals={portfolioTotals}
-                    setPortfolioStatusUpdated={setPortfolioStatusUpdated}
-                    portfolioStatusUpdated={portfolioStatusUpdated}
-                    setNewData={setNewData}
-                    wallet={wallet}
-                    Navigate={Navigate}
-                    prices={prices}
-                    PortfolioProfitLoss={(
-                      portfolioTotals[data.portfolio_id] -
-                      data.total_buying_value
-                    ).toFixed(2)}
-                  />
-                </div>
+                <DeleteConfirmedButton
+                  data={data}
+                  userId={userId}
+                  portfolioTotals={portfolioTotals}
+                  setPortfolioStatusUpdated={setPortfolioStatusUpdated}
+                  portfolioStatusUpdated={portfolioStatusUpdated}
+                  setNewData={setNewData}
+                  wallet={wallet}
+                  Navigate={Navigate}
+                  prices={prices}
+                  PortfolioProfitLoss={(
+                    portfolioTotals[data.portfolio_id] - data.total_buying_value
+                  ).toFixed(2)}
+                />
                 {data.portfolio_status === "pending_activation" ||
                 data.portfolio_status === "pending_deletion" ? (
                   <StatusMessages

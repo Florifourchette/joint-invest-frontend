@@ -20,7 +20,7 @@ const DeleteConfirmedButton = ({
 }) => {
   const portfolioTotal = portfolioTotals[data.portfolio_id];
   return (
-    <div className="dashboard_buttons">
+    <div className="dashboard_buttons d-flex align-items-center">
       {/* current status 'activated' */}
       {data.portfolio_status === "activated" ? (
         <>

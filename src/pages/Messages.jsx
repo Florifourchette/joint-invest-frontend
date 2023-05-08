@@ -209,14 +209,14 @@ export default function Messages() {
                   <div className="message-card-values">
                     <div className="message-info-and-main">
                       <div className="message-card-value-info">
+                        <h4 className="friend" style={{ margin: "0" }}>
+                          {item.requester_name}
+                        </h4>
                         <img
                           src="/bee.png"
                           alt="friends"
                           style={{ width: "30px" }}
                         />
-                        <h5 className="friend" style={{ margin: "0" }}>
-                          {item.requester_name}
-                        </h5>
 
                         <p className="message-date">
                           {getShorterDate(item.date)}
@@ -229,11 +229,11 @@ export default function Messages() {
                         {item.type === "portfolio" &&
                         item.action === "pending_activation" ? (
                           <p style={{ textAlign: "left", marginLeft: "0.5em" }}>
-                            to{" "}
+                            request to{" "}
                             <strong>
                               join portfolio {item.portfolio_name}
-                            </strong>
-                            . Requested by {item.requester_name}
+                            </strong>{" "}
+                            send by {item.requester_name}
                           </p>
                         ) : item.type === "portfolio" &&
                           item.action === "pending_deletion" ? (

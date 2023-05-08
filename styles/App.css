@@ -390,7 +390,7 @@ button {
   text-align: center;
 
   position: relative;
-  padding: 10px;
+  padding: 0px 10px 10px 10px;
   border-radius: 10px;
   margin: 0 auto 0 auto;
   max-width: 320px;
@@ -406,6 +406,10 @@ button {
 
 .message_container span {
   font-weight: bold;
+}
+
+.countdown-text{
+  text-align: center;
 }
 /* Portfolio Page */
 .portfolio-page {
@@ -624,6 +628,7 @@ button {
   flex-direction: column;
   align-items: center;
   width: 375px;
+  min-height: 100vh;
   margin: auto;
   margin-bottom: 8%;
 }
