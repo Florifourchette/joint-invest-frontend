@@ -55,7 +55,7 @@ export default function Portfolio() {
 
   console.log('PROFIT', location.state.portfolioProfitLoss);
 
-  console.log('SHARE PRICE', Object.values(sharePrice));
+  console.log('SHARE PRICE', sharePrice);
   console.log('SHARE NUM', Object.values(shareNumber));
   console.log('SHARE NUM', Object.values(shareNumber).length);
   console.log(tickers);
@@ -321,11 +321,13 @@ export default function Portfolio() {
                   //stockData &&
                   externalAPIstocks &&
                   stockItems?.map((item) => {
-                    <StockListB
-                      item={item}
-                      externalAPIstocks={externalAPIstocks}
-                      sharePrice={sharePrice}
-                    />;
+                    return (
+                      <StockListB
+                        item={item}
+                        externalAPIstocks={externalAPIstocks}
+                        sharePrice={sharePrice}
+                      />
+                    );
                   })}
               </div>
             </div>

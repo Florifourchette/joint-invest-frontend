@@ -5,18 +5,22 @@ import { useAppContext } from '../contexts/AppContext';
 const StockListA = ({ item, externalAPIstocks, sharePrice }) => {
   const { contextStockData } = useAppContext();
   const [logo, setLogo] = useState();
+  const [APIStockChange, setAPIStockChange] = useState(0);
 
   useEffect(() => {
     const theLogo = contextStockData.find(
       (alogo) => alogo.companyid == item.company_id
     );
     setLogo(theLogo.logo);
+    if (Object.values(sharePrice).length !== 1) {
+      setAPIStockChange(
+        parseFloat(externalAPIstocks[item.company_id]?.change)
+      );
+    } else {
+      setAPIStockChange(parseFloat(externalAPIstocks?.change));
+    }
     console.log(theLogo.logo);
   }, []);
-
-  Object.values(sharePrice).length !== 1
-    ? parseFloat(sharePrice[item.company_id]).toFixed(2)
-    : parseFloat(Object.values(sharePrice));
 
   return (
     <>
@@ -54,9 +58,7 @@ const StockListA = ({ item, externalAPIstocks, sharePrice }) => {
                   </List.Description>
                 </div>
                 <div className="d-flex justify-content-end w-100 align-items-center">
-                  {parseFloat(
-                    externalAPIstocks[item.company_id]?.change
-                  ) > 0 ? (
+                  {APIStockChange > 0 ? (
                     <List.Description
                       style={{
                         fontWeight: '600',
@@ -64,17 +66,10 @@ const StockListA = ({ item, externalAPIstocks, sharePrice }) => {
                         fontSize: '1.1em',
                       }}
                     >
-                      +
-                      {parseFloat(
-                        externalAPIstocks[item.company_id]?.change
-                      ).toFixed(2)}
-                      % / +
+                      +{APIStockChange.toFixed(2)}% / +
                       {(
                         parseFloat(sharePrice[item.company_id]) *
-                        (parseFloat(
-                          externalAPIstocks[item.company_id]?.change
-                        ) /
-                          100)
+                        (APIStockChange / 100)
                       ).toFixed(2)}
                       $
                     </List.Description>
@@ -86,16 +81,10 @@ const StockListA = ({ item, externalAPIstocks, sharePrice }) => {
                         fontSize: '1.1em',
                       }}
                     >
-                      {parseFloat(
-                        externalAPIstocks[item.company_id]?.change
-                      ).toFixed(2)}
-                      % /
+                      {APIStockChange.toFixed(2)}% /
                       {(
                         parseFloat(sharePrice[item.company_id]) *
-                        (parseFloat(
-                          externalAPIstocks[item.company_id]?.change
-                        ) /
-                          100)
+                        (APIStockChange / 100)
                       ).toFixed(2)}
                       $
                     </List.Description>
