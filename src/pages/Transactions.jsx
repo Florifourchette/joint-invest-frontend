@@ -7,8 +7,6 @@ import {
 import { useParams } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import LogIn from "./LogIn";
-import { Message } from "semantic-ui-react";
 import Navbar from "../components/Navbar";
 import { transaction } from "../../utils/TransactionOperations";
 import ReactModal from "react-modal";
@@ -22,6 +20,7 @@ import TransactionCardSearch from "../components/TransactionCardSearch";
 import StockSearchBar from "../components/StockSearch";
 import { createApiUrl } from "../../utils/CreateAPIUrl";
 import { BiArrowBack } from "react-icons/bi";
+import AuthIssue from "../components/AuthIssue";
 
 export default function Transactions() {
   const { isAuthenticated } = useAuth();
@@ -333,13 +332,6 @@ export default function Transactions() {
       </div>
     </div>
   ) : (
-    <div>
-      <div className="d-flex justify-content-center">
-        <Message style={{ color: "red" }}>
-          You are not logged in, please login!
-        </Message>
-      </div>
-      <LogIn />
-    </div>
+    <AuthIssue />
   );
 }

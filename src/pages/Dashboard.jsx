@@ -18,6 +18,7 @@ import DeleteConfirmedButton from "../components/DeleteConfirmedButton";
 import StatusMessages from "../components/StatusMessages";
 import { BiArrowBack } from "react-icons/bi";
 import axios from "axios";
+import AuthIssue from "../components/AuthIssue";
 
 export default function Dashboard(props) {
   const [dashboardData, setDashboardData] = useState([]);
@@ -305,13 +306,6 @@ export default function Dashboard(props) {
       <Navbar />
     </div>
   ) : (
-    <div>
-      <div className="d-flex justify-content-center">
-        <Message style={{ color: "red" }}>
-          You are not logged in, please login!
-        </Message>
-      </div>
-      <LogIn />
-    </div>
+    <AuthIssue />
   );
 }
