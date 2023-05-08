@@ -26,6 +26,7 @@ export default function Messages() {
   const [portfolioDataCleaned, setPortfolioDataCleaned] = useState(
     []
   );
+
   const [newData, setNewData] = useState([]);
 
   const transactionsAll = [];
@@ -33,7 +34,6 @@ export default function Messages() {
   useEffect(() => {
     getDashboardData(userId)
       .then((data) => {
-        console.log(data);
         setFriends(
           data.portfolios.map((item) => {
             return {
@@ -90,17 +90,14 @@ export default function Messages() {
         transactionsAll.push(data);
         return cleanTransactionsData(transactionsAll);
       })
-      .catch((error) => error.message);
+      .catch((error) => console.log(error.message));
   };
 
   const cleanDataPortfolio = (portfolio) => {
     setPortfolioDataCleaned(
       portfolio?.map((item) => {
-        console.log(item);
         if (item.friend_id === item.user_id_request) {
           for (let j = 0; j < friends.length; j++) {
-            console.log(item.user_id_request);
-            console.log(friends[j].friend_id);
             if (item.user_id_request === friends[j].friend_id) {
               return {
                 type: 'portfolio',
@@ -138,41 +135,47 @@ export default function Messages() {
     setTransactionDataCleaned(
       transaction?.flatMap((items) => {
         return items?.map((item) => {
-          for (let j = 0; j < friends.length; j++) {
-            for (let i = 0; i < portfoliosNames.length; i++) {
-              if (
-                item.portfolio_id === portfoliosNames[i].portfolio_id
-              ) {
-                if (item.user_id === friends[j].friend_id) {
-                  return {
-                    type: 'transaction',
-                    requester_id: item.user_id,
-                    requester_name: friends[j].friend_id,
-                    date: item.creating_date,
-                    portfolio_name: portfoliosNames[i].portfolio_name,
-                    portfolio_id: item.portfolio_id,
-                    action: item.type_of_transaction,
-                    company_name: item.company_name,
-                    number_of_shares: item.number_of_shares,
-                    initial_amount: '',
-                  };
-                } else if (item.user_id !== friends[j].friend_id) {
-                  return {
-                    type: 'transaction',
-                    requester_id: item.user_id,
-                    requester_name: 'you',
-                    date: item.creating_date,
-                    portfolio_name: portfoliosNames[i].portfolio_name,
-                    portfolio_id: item.portfolio_id,
-                    action: item.type_of_transaction,
-                    company_name: item.company_name,
-                    number_of_shares: item.number_of_shares,
-                    initial_amount: '',
-                  };
+          if ((item.status = 'pending'))
+            for (let j = 0; j < friends.length; j++) {
+              for (let i = 0; i < portfoliosNames.length; i++) {
+                if (
+                  item.portfolio_id ===
+                  portfoliosNames[i].portfolio_id
+                ) {
+                  if (item.user_id === friends[j].friend_id) {
+                    return {
+                      type: 'transaction',
+                      requester_id: item.user_id,
+                      requester_name: friends[j].friend_id,
+                      date: item.creating_date,
+                      portfolio_name:
+                        portfoliosNames[i].portfolio_name,
+                      portfolio_id: item.portfolio_id,
+                      action: item.type_of_transaction,
+                      company_name: item.company_name,
+                      number_of_shares: item.number_of_shares,
+                      initial_amount: '',
+                      status: item.status,
+                    };
+                  } else if (item.user_id !== friends[j].friend_id) {
+                    return {
+                      type: 'transaction',
+                      requester_id: item.user_id,
+                      requester_name: 'you',
+                      date: item.creating_date,
+                      portfolio_name:
+                        portfoliosNames[i].portfolio_name,
+                      portfolio_id: item.portfolio_id,
+                      action: item.type_of_transaction,
+                      company_name: item.company_name,
+                      number_of_shares: item.number_of_shares,
+                      initial_amount: '',
+                      status: item.status,
+                    };
+                  }
                 }
               }
             }
-          }
         });
       })
     );
@@ -190,8 +193,6 @@ export default function Messages() {
       const dateB = new Date(b.date);
       return dateB - dateA;
     });
-
-  console.log(portfolioDataCleaned);
 
   return isAuthenticated ? (
     <>

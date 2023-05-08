@@ -5,10 +5,13 @@ import { FaUserAlt } from 'react-icons/fa';
 import { AiFillPieChart } from 'react-icons/ai';
 import { CgSpinner } from 'react-icons/cg';
 import useAuth from '../hooks/useAuth';
+import { useMessageContext } from '../contexts/MessageContext';
 
 const Navbar = () => {
   const { userLogin, loading } = useAuth();
+  const messagesContextValues = useMessageContext();
 
+  console.log(messagesContextValues);
   return (
     <div className="navi fixed-bottom navbar">
       {loading ? (
