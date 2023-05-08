@@ -46,6 +46,7 @@ export default function Transactions() {
   const [transactionId, setTransactionId] = useState();
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedOptionPrice, setSelectedOptionPrice] = useState([]);
+  const [locationState, setLocationState] = useState(location.state);
   const Navigate = useNavigate();
 
   const handleBack = (e) => {
@@ -108,6 +109,13 @@ export default function Transactions() {
         price_of_share: data.price,
         user_id: location.state.userId,
       }));
+      setLocationState((prevState) => ({
+        ...prevState,
+        prices: {
+          ...prevState.prices,
+          [companyId]: data.price,
+        },
+      }));
       setShowModal(true);
     });
   };
@@ -124,12 +132,14 @@ export default function Transactions() {
         price_of_share: data.price,
         user_id: location.state.userId,
       }));
-      setLocation((prevState) => ({
+      setLocationState((prevState) => ({
         ...prevState,
         prices: {
           ...prevState.prices,
           [companyId]: data.price,
+  
         },
+        number_of_shares: counter.toString()
       }));
     });
     setShowModal(true);
@@ -259,6 +269,7 @@ export default function Transactions() {
                         handlePurchase={handlePurchase}
                         handleDecline={handleDecline}
                         handleCancelRequest={handleCancelRequest}
+                        locationState={locationState}
                       />
                     );
                   } else if (stock.status === "confirmed") {
