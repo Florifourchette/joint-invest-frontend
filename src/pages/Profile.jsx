@@ -1,15 +1,19 @@
 import Navbar from "../components/Navbar";
 import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import { BiArrowBack } from "react-icons/bi";
+import AuthIssue from "../components/AuthIssue";
 
 export default function Profile() {
-  const { userLogin, logout } = useAuth();
+  const { userLogin, logout, isAuthenticated } = useAuth();
   const Navigate = useNavigate();
-  const { creation_date } = userLogin;
-  const date = creation_date.slice(2, 10).replace(/-/g, ".");
-  const [year, month, day] = date.split(".");
-  const newDateString = `${day}.${month}.${year}`;
+
+  const createDate = () => {
+    const { creation_date } = userLogin;
+    const date = creation_date.slice(2, 10).replace(/-/g, ".");
+    const [year, month, day] = date.split(".");
+
+    return `${day}.${month}.${year}`;
+  };
 
   const profilePics = [
     "profile_1.png",
@@ -30,7 +34,7 @@ export default function Profile() {
     Navigate(-1);
   };
 
-  return (
+  return isAuthenticated ? (
     <div
       className="d-flex flex-column justify-content-center"
       style={{ height: "100vh", width: "375px" }}
@@ -48,7 +52,7 @@ export default function Profile() {
           <h2 style={{ fontWeight: "800", marginTop: "10px" }}>
             {userLogin.username}
           </h2>
-          <p style={{ fontWeight: "600" }}>Member since: {newDateString}</p>
+          <p style={{ fontWeight: "600" }}>Member since: {createDate()}</p>
           <div className="user-container" style={{ width: "90%" }}>
             <div className="one-user" style={{ justifyContent: "center" }}>
               <div className="user-shade">
@@ -80,5 +84,7 @@ export default function Profile() {
       </div>
       <Navbar />
     </div>
+  ) : (
+    <AuthIssue />
   );
 }

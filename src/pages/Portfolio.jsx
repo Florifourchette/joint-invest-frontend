@@ -1,28 +1,23 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import StockListA from '../components/PortfolioStockListA';
-import StockListB from '../components/PortfolioStockListB';
-import PortfolioChart from '../components/PortfolioChart.jsx';
-import PortfolioDropdown from '../components/PortfolioDropdown';
-import { stocklistitem_data } from '../assets/stocklistitem_data';
-import { v4 as uuidv4 } from 'uuid';
-import { mockPortfolioData } from '../assets/mockPortfolioData';
+import React from "react";
+import { useState, useEffect } from "react";
+import StockListA from "../components/PortfolioStockListA";
+import StockListB from "../components/PortfolioStockListB";
+import PortfolioChart from "../components/PortfolioChart.jsx";
+import PortfolioDropdown from "../components/PortfolioDropdown";
+import { stocklistitem_data } from "../assets/stocklistitem_data";
+import { v4 as uuidv4 } from "uuid";
+import { mockPortfolioData } from "../assets/mockPortfolioData";
 //import chartData from "../assets/lineGraphData";
 //import { url } from "inspector";
-import axios from 'axios';
-import {
-  useNavigate,
-  useParams,
-  useLocation,
-} from 'react-router-dom';
-import useAuth from '../hooks/useAuth';
-import LogIn from './LogIn';
-import { Message } from 'semantic-ui-react';
-import Chart from 'chart.js/auto';
-import { CategoryScale } from 'chart.js';
-import Navbar from '../components/Navbar';
-import { BiArrowBack } from 'react-icons/bi';
-import PortfolioChartOverall from '../components/PortfolioChartOverall';
+import axios from "axios";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import Chart from "chart.js/auto";
+import { CategoryScale } from "chart.js";
+import Navbar from "../components/Navbar";
+import { BiArrowBack } from "react-icons/bi";
+import PortfolioChartOverall from "../components/PortfolioChartOverall";
+import AuthIssue from "../components/AuthIssue";
 
 Chart.register(CategoryScale);
 
@@ -31,21 +26,16 @@ const portfolioAPIKey2 = import.meta.env.VITE_PORTFOLIO_API_KEY2;
 
 export default function Portfolio() {
   const { isAuthenticated } = useAuth();
-  const portfolioName =
-    mockPortfolioData[0].overview[0].name_of_portfolio;
-  const investedAmount =
-    mockPortfolioData[0].overview[0].invested_amount;
-  const availableAmount =
-    mockPortfolioData[0].overview[0].available_amount;
+  const portfolioName = mockPortfolioData[0].overview[0].name_of_portfolio;
+  const investedAmount = mockPortfolioData[0].overview[0].invested_amount;
+  const availableAmount = mockPortfolioData[0].overview[0].available_amount;
   const companiesArray = [];
 
   const { id } = useParams();
 
   const Navigate = useNavigate();
   const location = useLocation();
-  console.log(
-    ` location at portfolio ${JSON.stringify(location.state)}`
-  );
+  console.log(` location at portfolio ${JSON.stringify(location.state)}`);
 
   console.log(location.state.profitLoss);
   const [sharePrice, setSharePrice] = useState(location.state.prices);
@@ -53,14 +43,14 @@ export default function Portfolio() {
     location.state.number_of_shares
   );
   const tickers = Object.keys(sharePrice).join();
-  const tickers_cache = Object.keys(sharePrice).join('');
+  const tickers_cache = Object.keys(sharePrice).join("");
 
   const companyIds = mockPortfolioData[0].stocks?.map(
     (stock) => stock.company_id
   );
   const cleanCompanyIds = companyIds.join();
 
-  const [selectedInterval, setSelectedInterval] = useState('');
+  const [selectedInterval, setSelectedInterval] = useState("");
   const [stockItems, setStockItems] = useState([]);
   const [stockOverview, setStockOverview] = useState();
   const [stockCompaniesId, setStockCompaniesId] = useState();
@@ -85,7 +75,7 @@ export default function Portfolio() {
         values = allCompanies.values;
       }
 
-      if (typeof values === 'object') {
+      if (typeof values === "object") {
         {
           for (const value of values) {
             const datetime = value.datetime;
@@ -93,7 +83,7 @@ export default function Portfolio() {
               const properties = Object.keys(value);
 
               for (const property of properties) {
-                if (property !== 'datetime') {
+                if (property !== "datetime") {
                   if (Object.values(shareNumber).length !== 1) {
                     datetimeValuesMap[datetime][property] +=
                       parseFloat(value[property]) *
@@ -109,7 +99,7 @@ export default function Portfolio() {
               datetimeValuesMap[datetime] = { datetime };
               const properties = Object.keys(value);
               for (const property of properties) {
-                if (property !== 'datetime') {
+                if (property !== "datetime") {
                   if (Object.values(shareNumber).length !== 1) {
                     datetimeValuesMap[datetime][property] =
                       parseFloat(value[property]) *
@@ -162,13 +152,13 @@ export default function Portfolio() {
     async function stockDataExternal() {
       try {
         const nextResponse = await axios.post(
-          'http://localhost:3000/api/external',
+          "http://localhost:3000/api/external",
           {
             cacheKey: `currentQuotes_${tickers_cache}`,
             remoteUrl: `https://api.twelvedata.com/quote?symbol=${tickers}&apikey=${portfolioAPIKey2}`,
           }
         );
-        if (nextResponse.data?.status !== 'error') {
+        if (nextResponse.data?.status !== "error") {
           setExternalAPIstocks(nextResponse.data);
         } else {
         }
@@ -179,16 +169,13 @@ export default function Portfolio() {
     async function fetchMultipleCompanies() {
       try {
         //console.log(myStocksIds);
-        const data = await axios.post(
-          'http://localhost:3000/api/external',
-          {
-            cacheKey: `currentTimeSeries_${tickers_cache}`,
-            remoteUrl: `https://api.twelvedata.com/time_series?symbol=${tickers}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=${portfolioAPIKey2}`,
-          }
-        );
+        const data = await axios.post("http://localhost:3000/api/external", {
+          cacheKey: `currentTimeSeries_${tickers_cache}`,
+          remoteUrl: `https://api.twelvedata.com/time_series?symbol=${tickers}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=${portfolioAPIKey2}`,
+        });
         // const data = await axios.get();
         // console.log(data);
-        if (data.data?.status !== 'error') {
+        if (data.data?.status !== "error") {
           setAllCompanies(data.data);
         } else {
         }
@@ -215,10 +202,7 @@ export default function Portfolio() {
   return isAuthenticated ? (
     <div className="portfolio-page">
       <div className="portfolio-back-button-container">
-        <BiArrowBack
-          className="portfolio-back-button"
-          onClick={handleBack}
-        />
+        <BiArrowBack className="portfolio-back-button" onClick={handleBack} />
       </div>
       <div className="portfolio_overview">
         <div className="overview_page">
@@ -237,9 +221,7 @@ export default function Portfolio() {
             )}
             <h3>Amount invested</h3>
             {stockOverview && (
-              <h4>
-                {parseFloat(stockOverview.invested_amount).toFixed(2)}
-              </h4>
+              <h4>{parseFloat(stockOverview.invested_amount).toFixed(2)}</h4>
             )}
             <h3>Total profit/loss</h3>
             {location.state.profitLoss > 0 ? (
@@ -261,11 +243,7 @@ export default function Portfolio() {
             <h4>{location.state.portfolioProfitLoss}</h4>
             <h3>Available amount</h3>
             {stockOverview && (
-              <h4>
-                {parseFloat(stockOverview.available_amount).toFixed(
-                  2
-                )}
-              </h4>
+              <h4>{parseFloat(stockOverview.available_amount).toFixed(2)}</h4>
             )}
           </div>
         </div>
@@ -277,7 +255,7 @@ export default function Portfolio() {
           />
         </div>
         <div className="portfolio_stocks-container">
-          {selectedInterval == 'Overall' ? (
+          {selectedInterval == "Overall" ? (
             <div>
               <div className="portfolio_barGraph">
                 <PortfolioChartOverall orderBook={orderBook} />
@@ -332,12 +310,12 @@ export default function Portfolio() {
             type="button"
             className="hex-button"
             style={{
-              marginRight: '1rem',
-              marginBottom: '0.7rem',
-              padding: '0px',
-              height: '50px',
-              width: '180px',
-              background: '#84714F',
+              marginRight: "1rem",
+              marginBottom: "0.7rem",
+              padding: "0px",
+              height: "50px",
+              width: "180px",
+              background: "#84714F",
             }}
             onClick={() =>
               Navigate(`/orderbook/${id}`, {
@@ -379,10 +357,10 @@ export default function Portfolio() {
             type="button"
             className="hex-button"
             style={{
-              marginRight: '0.5rem',
-              padding: '10px',
-              height: '50px',
-              width: '180px',
+              marginRight: "0.5rem",
+              padding: "10px",
+              height: "50px",
+              width: "180px",
             }}
             onClick={() =>
               Navigate(`/transactions/${id}`, {
@@ -397,13 +375,6 @@ export default function Portfolio() {
       </div>
     </div>
   ) : (
-    <div>
-      <div className="d-flex justify-content-center">
-        <Message style={{ color: 'red' }}>
-          You are not logged in, please login!
-        </Message>
-      </div>
-      <LogIn />
-    </div>
+    <AuthIssue />
   );
 }
