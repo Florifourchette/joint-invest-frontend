@@ -85,7 +85,7 @@ const CreationPortfolio = () => {
 
   return isAuthenticated ? (
     <>
-      <div style={{ height: "100vh" }}>
+      <div style={{ height: "100vh", width: "375px" }}>
         <div style={{ width: "350px" }}>
           <GrClose
             style={{
