@@ -321,19 +321,11 @@ export default function Portfolio() {
                   //stockData &&
                   externalAPIstocks &&
                   stockItems?.map((item) => {
-                    Object.values(sharePrice).length !== 1 ? (
-                      <StockListB
-                        item={item}
-                        externalAPIstocks={externalAPIstocks}
-                        sharePrice={sharePrice}
-                      />
-                    ) : (
-                      <StockListB
-                        item={item}
-                        externalAPIstocks={externalAPIstocks}
-                        sharePrice={Object.values(sharePrice)}
-                      />
-                    );
+                    <StockListB
+                      item={item}
+                      externalAPIstocks={externalAPIstocks}
+                      sharePrice={sharePrice}
+                    />;
                   })}
               </div>
             </div>
@@ -351,17 +343,11 @@ export default function Portfolio() {
                   sharePrice &&
                   externalAPIstocks &&
                   stockItems?.map((item) => {
-                    Object.values(sharePrice).length !== 1 ? (
+                    return (
                       <StockListA
                         item={item}
                         externalAPIstocks={externalAPIstocks}
                         sharePrice={sharePrice}
-                      />
-                    ) : (
-                      <StockListA
-                        item={item}
-                        externalAPIstocks={externalAPIstocks}
-                        sharePrice={Object.values(sharePrice)}
                       />
                     );
                   })}
