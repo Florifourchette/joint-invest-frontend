@@ -46,6 +46,8 @@ export default function Portfolio() {
   console.log(
     ` location at portfolio ${JSON.stringify(location.state)}`
   );
+
+  console.log(location.state.profitLoss);
   const [sharePrice, setSharePrice] = useState(location.state.prices);
   const [shareNumber, setShareNumber] = useState(
     location.state.number_of_shares
@@ -53,19 +55,10 @@ export default function Portfolio() {
   const tickers = Object.keys(sharePrice).join();
   const tickers_cache = Object.keys(sharePrice).join('');
 
-  console.log('PROFIT', location.state.portfolioProfitLoss);
-
-  console.log('SHARE PRICE', sharePrice);
-  console.log('SHARE NUM', Object.values(shareNumber));
-  console.log('SHARE NUM', Object.values(shareNumber).length);
-  console.log(tickers);
-  console.log(tickers_cache);
-
   const companyIds = mockPortfolioData[0].stocks?.map(
     (stock) => stock.company_id
   );
   const cleanCompanyIds = companyIds.join();
-  //console.log(cleanCompanyIds);
 
   const [selectedInterval, setSelectedInterval] = useState('');
   const [stockItems, setStockItems] = useState([]);
@@ -73,7 +66,7 @@ export default function Portfolio() {
   const [stockCompaniesId, setStockCompaniesId] = useState();
   const [externalAPIstocks, setExternalAPIstocks] = useState();
   const [allCompanies, setAllCompanies] = useState();
-  //const [stockData, setStockData] = useState();
+
   const [orderBook, setOrderBook] = useState();
 
   const handleBack = (e) => {
@@ -83,8 +76,6 @@ export default function Portfolio() {
 
   const datetimeValuesMap = {};
 
-  console.log('all comps', allCompanies);
-
   let values = [];
   if (allCompanies && Object.keys(allCompanies).length > 0) {
     for (const key in allCompanies) {
@@ -93,21 +84,17 @@ export default function Portfolio() {
       } else {
         values = allCompanies.values;
       }
-      console.log(values);
 
       if (typeof values === 'object') {
-        console.log(values);
         {
           for (const value of values) {
             const datetime = value.datetime;
             if (datetime in datetimeValuesMap) {
-              console.log(datetimeValuesMap);
               const properties = Object.keys(value);
-              console.log(datetimeValuesMap);
+
               for (const property of properties) {
                 if (property !== 'datetime') {
                   if (Object.values(shareNumber).length !== 1) {
-                    console.log(shareNumber[key]);
                     datetimeValuesMap[datetime][property] +=
                       parseFloat(value[property]) *
                       parseFloat(shareNumber[key]);
@@ -141,16 +128,12 @@ export default function Portfolio() {
     }
   }
 
-  console.log(datetimeValuesMap);
   const intervalSum = Object.values(datetimeValuesMap);
-  console.log('result', intervalSum);
 
   // Extract the summed value at the last timestamp
   const timestamps = Object.keys(datetimeValuesMap);
   const lastTimestamp = timestamps[timestamps.length - 1];
   const lastValues = datetimeValuesMap[lastTimestamp];
-  console.log('Last timestamp:', lastTimestamp);
-  console.log('Last values:', lastValues);
 
   //api calls
 
@@ -161,7 +144,6 @@ export default function Portfolio() {
           `http://localhost:3000/api/order_book/${id}`
         );
         setOrderBook(response.data);
-        console.log('orderbook api', response.data);
       } catch (err) {
         console.log(err);
       }
@@ -186,16 +168,9 @@ export default function Portfolio() {
             remoteUrl: `https://api.twelvedata.com/quote?symbol=${tickers}&apikey=${portfolioAPIKey2}`,
           }
         );
-        // const nextResponse = await axios.get(
-        //   `https://api.twelvedata.com/quote?symbol=${tickers}&apikey=${portfolioAPIKey2}`
-        // );
-        // //console.log(myStocksIds);
-        // console.log(nextResponse);
         if (nextResponse.data?.status !== 'error') {
-          console.log('WORKING', nextResponse.data);
           setExternalAPIstocks(nextResponse.data);
         } else {
-          console.log('FAILING', nextResponse.data.status);
         }
       } catch (err) {
         console.log(err);
@@ -214,10 +189,8 @@ export default function Portfolio() {
         // const data = await axios.get();
         // console.log(data);
         if (data.data?.status !== 'error') {
-          console.log('WORKING', data.data);
           setAllCompanies(data.data);
         } else {
-          console.log('FAILING', data.data.status);
         }
       } catch (error) {
         console.log(error.message);
@@ -239,7 +212,6 @@ export default function Portfolio() {
     //fetchStocks();
   }, [id]);
 
-  console.log(stockItems[0]);
   return isAuthenticated ? (
     <div className="portfolio-page">
       <div className="portfolio-back-button-container">
@@ -270,22 +242,20 @@ export default function Portfolio() {
               </h4>
             )}
             <h3>Total profit/loss</h3>
-            {stockOverview && lastValues ? (
-              lastValues.close - stockOverview.invested_amount > 0 ? (
-                <h4 className="positive">
-                  {parseFloat(
+            {location.state.profitLoss > 0 ? (
+              <h4 className="positive">
+                {location.state.profitLoss.toFixed(2)}
+                {/* {parseFloat(
                     lastValues.close - stockOverview.invested_amount
-                  ).toFixed(2)}
-                </h4>
-              ) : (
-                <h4 className="negative">
-                  {parseFloat(
-                    lastValues.close - stockOverview.invested_amount
-                  ).toFixed(2)}
-                </h4>
-              )
+                  ).toFixed(2)} */}
+              </h4>
             ) : (
-              <div></div>
+              <h4 className="negative">
+                {location.state.profitLoss.toFixed(2)}
+                {/* {parseFloat(
+                    lastValues.close - stockOverview.invested_amount
+                  ).toFixed(2)} */}
+              </h4>
             )}
 
             <h4>{location.state.portfolioProfitLoss}</h4>
