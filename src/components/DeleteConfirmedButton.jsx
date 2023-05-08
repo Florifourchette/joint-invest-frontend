@@ -86,6 +86,7 @@ const DeleteConfirmedButton = ({
               Navigate(`/portfolio/${data.portfolio_id}`, {
                 state: {
                   prices: filteredPrices,
+                  investedAmount: data.invested_amount,
                   userId: userId,
                   number_of_shares: filteredShares[data.portfolio_id],
                   friend: data.friend_username,
