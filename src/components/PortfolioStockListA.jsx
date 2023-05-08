@@ -19,7 +19,6 @@ const StockListA = ({ item, externalAPIstocks, sharePrice }) => {
     } else {
       setAPIStockChange(parseFloat(externalAPIstocks?.change));
     }
-    console.log(theLogo.logo);
   }, []);
 
   return (
