@@ -7,9 +7,8 @@ import { parseISO } from "date-fns";
 import { setPortfolioStatus } from "../../utils/PortfolioDeletion";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import { Message } from "semantic-ui-react";
 import { BiArrowBack } from "react-icons/bi";
-import LogIn from "./LogIn";
+import AuthIssue from "../components/AuthIssue";
 
 export default function Messages() {
   const { userId } = useParams();
@@ -348,13 +347,6 @@ export default function Messages() {
       <Navbar />
     </>
   ) : (
-    <div>
-      <div className="d-flex justify-content-center">
-        <Message style={{ color: "red" }}>
-          You are not logged in, please login!
-        </Message>
-      </div>
-      <LogIn />
-    </div>
+    <AuthIssue />
   );
 }
