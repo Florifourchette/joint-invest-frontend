@@ -10,9 +10,8 @@ import { parseISO } from 'date-fns';
 import { setPortfolioStatus } from '../../utils/PortfolioDeletion';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
-import { Message } from 'semantic-ui-react';
 import { BiArrowBack } from 'react-icons/bi';
-import LogIn from './LogIn';
+import AuthIssue from '../components/AuthIssue';
 
 export default function Messages() {
   const { userId } = useParams();
@@ -113,6 +112,7 @@ export default function Messages() {
                 company_name: '',
                 number_of_shares: '',
                 initial_amount: item.initial_amount,
+                status: item.status,
               };
             }
           }
@@ -128,6 +128,7 @@ export default function Messages() {
             company_name: '',
             number_of_shares: '',
             initial_amount: item.initial_amount,
+            status: item.portfolio_status,
           };
         }
       })
@@ -147,7 +148,7 @@ export default function Messages() {
                   return {
                     type: 'transaction',
                     requester_id: item.user_id,
-                    requester_name: friends[j].friend_id,
+                    requester_name: friends[j].friend_username,
                     date: item.creating_date,
                     portfolio_name: portfoliosNames[i].portfolio_name,
                     portfolio_id: item.portfolio_id,
@@ -155,6 +156,7 @@ export default function Messages() {
                     company_name: item.company_name,
                     number_of_shares: item.number_of_shares,
                     initial_amount: '',
+                    status: item.status,
                   };
                 } else if (item.user_id !== friends[j].friend_id) {
                   return {
@@ -168,6 +170,7 @@ export default function Messages() {
                     company_name: item.company_name,
                     number_of_shares: item.number_of_shares,
                     initial_amount: '',
+                    status: item.status,
                   };
                 }
               }
@@ -179,174 +182,213 @@ export default function Messages() {
   };
 
   const getShorterDate = (date) => {
-    const index = date.indexOf('T');
-    return date.slice(0, index);
+    const newDate = date.slice(2, 10).replace(/-/g, '.');
+    const [year, month, day] = newDate.split('.');
+    const newDateString = `${day}.${month}.${year}`;
+    return newDateString;
   };
 
   const allData = portfolioDataCleaned
     .concat(transactionsDataCleaned)
+    .filter(
+      (item) =>
+        item.status !== 'confirmed' && item.status !== 'canceled'
+    )
     .sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
       return dateB - dateA;
     });
 
-  console.log(portfolioDataCleaned);
+  console.log(allData);
 
   return isAuthenticated ? (
     <>
       <div className="message_page">
         <h1>Messages</h1>
-        {allData?.map((item, index) => {
-          return (
-            <div key={index} className="message-card">
-              {/* Info part who created the request and when */}
+        <div className="message_page_container">
+          {allData?.map((item, index) => {
+            console.log(item);
+            return (
+              <div key={index} className="message-card">
+                {/* Info part who created the request and when */}
 
-              <div className="message-name-container">
-                {item.type === 'portfolio' &&
-                item.action === 'pending_activation' ? (
-                  <h5>Invitation</h5>
-                ) : item.type === 'portfolio' &&
-                  item.action === 'pending_deletion' ? (
-                  <h5>Deletion request</h5>
-                ) : (
-                  <h5>{item.portfolio_name}</h5>
-                )}
-              </div>
-              <div className="message-card-container">
-                <div className="message-card-values">
-                  <div className="message-card-value-info">
-                    <img
-                      src="/bee.png"
-                      alt="friends"
-                      style={{ width: '40px' }}
-                    />
-                    <h4 className="friend">{item.requester_name}</h4>
-
-                    <p>{getShorterDate(item.date)}</p>
-                  </div>
-
-                  <div className="message-card-value-mainDetails">
-                    {/* If it concerns a portfolio then you can either activate or delete it */}
-
-                    {item.type === 'portfolio' &&
-                    item.action === 'pending_activation' ? (
-                      <p>
-                        to join {item.portfolio_name}. <br />{' '}
-                        Requested by {item.requester_name}
-                      </p>
-                    ) : item.type === 'portfolio' &&
-                      item.action === 'pending_deletion' ? (
-                      <p>
-                        for {item.portfolio_name}. Requested by{' '}
-                        {item.requester_name}
-                      </p>
-                    ) : item.type === 'transaction' &&
-                      item.action === 'Sell' ? (
-                      <p>
-                        {item.requester_name} would like to sell{' '}
-                        {item.number_of_shares} stock(s) of{' '}
-                        {item.company_name}.
-                      </p>
-                    ) : (
-                      <p>
-                        {item.requester_name} would like to buy{' '}
-                        {item.number_of_shares} stock(s) of{' '}
-                        {item.company_name}.
-                      </p>
-                    )}
-                  </div>
-                  <div className="message-card-value-status">
-                    {item.type === 'transaction' ? (
-                      <p>
-                        Check the transactions page of{' '}
-                        <span className="message_bold_span">
-                          {item.portfolio_name}
-                        </span>
-                      </p>
-                    ) : // <button
-                    //   onClick={() =>
-                    //     Navigate(`/transactions/${item.portfolio_id}`)
-                    //   }
-                    // >
-                    //   View
-                    // </button>
-                    item.requester_name !== 'you' ? (
-                      <div className="message_button_container">
-                        <button
-                          className="message_button"
-                          onClick={() => {
-                            setPortfolioStatus(
-                              item.portfolio_id,
-                              userId,
-                              item.action,
-                              'confirmed',
-                              setNewData
-                            );
-                          }}
+                <div className="message-name-container">
+                  {item.type === 'portfolio' &&
+                  item.action === 'pending_activation' ? (
+                    <h5>Invitation</h5>
+                  ) : item.type === 'portfolio' &&
+                    item.action === 'pending_deletion' ? (
+                    <h5>Deletion request</h5>
+                  ) : (
+                    <h5>{item.portfolio_name}</h5>
+                  )}
+                </div>
+                <div className="message-card-container">
+                  <div className="message-card-values">
+                    <div className="message-info-and-main">
+                      <div className="message-card-value-info">
+                        <h4
+                          className="friend"
+                          style={{ margin: '0' }}
                         >
-                          Confirm
-                        </button>
-                        <button
-                          className="message_button"
-                          onClick={() => {
-                            setPortfolioStatus(
-                              item.portfolio_id,
-                              userId,
-                              item.action,
-                              'rejected',
-                              setNewData
-                            );
-                          }}
-                        >
-                          Reject
-                        </button>
+                          {item.requester_name}
+                        </h4>
+                        <img
+                          src="/bee.png"
+                          alt="friends"
+                          style={{ width: '30px' }}
+                        />
+
+                        <p className="message-date">
+                          {getShorterDate(item.date)}
+                        </p>
                       </div>
-                    ) : (
-                      <div className="message_button_container message-card-value-status">
-                        {item.requester_name !== 'you' ? (
-                          <p>
-                            Waiting for{' '}
-                            <span className="message_bold_span">
-                              {item.requester_name}
-                            </span>
+
+                      <div className="message-card-value-mainDetails">
+                        {/* If it concerns a portfolio then you can either activate or delete it */}
+
+                        {item.type === 'portfolio' &&
+                        item.action === 'pending_activation' ? (
+                          <p
+                            style={{
+                              textAlign: 'left',
+                              marginLeft: '0.5em',
+                            }}
+                          >
+                            request to{' '}
+                            <strong>
+                              join portfolio {item.portfolio_name}
+                            </strong>{' '}
+                            send by {item.requester_name}
+                          </p>
+                        ) : item.type === 'portfolio' &&
+                          item.action === 'pending_deletion' ? (
+                          <p
+                            style={{
+                              textAlign: 'left',
+                              marginLeft: '0.5em',
+                            }}
+                          >
+                            for{' '}
+                            <strong>
+                              deleting portfolio {item.portfolio_name}
+                            </strong>
+                            . Requested by {item.requester_name}
+                          </p>
+                        ) : item.type === 'transaction' &&
+                          item.action === 'Sell' ? (
+                          <p
+                            style={{
+                              textAlign: 'left',
+                              marginLeft: '0.5em',
+                            }}
+                          >
+                            <strong>request to sell </strong>{' '}
+                            {item.number_of_shares} stock(s) of{' '}
+                            {item.company_name}.
                           </p>
                         ) : (
-                          <></>
+                          <p
+                            style={{
+                              textAlign: 'left',
+                              marginLeft: '0.5em',
+                            }}
+                          >
+                            <strong> request to buy </strong>
+                            {item.number_of_shares} stock(s) of{' '}
+                            {item.company_name}
+                          </p>
                         )}
-                        <button
-                          className="message_button"
-                          onClick={() => {
-                            setPortfolioStatus(
-                              item.portfolio_id,
-                              userId,
-                              item.action,
-                              'rejected',
-                              setNewData
-                            );
-                          }}
-                        >
-                          Cancel
-                        </button>
                       </div>
-                    )}
+                    </div>
+                    <div className="message-card-value-status">
+                      {item.type === 'transaction' ? (
+                        <div></div>
+                      ) : // <p>
+                      //   {/* Check the transactions page of{" "}
+                      //   <span className="message_bold_span">
+                      //     {item.portfolio_name}
+                      //   </span> */}
+                      // </p>
+                      // <button
+                      //   onClick={() =>
+                      //     Navigate(`/transactions/${item.portfolio_id}`)
+                      //   }
+                      // >
+                      //   View
+                      // </button>
+                      item.requester_name !== 'you' ? (
+                        <div className="message_button_container">
+                          <button
+                            className="message_button"
+                            onClick={() => {
+                              setPortfolioStatus(
+                                item.portfolio_id,
+                                userId,
+                                item.action,
+                                'confirmed',
+                                setNewData
+                              );
+                            }}
+                          >
+                            Confirm
+                          </button>
+                          <button
+                            style={{ background: '#84714F' }}
+                            className="message_button"
+                            onClick={() => {
+                              setPortfolioStatus(
+                                item.portfolio_id,
+                                userId,
+                                item.action,
+                                'rejected',
+                                setNewData
+                              );
+                            }}
+                          >
+                            Reject
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="message_button_container message-card-value-status">
+                          {item.requester_name !== 'you' ? (
+                            <p>
+                              Waiting for{' '}
+                              <span className="message_bold_span">
+                                {item.requester_name}
+                              </span>
+                            </p>
+                          ) : (
+                            <></>
+                          )}
+                          <button
+                            className="message_button"
+                            onClick={() => {
+                              setPortfolioStatus(
+                                item.portfolio_id,
+                                userId,
+                                item.action,
+                                'rejected',
+                                setNewData
+                              );
+                            }}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
       <Navbar />
     </>
   ) : (
-    <div>
-      <div className="d-flex justify-content-center">
-        <Message style={{ color: 'red' }}>
-          You are not logged in, please login!
-        </Message>
-      </div>
-      <LogIn />
-    </div>
+    <AuthIssue />
   );
 }

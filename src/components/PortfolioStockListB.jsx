@@ -1,17 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { Image, List } from "semantic-ui-react";
+import { useAppContext } from "../contexts/AppContext";
 
-const StockListB = ({ item, externalAPIstocks, stockData, sharePrice }) => {
+const StockListB = ({ item, externalAPIstocks, sharePrice }) => {
   const [logo, setLogo] = useState();
+  const { contextStockData } = useAppContext();
+  const [newSharePrice, setNewharePrise] = useState(0);
 
-  useEffect(() => {
-    const theLogo = stockData.find(
-      (alogo) => alogo.companyid == item.company_id
-    );
-    setLogo(theLogo.logo);
-    console.log(theLogo.logo);
-  }, []);
+  // useEffect(() => {
+  //   const theLogo = contextStockData.find(
+  //     (alogo) => alogo.companyid == item.company_id
+  //   );
+  //   setLogo(theLogo.logo);
 
+  //   console.log(theLogo.logo);
+  // }, []);
+  const insertLogo = (stockData, companyId) => {
+    const theLogo = stockData.find((alogo) => alogo.companyid == companyId);
+    console.log(theLogo);
+    if (theLogo) {
+      return `/company_logos/${theLogo.logo}`;
+    }
+    return "/company_logos/NO_LOGO.png";
+  };
+
+  // useEffect(() => {
+  //   //   const theLogo = contextStockData.find(
+  //   //     (alogo) => alogo.companyid == item.company_id
+  //   //   );
+  //   //   setLogo(theLogo.logo);
+  //   if (Object.values(sharePrice).length !== 1) {
+  //     setsharePrise(parseFloat(Object.values(sharePrice)));
+  //   } else {
+  //     setsharePrise(parseFloat(externalAPIstocks?.change));
+  //   }
+  // }, []);
+  console.log(item);
   return (
     <>
       <div className="one-stock">
@@ -21,9 +45,7 @@ const StockListB = ({ item, externalAPIstocks, stockData, sharePrice }) => {
               <Image
                 style={{ height: "40px", width: "40px" }}
                 avatar
-                src={
-                  logo ? `/company_logos/${logo}` : `/company_logos/NO_LOGO.png`
-                }
+                src={insertLogo(contextStockData, item.company_id)}
               />
               <List.Content className="container d-flex w-100">
                 <div>

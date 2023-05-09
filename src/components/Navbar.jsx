@@ -8,7 +8,6 @@ import useAuth from '../hooks/useAuth';
 
 const Navbar = () => {
   const { userLogin, loading } = useAuth();
-
   return (
     <div className="navi fixed-bottom navbar">
       {loading ? (

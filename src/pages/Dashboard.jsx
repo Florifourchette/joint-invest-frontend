@@ -17,6 +17,8 @@ import Navbar from '../components/Navbar';
 import DeleteConfirmedButton from '../components/DeleteConfirmedButton';
 import StatusMessages from '../components/StatusMessages';
 import { BiArrowBack } from 'react-icons/bi';
+import axios from 'axios';
+import AuthIssue from '../components/AuthIssue';
 
 export default function Dashboard(props) {
   const [dashboardData, setDashboardData] = useState([]);
@@ -76,12 +78,26 @@ export default function Dashboard(props) {
       console.log(apiUrl);
       const apiCall = async () => {
         try {
-          fetch(apiUrl)
-            .then((response) => response.json())
-            .then((data) => {
-              console.log(data);
-              setPrices(data);
-            });
+          const data = await axios.post(
+            'https://joint-invest-back-end.onrender.com/api/external',
+            {
+              cacheKey: 'currentPrices',
+              remoteUrl: apiUrl,
+            }
+          );
+          if (data.data?.status !== 'error') {
+            console.log('WORKING', data);
+            setPrices(data.data);
+          } else {
+            console.log('FAILING', data.data.status);
+          }
+          // try {
+          //   fetch(apiUrl)
+          //     .then((response) => response.json())
+          //     .then((data) => {
+          //       console.log("THE ORIGINAL", data);
+          //       setPrices(data);
+          //     });
         } catch (error) {
           console.log(error);
         }
@@ -179,7 +195,7 @@ export default function Dashboard(props) {
     },
     {}
   );
-  console.log(portfolioTotals);
+  console.log('portfolioTotals', portfolioTotals);
 
   return isAuthenticated ? (
     <div className="overview-page">
@@ -196,7 +212,7 @@ export default function Dashboard(props) {
         <h2>$ {totalAssetsSum}</h2>
         <h3>Amount Invested</h3>
         <h4>$ {totalAmountInvested}</h4>
-        <h3>Total gains</h3>
+        <h3>Total profit/loss</h3>
         <h4 className={totalPandL >= 0 ? 'positive' : 'negative'}>
           $ {totalPandL}
         </h4>
@@ -206,11 +222,17 @@ export default function Dashboard(props) {
                 <OverviewChart totalAssetsSum={totalAssetsSum}/>
             </div> */}
       <div>
-        {dataReady && (
+        {dataReady &&
+        dashboardData.length > 1 &&
+        Object.values(portfolioTotals)[0] > 0 &&
+        Object.values(portfolioTotals)[0] > 0 &&
+        Object.values(portfolioTotals)[1] > 0 ? (
           <PieChart
             dashboardData={dashboardData}
             portfolioTotals={portfolioTotals}
           />
+        ) : (
+          <div></div>
         )}
       </div>
       <div className="portfolio-cards">
@@ -260,25 +282,23 @@ export default function Dashboard(props) {
                     <h4 className="friend">{data.friend_username}</h4>
                   </div>
                 </div>
-                <div className="d-flex align-items-center">
-                  <DeleteConfirmedButton
-                    data={data}
-                    userId={userId}
-                    portfolioTotals={portfolioTotals}
-                    setPortfolioStatusUpdated={
-                      setPortfolioStatusUpdated
-                    }
-                    portfolioStatusUpdated={portfolioStatusUpdated}
-                    setNewData={setNewData}
-                    wallet={wallet}
-                    Navigate={Navigate}
-                    prices={prices}
-                    PortfolioProfitLoss={(
-                      portfolioTotals[data.portfolio_id] -
-                      data.total_buying_value
-                    ).toFixed(2)}
-                  />
-                </div>
+                <DeleteConfirmedButton
+                  data={data}
+                  userId={userId}
+                  portfolioTotals={portfolioTotals}
+                  setPortfolioStatusUpdated={
+                    setPortfolioStatusUpdated
+                  }
+                  portfolioStatusUpdated={portfolioStatusUpdated}
+                  setNewData={setNewData}
+                  wallet={wallet}
+                  Navigate={Navigate}
+                  prices={prices}
+                  PortfolioProfitLoss={(
+                    portfolioTotals[data.portfolio_id] -
+                    data.total_buying_value
+                  ).toFixed(2)}
+                />
                 {data.portfolio_status === 'pending_activation' ||
                 data.portfolio_status === 'pending_deletion' ? (
                   <StatusMessages
@@ -311,13 +331,6 @@ export default function Dashboard(props) {
       <Navbar />
     </div>
   ) : (
-    <div>
-      <div className="d-flex justify-content-center">
-        <Message style={{ color: 'red' }}>
-          You are not logged in, please login!
-        </Message>
-      </div>
-      <LogIn />
-    </div>
+    <AuthIssue />
   );
 }

@@ -1,16 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { Image, List } from "semantic-ui-react";
+import { useAppContext } from "../contexts/AppContext";
 
-const StockListA = ({ item, externalAPIstocks, sharePrice, stockData }) => {
+const StockListA = ({ item, externalAPIstocks, sharePrice }) => {
+  const { contextStockData } = useAppContext();
   const [logo, setLogo] = useState();
+  const [APIStockChange, setAPIStockChange] = useState(0);
 
   useEffect(() => {
-    const theLogo = stockData.find(
-      (alogo) => alogo.companyid == item.company_id
-    );
-    setLogo(theLogo.logo);
-    console.log(theLogo.logo);
+    //   const theLogo = contextStockData.find(
+    //     (alogo) => alogo.companyid == item.company_id
+    //   );
+    //   setLogo(theLogo.logo);
+    if (Object.values(sharePrice).length !== 1) {
+      setAPIStockChange(parseFloat(externalAPIstocks[item.company_id]?.change));
+    } else {
+      setAPIStockChange(parseFloat(externalAPIstocks?.change));
+    }
   }, []);
+
+  const insertLogo = (stockData, companyId) => {
+    const theLogo = stockData.find((alogo) => alogo.companyid == companyId);
+    console.log(theLogo);
+    if (theLogo) {
+      return `/company_logos/${theLogo.logo}`;
+    }
+    return "/company_logos/NO_LOGO.png";
+  };
 
   return (
     <>
@@ -21,9 +37,7 @@ const StockListA = ({ item, externalAPIstocks, sharePrice, stockData }) => {
               <Image
                 style={{ height: "40px", width: "40px" }}
                 avatar
-                src={
-                  logo ? `/company_logos/${logo}` : `/company_logos/NO_LOGO.png`
-                }
+                src={insertLogo(contextStockData, item.company_id)}
               />
               <List.Content className="container d-flex w-100">
                 <div className="d-flex justify-content-start flex-column">
@@ -42,8 +56,7 @@ const StockListA = ({ item, externalAPIstocks, sharePrice, stockData }) => {
                   </List.Description>
                 </div>
                 <div className="d-flex justify-content-end w-100 align-items-center">
-                  {parseFloat(externalAPIstocks[item.company_id]?.change) >
-                  0 ? (
+                  {APIStockChange > 0 ? (
                     <List.Description
                       style={{
                         fontWeight: "600",
@@ -51,17 +64,10 @@ const StockListA = ({ item, externalAPIstocks, sharePrice, stockData }) => {
                         fontSize: "1.1em",
                       }}
                     >
-                      +
-                      {parseFloat(
-                        externalAPIstocks[item.company_id]?.change
-                      ).toFixed(2)}
-                      % / +
+                      +{APIStockChange.toFixed(2)}% / +
                       {(
                         parseFloat(sharePrice[item.company_id]) *
-                        (parseFloat(
-                          externalAPIstocks[item.company_id]?.change
-                        ) /
-                          100)
+                        (APIStockChange / 100)
                       ).toFixed(2)}
                       $
                     </List.Description>
@@ -73,16 +79,10 @@ const StockListA = ({ item, externalAPIstocks, sharePrice, stockData }) => {
                         fontSize: "1.1em",
                       }}
                     >
-                      {parseFloat(
-                        externalAPIstocks[item.company_id]?.change
-                      ).toFixed(2)}
-                      % /
+                      {APIStockChange.toFixed(2)}% /
                       {(
                         parseFloat(sharePrice[item.company_id]) *
-                        (parseFloat(
-                          externalAPIstocks[item.company_id]?.change
-                        ) /
-                          100)
+                        (APIStockChange / 100)
                       ).toFixed(2)}
                       $
                     </List.Description>

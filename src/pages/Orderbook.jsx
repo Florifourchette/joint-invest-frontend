@@ -1,16 +1,15 @@
-
 import React, { useState, useEffect } from 'react';
 import { useAppContext } from '../contexts/AppContext';
 import { useParams, useNavigate } from 'react-router-dom';
-import useAuth from '../hooks/useAuth';
-import LogIn from './LogIn';
-import { Message } from 'semantic-ui-react';
 import axios from 'axios';
 import Orderlist from '../components/Orderlist';
 import { BiArrowBack } from 'react-icons/bi';
 import Navbar from '../components/Navbar';
+import useAuth from '../hooks/useAuth';
+import AuthIssue from '../components/AuthIssue';
 
 export default function Orderbook() {
+  const { isAuthenticated } = useAuth();
   const { contextStockData } = useAppContext();
   const [orders, setOrders] = useState();
   let { portfolio_id } = useParams();
@@ -24,11 +23,8 @@ export default function Orderbook() {
   useEffect(() => {
     async function getOrders() {
       try {
-
-
         const stockInfos = await axios.get(
           `https://joint-invest-back-end.onrender.com/api/order_book/${portfolio_id}`
-
         );
         console.log('Response data:', stockInfos.data);
         setOrders(stockInfos.data);
@@ -41,35 +37,35 @@ export default function Orderbook() {
     getOrders();
   }, []);
 
-  return (
-    <>
-      <div style={{ width: '500px' }}>
-        <div style={{ width: '450px' }}>
-          <BiArrowBack
-            style={{
-              fontSize: '2rem',
-              position: 'absolute',
-              marginTop: '20px',
-            }}
-            onClick={handleClick}
-          />
-        </div>
-        <h1>Order Book</h1>
-        <div style={{ marginBottom: '40px' }}>
+  return isAuthenticated ? (
+    <div className="bodyOrderbook">
+      <div>
+        <BiArrowBack
+          className="orderBookBackButton"
+          onClick={handleClick}
+        />
+      </div>
+      <h1 className="orderBookTitle">Order Book</h1>
+      <div>
+        <div style={{ marginBottom: '40px', paddingBottom: '4rem' }}>
           {orders &&
             orders.map((item, index, arr) => {
               return (
-                <Orderlist
-                  item={item}
-                  index={index}
-                  arr={arr}
-                  contextStockData={contextStockData}
-                />
+                <div className="OrderBookListItemContainer ">
+                  <Orderlist
+                    item={item}
+                    index={index}
+                    arr={arr}
+                    contextStockData={contextStockData}
+                  />
+                </div>
               );
             })}
         </div>
-        <Navbar />
       </div>
-    </>
+      <Navbar />
+    </div>
+  ) : (
+    <AuthIssue />
   );
 }

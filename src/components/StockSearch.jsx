@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Dropdown, Loader } from 'semantic-ui-react';
+import React, { useState, useEffect } from "react";
+import { Dropdown, Loader } from "semantic-ui-react";
 
-export default function StockSearchBar({
-  selectedOption,
-  setSelectedOption,
-}) {
-  const [searchQuery, setSearchQuery] = useState('');
+export default function StockSearchBar({ selectedOption, setSelectedOption }) {
+  const [searchQuery, setSearchQuery] = useState("");
   const [searchOptions, setSearchOptions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -22,7 +19,7 @@ export default function StockSearchBar({
 
       // filtering out results not included in the plan
       const filteredData = data.filter((stock) => {
-        return stock.access.plan === 'Basic';
+        return stock.access.plan === "Basic";
       });
 
       const options = filteredData.map((stock, index) => ({
@@ -34,21 +31,21 @@ export default function StockSearchBar({
       setSearchOptions(options);
       setIsLoading(false);
     }
-    if (searchQuery === '') {
+    if (searchQuery === "") {
       setSearchOptions([]);
     }
     if (searchQuery.length > 1) {
       fetchSearchOptions();
     }
   }, [searchQuery]);
-  console.log('search query', searchQuery);
+  console.log("search query", searchQuery);
   const handleSelect = (option) => {
     setSelectedOption(option);
   };
   function handleClear() {
-    setSelectedOption('');
+    setSelectedOption("");
   }
-  console.log('selected option', selectedOption);
+  console.log("selected option", selectedOption);
   console.log(searchOptions);
   return (
     <div className="ui search transaction-search">
@@ -57,37 +54,37 @@ export default function StockSearchBar({
           className="prompt"
           type="text"
           placeholder={
-            selectedOption === '' ? 'Find new stocks' : selectedOption
+            selectedOption === "" ? "Find new stocks" : selectedOption
           }
-          value={selectedOption === '' ? searchQuery : selectedOption}
+          value={selectedOption === "" ? searchQuery : selectedOption}
           onChange={(event) => setSearchQuery(event.target.value)}
         />
-        {selectedOption !== '' && (
-          <button>
-            <i className="close icon" onClick={handleClear}></i>
+        {selectedOption !== "" && (
+          <button style={{ background: "#FFF3BE" }}>
+            <i
+              className="close icon"
+              onClick={handleClear}
+              style={{ fontSize: "1.2em" }}
+            ></i>
           </button>
         )}
-        {selectedOption === '' && <i className="search icon"></i>}
+        {selectedOption === "" && <i className="search icon"></i>}
       </div>
       {isLoading && <Loader active inline />}
-      {!isLoading &&
-        searchOptions.length > 0 &&
-        selectedOption === '' && (
-          <Dropdown.Menu className="drop-down">
-            {searchOptions.map((option, index) => (
-              <Dropdown.Item
-                key={index}
-                text={option.text}
-                value={option.value}
-                onClick={() => handleSelect(option.text)}
-                className="dropdown-item"
-              />
-            ))}
-          </Dropdown.Menu>
-        )}
-      {!isLoading && searchOptions.length === 0 && (
-        <p>No results found.</p>
+      {!isLoading && searchOptions.length > 0 && selectedOption === "" && (
+        <Dropdown.Menu className="drop-down">
+          {searchOptions.map((option, index) => (
+            <Dropdown.Item
+              key={index}
+              text={option.text}
+              value={option.value}
+              onClick={() => handleSelect(option.text)}
+              className="dropdown-item"
+            />
+          ))}
+        </Dropdown.Menu>
       )}
+      {!isLoading && searchOptions.length === 0 && <p>No results found.</p>}
     </div>
   );
 }
