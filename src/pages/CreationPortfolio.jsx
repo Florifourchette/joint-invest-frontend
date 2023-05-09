@@ -19,7 +19,7 @@ const CreationPortfolio = () => {
   const { isAuthenticated } = useAuth();
   const Navigate = useNavigate();
   const [countDownToggle, setCountDownToggle] = useState(false);
-  const [countDown, setCountDown] = useState(10);
+  const [countDown, setCountDown] = useState(5);
 
   const { userId } = useParams();
 
@@ -30,7 +30,7 @@ const CreationPortfolio = () => {
 
   useEffect(() => {
     axios
-      .get('https://joint-invest-back-end.onrender.com/api/overview')
+      .get('http://localhost:3000/api/overview')
       .then(function (response) {
         console.log(response);
       })
@@ -47,7 +47,7 @@ const CreationPortfolio = () => {
     e.preventDefault();
     axios
       .post(
-        `https://joint-invest-back-end.onrender.com/api/creation_portfolio/${userId}`,
+        `http://localhost:3000/api/creation_portfolio/${userId}`,
         {
           initial_amount: newPortfolioInitialAmount,
           name_of_portfolio: newPortfolioName,

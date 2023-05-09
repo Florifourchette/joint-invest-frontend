@@ -168,6 +168,7 @@ export default function Portfolio() {
           }
         );
         if (nextResponse.data?.status !== 'error') {
+          console.log(nextResponse);
           setExternalAPIstocks(nextResponse.data);
         } else {
         }
@@ -188,6 +189,7 @@ export default function Portfolio() {
         // const data = await axios.get();
         // console.log(data);
         if (data.data?.status !== 'error') {
+          console.log(data);
           setAllCompanies(data.data);
         } else {
         }

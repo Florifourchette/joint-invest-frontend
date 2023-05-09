@@ -108,6 +108,7 @@ export default function Messages() {
                 company_name: '',
                 number_of_shares: '',
                 initial_amount: item.initial_amount,
+                status: item.status,
               };
             }
           }
@@ -133,47 +134,43 @@ export default function Messages() {
     setTransactionDataCleaned(
       transaction?.flatMap((items) => {
         return items?.map((item) => {
-          if ((item.status = 'pending'))
-            for (let j = 0; j < friends.length; j++) {
-              for (let i = 0; i < portfoliosNames.length; i++) {
-                if (
-                  item.portfolio_id ===
-                  portfoliosNames[i].portfolio_id
-                ) {
-                  if (item.user_id === friends[j].friend_id) {
-                    return {
-                      type: 'transaction',
-                      requester_id: item.user_id,
-                      requester_name: friends[j].friend_id,
-                      date: item.creating_date,
-                      portfolio_name:
-                        portfoliosNames[i].portfolio_name,
-                      portfolio_id: item.portfolio_id,
-                      action: item.type_of_transaction,
-                      company_name: item.company_name,
-                      number_of_shares: item.number_of_shares,
-                      initial_amount: '',
-                      status: item.status,
-                    };
-                  } else if (item.user_id !== friends[j].friend_id) {
-                    return {
-                      type: 'transaction',
-                      requester_id: item.user_id,
-                      requester_name: 'you',
-                      date: item.creating_date,
-                      portfolio_name:
-                        portfoliosNames[i].portfolio_name,
-                      portfolio_id: item.portfolio_id,
-                      action: item.type_of_transaction,
-                      company_name: item.company_name,
-                      number_of_shares: item.number_of_shares,
-                      initial_amount: '',
-                      status: item.status,
-                    };
-                  }
+          for (let j = 0; j < friends.length; j++) {
+            for (let i = 0; i < portfoliosNames.length; i++) {
+              if (
+                item.portfolio_id === portfoliosNames[i].portfolio_id
+              ) {
+                if (item.user_id === friends[j].friend_id) {
+                  return {
+                    type: 'transaction',
+                    requester_id: item.user_id,
+                    requester_name: friends[j].friend_username,
+                    date: item.creating_date,
+                    portfolio_name: portfoliosNames[i].portfolio_name,
+                    portfolio_id: item.portfolio_id,
+                    action: item.type_of_transaction,
+                    company_name: item.company_name,
+                    number_of_shares: item.number_of_shares,
+                    initial_amount: '',
+                    status: item.status,
+                  };
+                } else if (item.user_id !== friends[j].friend_id) {
+                  return {
+                    type: 'transaction',
+                    requester_id: item.user_id,
+                    requester_name: 'you',
+                    date: item.creating_date,
+                    portfolio_name: portfoliosNames[i].portfolio_name,
+                    portfolio_id: item.portfolio_id,
+                    action: item.type_of_transaction,
+                    company_name: item.company_name,
+                    number_of_shares: item.number_of_shares,
+                    initial_amount: '',
+                    status: item.status,
+                  };
                 }
               }
             }
+          }
         });
       })
     );
@@ -188,19 +185,22 @@ export default function Messages() {
 
   const allData = portfolioDataCleaned
     .concat(transactionsDataCleaned)
+    .filter((item) => item.status !== 'confirmed')
     .sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
       return dateB - dateA;
     });
 
-  // return isAuthenticated ?
-  return (
+  console.log(transactionsDataCleaned.filter((item) => item.status));
+
+  return isAuthenticated ? (
     <>
       <div className="message_page">
         <h1>Messages</h1>
         <div className="message_page_container">
           {allData?.map((item, index) => {
+            console.log(item);
             return (
               <div key={index} className="message-card">
                 {/* Info part who created the request and when */}

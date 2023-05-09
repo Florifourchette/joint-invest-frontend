@@ -9,7 +9,6 @@ const Orderlist = ({ item, index, arr, contextStockData }) => {
   const [year, month, day] = date.split(".");
   const newDateString = `${day}.${month}.${year}`;
   const dateGetMonth = creating_date.substring(0, 10);
-  const [logo, setLogo] = useState();
 
   const prevItem = arr[index - 1];
   const prevMonth =
@@ -17,13 +16,21 @@ const Orderlist = ({ item, index, arr, contextStockData }) => {
 
   //console.log(dateGetMonth);
 
-  useEffect(() => {
-    const theLogo = contextStockData.find(
-      (alogo) => alogo.companyid == item.company_id
-    );
-    setLogo(theLogo.logo);
-    console.log(theLogo.logo);
-  }, []);
+  const insertLogo = (stockData, companyId) => {
+    const theLogo = stockData.find((alogo) => alogo.companyid == companyId);
+    console.log(theLogo);
+    if (theLogo) {
+      return `/company_logos/${theLogo.logo}`;
+    }
+    return "/company_logos/NO_LOGO.png";
+  };
+  // useEffect(() => {
+  //   const theLogo = contextStockData.find(
+  //     (alogo) => alogo.companyid == item.company_id
+  //   );
+  //   setLogo(theLogo.logo);
+  //   console.log(theLogo.logo);
+  // }, []);
 
   return (
     <>
@@ -47,19 +54,19 @@ const Orderlist = ({ item, index, arr, contextStockData }) => {
                 <List.Description>{newDateString}</List.Description>
               </div>
               <div className="three wide column">
-                <div>
-                  <Image
-                    circular
-                    style={{ borderRadius: "50%" }}
-                    ui
-                    size="mini"
-                    src={
-                      logo
-                        ? `/company_logos/${logo}`
-                        : `/company_logos/NO_LOGO.png`
-                    }
-                  />
-                </div>
+                {contextStockData ? (
+                  <div>
+                    <Image
+                      circular
+                      style={{ borderRadius: "50%" }}
+                      ui
+                      size="mini"
+                      src={insertLogo(contextStockData, item.company_id)}
+                    />
+                  </div>
+                ) : (
+                  <div></div>
+                )}
               </div>
               <div className="six wide column">
                 <List.Description>{item.company_name}</List.Description>

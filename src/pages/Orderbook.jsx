@@ -46,20 +46,22 @@ export default function Orderbook() {
         />
       </div>
       <h1 className="orderBookTitle">Order Book</h1>
-      <div style={{ marginBottom: '40px' }}>
-        {orders &&
-          orders.map((item, index, arr) => {
-            return (
-              <div className="OrderBookListItemContainer ">
-                <Orderlist
-                  item={item}
-                  index={index}
-                  arr={arr}
-                  contextStockData={contextStockData}
-                />
-              </div>
-            );
-          })}
+      <div>
+        <div style={{ marginBottom: '40px', paddingBottom: '4rem' }}>
+          {orders &&
+            orders.map((item, index, arr) => {
+              return (
+                <div className="OrderBookListItemContainer ">
+                  <Orderlist
+                    item={item}
+                    index={index}
+                    arr={arr}
+                    contextStockData={contextStockData}
+                  />
+                </div>
+              );
+            })}
+        </div>
       </div>
       <Navbar />
     </div>
