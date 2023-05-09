@@ -18,8 +18,9 @@ const DeleteConfirmedButton = ({
   prices,
   PortfolioProfitLoss,
 }) => {
+  const portfolioTotal = portfolioTotals[data.portfolio_id];
   return (
-    <div className="dashboard_buttons">
+    <div className="dashboard_buttons d-flex align-items-center">
       {/* current status 'activated' */}
       {data.portfolio_status === "activated" ? (
         <>
@@ -81,9 +82,13 @@ const DeleteConfirmedButton = ({
               Navigate(`/portfolio/${data.portfolio_id}`, {
                 state: {
                   prices: filteredPrices,
+                  investedAmount: data.invested_amount,
                   userId: userId,
                   number_of_shares: filteredShares[data.portfolio_id],
                   friend: data.friend_username,
+                  profitLoss:
+                    portfolioTotals[data.portfolio_id] -
+                    data.total_buying_value,
                 },
               });
             }}
@@ -155,7 +160,7 @@ const DeleteConfirmedButton = ({
                   friend: data.friend_username,
                   portfolioProfitLoss: PortfolioProfitLoss,
                   investedAmount: data.invested_amount,
-
+                  portfolioTotals: portfolioTotals,
                 },
               });
             }}
@@ -189,7 +194,7 @@ const DeleteConfirmedButton = ({
           >
             <div className="confirmation_button">
               <i className="status_icons">
-                <FaCheckSquare size={25} />
+                <FaCheckSquare size={21} style={{ color: "#FFF3BE" }} />
               </i>
             </div>
           </button>

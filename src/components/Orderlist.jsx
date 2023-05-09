@@ -27,91 +27,90 @@ const Orderlist = ({ item, index, arr, contextStockData }) => {
 
   return (
     <>
-      <List>
-        {month !== prevMonth && (
-          <List.Item style={{ margin: "35px 0 15px 0" }}>
-            <List.Content>
-              <h4>
-                {new Date(creating_date).toLocaleString("default", {
-                  month: "long",
-                })}
-              </h4>
+      <div className="orderBookListItem">
+        <List>
+          {month !== prevMonth && (
+            <List.Item>
+              <List.Content>
+                <h4 id="orderBookHeadline">
+                  {new Date(creating_date).toLocaleString("default", {
+                    month: "long",
+                  })}
+                </h4>
+              </List.Content>
+            </List.Item>
+          )}
+          <List.Item id="orderBookListEntry">
+            <List.Content className="ui grid borderless">
+              <div className="four wide column">
+                <List.Header>{item.type_of_transaction}</List.Header>
+                <List.Description>{newDateString}</List.Description>
+              </div>
+              <div className="three wide column">
+                <div>
+                  <Image
+                    circular
+                    style={{ borderRadius: "50%" }}
+                    ui
+                    size="mini"
+                    src={
+                      logo
+                        ? `/company_logos/${logo}`
+                        : `/company_logos/NO_LOGO.png`
+                    }
+                  />
+                </div>
+              </div>
+              <div className="six wide column">
+                <List.Description>{item.company_name}</List.Description>
+                {item.number_of_shares < 1 ? (
+                  <List.Description>{item.price_of_share}</List.Description>
+                ) : (
+                  <List.Description>
+                    {item.price_of_share} x {item.number_of_shares}
+                  </List.Description>
+                )}
+              </div>
+              <div
+                className="three wide column right aligned"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-end",
+                }}
+              >
+                {item.type_of_transaction === "Buy" ? (
+                  <List.Header
+                    style={{
+                      fontWeight: "600",
+                      color: "green",
+                      textAlign: "right",
+                    }}
+                  >
+                    +
+                    {parseFloat(
+                      item.price_of_share * item.number_of_shares
+                    ).toFixed(2)}
+                  </List.Header>
+                ) : (
+                  <List.Header
+                    style={{
+                      fontWeight: "600",
+                      color: "red",
+                      textAlign: "right",
+                    }}
+                  >
+                    -
+                    {parseFloat(
+                      item.price_of_share * item.number_of_shares
+                    ).toFixed(2)}
+                  </List.Header>
+                )}
+              </div>
             </List.Content>
           </List.Item>
-        )}
-        <List.Item style={{ maxWidth: "450px", margin: "auto" }}>
-          <List.Content className="ui grid">
-            <div className="three wide column">
-              <List.Header>{item.type_of_transaction}</List.Header>
-              <List.Description>{newDateString}</List.Description>
-            </div>
-            <div
-              className="three wide column"
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              <div>
-                <Image
-                  circular
-                  style={{ borderRadius: "50%" }}
-                  ui
-                  size="mini"
-                  src={
-                    logo
-                      ? `/company_logos/${logo}`
-                      : `/company_logos/NO_LOGO.png`
-                  }
-                />
-              </div>
-            </div>
-            <div className="six wide column">
-              <List.Description>{item.company_name}</List.Description>
-              {item.number_of_shares < 1 ? (
-                <List.Description>{item.price_of_share}</List.Description>
-              ) : (
-                <List.Description>
-                  {item.price_of_share} x {item.number_of_shares}
-                </List.Description>
-              )}
-            </div>
-            <div
-              className="four wide column right aligned"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-end",
-              }}
-            >
-              {item.type_of_transaction === "Buy" ? (
-                <List.Header
-                  style={{
-                    fontWeight: "600",
-                    color: "green",
-                    textAlign: "right",
-                  }}
-                >
-                  +
-                  {parseFloat(
-                    item.price_of_share * item.number_of_shares
-                  ).toFixed(2)}
-                </List.Header>
-              ) : (
-                <List.Header
-                  style={{
-                    fontWeight: "600",
-                    color: "red",
-                    textAlign: "right",
-                  }}
-                >
-                  -
-                  {parseFloat(
-                    item.price_of_share * item.number_of_shares
-                  ).toFixed(2)}
-                </List.Header>
-              )}
-            </div>
-          </List.Content>
-        </List.Item>
-      </List>
+        </List>
+      </div>
     </>
   );
 };
