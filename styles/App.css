@@ -918,6 +918,7 @@ button {
   align-items: center;
   /*   margin: 1rem auto 1rem auto;
   margin-bottom: 20%; */
+  padding-bottom: 20%;
 }
 
 .transactions-card {
