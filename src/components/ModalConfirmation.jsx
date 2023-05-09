@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 const ModalConfirmation = ({
   message,
@@ -23,7 +23,7 @@ const ModalConfirmation = ({
                   onClick={handleProposalConfirmation}
                   className="hex-button"
                 >
-                  Purchase
+                  Confirm
                 </button>
                 <button onClick={handleCancel}>Cancel</button>
               </div>

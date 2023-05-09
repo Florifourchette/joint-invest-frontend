@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useAppContext } from "../contexts/AppContext";
-import { Image } from "semantic-ui-react";
+import React, { useState, useEffect } from 'react';
+import { useAppContext } from '../contexts/AppContext';
+import { Image } from 'semantic-ui-react';
 
 export default function TransactionCardPending({
   stock,
@@ -11,7 +11,7 @@ export default function TransactionCardPending({
   locationState,
 }) {
   console.log(location);
-  console.log("locationState", locationState);
+  console.log('locationState', locationState);
 
   const { contextStockData } = useAppContext();
   const [logo, setLogo] = useState();
@@ -20,47 +20,57 @@ export default function TransactionCardPending({
     <div key={stock.id} className="transactions-card">
       <div className="transactions-left-column">
         <Image
-          style={{ height: "40px", width: "40px" }}
+          style={{ height: '40px', width: '40px' }}
           avatar
-          src={logo ? `/company_logos/${logo}` : `/company_logos/NO_LOGO.png`}
+          src={
+            logo
+              ? `/company_logos/${logo}`
+              : `/company_logos/NO_LOGO.png`
+          }
         />
       </div>
       <div className=" middle-column-pending">
         <h4>
           {stock?.company_id && (
             <>
-              {stock.company_id}{" "}
-              <span>{location.number_of_shares[stock.company_id]}</span>
+              {stock.company_id}{' '}
+              {/* <span>{location.number_of_shares[stock.company_id]}</span> */}
             </>
           )}
         </h4>
         <div className="pending-message">
-          {location.userId != stock.user_id && stock.number_of_shares >= 2 && (
-            <p>
-              {location.friend} requests to{" "}
-              {stock.type_of_transaction.toLowerCase()} {stock.number_of_shares}{" "}
-              stocks{" "}
-            </p>
-          )}
-          {location.userId != stock.user_id && stock.number_of_shares < 2 && (
-            <p>
-              {location.friend} requests to{" "}
-              {stock.type_of_transaction.toLowerCase()} {stock.number_of_shares}{" "}
-              stock{" "}
-            </p>
-          )}
-          {location.userId == stock.user_id && stock.number_of_shares >= 2 && (
-            <p>
-              You requested to {stock.type_of_transaction.toLowerCase()}{" "}
-              {stock.number_of_shares} stocks{" "}
-            </p>
-          )}
-          {location.userId == stock.user_id && stock.number_of_shares < 2 && (
-            <p>
-              You requested to {stock.type_of_transaction.toLowerCase()}{" "}
-              {stock.number_of_shares} stock{" "}
-            </p>
-          )}
+          {location.userId != stock.user_id &&
+            stock.number_of_shares >= 2 && (
+              <p>
+                {location.friend} requests to{' '}
+                {stock.type_of_transaction.toLowerCase()}{' '}
+                {stock.number_of_shares} stocks{' '}
+              </p>
+            )}
+          {location.userId != stock.user_id &&
+            stock.number_of_shares < 2 && (
+              <p>
+                {location.friend} requests to{' '}
+                {stock.type_of_transaction.toLowerCase()}{' '}
+                {stock.number_of_shares} stock{' '}
+              </p>
+            )}
+          {location.userId == stock.user_id &&
+            stock.number_of_shares >= 2 && (
+              <p>
+                You requested to{' '}
+                {stock.type_of_transaction.toLowerCase()}{' '}
+                {stock.number_of_shares} stocks{' '}
+              </p>
+            )}
+          {location.userId == stock.user_id &&
+            stock.number_of_shares < 2 && (
+              <p>
+                You requested to{' '}
+                {stock.type_of_transaction.toLowerCase()}{' '}
+                {stock.number_of_shares} stock{' '}
+              </p>
+            )}
         </div>
       </div>
 

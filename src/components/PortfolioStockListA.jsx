@@ -8,10 +8,10 @@ const StockListA = ({ item, externalAPIstocks, sharePrice }) => {
   const [APIStockChange, setAPIStockChange] = useState(0);
 
   useEffect(() => {
-    const theLogo = contextStockData.find(
-      (alogo) => alogo.companyid == item.company_id
-    );
-    setLogo(theLogo.logo);
+    //   const theLogo = contextStockData.find(
+    //     (alogo) => alogo.companyid == item.company_id
+    //   );
+    //   setLogo(theLogo.logo);
     if (Object.values(sharePrice).length !== 1) {
       setAPIStockChange(
         parseFloat(externalAPIstocks[item.company_id]?.change)
@@ -27,7 +27,7 @@ const StockListA = ({ item, externalAPIstocks, sharePrice }) => {
         <List relaxed="very" style={{ backgroundcolor: '#FFD600' }}>
           <List.Item className="d-flex one-stock">
             <div className="stock-shade">
-              <Image
+              {/* <Image
                 style={{ height: '40px', width: '40px' }}
                 avatar
                 src={
@@ -35,7 +35,7 @@ const StockListA = ({ item, externalAPIstocks, sharePrice }) => {
                     ? `/company_logos/${logo}`
                     : `/company_logos/NO_LOGO.png`
                 }
-              />
+              /> */}
               <List.Content className="container d-flex w-100">
                 <div className="d-flex justify-content-start flex-column">
                   <List.Header
