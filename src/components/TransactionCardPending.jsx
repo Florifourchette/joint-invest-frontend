@@ -91,6 +91,7 @@ export default function TransactionCardPending({
         {location.userId != stock.user_id && (
           <button
             className="transactions_button"
+            style={{ backgroundColor: "#84714F", backgroundImage: "none" }}
             onClick={() =>
               handleDecline(
                 stock.company_id,
