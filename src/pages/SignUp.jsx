@@ -19,7 +19,7 @@ export default function SignUp() {
   };
 
   return (
-    <div style={{ height: "100vh" }}>
+    <div style={{ height: "100vh", width: "375" }}>
       <div className="container-fluid" style={{ maxWidth: "350px" }}>
         <div className="ui middle aligned center aligned grid">
           <div className="column">

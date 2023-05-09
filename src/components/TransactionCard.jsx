@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useAppContext } from '../contexts/AppContext';
-import { Image } from 'semantic-ui-react';
+import React, { useState, useEffect } from "react";
+import { useAppContext } from "../contexts/AppContext";
+import { Image } from "semantic-ui-react";
 
 export default function TransactionCard({
   stock,
@@ -9,7 +9,6 @@ export default function TransactionCard({
   location,
 }) {
   const { contextStockData } = useAppContext();
-  const [logo, setLogo] = useState();
 
   const [counter, setCounter] = useState(1);
 
@@ -31,27 +30,35 @@ export default function TransactionCard({
   //   console.log(theLogo.logo);
   // }, []);
 
+  const insertLogo = (stockData, companyId) => {
+    const theLogo = stockData.find((alogo) => alogo.companyid == companyId);
+    console.log(theLogo);
+    if (theLogo) {
+      return `/company_logos/${theLogo.logo}`;
+    }
+    return "/company_logos/NO_LOGO.png";
+  };
+
   return (
     <div key={stock.id} className="transactions-card">
       <div className="transactions-left-column">
-        {/* <Image
+        <Image
           style={{ height: "40px", width: "40px" }}
           avatar
-          src={logo ? `/company_logos/${logo}` : `/company_logos/NO_LOGO.png`}
-        /> */}
+          src={insertLogo(contextStockData, stock.company_id)}
+        />
       </div>
       <div className="transactions-middle-column">
         <div className="padding-bottom">
           <h4>
-            {stock.company_id}{' '}
+            {stock.company_id}{" "}
             {/* <span>{location.number_of_shares[stock.company_id]}</span> */}
           </h4>
         </div>
         <div className="padding-bottom">
           {Object.keys(location.prices).length !== 0 && (
             <h4 className="transactions-price">
-              Price:{' '}
-              {Number(location.prices[stock.company_id]).toFixed(2)}
+              Price: {Number(location.prices[stock.company_id]).toFixed(2)}
             </h4>
           )}
         </div>

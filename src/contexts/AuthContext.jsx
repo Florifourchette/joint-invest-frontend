@@ -86,7 +86,7 @@ const AuthStateContext = ({ children }) => {
     setToken(null);
     setIsAuthenticated(false);
     setUserLogin(null);
-    navigate("/login");
+    navigate("/");
   };
 
   const getUserData = async () => {

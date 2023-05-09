@@ -1,22 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { Image, List } from 'semantic-ui-react';
+import React, { useState, useEffect } from "react";
+import { Image, List } from "semantic-ui-react";
 
 const Orderlist = ({ item, index, arr, contextStockData }) => {
   //console.log(item);
 
   const { creating_date } = item;
-  const date = creating_date.slice(2, 10).replace(/-/g, '.');
-  const [year, month, day] = date.split('.');
+  const date = creating_date.slice(2, 10).replace(/-/g, ".");
+  const [year, month, day] = date.split(".");
   const newDateString = `${day}.${month}.${year}`;
   const dateGetMonth = creating_date.substring(0, 10);
-  const [logo, setLogo] = useState();
 
   const prevItem = arr[index - 1];
   const prevMonth =
-    prevItem && prevItem.creating_date.substring(0, 10).split('-')[1];
+    prevItem && prevItem.creating_date.substring(0, 10).split("-")[1];
 
   //console.log(dateGetMonth);
 
+  const insertLogo = (stockData, companyId) => {
+    const theLogo = stockData.find((alogo) => alogo.companyid == companyId);
+    console.log(theLogo);
+    if (theLogo) {
+      return `/company_logos/${theLogo.logo}`;
+    }
+    return "/company_logos/NO_LOGO.png";
+  };
   // useEffect(() => {
   //   const theLogo = contextStockData.find(
   //     (alogo) => alogo.companyid == item.company_id
@@ -33,8 +40,8 @@ const Orderlist = ({ item, index, arr, contextStockData }) => {
             <List.Item>
               <List.Content>
                 <h4 id="orderBookHeadline">
-                  {new Date(creating_date).toLocaleString('default', {
-                    month: 'long',
+                  {new Date(creating_date).toLocaleString("default", {
+                    month: "long",
                   })}
                 </h4>
               </List.Content>
@@ -47,28 +54,24 @@ const Orderlist = ({ item, index, arr, contextStockData }) => {
                 <List.Description>{newDateString}</List.Description>
               </div>
               <div className="three wide column">
-                <div>
-                  {/* <Image
-                    circular
-                    style={{ borderRadius: "50%" }}
-                    ui
-                    size="mini"
-                    src={
-                      logo
-                        ? `/company_logos/${logo}`
-                        : `/company_logos/NO_LOGO.png`
-                    }
-                  /> */}
-                </div>
+                {contextStockData ? (
+                  <div>
+                    <Image
+                      circular
+                      style={{ borderRadius: "50%" }}
+                      ui
+                      size="mini"
+                      src={insertLogo(contextStockData, item.company_id)}
+                    />
+                  </div>
+                ) : (
+                  <div></div>
+                )}
               </div>
               <div className="six wide column">
-                <List.Description>
-                  {item.company_name}
-                </List.Description>
+                <List.Description>{item.company_name}</List.Description>
                 {item.number_of_shares < 1 ? (
-                  <List.Description>
-                    {item.price_of_share}
-                  </List.Description>
+                  <List.Description>{item.price_of_share}</List.Description>
                 ) : (
                   <List.Description>
                     {item.price_of_share} x {item.number_of_shares}
@@ -78,17 +81,17 @@ const Orderlist = ({ item, index, arr, contextStockData }) => {
               <div
                 className="three wide column right aligned"
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'flex-end',
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-end",
                 }}
               >
-                {item.type_of_transaction === 'Buy' ? (
+                {item.type_of_transaction === "Buy" ? (
                   <List.Header
                     style={{
-                      fontWeight: '600',
-                      color: 'green',
-                      textAlign: 'right',
+                      fontWeight: "600",
+                      color: "green",
+                      textAlign: "right",
                     }}
                   >
                     +
@@ -99,9 +102,9 @@ const Orderlist = ({ item, index, arr, contextStockData }) => {
                 ) : (
                   <List.Header
                     style={{
-                      fontWeight: '600',
-                      color: 'red',
-                      textAlign: 'right',
+                      fontWeight: "600",
+                      color: "red",
+                      textAlign: "right",
                     }}
                   >
                     -
