@@ -380,10 +380,9 @@ export default function Messages() {
       </div>
       <Navbar />
     </>
+  ) : (
+    <AuthIssue />
   );
-  // ) : (
-  //   <AuthIssue />
-  // );
   // : (
   //   <div>
   //     <div className="d-flex justify-content-center">

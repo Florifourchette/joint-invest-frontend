@@ -758,9 +758,9 @@ button {
 }
 
 .message-notifications {
-  position: fixed;
+  position: absolute;
   right: 43%;
-  bottom: 6.5%;
+  bottom: 42px;
   background-color: white;
   color: #31231e;
   border-radius: 50%;
