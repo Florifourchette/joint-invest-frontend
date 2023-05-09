@@ -140,7 +140,7 @@ export default function Portfolio() {
     async function getOrderBook() {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/order_book/${id}`
+          `https://joint-invest-back-end.onrender.com/api/order_book/${id}`
         );
         setOrderBook(response.data);
       } catch (err) {
@@ -150,7 +150,7 @@ export default function Portfolio() {
     async function getPortfolioStocks() {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/portfolio/${id}`
+          `https://joint-invest-back-end.onrender.com/api/portfolio/${id}`
         );
         setStockItems(response.data.stocks);
         setStockOverview(response.data.overview[0]);
