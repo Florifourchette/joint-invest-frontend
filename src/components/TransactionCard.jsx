@@ -10,7 +10,7 @@ export default function TransactionCard({
     location,
     confirmation,
     portfolioId,
-    setConfirmation
+    setConfirmation,
 }) {
     const { contextStockData } = useAppContext();
     const [logo, setLogo] = useState();
@@ -27,7 +27,7 @@ export default function TransactionCard({
             setCounter(counter - 1);
         }
     };
-    
+
     useEffect(() => {
         getShareNumbers(portfolioId)
             .then((data) => {
@@ -39,13 +39,13 @@ export default function TransactionCard({
     }, []);
 
     const getNumberOfShares = () => {
-      if (numberofSharesData) {
-        const company = Object.values(numberofSharesData).find(
-          (company) => company.company_id === stock.company_id
-        );
-        return company ? company.current_number_of_stocks : 0;
-      }
-      return 0;
+        if (numberofSharesData) {
+            const company = Object.values(numberofSharesData).find(
+                (company) => company.company_id === stock.company_id
+            );
+            return company ? company.current_number_of_stocks : 0;
+        }
+        return 0;
     };
 
     // useEffect(() => {
@@ -56,52 +56,51 @@ export default function TransactionCard({
     //   console.log(theLogo.logo);
     // }, []);
 
-  const insertLogo = (stockData, companyId) => {
-    const theLogo = stockData.find((alogo) => alogo.companyid == companyId);
-    console.log(theLogo);
-    if (theLogo) {
-      return `/company_logos/${theLogo.logo}`;
-    }
-    return "/company_logos/NO_LOGO.png";
-  };
+    const insertLogo = (stockData, companyId) => {
+        const theLogo = stockData.find((alogo) => alogo.companyid == companyId);
+        console.log(theLogo);
+        if (theLogo) {
+            return `/company_logos/${theLogo.logo}`;
+        }
+        return "/company_logos/NO_LOGO.png";
+    };
 
-  return (
-    (getNumberOfShares() > 0 ? (<div key={stock.id} className="transactions-card">
-        <div className="transactions-left-column">
-        <Image
-          style={{ height: "40px", width: "40px" }}
-          avatar
-          src={insertLogo(contextStockData, stock.company_id)}
-        />
-      </div>
-      <div className="transactions-middle-column">
-        <div>
-          <h6 className="transactions-company">
-            {stock.company_id}{" "}
-            {/* <span>{location.number_of_shares[stock.company_id]}</span> */}
-          </h6>
-          {numberofSharesData && (<h4>
-                        {
-                          getNumberOfShares()
-                        }
-                    </h4>)}
-        </div>
-        <div className="padding-bottom">
-          {Object.keys(location.prices).length !== 0 && (
-            <h5 className="transactions-price">
-              Price: {Number(location.prices[stock.company_id]).toFixed(2)}
-            </h5>
-          )}
-        </div>
-        <div className="stock-counter-transactions-card">
-          <button
-            onClick={decreaseCounter}
-            className="hex-button-small-transaction-card"
-          >
-            -
-          </button>
+    return getNumberOfShares() > 0 ? (
+        <div key={stock.id} className="transactions-card">
+            <div className="transactions-left-column">
+                <Image
+                    style={{ height: "40px", width: "40px" }}
+                    avatar
+                    src={insertLogo(contextStockData, stock.company_id)}
+                />
+            </div>
+            <div className="transactions-middle-column">
+                <div>
+                    {numberofSharesData && (
+                        <h6 className="transactions-company">
+                            {stock.company_id} ({getNumberOfShares()})
+                        </h6>
+                    )}
+                </div>
+                <div className="padding-bottom">
+                    {Object.keys(location.prices).length !== 0 && (
+                        <h5 className="transactions-price">
+                            Price:{" "}
+                            {Number(location.prices[stock.company_id]).toFixed(
+                                2
+                            )}
+                        </h5>
+                    )}
+                </div>
+                <div className="stock-counter-transactions-card">
+                    <button
+                        onClick={decreaseCounter}
+                        className="hex-button-small-transaction-card"
+                    >
+                        -
+                    </button>
 
-          <h6>{counter}</h6>
+                    <h6>{counter}</h6>
 
                     <button
                         onClick={increaseCounter}
@@ -122,7 +121,10 @@ export default function TransactionCard({
                 </button>
                 <button
                     className="transactions_button"
-          style={{ backgroundColor: "#84714F", backgroundImage: "none" }}
+                    style={{
+                        backgroundColor: "#84714F",
+                        backgroundImage: "none",
+                    }}
                     onClick={() =>
                         handleSell(
                             stock.company_id,
@@ -134,6 +136,8 @@ export default function TransactionCard({
                     Sell
                 </button>
             </div>
-        </div>) : (<div/>))
+        </div>
+    ) : (
+        <div />
     );
 }
