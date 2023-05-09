@@ -30,7 +30,7 @@ const CreationPortfolio = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3000/api/overview')
+      .get('https://joint-invest-back-end.onrender.com/api/overview')
       .then(function (response) {
         console.log(response);
       })
@@ -47,7 +47,7 @@ const CreationPortfolio = () => {
     e.preventDefault();
     axios
       .post(
-        `http://localhost:3000/api/creation_portfolio/${userId}`,
+        `https://joint-invest-back-end.onrender.com/api/creation_portfolio/${userId}`,
         {
           initial_amount: newPortfolioInitialAmount,
           name_of_portfolio: newPortfolioName,

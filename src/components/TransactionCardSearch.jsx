@@ -6,11 +6,6 @@ export default function TransactionCardSearch({
   companyId,
   companyName,
   selectedOptionPrice,
-  selectedOption,
-  handleBuy,
-  companyId,
-  companyName,
-  selectedOptionPrice,
 }) {
   const [counter, setCounter] = useState(1);
 
