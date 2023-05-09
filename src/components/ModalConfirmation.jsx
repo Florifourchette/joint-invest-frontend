@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const ModalConfirmation = ({
   message,
@@ -18,14 +18,19 @@ const ModalConfirmation = ({
               <div id="modal-body">
                 <p>{message}</p>
               </div>
-              <div className="modal-footer">
+              <div className="modal-footer" id="modalFooter">
+                <button
+                  onClick={handleCancel}
+                  className="hex-button-transactions"
+                >
+                  Cancel
+                </button>
                 <button
                   onClick={handleProposalConfirmation}
-                  className="hex-button"
+                  className="hex-button-transactions"
                 >
                   Confirm
                 </button>
-                <button onClick={handleCancel}>Cancel</button>
               </div>
             </div>
           </div>
