@@ -808,6 +808,11 @@ button {
   background-color: #84714f;
 }
 
+.transactionSearchBtn {
+  width: 45px;
+  height: 35px;
+}
+
 .hex-button-small {
   display: inline-block;
   position: relative;
@@ -934,7 +939,14 @@ button {
   justify-content: space-between;
   flex-wrap: wrap;
   margin-bottom: 1em;
-  height: 150%;
+}
+
+.transactions-company {
+  font-weight: 900;
+}
+
+.transactions-price {
+  font-size: 1em;
 }
 
 .transactions-middle-column {
@@ -942,13 +954,19 @@ button {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  width: 30%;
 }
 
 .padding-bottom {
   padding-bottom: 5px;
 }
 
+.transactions_brown_button {
+  background-color: #31231e;
+}
+
 .transactions_button {
+  text-transform: none !important;
   height: 2.5em;
   width: 4.8em;
   display: inline-block;
@@ -989,10 +1007,12 @@ button {
   display: flex;
   justify-content: space-between;
   padding-bottom: 0;
+  align-items: center;
 }
 .buy-sell-btns {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 .buy-sell-btn {
   margin-top: 0.2em;
@@ -1032,6 +1052,8 @@ button {
   align-items: space-between;
   padding-bottom: 15px;
   justify-content: space-between;
+  height: 55px;
+  align-items: center;
 }
 
 .hex-button-transactions {
@@ -1056,12 +1078,16 @@ button {
   height: 4em;
 }
 
+.dropdown-item {
+  margin: 1.5em;
+}
+
 /* Modals */
 
 /* HEX BUTTONS */
 
 .hex-button-small-transaction-card {
-  width: 2em;
+  width: 1.5em;
   display: inline-block;
   position: relative;
   color: #fff;

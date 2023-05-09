@@ -49,17 +49,17 @@ export default function TransactionCard({
         />
       </div>
       <div className="transactions-middle-column">
-        <div className="padding-bottom">
-          <h4>
+        <div>
+          <h6 className="transactions-company">
             {stock.company_id}{" "}
             {/* <span>{location.number_of_shares[stock.company_id]}</span> */}
-          </h4>
+          </h6>
         </div>
         <div className="padding-bottom">
           {Object.keys(location.prices).length !== 0 && (
-            <h4 className="transactions-price">
+            <h5 className="transactions-price">
               Price: {Number(location.prices[stock.company_id]).toFixed(2)}
-            </h4>
+            </h5>
           )}
         </div>
         <div className="stock-counter-transactions-card">
@@ -70,7 +70,7 @@ export default function TransactionCard({
             -
           </button>
 
-          {counter}
+          <h6>{counter}</h6>
 
           <button
             onClick={increaseCounter}
@@ -91,6 +91,7 @@ export default function TransactionCard({
         </button>
         <button
           className="transactions_button"
+          style={{ backgroundColor: "#84714F", backgroundImage: "none" }}
           onClick={() =>
             handleSell(stock.company_id, stock.company_name, counter)
           }

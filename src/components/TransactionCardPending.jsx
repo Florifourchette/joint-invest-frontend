@@ -34,21 +34,21 @@ export default function TransactionCardPending({
         />
       </div>
       <div className=" middle-column-pending">
-        <h4>
+        <h6 className="transactions-company">
           {stock?.company_id && (
             <>
               {stock.company_id}{" "}
               {/* <span>{location.number_of_shares[stock.company_id]}</span> */}
             </>
           )}
-        </h4>
+        </h6>
         <div className="pending-message">
           {location.userId != stock.user_id && stock.number_of_shares >= 2 && (
-            <p>
+            <h6>
               {location.friend} requests to{" "}
               {stock.type_of_transaction.toLowerCase()} {stock.number_of_shares}{" "}
               stocks{" "}
-            </p>
+            </h6>
           )}
           {location.userId != stock.user_id && stock.number_of_shares < 2 && (
             <p>
