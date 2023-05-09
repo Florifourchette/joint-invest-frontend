@@ -6,14 +6,14 @@ const StockListB = ({ item, externalAPIstocks, sharePrice }) => {
   const [logo, setLogo] = useState();
   const { contextStockData } = useAppContext();
 
-  useEffect(() => {
-    const theLogo = contextStockData.find(
-      (alogo) => alogo.companyid == item.company_id
-    );
-    setLogo(theLogo.logo);
+  // useEffect(() => {
+  //   const theLogo = contextStockData.find(
+  //     (alogo) => alogo.companyid == item.company_id
+  //   );
+  //   setLogo(theLogo.logo);
 
-    console.log(theLogo.logo);
-  }, []);
+  //   console.log(theLogo.logo);
+  // }, []);
 
   return (
     <>
@@ -21,7 +21,7 @@ const StockListB = ({ item, externalAPIstocks, sharePrice }) => {
         <List relaxed="very">
           <List.Item className="d-flex">
             <div className="stock-shade">
-              <Image
+              {/* <Image
                 style={{ height: '40px', width: '40px' }}
                 avatar
                 src={
@@ -29,7 +29,7 @@ const StockListB = ({ item, externalAPIstocks, sharePrice }) => {
                     ? `/company_logos/${logo}`
                     : `/company_logos/NO_LOGO.png`
                 }
-              />
+              /> */}
               <List.Content className="container d-flex w-100">
                 <div>
                   <List.Header

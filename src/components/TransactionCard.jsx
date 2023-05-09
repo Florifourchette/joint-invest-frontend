@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useAppContext } from "../contexts/AppContext";
-import { Image } from "semantic-ui-react";
+import React, { useState, useEffect } from 'react';
+import { useAppContext } from '../contexts/AppContext';
+import { Image } from 'semantic-ui-react';
 
 export default function TransactionCard({
   stock,
@@ -23,34 +23,35 @@ export default function TransactionCard({
     }
   };
 
-  useEffect(() => {
-    const theLogo = contextStockData.find(
-      (alogo) => alogo.companyid == stock.company_id
-    );
-    setLogo(theLogo.logo);
-    console.log(theLogo.logo);
-  }, []);
+  // useEffect(() => {
+  //   const theLogo = contextStockData.find(
+  //     (alogo) => alogo.companyid == stock.company_id
+  //   );
+  //   setLogo(theLogo.logo);
+  //   console.log(theLogo.logo);
+  // }, []);
 
   return (
     <div key={stock.id} className="transactions-card">
       <div className="transactions-left-column">
-        <Image
+        {/* <Image
           style={{ height: "40px", width: "40px" }}
           avatar
           src={logo ? `/company_logos/${logo}` : `/company_logos/NO_LOGO.png`}
-        />
+        /> */}
       </div>
       <div className="transactions-middle-column">
         <div className="padding-bottom">
           <h4>
-            {stock.company_id}{" "}
-            <span>{location.number_of_shares[stock.company_id]}</span>
+            {stock.company_id}{' '}
+            {/* <span>{location.number_of_shares[stock.company_id]}</span> */}
           </h4>
         </div>
         <div className="padding-bottom">
           {Object.keys(location.prices).length !== 0 && (
             <h4 className="transactions-price">
-              Price: {Number(location.prices[stock.company_id]).toFixed(2)}
+              Price:{' '}
+              {Number(location.prices[stock.company_id]).toFixed(2)}
             </h4>
           )}
         </div>
