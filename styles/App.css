@@ -782,6 +782,14 @@ button {
   margin-bottom: 15%;
 }
 
+/* TransactionsCardPending */
+
+.confirm-decline-btns {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
 /* Button, used on overview page */
 
 .hex-button-default {
@@ -884,8 +892,6 @@ button {
 #orderBookHeadline {
   color: #31231e;
 }
-
-
 
 .OrderBookListItemContainer {
   background-color: #fff3be;
