@@ -82,3 +82,15 @@ export const getOverviewData = () => {
       console.log(error);
     });
 };
+
+export function getShareNumbers(portfolioId) {
+  return fetch(
+    `http://localhost:3000/api/portfolio/${portfolioId}`,
+    {
+      method: 'GET',
+    }
+  ).then((response) => {
+    // console.log(response);
+    return response.json();
+  });
+}
