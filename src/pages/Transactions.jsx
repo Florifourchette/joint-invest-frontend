@@ -220,21 +220,19 @@ export default function Transactions() {
     confirmOrCancelTransaction(portfolioId, transactionId, transactionData);
     setShowCancellationModal(false);
   };
+
   return isAuthenticated ? (
-    <div style={{ width: "375px" }}>
-      <div>
-        <BiArrowBack
-          style={{
-            fontSize: "2rem",
-            position: "absolute",
-            marginTop: "20px",
-          }}
-          onClick={handleBack}
-        />
+    <div className="bodyTransactions">
+      <div className="portfolio-back-button-container">
+        <BiArrowBack className="portfolio-back-button" onClick={handleBack} />
       </div>
       <div className="transactions-title">
         <h1 className="overview-title">Buy/Sell</h1>
-        <p>Once both partners have confirmed we will process your request</p>
+        <p>
+          Once both partners have confirmed,
+          <br />
+          we will process your request
+        </p>
       </div>
       <div className="SearchBar">
         <StockSearchBar
@@ -287,9 +285,7 @@ export default function Transactions() {
             )}
             {selectedStock && showModal && (
               <ModalTransactionBuy
-                message={`Are you sure you want to ${
-                  transactionData.type_of_transaction
-                } ${selectedAmmount} stocks of ${selectedStock} at ${Number(
+                message={`Are you sure you want to ${transactionData.type_of_transaction.toLowerCase()} ${selectedAmmount} stocks of ${selectedStock} at ${Number(
                   transactionPrice.price
                 ).toFixed(2)}?`}
                 handleConfirm={handleConfirm}
@@ -329,6 +325,7 @@ export default function Transactions() {
             )}
           </div>
         </div>
+        <Navbar />
       </div>
     </div>
   ) : (
