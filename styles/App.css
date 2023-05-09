@@ -874,12 +874,13 @@ button {
   height: 100vh;
   width: 375px;
   background-color: #fff3be;
-  margin-bottom: 10%;
 }
 
 #orderBookHeadline {
   color: #31231e;
 }
+
+
 
 .OrderBookListItemContainer {
   background-color: #fff3be;
@@ -925,7 +926,7 @@ button {
   background-color: #ffd600;
   border-radius: 10px;
   box-shadow: 0 6px 6px hsl(0deg 0% 0% / 0.3);
-  margin-top: 1em;
+  margin-top: 0.5em;
   /* margin: 0.5em auto 0.5em auto; */
   padding: 1em;
   align-items: center;

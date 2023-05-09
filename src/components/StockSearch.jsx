@@ -60,8 +60,12 @@ export default function StockSearchBar({ selectedOption, setSelectedOption }) {
           onChange={(event) => setSearchQuery(event.target.value)}
         />
         {selectedOption !== "" && (
-          <button>
-            <i className="close icon" onClick={handleClear}></i>
+          <button style={{ background: "#FFF3BE" }}>
+            <i
+              className="close icon"
+              onClick={handleClear}
+              style={{ fontSize: "1.2em" }}
+            ></i>
           </button>
         )}
         {selectedOption === "" && <i className="search icon"></i>}
