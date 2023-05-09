@@ -147,7 +147,7 @@ export default function Messages() {
                   return {
                     type: 'transaction',
                     requester_id: item.user_id,
-                    requester_name: friends[j].friend_id,
+                    requester_name: friends[j].friend_username,
                     date: item.creating_date,
                     portfolio_name: portfoliosNames[i].portfolio_name,
                     portfolio_id: item.portfolio_id,
