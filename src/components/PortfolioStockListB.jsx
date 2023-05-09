@@ -5,6 +5,7 @@ import { useAppContext } from '../contexts/AppContext';
 const StockListB = ({ item, externalAPIstocks, sharePrice }) => {
   const [logo, setLogo] = useState();
   const { contextStockData } = useAppContext();
+  const [newSharePrice, setNewharePrise] = useState(0);
 
   // useEffect(() => {
   //   const theLogo = contextStockData.find(
@@ -15,6 +16,18 @@ const StockListB = ({ item, externalAPIstocks, sharePrice }) => {
   //   console.log(theLogo.logo);
   // }, []);
 
+  // useEffect(() => {
+  //   //   const theLogo = contextStockData.find(
+  //   //     (alogo) => alogo.companyid == item.company_id
+  //   //   );
+  //   //   setLogo(theLogo.logo);
+  //   if (Object.values(sharePrice).length !== 1) {
+  //     setsharePrise(parseFloat(Object.values(sharePrice)));
+  //   } else {
+  //     setsharePrise(parseFloat(externalAPIstocks?.change));
+  //   }
+  // }, []);
+  console.log(item);
   return (
     <>
       <div className="one-stock">
