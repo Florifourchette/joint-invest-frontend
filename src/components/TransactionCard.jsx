@@ -56,46 +56,47 @@ export default function TransactionCard({
     //   console.log(theLogo.logo);
     // }, []);
 
-    return (
-        (getNumberOfShares() > 0 ? (<div key={stock.id} className="transactions-card">
-            <div className="transactions-left-column">
-                {/* <Image
+  const insertLogo = (stockData, companyId) => {
+    const theLogo = stockData.find((alogo) => alogo.companyid == companyId);
+    console.log(theLogo);
+    if (theLogo) {
+      return `/company_logos/${theLogo.logo}`;
+    }
+    return "/company_logos/NO_LOGO.png";
+  };
+
+  return (
+    (getNumberOfShares() > 0 ? (<div key={stock.id} className="transactions-card">
+        <div className="transactions-left-column">
+        <Image
           style={{ height: "40px", width: "40px" }}
           avatar
-          src={logo ? `/company_logos/${logo}` : `/company_logos/NO_LOGO.png`}
-        /> */}
-            </div>
-            <div className="transactions-middle-column">
-                <div className="padding-bottom">
-                    <h4>
-                        {stock.company_id}{" "}
-                        {/* <span>{location.number_of_shares[stock.company_id]}</span> */}
-                    </h4>
-                    {numberofSharesData && (<h4>
-                        {
-                          getNumberOfShares()
-                        }
-                    </h4>)}
-                </div>
-                <div className="padding-bottom">
-                    {Object.keys(location.prices).length !== 0 && (
-                        <h4 className="transactions-price">
-                            Price:{" "}
-                            {Number(location.prices[stock.company_id]).toFixed(
-                                2
-                            )}
-                        </h4>
-                    )}
-                </div>
-                <div className="stock-counter-transactions-card">
-                    <button
-                        onClick={decreaseCounter}
-                        className="hex-button-small-transaction-card"
-                    >
-                        -
-                    </button>
+          src={insertLogo(contextStockData, stock.company_id)}
+        />
+      </div>
+      <div className="transactions-middle-column">
+        <div>
+          <h6 className="transactions-company">
+            {stock.company_id}{" "}
+            {/* <span>{location.number_of_shares[stock.company_id]}</span> */}
+          </h6>
+        </div>
+        <div className="padding-bottom">
+          {Object.keys(location.prices).length !== 0 && (
+            <h5 className="transactions-price">
+              Price: {Number(location.prices[stock.company_id]).toFixed(2)}
+            </h5>
+          )}
+        </div>
+        <div className="stock-counter-transactions-card">
+          <button
+            onClick={decreaseCounter}
+            className="hex-button-small-transaction-card"
+          >
+            -
+          </button>
 
-                    {counter}
+          <h6>{counter}</h6>
 
                     <button
                         onClick={increaseCounter}
@@ -116,6 +117,7 @@ export default function TransactionCard({
                 </button>
                 <button
                     className="transactions_button"
+          style={{ backgroundColor: "#84714F", backgroundImage: "none" }}
                     onClick={() =>
                         handleSell(
                             stock.company_id,

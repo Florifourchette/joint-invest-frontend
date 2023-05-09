@@ -182,7 +182,7 @@ export default function Dashboard(props) {
     },
     {}
   );
-  console.log(portfolioTotals);
+  console.log("portfolioTotals", portfolioTotals);
 
   return isAuthenticated ? (
     <div className="overview-page">
@@ -209,11 +209,17 @@ export default function Dashboard(props) {
                 <OverviewChart totalAssetsSum={totalAssetsSum}/>
             </div> */}
       <div>
-        {dataReady && (
+        {dataReady &&
+        dashboardData.length > 1 &&
+        Object.values(portfolioTotals)[0] > 0 &&
+        Object.values(portfolioTotals)[0] > 0 &&
+        Object.values(portfolioTotals)[1] > 0 ? (
           <PieChart
             dashboardData={dashboardData}
             portfolioTotals={portfolioTotals}
           />
+        ) : (
+          <div></div>
         )}
       </div>
       <div className="portfolio-cards">

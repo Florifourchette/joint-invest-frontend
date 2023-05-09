@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useAppContext } from '../contexts/AppContext';
-import { Image } from 'semantic-ui-react';
+import React, { useState, useEffect } from "react";
+import { useAppContext } from "../contexts/AppContext";
+import { Image } from "semantic-ui-react";
 
 export default function TransactionCardPending({
   stock,
@@ -11,66 +11,64 @@ export default function TransactionCardPending({
   locationState,
 }) {
   console.log(location);
-  console.log('locationState', locationState);
+  console.log("locationState", locationState);
 
   const { contextStockData } = useAppContext();
-  const [logo, setLogo] = useState();
+
+  const insertLogo = (stockData, companyId) => {
+    const theLogo = stockData.find((alogo) => alogo.companyid == companyId);
+    console.log(theLogo);
+    if (theLogo) {
+      return `/company_logos/${theLogo.logo}`;
+    }
+    return "/company_logos/NO_LOGO.png";
+  };
 
   return (
     <div key={stock.id} className="transactions-card">
       <div className="transactions-left-column">
         <Image
-          style={{ height: '40px', width: '40px' }}
+          style={{ height: "40px", width: "40px" }}
           avatar
-          src={
-            logo
-              ? `/company_logos/${logo}`
-              : `/company_logos/NO_LOGO.png`
-          }
+          src={insertLogo(contextStockData, stock.company_id)}
         />
       </div>
       <div className=" middle-column-pending">
-        <h4>
+        <h6 className="transactions-company">
           {stock?.company_id && (
             <>
-              {stock.company_id}{' '}
+              {stock.company_id}{" "}
               {/* <span>{location.number_of_shares[stock.company_id]}</span> */}
             </>
           )}
-        </h4>
+        </h6>
         <div className="pending-message">
-          {location.userId != stock.user_id &&
-            stock.number_of_shares >= 2 && (
-              <p>
-                {location.friend} requests to{' '}
-                {stock.type_of_transaction.toLowerCase()}{' '}
-                {stock.number_of_shares} stocks{' '}
-              </p>
-            )}
-          {location.userId != stock.user_id &&
-            stock.number_of_shares < 2 && (
-              <p>
-                {location.friend} requests to{' '}
-                {stock.type_of_transaction.toLowerCase()}{' '}
-                {stock.number_of_shares} stock{' '}
-              </p>
-            )}
-          {location.userId == stock.user_id &&
-            stock.number_of_shares >= 2 && (
-              <p>
-                You requested to{' '}
-                {stock.type_of_transaction.toLowerCase()}{' '}
-                {stock.number_of_shares} stocks{' '}
-              </p>
-            )}
-          {location.userId == stock.user_id &&
-            stock.number_of_shares < 2 && (
-              <p>
-                You requested to{' '}
-                {stock.type_of_transaction.toLowerCase()}{' '}
-                {stock.number_of_shares} stock{' '}
-              </p>
-            )}
+          {location.userId != stock.user_id && stock.number_of_shares >= 2 && (
+            <h6>
+              {location.friend} requests to{" "}
+              {stock.type_of_transaction.toLowerCase()} {stock.number_of_shares}{" "}
+              stocks{" "}
+            </h6>
+          )}
+          {location.userId != stock.user_id && stock.number_of_shares < 2 && (
+            <p>
+              {location.friend} requests to{" "}
+              {stock.type_of_transaction.toLowerCase()} {stock.number_of_shares}{" "}
+              stock{" "}
+            </p>
+          )}
+          {location.userId == stock.user_id && stock.number_of_shares >= 2 && (
+            <p>
+              You requested to {stock.type_of_transaction.toLowerCase()}{" "}
+              {stock.number_of_shares} stocks{" "}
+            </p>
+          )}
+          {location.userId == stock.user_id && stock.number_of_shares < 2 && (
+            <p>
+              You requested to {stock.type_of_transaction.toLowerCase()}{" "}
+              {stock.number_of_shares} stock{" "}
+            </p>
+          )}
         </div>
       </div>
 
@@ -93,6 +91,7 @@ export default function TransactionCardPending({
         {location.userId != stock.user_id && (
           <button
             className="transactions_button"
+            style={{ backgroundColor: "#84714F", backgroundImage: "none" }}
             onClick={() =>
               handleDecline(
                 stock.company_id,
