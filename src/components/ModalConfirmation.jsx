@@ -11,10 +11,9 @@ const ModalConfirmation = ({
       {showProposalModal && (
         <div className="modal-overlay">
           <div className="modal-container">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h3>Confirmation</h3>
-              </div>
+            <div className="modal-header">
+              <h3>Confirmation</h3>
+              <div className="modal-content"></div>
               <div id="modal-body">
                 <p>{message}</p>
               </div>
