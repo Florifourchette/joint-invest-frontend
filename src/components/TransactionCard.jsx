@@ -119,22 +119,42 @@ export default function TransactionCard({
                 >
                     Buy
                 </button>
-                <button
-                    className="transactions_button"
-                    style={{
-                        backgroundColor: "#84714F",
-                        backgroundImage: "none",
-                    }}
-                    onClick={() =>
-                        handleSell(
-                            stock.company_id,
-                            stock.company_name,
-                            counter
-                        )
-                    }
-                >
-                    Sell
-                </button>
+                {getNumberOfShares() >= counter ? (
+                    <button
+                        className="transactions_button"
+                        style={{
+                            backgroundColor: "#84714F",
+                            backgroundImage: "none",
+                        }}
+                        onClick={() =>
+                            handleSell(
+                                stock.company_id,
+                                stock.company_name,
+                                counter
+                            )
+                        }
+                    >
+                        Sell
+                    </button>
+                ) : (
+                    <button
+                        className="transactions_button_disabled"
+                        style={{
+                            backgroundColor: "#573131",
+                            backgroundImage: "none",
+                        }}
+                        onClick={() =>
+                            handleSell(
+                                stock.company_id,
+                                stock.company_name,
+                                counter
+                            )
+                        }
+                      disabled
+                    >
+                        Sell
+                    </button>
+                )}
             </div>
         </div>
     ) : (
