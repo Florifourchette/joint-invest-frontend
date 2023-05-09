@@ -40,13 +40,10 @@ const AuthStateContext = ({ children }) => {
       setLoading(true);
       const {
         data: { token: mytoken, user: myuser },
-      } = await axios.post(
-        'https://joint-invest-back-end.onrender.com/api/user/login',
-        {
-          email: email,
-          password: password,
-        }
-      );
+      } = await axios.post('http://localhost:3000/api/user/login', {
+        email: email,
+        password: password,
+      });
       console.log(myuser);
       setError(null);
       localStorage.setItem('token', JSON.stringify(mytoken));
@@ -66,14 +63,11 @@ const AuthStateContext = ({ children }) => {
       setLoading(true);
       const {
         data: { token: mytoken, user: myuser },
-      } = await axios.post(
-        'https://joint-invest-back-end.onrender.com/api/user/signup',
-        {
-          username: username,
-          email: email,
-          password: password,
-        }
-      );
+      } = await axios.post('http://localhost:3000/api/user/signup', {
+        username: username,
+        email: email,
+        password: password,
+      });
       console.log(myuser);
       setError(null);
       localStorage.setItem('token', JSON.stringify(mytoken));
@@ -98,7 +92,7 @@ const AuthStateContext = ({ children }) => {
 
   const getUserData = async () => {
     const { data } = await axios.get(
-      'https://joint-invest-back-end.onrender.com/api/user/me',
+      'http://localhost:3000/api/user/me',
       {
         headers: {
           Authorization: `Bearer ${token}`,

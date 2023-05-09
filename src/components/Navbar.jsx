@@ -11,7 +11,7 @@ const Navbar = () => {
   const { userLogin, loading } = useAuth();
   const messagesContextValues = useMessageContext();
 
-  console.log(messagesContextValues);
+  console.log(messagesContextValues.amountMessages);
   return (
     <div className="navi fixed-bottom navbar">
       {loading ? (
@@ -82,6 +82,7 @@ const Navbar = () => {
             </NavLink>
           </div>
           <div className="navBarLink">
+            <span>{messagesContextValues.amountMessages}</span>
             <NavLink
               className="navBarLink"
               to={`/profile/${userLogin?.id}`}

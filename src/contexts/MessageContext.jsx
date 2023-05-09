@@ -45,15 +45,20 @@ const MessageContextWrapper = ({ children }) => {
         const transactions = portfolioIds.forEach((id) =>
           getTransactionsData(id)
         );
-        setTransactionsData(transactions);
+        setTransactionsData(transactions.length);
       })
       .catch((error) => console.error(error));
   }, []);
 
-  console.log(transactionsData);
+  console.log(portfolioIds);
   return (
     <div>
-      <MessageContextObj.Provider value={{ userId, portfoliosData }}>
+      <MessageContextObj.Provider
+        value={{
+          userId,
+          portfoliosData,
+        }}
+      >
         {children}
       </MessageContextObj.Provider>
     </div>

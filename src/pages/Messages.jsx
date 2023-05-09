@@ -194,7 +194,8 @@ export default function Messages() {
       return dateB - dateA;
     });
 
-  return isAuthenticated ? (
+  // return isAuthenticated ?
+  return (
     <>
       <div className="message_page">
         <h1>Messages</h1>
@@ -340,14 +341,15 @@ export default function Messages() {
       </div>
       <Navbar />
     </>
-  ) : (
-    <div>
-      <div className="d-flex justify-content-center">
-        <Message style={{ color: 'red' }}>
-          You are not logged in, please login!
-        </Message>
-      </div>
-      <LogIn />
-    </div>
   );
+  // : (
+  //   <div>
+  //     <div className="d-flex justify-content-center">
+  //       <Message style={{ color: 'red' }}>
+  //         You are not logged in, please login!
+  //       </Message>
+  //     </div>
+  //     <LogIn />
+  //   </div>
+  // );
 }

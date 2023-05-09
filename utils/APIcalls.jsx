@@ -1,17 +1,14 @@
 import axios from 'axios';
 
 export function getDashboardData(userId) {
-  return fetch(
-    `https://joint-invest-back-end.onrender.com/api/overview/${userId}`,
-    {
-      method: 'GET',
-    }
-  ).then((response) => response.json());
+  return fetch(`http://localhost:3000/api/overview/${userId}`, {
+    method: 'GET',
+  }).then((response) => response.json());
 }
 
 export function getTransactionsData(portfolioId) {
   return fetch(
-    `https://localhost:3000/api/transaction/${portfolioId}`,
+    `http://localhost:3000/api/transaction/${portfolioId}`,
     {
       method: 'GET',
     }
@@ -23,7 +20,7 @@ export function getTransactionsData(portfolioId) {
 
 export function writeTransaction(portfolioId, transactionData) {
   return fetch(
-    `https://joint-invest-back-end.onrender.com/api/transaction/${portfolioId}`,
+    `http://localhost:3000/api/transaction/${portfolioId}`,
     {
       method: 'POST',
       headers: {
@@ -46,7 +43,7 @@ export function confirmOrCancelTransaction(
   transactionData
 ) {
   return fetch(
-    `https://joint-invest-back-end.onrender.com/api/transaction/${portfolioId}/${transactionId}`,
+    `http://localhost:3000/api/transaction/${portfolioId}/${transactionId}`,
     {
       method: 'PUT',
       headers: {
@@ -65,7 +62,7 @@ export function confirmOrCancelTransaction(
 
 export function getPendingTransactions(portfolioId) {
   return fetch(
-    `https://joint-invest-back-end.onrender.com/api/transaction/pendingTransactions/${portfolioId}`,
+    `http://localhost:3000/api/transaction/pendingTransactions/${portfolioId}`,
     {
       method: 'GET',
     }
@@ -77,7 +74,7 @@ export function getPendingTransactions(portfolioId) {
 
 export const getOverviewData = () => {
   axios
-    .get('https://joint-invest-back-end.onrender.com/api/overview')
+    .get('http://localhost:3000/api/overview')
     .then(function (response) {
       console.log(response);
     })
