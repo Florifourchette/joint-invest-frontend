@@ -33,30 +33,58 @@ const MessageContextWrapper = ({ children }) => {
             item.portfolio_status !== 'activated'
         );
 
-        setPortfoliosData(portfolioInfos.length);
-        data;
+        setPortfoliosData(portfolioInfos);
+        return data;
       })
       .then((data) => {
         setPortfolioIds(
           data.portfolios.map((item) => item.portfolio_id)
         );
+        return portfolioIds;
       })
       .then((data) => {
-        const transactions = portfolioIds.forEach((id) =>
-          getTransactionsData(id)
-        );
-        setTransactionsData(transactions.length);
+        portfolioIds.forEach((id) => getTransactions(id));
       })
       .catch((error) => console.error(error));
   }, []);
 
-  console.log(portfolioIds);
+  useEffect(() => {
+    console.log('useffect started');
+    console.log(portfolioIds);
+    portfolioIds.forEach((id) => {
+      return getTransactions(id);
+    });
+  }, [portfolioIds]);
+
+  const getTransactions = (id) => {
+    console.log(id);
+    getTransactionsData(id)
+      .then((data) => {
+        console.log(
+          data.filter(
+            (item) =>
+              item.status === 'pending' && item.status !== undefined
+          )
+        );
+        transactionsAll.push(
+          data.filter((item) => item.status === 'pending')
+        );
+        setTransactionsData(
+          transactionsAll.filter((item) => item.length !== 0)
+        );
+      })
+      .catch((error) => console.log(error.message));
+  };
+
+  console.log(transactionsData);
+
   return (
     <div>
       <MessageContextObj.Provider
         value={{
           userId,
-          portfoliosData,
+          amountofMessage:
+            portfoliosData.length + transactionsData.length,
         }}
       >
         {children}

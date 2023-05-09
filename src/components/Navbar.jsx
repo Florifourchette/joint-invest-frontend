@@ -11,7 +11,7 @@ const Navbar = () => {
   const { userLogin, loading } = useAuth();
   const messagesContextValues = useMessageContext();
 
-  console.log(messagesContextValues.amountMessages);
+  console.log(messagesContextValues);
   return (
     <div className="navi fixed-bottom navbar">
       {loading ? (
@@ -71,6 +71,9 @@ const Navbar = () => {
                     };
               }}
             >
+              <span className="message-notifications">
+                {messagesContextValues.amountofMessage}
+              </span>
               <GrMail
                 style={{
                   fontSize: '1.65rem',
