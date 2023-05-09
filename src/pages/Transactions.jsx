@@ -136,9 +136,8 @@ export default function Transactions() {
         prices: {
           ...prevState.prices,
           [companyId]: data.price,
-  
         },
-        number_of_shares: counter.toString()
+        number_of_shares: counter.toString(),
       }));
     });
     setShowModal(true);

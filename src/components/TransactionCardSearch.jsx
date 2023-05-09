@@ -22,18 +22,21 @@ export default function TransactionCardSearch({
   return (
     <div className="buyShareCard">
       <div className="your-stock-name-price">
-        <h4>{selectedOption}</h4>
-        <h4>Price: {selectedOptionPrice}</h4>
+        <h5>{selectedOption}</h5>
+        <h5>Price: {selectedOptionPrice}</h5>
       </div>
       <div className="stock-counter">
         <button
           onClick={decreaseCounter}
-          className="hex-button-small-transaction-card"
+          className="hex-button-small transactionSearchBtn"
         >
           -
         </button>
-        {counter}
-        <button onClick={increaseCounter} className="hex-button-small">
+        <h5>{counter}</h5>
+        <button
+          onClick={increaseCounter}
+          className="hex-button-small transactionSearchBtn"
+        >
           +
         </button>
       </div>
