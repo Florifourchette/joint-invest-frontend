@@ -14,7 +14,7 @@ export default function LogIn() {
   };
 
   return (
-    <div style={{ minHeight: "100vh" }}>
+    <div style={{ height: "100vh" }}>
       <div className="container-fluid" style={{ maxWidth: "350px" }}>
         <div className="ui middle aligned center aligned d-flex">
           <div className="column w-100">

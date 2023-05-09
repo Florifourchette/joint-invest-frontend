@@ -7,8 +7,6 @@ import {
 import { useParams } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import LogIn from "./LogIn";
-import { Message } from "semantic-ui-react";
 import Navbar from "../components/Navbar";
 import { transaction } from "../../utils/TransactionOperations";
 import ReactModal from "react-modal";
@@ -22,6 +20,7 @@ import TransactionCardSearch from "../components/TransactionCardSearch";
 import StockSearchBar from "../components/StockSearch";
 import { createApiUrl } from "../../utils/CreateAPIUrl";
 import { BiArrowBack } from "react-icons/bi";
+import AuthIssue from "../components/AuthIssue";
 
 export default function Transactions() {
   const { isAuthenticated } = useAuth();
@@ -46,6 +45,7 @@ export default function Transactions() {
   const [transactionId, setTransactionId] = useState();
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedOptionPrice, setSelectedOptionPrice] = useState([]);
+  const [locationState, setLocationState] = useState(location.state);
   const Navigate = useNavigate();
 
   const handleBack = (e) => {
@@ -108,6 +108,13 @@ export default function Transactions() {
         price_of_share: data.price,
         user_id: location.state.userId,
       }));
+      setLocationState((prevState) => ({
+        ...prevState,
+        prices: {
+          ...prevState.prices,
+          [companyId]: data.price,
+        },
+      }));
       setShowModal(true);
     });
   };
@@ -124,12 +131,14 @@ export default function Transactions() {
         price_of_share: data.price,
         user_id: location.state.userId,
       }));
-      setLocation((prevState) => ({
+      setLocationState((prevState) => ({
         ...prevState,
         prices: {
           ...prevState.prices,
           [companyId]: data.price,
+  
         },
+        number_of_shares: counter.toString()
       }));
     });
     setShowModal(true);
@@ -211,21 +220,19 @@ export default function Transactions() {
     confirmOrCancelTransaction(portfolioId, transactionId, transactionData);
     setShowCancellationModal(false);
   };
+
   return isAuthenticated ? (
-    <div style={{ width: "375px" }}>
-      <div>
-        <BiArrowBack
-          style={{
-            fontSize: "2rem",
-            position: "absolute",
-            marginTop: "20px",
-          }}
-          onClick={handleBack}
-        />
+    <div className="bodyTransactions">
+      <div className="portfolio-back-button-container">
+        <BiArrowBack className="portfolio-back-button" onClick={handleBack} />
       </div>
       <div className="transactions-title">
         <h1 className="overview-title">Buy/Sell</h1>
-        <p>Once both partners have confirmed we will process your request</p>
+        <p>
+          Once both partners have confirmed,
+          <br />
+          we will process your request
+        </p>
       </div>
       <div className="SearchBar">
         <StockSearchBar
@@ -259,6 +266,7 @@ export default function Transactions() {
                         handlePurchase={handlePurchase}
                         handleDecline={handleDecline}
                         handleCancelRequest={handleCancelRequest}
+                        locationState={locationState}
                       />
                     );
                   } else if (stock.status === "confirmed") {
@@ -277,9 +285,7 @@ export default function Transactions() {
             )}
             {selectedStock && showModal && (
               <ModalTransactionBuy
-                message={`Are you sure you want to ${
-                  transactionData.type_of_transaction
-                } ${selectedAmmount} stocks of ${selectedStock} at ${Number(
+                message={`Are you sure you want to ${transactionData.type_of_transaction.toLowerCase()} ${selectedAmmount} stocks of ${selectedStock} at ${Number(
                   transactionPrice.price
                 ).toFixed(2)}?`}
                 handleConfirm={handleConfirm}
@@ -319,16 +325,10 @@ export default function Transactions() {
             )}
           </div>
         </div>
+        <Navbar />
       </div>
     </div>
   ) : (
-    <div>
-      <div className="d-flex justify-content-center">
-        <Message style={{ color: "red" }}>
-          You are not logged in, please login!
-        </Message>
-      </div>
-      <LogIn />
-    </div>
+    <AuthIssue />
   );
 }

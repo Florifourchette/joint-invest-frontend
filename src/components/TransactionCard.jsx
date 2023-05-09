@@ -33,30 +33,44 @@ export default function TransactionCard({
 
   return (
     <div key={stock.id} className="transactions-card">
-      <div>
+      <div className="transactions-left-column">
         <Image
           style={{ height: "40px", width: "40px" }}
           avatar
           src={logo ? `/company_logos/${logo}` : `/company_logos/NO_LOGO.png`}
         />
       </div>
-      <div className="your-stock-name-price">
-        <h4>
-          {stock.company_id}{" "}
-          <span>{location.number_of_shares[stock.company_id]}</span>
-        </h4>
-        {Object.keys(location.prices).length !== 0 && (
-          <h4>Price: {Number(location.prices[stock.company_id]).toFixed(2)}</h4>
-        )}
-      </div>
-      <div className="stock-counter">
-        <button onClick={decreaseCounter} className="hex-button-small">
-          -
-        </button>
-        {counter}
-        <button onClick={increaseCounter} className="hex-button-small">
-          +
-        </button>
+      <div className="transactions-middle-column">
+        <div className="padding-bottom">
+          <h4>
+            {stock.company_id}{" "}
+            <span>{location.number_of_shares[stock.company_id]}</span>
+          </h4>
+        </div>
+        <div className="padding-bottom">
+          {Object.keys(location.prices).length !== 0 && (
+            <h4 className="transactions-price">
+              Price: {Number(location.prices[stock.company_id]).toFixed(2)}
+            </h4>
+          )}
+        </div>
+        <div className="stock-counter-transactions-card">
+          <button
+            onClick={decreaseCounter}
+            className="hex-button-small-transaction-card"
+          >
+            -
+          </button>
+
+          {counter}
+
+          <button
+            onClick={increaseCounter}
+            className="hex-button-small-transaction-card"
+          >
+            +
+          </button>
+        </div>
       </div>
       <div className="buy-sell-btns">
         <button

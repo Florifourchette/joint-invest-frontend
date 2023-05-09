@@ -7,9 +7,8 @@ import { parseISO } from "date-fns";
 import { setPortfolioStatus } from "../../utils/PortfolioDeletion";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import { Message } from "semantic-ui-react";
 import { BiArrowBack } from "react-icons/bi";
-import LogIn from "./LogIn";
+import AuthIssue from "../components/AuthIssue";
 
 export default function Messages() {
   const { userId } = useParams();
@@ -210,14 +209,14 @@ export default function Messages() {
                   <div className="message-card-values">
                     <div className="message-info-and-main">
                       <div className="message-card-value-info">
+                        <h4 className="friend" style={{ margin: "0" }}>
+                          {item.requester_name}
+                        </h4>
                         <img
                           src="/bee.png"
                           alt="friends"
                           style={{ width: "30px" }}
                         />
-                        <h5 className="friend" style={{ margin: "0" }}>
-                          {item.requester_name}
-                        </h5>
 
                         <p className="message-date">
                           {getShorterDate(item.date)}
@@ -230,8 +229,11 @@ export default function Messages() {
                         {item.type === "portfolio" &&
                         item.action === "pending_activation" ? (
                           <p style={{ textAlign: "left", marginLeft: "0.5em" }}>
-                            to join {item.portfolio_name}. <br /> Requested by{" "}
-                            {item.requester_name}
+                            request to{" "}
+                            <strong>
+                              join portfolio {item.portfolio_name}
+                            </strong>{" "}
+                            send by {item.requester_name}
                           </p>
                         ) : item.type === "portfolio" &&
                           item.action === "pending_deletion" ? (
@@ -345,13 +347,6 @@ export default function Messages() {
       <Navbar />
     </>
   ) : (
-    <div>
-      <div className="d-flex justify-content-center">
-        <Message style={{ color: "red" }}>
-          You are not logged in, please login!
-        </Message>
-      </div>
-      <LogIn />
-    </div>
+    <AuthIssue />
   );
 }
