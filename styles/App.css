@@ -136,7 +136,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* background-color: #fff3be !important; */
+  background-color: #fff3be !important;
 }
 
 #root {

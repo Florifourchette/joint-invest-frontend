@@ -209,7 +209,10 @@ export default function Dashboard(props) {
                 <OverviewChart totalAssetsSum={totalAssetsSum}/>
             </div> */}
       <div>
-        {dataReady && dashboardData.length > 1 && dashboardData ? (
+        {dataReady &&
+        dashboardData.length > 1 &&
+        dashboardData[0] > 0 &&
+        dashboardData[1] > 0 ? (
           <PieChart
             dashboardData={dashboardData}
             portfolioTotals={portfolioTotals}
