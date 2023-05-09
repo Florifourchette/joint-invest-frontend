@@ -46,6 +46,7 @@ export default function Transactions() {
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedOptionPrice, setSelectedOptionPrice] = useState([]);
   const [locationState, setLocationState] = useState(location.state);
+  const [confirmation, setConfirmation] = useState(false);
   const Navigate = useNavigate();
 
   const handleBack = (e) => {
@@ -163,6 +164,7 @@ export default function Transactions() {
         current_price_of_share: data.price,
       }));
     });
+    setConfirmation(true)
     setShowProposalModal(true);
   };
 
@@ -279,6 +281,9 @@ export default function Transactions() {
                         handleBuy={handleBuy}
                         handleSell={handleSell}
                         location={location.state}
+                        confirmation={confirmation}
+                        portfolioId={portfolioId}
+                        setConfirmation={setConfirmation}
                       />
                     );
                   }
