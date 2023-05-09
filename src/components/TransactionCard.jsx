@@ -80,6 +80,11 @@ export default function TransactionCard({
             {stock.company_id}{" "}
             {/* <span>{location.number_of_shares[stock.company_id]}</span> */}
           </h6>
+          {numberofSharesData && (<h4>
+                        {
+                          getNumberOfShares()
+                        }
+                    </h4>)}
         </div>
         <div className="padding-bottom">
           {Object.keys(location.prices).length !== 0 && (
