@@ -1,9 +1,9 @@
-import React, { Children } from 'react';
-import {
+import React, {
   useContext,
   createContext,
   useState,
   useEffect,
+  useRef,
 } from 'react';
 import {
   getDashboardData,
@@ -12,17 +12,16 @@ import {
 import useAuth from '../hooks/useAuth';
 
 export const MessageContextObj = createContext();
-
 export const useMessageContext = () => useContext(MessageContextObj);
 
 const MessageContextWrapper = ({ children }) => {
   const userDetails = useAuth();
   const userId = userDetails.userLogin.id;
-  const [portfoliosData, setPortfoliosData] = useState(0);
+  const [portfoliosData, setPortfoliosData] = useState([]);
   const [transactionsData, setTransactionsData] = useState([]);
   const [portfolioIds, setPortfolioIds] = useState([]);
-  const [allData, setAllData] = useState([]);
-  const transactionsAll = [];
+  const [message, setMessage] = useState(false);
+  const transactionsAll = useRef([]);
 
   useEffect(() => {
     getDashboardData(userId)
@@ -34,57 +33,59 @@ const MessageContextWrapper = ({ children }) => {
         );
 
         setPortfoliosData(portfolioInfos);
-        return data;
-      })
-      .then((data) => {
         setPortfolioIds(
-          data.portfolios.map((item) => item.portfolio_id)
+          portfolioInfos.map((item) => item.portfolio_id)
         );
-        return portfolioIds;
-      })
-      .then((data) => {
-        portfolioIds.forEach((id) => getTransactions(id));
       })
       .catch((error) => console.error(error));
-  }, []);
+  }, [message]);
 
   useEffect(() => {
-    console.log('useffect started');
+    console.log('useEffect started');
     console.log(portfolioIds);
     portfolioIds.forEach((id) => {
-      return getTransactions(id);
+      getTransactions(id);
     });
-  }, [portfolioIds]);
+  }, [portfolioIds, message]);
 
   const getTransactions = (id) => {
     console.log(id);
     getTransactionsData(id)
       .then((data) => {
-        console.log(
-          data.filter(
-            (item) =>
-              item.status === 'pending' && item.status !== undefined
-          )
-        );
-        transactionsAll.push(
+        console.log(data.filter((item) => item.status === 'pending'));
+        transactionsAll.current.push(
           data.filter((item) => item.status === 'pending')
         );
         setTransactionsData(
-          transactionsAll.filter((item) => item.length !== 0)
+          transactionsAll.current.filter((item) => item.length !== 0)
         );
       })
       .catch((error) => console.log(error.message));
   };
 
+  console.log(transactionsData, message);
+
+  const allDataLength =
+    portfoliosData.length + transactionsData.length;
+
+  console.log(allDataLength);
+  console.log(portfoliosData);
   console.log(transactionsData);
+
+  useEffect(() => {
+    if (allDataLength === 0) {
+      setMessage((prev) => !prev);
+    } else {
+      setMessage(allDataLength);
+    }
+  }, [portfoliosData, transactionsData]);
 
   return (
     <div>
       <MessageContextObj.Provider
         value={{
           userId,
-          amountofMessage:
-            portfoliosData.length + transactionsData.length,
+          amountofMessage: message,
         }}
       >
         {children}
