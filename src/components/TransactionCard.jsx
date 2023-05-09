@@ -9,7 +9,6 @@ export default function TransactionCard({
   location,
 }) {
   const { contextStockData } = useAppContext();
-  const [logo, setLogo] = useState();
 
   const [counter, setCounter] = useState(1);
 
@@ -31,14 +30,23 @@ export default function TransactionCard({
   //   console.log(theLogo.logo);
   // }, []);
 
+  const insertLogo = (stockData, companyId) => {
+    const theLogo = stockData.find((alogo) => alogo.companyid == companyId);
+    console.log(theLogo);
+    if (theLogo) {
+      return `/company_logos/${theLogo.logo}`;
+    }
+    return "/company_logos/NO_LOGO.png";
+  };
+
   return (
     <div key={stock.id} className="transactions-card">
       <div className="transactions-left-column">
-        {/* <Image
+        <Image
           style={{ height: "40px", width: "40px" }}
           avatar
-          src={logo ? `/company_logos/${logo}` : `/company_logos/NO_LOGO.png`}
-        /> */}
+          src={insertLogo(contextStockData, stock.company_id)}
+        />
       </div>
       <div className="transactions-middle-column">
         <div>

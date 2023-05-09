@@ -243,7 +243,10 @@ export default function Transactions() {
       <div className="transactions-container">
         <div className="your-stocks">
           <h2>Your Stocks</h2>
-          <div className="transactions-cards">
+          <div
+            className="transactions-cards"
+            style={{ backgroundColor: "#FFF3BE", paddingBottom: "5rem" }}
+          >
             {selectedOption !== "" && (
               <TransactionCardSearch
                 selectedOption={selectedOption}
