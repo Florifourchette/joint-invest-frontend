@@ -546,6 +546,11 @@ button {
 
 /* Modals */
 
+.modal-header {
+  display: flex;
+  flex-direction: column;
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -998,7 +1003,7 @@ button {
   transition: background-position-y ease-in-out 250ms;
 }
 
-.transactions_button_disabled{
+.transactions_button_disabled {
   text-transform: none !important;
   height: 2.5em;
   width: 4.8em;

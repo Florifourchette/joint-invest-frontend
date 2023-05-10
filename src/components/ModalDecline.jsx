@@ -14,23 +14,24 @@ const ModalConfirmation = ({
             <div className="modal-content">
               <div className="modal-header">
                 <h3>Confirmation</h3>
-              </div>
-              <div className="modal-body">
-                <p>{message}</p>
-              </div>
-              <div className="modal-footer" id="modalFooter">
-                <button
-                  onClick={handleProposalDecline}
-                  className="hex-button-transactions"
-                >
-                  Yes
-                </button>
-                <button
-                  onClick={handleCancel}
-                  className="hex-button-transactions"
-                >
-                  No
-                </button>
+
+                <div className="modal-body">
+                  <p>{message}</p>
+                </div>
+                <div className="modal-footer" id="modalFooter">
+                  <button
+                    onClick={handleProposalDecline}
+                    className="hex-button-transactions"
+                  >
+                    Yes
+                  </button>
+                  <button
+                    onClick={handleCancel}
+                    className="hex-button-transactions"
+                  >
+                    No
+                  </button>
+                </div>
               </div>
             </div>
           </div>
