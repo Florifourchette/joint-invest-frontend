@@ -11,7 +11,7 @@ export const setPortfolioStatus = async (
   console.log(buttonStatus);
   await axios
     .post(
-      `https://joint-invest-back-end.onrender.com/${portfolio_id}`,
+      `https://joint-invest-back-end.onrender.com/api/portfolio/${portfolio_id}`,
       {
         user_id_status_request: user_id,
         current_portfolio_status: currentStatus,
