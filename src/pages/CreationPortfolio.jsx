@@ -4,10 +4,9 @@ import { Button, Form } from 'semantic-ui-react';
 import axios from 'axios';
 import '../../styles/App.css';
 import useAuth from '../hooks/useAuth';
-import LogIn from './LogIn';
-import { Message } from 'semantic-ui-react';
 import { GrClose } from 'react-icons/gr';
 import Navbar from '../components/Navbar';
+import AuthIssue from '../components/AuthIssue';
 
 const CreationPortfolio = () => {
   const [newPortfolioName, setNewPortfolioName] = useState('');
@@ -90,7 +89,7 @@ const CreationPortfolio = () => {
 
   return isAuthenticated ? (
     <>
-      <div style={{ height: '100vh' }}>
+      <div style={{ height: '100vh', width: '375px' }}>
         <div style={{ width: '350px' }}>
           <GrClose
             style={{
@@ -187,10 +186,10 @@ const CreationPortfolio = () => {
               Submit
             </Button>
             {countDownToggle ? (
-              <p>
-                Congratulations!!! The portfolio{newPortfolioName} has
-                been created. You will be redirected to the overview
-                page in {countDown} seconds.{' '}
+              <p className="countdown-text">
+                <strong>Portfolio {newPortfolioName}</strong> has been
+                created. You will be directed to overview page in{' '}
+                {countDown} seconds.
               </p>
             ) : (
               <></>
@@ -201,14 +200,7 @@ const CreationPortfolio = () => {
       </div>
     </>
   ) : (
-    <div>
-      <div className="d-flex justify-content-center">
-        <Message style={{ color: 'red' }}>
-          You are not logged in, please login!
-        </Message>
-      </div>
-      <LogIn />
-    </div>
+    <AuthIssue />
   );
 };
 

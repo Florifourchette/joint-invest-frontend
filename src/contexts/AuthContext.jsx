@@ -93,7 +93,8 @@ const AuthStateContext = ({ children }) => {
     localStorage.removeItem('token');
     setToken(null);
     setIsAuthenticated(false);
-    navigate('/login');
+    setUserLogin(null);
+    navigate('/');
   };
 
   const getUserData = async () => {

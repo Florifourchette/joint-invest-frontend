@@ -128,6 +128,7 @@ export default function Messages() {
             company_name: '',
             number_of_shares: '',
             initial_amount: item.initial_amount,
+            status: item.portfolio_status,
           };
         }
       })
@@ -189,14 +190,17 @@ export default function Messages() {
 
   const allData = portfolioDataCleaned
     .concat(transactionsDataCleaned)
-    .filter((item) => item.status !== 'confirmed')
+    .filter(
+      (item) =>
+        item.status !== 'confirmed' && item.status !== 'canceled'
+    )
     .sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
       return dateB - dateA;
     });
 
-  console.log(transactionsDataCleaned.filter((item) => item.status));
+  console.log(allData);
 
   return isAuthenticated ? (
     <>

@@ -85,3 +85,15 @@ export const getOverviewData = () => {
       console.log(error);
     });
 };
+
+export function getShareNumbers(portfolioId) {
+  return fetch(
+    `https://joint-invest-back-end.onrender.com/api/portfolio/${portfolioId}`,
+    {
+      method: 'GET',
+    }
+  ).then((response) => {
+    // console.log(response);
+    return response.json();
+  });
+}

@@ -199,9 +199,7 @@ export default function Portfolio() {
     }
     /* async function fetchStocks() {
       try {
-        const stockInfos = await axios.get(
-          'https://joint-invest-back-end.onrender.com/api/stocks'
-        );
+        const stockInfos = await axios.get("http://localhost:3000/api/stocks");
         setStockData(stockInfos.data);
         console.log(stockInfos.data);
       } catch (error) {

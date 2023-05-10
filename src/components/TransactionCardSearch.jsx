@@ -20,19 +20,29 @@ export default function TransactionCardSearch({
   };
 
   return (
-    <div className="your-stock-card">
+    <div className="buyShareCard">
       <div className="your-stock-name-price">
-        <h4>{selectedOption}</h4>
-        <h4>Price: {selectedOptionPrice}</h4>
+        <h5>{selectedOption}</h5>
+        <h5>Price: {selectedOptionPrice}</h5>
       </div>
       <div className="stock-counter">
-        <button onClick={decreaseCounter}>-</button>
-        {counter}
-        <button onClick={increaseCounter}>+</button>
-      </div>
-      <div className="buy-btns">
         <button
-          className="buy-btn"
+          onClick={decreaseCounter}
+          className="hex-button-small transactionSearchBtn"
+        >
+          -
+        </button>
+        <h5>{counter}</h5>
+        <button
+          onClick={increaseCounter}
+          className="hex-button-small transactionSearchBtn"
+        >
+          +
+        </button>
+      </div>
+      <div>
+        <button
+          className="hex-button-transactions"
           onClick={() => handleBuy(companyId, companyName, counter)}
         >
           Buy
