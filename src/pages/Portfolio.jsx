@@ -161,7 +161,7 @@ export default function Portfolio() {
     async function stockDataExternal() {
       try {
         const nextResponse = await axios.post(
-          'http://localhost:3000/api/external',
+          'https://joint-invest-back-end.onrender.com/api/external',
           {
             cacheKey: `currentQuotes_${tickers_cache}`,
             remoteUrl: `https://api.twelvedata.com/quote?symbol=${tickers}&apikey=${portfolioAPIKey2}`,
@@ -180,7 +180,7 @@ export default function Portfolio() {
       try {
         //console.log(myStocksIds);
         const data = await axios.post(
-          'http://localhost:3000/api/external',
+          'https://joint-invest-back-end.onrender.com/api/external',
           {
             cacheKey: `currentTimeSeries_${tickers_cache}`,
             remoteUrl: `https://api.twelvedata.com/time_series?symbol=${tickers}&interval=1h&outputsize=8&format=JSON&dp=2&apikey=${portfolioAPIKey2}`,
