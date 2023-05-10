@@ -32,7 +32,6 @@ export default function Messages() {
   useEffect(() => {
     getDashboardData(userId)
       .then((data) => {
-        console.log(data);
         setFriends(
           data.portfolios.map((item) => {
             return {
@@ -95,11 +94,8 @@ export default function Messages() {
   const cleanDataPortfolio = (portfolio) => {
     setPortfolioDataCleaned(
       portfolio?.map((item) => {
-        console.log(item);
         if (item.friend_id === item.user_id_request) {
           for (let j = 0; j < friends.length; j++) {
-            console.log(item.user_id_request);
-            console.log(friends[j].friend_id);
             if (item.user_id_request === friends[j].friend_id) {
               return {
                 type: 'portfolio',
@@ -200,15 +196,12 @@ export default function Messages() {
       return dateB - dateA;
     });
 
-  console.log(allData);
-
   return isAuthenticated ? (
     <>
       <div className="message_page">
         <h1>Messages</h1>
         <div className="message_page_container">
           {allData?.map((item, index) => {
-            console.log(item);
             return (
               <div key={index} className="message-card">
                 {/* Info part who created the request and when */}
