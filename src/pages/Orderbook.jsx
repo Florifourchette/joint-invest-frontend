@@ -64,7 +64,7 @@ export default function Orderbook() {
         </div>
       </div>
       <Navbar />
-    </>
+    </div>
   ) : (
     <AuthIssue />
   );
