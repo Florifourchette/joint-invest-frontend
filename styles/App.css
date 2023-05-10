@@ -575,6 +575,11 @@ button {
   justify-content: space-around;
 }
 
+.modal-header {
+  display: flex;
+  flex-direction: column;
+}
+
 .modal-footer {
   display: flex;
   flex-direction: row;
