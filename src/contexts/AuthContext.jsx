@@ -1,13 +1,15 @@
-import axios from "axios";
-import { createContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+import { createContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext();
 
 // export const useAuth = () => useContext(AuthContext);
 const AuthStateContext = ({ children }) => {
   const navigate = useNavigate();
-  const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
+  const [token, setToken] = useState(
+    JSON.parse(localStorage.getItem('token'))
+  );
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -25,7 +27,7 @@ const AuthStateContext = ({ children }) => {
           setLoading(false);
         } catch (err) {
           setToken(null);
-          localStorage.removeItem("token");
+          localStorage.removeItem('token');
           setLoading(false);
         }
       };
@@ -38,13 +40,16 @@ const AuthStateContext = ({ children }) => {
       setLoading(true);
       const {
         data: { token: mytoken, user: myuser },
-      } = await axios.post("http://localhost:3000/api/user/login", {
-        email: email,
-        password: password,
-      });
+      } = await axios.post(
+        'https://joint-invest-back-end.onrender.com/api/user/login',
+        {
+          email: email,
+          password: password,
+        }
+      );
       console.log(myuser);
       setError(null);
-      localStorage.setItem("token", JSON.stringify(mytoken));
+      localStorage.setItem('token', JSON.stringify(mytoken));
       setToken(mytoken);
       setIsAuthenticated(true);
       setUserLogin(myuser);
@@ -61,14 +66,17 @@ const AuthStateContext = ({ children }) => {
       setLoading(true);
       const {
         data: { token: mytoken, user: myuser },
-      } = await axios.post("http://localhost:3000/api/user/signup", {
-        username: username,
-        email: email,
-        password: password,
-      });
+      } = await axios.post(
+        'https://joint-invest-back-end.onrender.com/api/user/signup',
+        {
+          username: username,
+          email: email,
+          password: password,
+        }
+      );
       console.log(myuser);
       setError(null);
-      localStorage.setItem("token", JSON.stringify(mytoken));
+      localStorage.setItem('token', JSON.stringify(mytoken));
       setToken(mytoken);
       setIsAuthenticated(true);
       setUserLogin(myuser);
@@ -81,20 +89,22 @@ const AuthStateContext = ({ children }) => {
   };
 
   const logout = () => {
-    console.log("login out");
-    localStorage.removeItem("token");
+    console.log('login out');
+    localStorage.removeItem('token');
     setToken(null);
     setIsAuthenticated(false);
-    setUserLogin(null);
-    navigate("/");
+    navigate('/login');
   };
 
   const getUserData = async () => {
-    const { data } = await axios.get("http://localhost:3000/api/user/me", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const { data } = await axios.get(
+      'https://joint-invest-back-end.onrender.com/api/user/me',
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return data;
   };
   return (

@@ -4,9 +4,10 @@ import { Button, Form } from 'semantic-ui-react';
 import axios from 'axios';
 import '../../styles/App.css';
 import useAuth from '../hooks/useAuth';
+import LogIn from './LogIn';
+import { Message } from 'semantic-ui-react';
 import { GrClose } from 'react-icons/gr';
 import Navbar from '../components/Navbar';
-import AuthIssue from '../components/AuthIssue';
 
 const CreationPortfolio = () => {
   const [newPortfolioName, setNewPortfolioName] = useState('');
@@ -30,7 +31,7 @@ const CreationPortfolio = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3000/api/overview')
+      .get('https://joint-invest-back-end.onrender.com/api/overview')
       .then(function (response) {
         console.log(response);
       })
@@ -47,7 +48,7 @@ const CreationPortfolio = () => {
     e.preventDefault();
     axios
       .post(
-        `http://localhost:3000/api/creation_portfolio/${userId}`,
+        `https://joint-invest-back-end.onrender.com/api/creation_portfolio/${userId}`,
         {
           initial_amount: newPortfolioInitialAmount,
           name_of_portfolio: newPortfolioName,
@@ -89,7 +90,7 @@ const CreationPortfolio = () => {
 
   return isAuthenticated ? (
     <>
-      <div style={{ height: '100vh', width: '375px' }}>
+      <div style={{ height: '100vh' }}>
         <div style={{ width: '350px' }}>
           <GrClose
             style={{
@@ -186,10 +187,10 @@ const CreationPortfolio = () => {
               Submit
             </Button>
             {countDownToggle ? (
-              <p className="countdown-text">
-                <strong>Portfolio {newPortfolioName}</strong> has been
-                created. You will be directed to overview page in{' '}
-                {countDown} seconds.
+              <p>
+                Congratulations!!! The portfolio{newPortfolioName} has
+                been created. You will be redirected to the overview
+                page in {countDown} seconds.{' '}
               </p>
             ) : (
               <></>
@@ -200,7 +201,14 @@ const CreationPortfolio = () => {
       </div>
     </>
   ) : (
-    <AuthIssue />
+    <div>
+      <div className="d-flex justify-content-center">
+        <Message style={{ color: 'red' }}>
+          You are not logged in, please login!
+        </Message>
+      </div>
+      <LogIn />
+    </div>
   );
 };
 

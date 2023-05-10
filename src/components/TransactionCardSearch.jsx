@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 export default function TransactionCardSearch({
   selectedOption,
@@ -20,29 +20,19 @@ export default function TransactionCardSearch({
   };
 
   return (
-    <div className="buyShareCard">
+    <div className="your-stock-card">
       <div className="your-stock-name-price">
-        <h5>{selectedOption}</h5>
-        <h5>Price: {selectedOptionPrice}</h5>
+        <h4>{selectedOption}</h4>
+        <h4>Price: {selectedOptionPrice}</h4>
       </div>
       <div className="stock-counter">
-        <button
-          onClick={decreaseCounter}
-          className="hex-button-small transactionSearchBtn"
-        >
-          -
-        </button>
-        <h5>{counter}</h5>
-        <button
-          onClick={increaseCounter}
-          className="hex-button-small transactionSearchBtn"
-        >
-          +
-        </button>
+        <button onClick={decreaseCounter}>-</button>
+        {counter}
+        <button onClick={increaseCounter}>+</button>
       </div>
-      <div>
+      <div className="buy-btns">
         <button
-          className="hex-button-transactions"
+          className="buy-btn"
           onClick={() => handleBuy(companyId, companyName, counter)}
         >
           Buy

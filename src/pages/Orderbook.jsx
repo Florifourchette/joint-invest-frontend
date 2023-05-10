@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { useAppContext } from "../contexts/AppContext";
-import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
-import Orderlist from "../components/Orderlist";
-import { BiArrowBack } from "react-icons/bi";
-import Navbar from "../components/Navbar";
-import useAuth from "../hooks/useAuth";
-import AuthIssue from "../components/AuthIssue";
+
+import React, { useState, useEffect } from 'react';
+import { useAppContext } from '../contexts/AppContext';
+import { useParams, useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
+import LogIn from './LogIn';
+import { Message } from 'semantic-ui-react';
+import axios from 'axios';
+import Orderlist from '../components/Orderlist';
+import { BiArrowBack } from 'react-icons/bi';
+import Navbar from '../components/Navbar';
 
 export default function Orderbook() {
   const { isAuthenticated } = useAuth();
@@ -23,10 +25,13 @@ export default function Orderbook() {
   useEffect(() => {
     async function getOrders() {
       try {
+
+
         const stockInfos = await axios.get(
-          `http://localhost:3000/api/order_book/${portfolio_id}`
+          `https://joint-invest-back-end.onrender.com/api/order_book/${portfolio_id}`
+
         );
-        console.log("Response data:", stockInfos.data);
+        console.log('Response data:', stockInfos.data);
         setOrders(stockInfos.data);
         // console.log(response.data);
         return stockInfos.data;
@@ -37,14 +42,21 @@ export default function Orderbook() {
     getOrders();
   }, []);
 
-  return isAuthenticated ? (
-    <div className="bodyOrderbook">
-      <div>
-        <BiArrowBack className="orderBookBackButton" onClick={handleClick} />
-      </div>
-      <h1 className="orderBookTitle">Order Book</h1>
-      <div>
-        <div style={{ marginBottom: "40px", paddingBottom: "4rem" }}>
+  return (
+    <>
+      <div style={{ width: '500px' }}>
+        <div style={{ width: '450px' }}>
+          <BiArrowBack
+            style={{
+              fontSize: '2rem',
+              position: 'absolute',
+              marginTop: '20px',
+            }}
+            onClick={handleClick}
+          />
+        </div>
+        <h1>Order Book</h1>
+        <div style={{ marginBottom: '40px' }}>
           {orders &&
             orders.map((item, index, arr) => {
               return (
