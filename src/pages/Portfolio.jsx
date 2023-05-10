@@ -42,11 +42,7 @@ export default function Portfolio() {
 
   const Navigate = useNavigate();
   const location = useLocation();
-  console.log(
-    ` location at portfolio ${JSON.stringify(location.state)}`
-  );
 
-  console.log(location.state.profitLoss);
   const [sharePrice, setSharePrice] = useState(location.state.prices);
   const [shareNumber, setShareNumber] = useState(
     location.state.number_of_shares
@@ -143,9 +139,7 @@ export default function Portfolio() {
           `https://joint-invest-back-end.onrender.com/api/order_book/${id}`
         );
         setOrderBook(response.data);
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     }
     async function getPortfolioStocks() {
       try {
@@ -154,9 +148,7 @@ export default function Portfolio() {
         );
         setStockItems(response.data.stocks);
         setStockOverview(response.data.overview[0]);
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     }
     async function stockDataExternal() {
       try {
@@ -168,17 +160,13 @@ export default function Portfolio() {
           }
         );
         if (nextResponse.data?.status !== 'error') {
-          console.log(nextResponse);
           setExternalAPIstocks(nextResponse.data);
         } else {
         }
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     }
     async function fetchMultipleCompanies() {
       try {
-        //console.log(myStocksIds);
         const data = await axios.post(
           'https://joint-invest-back-end.onrender.com/api/external',
           {
@@ -187,30 +175,18 @@ export default function Portfolio() {
           }
         );
         // const data = await axios.get();
-        // console.log(data);
+
         if (data.data?.status !== 'error') {
-          console.log(data);
           setAllCompanies(data.data);
         } else {
         }
-      } catch (error) {
-        console.log(error.message);
-      }
+      } catch (error) {}
     }
-    /* async function fetchStocks() {
-      try {
-        const stockInfos = await axios.get("http://localhost:3000/api/stocks");
-        setStockData(stockInfos.data);
-        console.log(stockInfos.data);
-      } catch (error) {
-        console.log(error.message);
-      }
-    } */
+
     getOrderBook();
     getPortfolioStocks();
     stockDataExternal();
     fetchMultipleCompanies();
-    //fetchStocks();
   }, [id]);
 
   return isAuthenticated ? (
@@ -251,16 +227,10 @@ export default function Portfolio() {
             {location.state.profitLoss > 0 ? (
               <h4 className="positive">
                 {location.state.profitLoss.toFixed(2)}
-                {/* {parseFloat(
-                    lastValues.close - stockOverview.invested_amount
-                  ).toFixed(2)} */}
               </h4>
             ) : (
               <h4 className="negative">
                 {location.state.profitLoss.toFixed(2)}
-                {/* {parseFloat(
-                    lastValues.close - stockOverview.invested_amount
-                  ).toFixed(2)} */}
               </h4>
             )}
 
