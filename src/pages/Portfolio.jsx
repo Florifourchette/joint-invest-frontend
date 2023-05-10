@@ -233,7 +233,12 @@ export default function Portfolio() {
             {lastValues && (
               <>
                 <h3>Total Assets</h3>
-                <h2>$ {lastValues.close.toFixed(2)}</h2>
+                <h2>
+                  ${' '}
+                  {(
+                    location.state.availableAmount + lastValues.close
+                  ).toFixed(2)}
+                </h2>
               </>
             )}
             <h3>Amount invested</h3>

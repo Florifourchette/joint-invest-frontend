@@ -283,7 +283,7 @@ export default function Dashboard(props) {
                     <h5
                       className={
                         portfolioTotals[data.portfolio_id] -
-                          data.total_buying_value >=
+                          data.invested_amount >=
                         0
                           ? 'positive'
                           : 'negative'
@@ -292,7 +292,7 @@ export default function Dashboard(props) {
                       $
                       {(
                         portfolioTotals[data.portfolio_id] -
-                        data.total_buying_value
+                        data.invested_amount
                       ).toFixed(2)}
                     </h5>
                   </div>
