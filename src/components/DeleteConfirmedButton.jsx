@@ -1,10 +1,13 @@
-import { useState } from "react";
-import React from "react";
-import { IoIosTrash, IoIosArrowDroprightCircle } from "react-icons/io";
-import { FaCheckSquare, FaArrowCircleRight } from "react-icons/fa";
-import { setPortfolioStatus } from "../../utils/PortfolioDeletion";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useState } from 'react';
+import React from 'react';
+import {
+  IoIosTrash,
+  IoIosArrowDroprightCircle,
+} from 'react-icons/io';
+import { FaCheckSquare, FaArrowCircleRight } from 'react-icons/fa';
+import { setPortfolioStatus } from '../../utils/PortfolioDeletion';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const DeleteConfirmedButton = ({
   data,
@@ -19,10 +22,11 @@ const DeleteConfirmedButton = ({
   PortfolioProfitLoss,
 }) => {
   const portfolioTotal = portfolioTotals[data.portfolio_id];
+
   return (
     <div className="dashboard_buttons d-flex align-items-center">
       {/* current status 'activated' */}
-      {data.portfolio_status === "activated" ? (
+      {data.portfolio_status === 'activated' ? (
         <>
           <button
             className="hex-button-default"
@@ -31,7 +35,7 @@ const DeleteConfirmedButton = ({
                 data.portfolio_id,
                 userId,
                 data.portfolio_status,
-                "deletion_requested",
+                'deletion_requested',
                 setNewData
               );
               setPortfolioStatusUpdated((prev) => !prev);
@@ -69,8 +73,9 @@ const DeleteConfirmedButton = ({
               const filteredShares = {};
               wallet.forEach((stock) => {
                 if (filteredShares[stock.portfolio_id]) {
-                  filteredShares[stock.portfolio_id][stock.company_id] =
-                    stock.number_of_shares;
+                  filteredShares[stock.portfolio_id][
+                    stock.company_id
+                  ] = stock.number_of_shares;
                 } else {
                   filteredShares[stock.portfolio_id] = {
                     [stock.company_id]: stock.number_of_shares,
@@ -81,6 +86,7 @@ const DeleteConfirmedButton = ({
               // Pass the filtered data to the next page
               Navigate(`/portfolio/${data.portfolio_id}`, {
                 state: {
+                  availableAmount: data.available_amount,
                   prices: filteredPrices,
                   investedAmount: data.invested_amount,
                   userId: userId,
@@ -88,22 +94,22 @@ const DeleteConfirmedButton = ({
                   friend: data.friend_username,
                   profitLoss:
                     portfolioTotals[data.portfolio_id] -
-                    data.total_buying_value,
+                    data.invested_amount,
                 },
               });
             }}
           >
             <FaArrowCircleRight
               className="to-portfolio-icon"
-              style={{ fontSize: "1.5em" }}
-            />{" "}
+              style={{ fontSize: '1.5em' }}
+            />{' '}
           </button>
         </>
       ) : (
         <></>
       )}
 
-      {data.portfolio_status === "pending_deletion" &&
+      {data.portfolio_status === 'pending_deletion' &&
       parseInt(userId) === data.user_id_request ? (
         <>
           <button
@@ -113,7 +119,7 @@ const DeleteConfirmedButton = ({
                 data.portfolio_id,
                 userId,
                 data.portfolio_status,
-                "rejected",
+                'rejected',
                 setNewData
               );
             }}
@@ -142,8 +148,9 @@ const DeleteConfirmedButton = ({
               const filteredShares = {};
               wallet.forEach((stock) => {
                 if (filteredShares[stock.portfolio_id]) {
-                  filteredShares[stock.portfolio_id][stock.company_id] =
-                    stock.number_of_shares;
+                  filteredShares[stock.portfolio_id][
+                    stock.company_id
+                  ] = stock.number_of_shares;
                 } else {
                   filteredShares[stock.portfolio_id] = {
                     [stock.company_id]: stock.number_of_shares,
@@ -167,8 +174,8 @@ const DeleteConfirmedButton = ({
           >
             <FaArrowCircleRight
               className="to-portfolio-icon"
-              style={{ fontSize: "1.5em" }}
-            />{" "}
+              style={{ fontSize: '1.5em' }}
+            />{' '}
           </button>
         </>
       ) : (
@@ -176,7 +183,7 @@ const DeleteConfirmedButton = ({
       )}
 
       {/* current status 'pending_deletion' */}
-      {data.portfolio_status === "pending_activation" &&
+      {data.portfolio_status === 'pending_activation' &&
       parseInt(userId) !== data.user_id_request ? (
         <>
           <button
@@ -186,7 +193,7 @@ const DeleteConfirmedButton = ({
                 data.portfolio_id,
                 userId,
                 data.portfolio_status,
-                "confirmed",
+                'confirmed',
                 setNewData
               );
               setPortfolioStatusUpdated((prev) => !prev);
@@ -194,7 +201,10 @@ const DeleteConfirmedButton = ({
           >
             <div className="confirmation_button">
               <i className="status_icons">
-                <FaCheckSquare size={21} style={{ color: "#FFF3BE" }} />
+                <FaCheckSquare
+                  size={21}
+                  style={{ color: '#FFF3BE' }}
+                />
               </i>
             </div>
           </button>
@@ -205,7 +215,7 @@ const DeleteConfirmedButton = ({
                 data.portfolio_id,
                 userId,
                 data.portfolio_status,
-                "rejected",
+                'rejected',
                 setNewData
               );
               setPortfolioStatusUpdated((prev) => !prev);
@@ -227,7 +237,7 @@ const DeleteConfirmedButton = ({
       )}
 
       {/* current status 'pending_deletion' */}
-      {data.portfolio_status === "pending_deletion" &&
+      {data.portfolio_status === 'pending_deletion' &&
       parseInt(userId) !== data.user_id_request ? (
         <>
           <button
@@ -237,7 +247,7 @@ const DeleteConfirmedButton = ({
                 data.portfolio_id,
                 userId,
                 data.portfolio_status,
-                "rejected",
+                'rejected',
                 setNewData
               );
               setPortfolioStatusUpdated((prev) => !prev);
@@ -252,7 +262,7 @@ const DeleteConfirmedButton = ({
                 data.portfolio_id,
                 userId,
                 data.portfolio_status,
-                "confirmed",
+                'confirmed',
                 setNewData
               );
               setPortfolioStatusUpdated((prev) => !prev);

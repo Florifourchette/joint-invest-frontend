@@ -64,7 +64,7 @@ export default function Dashboard(props) {
     //     })
     //     .catch((error) => console.error(error));
   }, [userId, newData]);
-  console.log('number of shares', wallet.number_of_shares);
+  // console.log('number of shares', wallet[0].number_of_shares);
   //API CALL
   useEffect(() => {
     if (loading === false && wallet.length > 0) {
@@ -106,13 +106,14 @@ export default function Dashboard(props) {
     }
   }, [dashboardData, loading]);
 
-  // console.log(dashboardData);
-  // console.log(wallet);
-  // console.log(prices);
+  console.log(dashboardData);
+  console.log(wallet);
+  console.log(prices);
 
   //totalAssets top of overview
   const totalAssets = wallet.reduce((acc, curr) => {
     const { company_id, number_of_shares } = curr;
+    console.log(number_of_shares);
     if (prices.hasOwnProperty(company_id)) {
       const price = Number.parseFloat(prices[company_id].price);
       const value = Number.parseFloat(number_of_shares) * price;
@@ -139,14 +140,35 @@ export default function Dashboard(props) {
   const totalAmountInvested = dashboardData
     .reduce(
       (accumulator, currentPortfolio) =>
-        accumulator + currentPortfolio.initial_amount,
+        accumulator + currentPortfolio.invested_amount,
       0
     )
     .toFixed(2);
 
-  const totalPandL = (totalAssetsSum - totalAmountInvested).toFixed(
-    2
+  const availableAmounts = dashboardData.map(
+    (item) => item.available_amount
   );
+
+  console.log(availableAmounts);
+
+  const totalAvailableAmount = availableAmounts.reduce(
+    (acc, curr) => {
+      const total = acc + curr;
+      console.log(total);
+      return total;
+    },
+    0
+  );
+
+  // console.log(typeof totalAssetsSum);
+  // console.log(totalAvailableAmount);
+  // console.log(totalAmountInvested);
+
+  const totalPandL = (
+    parseFloat(totalAssetsSum) - parseFloat(totalAmountInvested)
+  ).toFixed(2);
+
+  console.log(totalPandL);
 
   //portfolios current value
   const portfolioGroups = wallet.reduce((groups, item) => {
@@ -209,7 +231,13 @@ export default function Dashboard(props) {
 
       <div className="assets">
         <h3>Total Assets</h3>
-        <h2>$ {totalAssetsSum}</h2>
+        <h2>
+          ${' '}
+          {(
+            parseFloat(totalAssetsSum) +
+            parseFloat(totalAvailableAmount)
+          ).toFixed(2)}
+        </h2>
         <h3>Amount Invested</h3>
         <h4>$ {totalAmountInvested}</h4>
         <h3>Total profit/loss</h3>
@@ -222,11 +250,7 @@ export default function Dashboard(props) {
                 <OverviewChart totalAssetsSum={totalAssetsSum}/>
             </div> */}
       <div>
-        {dataReady &&
-        dashboardData.length > 1 &&
-        Object.values(portfolioTotals)[0] > 0 &&
-        Object.values(portfolioTotals)[0] > 0 &&
-        Object.values(portfolioTotals)[1] > 0 ? (
+        {dataReady && Object.values(portfolioTotals)[0] > 0 ? (
           <PieChart
             dashboardData={dashboardData}
             portfolioTotals={portfolioTotals}
@@ -259,7 +283,7 @@ export default function Dashboard(props) {
                     <h5
                       className={
                         portfolioTotals[data.portfolio_id] -
-                          data.total_buying_value >=
+                          data.invested_amount >=
                         0
                           ? 'positive'
                           : 'negative'
@@ -268,7 +292,7 @@ export default function Dashboard(props) {
                       $
                       {(
                         portfolioTotals[data.portfolio_id] -
-                        data.total_buying_value
+                        data.invested_amount
                       ).toFixed(2)}
                     </h5>
                   </div>
