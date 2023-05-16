@@ -31,12 +31,8 @@ const CreationPortfolio = () => {
   useEffect(() => {
     axios
       .get('https://joint-invest-back-end.onrender.com/api/overview')
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      .then(function (response) {})
+      .catch(function (error) {});
   }, []);
 
   const containsUppercase = (str) => {
@@ -60,9 +56,7 @@ const CreationPortfolio = () => {
       .then(() => {
         setCountDownToggle((prev) => !prev);
       })
-      .catch(function (error) {
-        console.log(error);
-      });
+      .catch(function (error) {});
   };
 
   useEffect(() => {
@@ -80,7 +74,6 @@ const CreationPortfolio = () => {
             setCountDown((prev) => prev - 1);
           }
         }
-        console.log(countDownToggle);
       }, 1000);
       return () => clearInterval(interval);
     },

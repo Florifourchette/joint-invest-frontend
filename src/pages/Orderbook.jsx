@@ -26,13 +26,11 @@ export default function Orderbook() {
         const stockInfos = await axios.get(
           `https://joint-invest-back-end.onrender.com/api/order_book/${portfolio_id}`
         );
-        console.log('Response data:', stockInfos.data);
+
         setOrders(stockInfos.data);
-        // console.log(response.data);
+
         return stockInfos.data;
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     }
     getOrders();
   }, []);

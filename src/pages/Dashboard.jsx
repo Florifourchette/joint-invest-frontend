@@ -34,48 +34,31 @@ export default function Dashboard(props) {
   let { userId } = useParams();
   const Navigate = useNavigate();
 
-  // const handleBack = (e) => {
-  //   e.preventDefault();
-  //   Navigate(-1);
-  // };
-
   useEffect(() => {
     getDashboardData(userId)
       .then((data) => {
-        console.log(data);
         setDashboardData(
           data.portfolios.filter(
             (item) => item.portfolio_status !== 'deleted'
           )
         );
-        // console.log(data);
+
         setWallet(data.portfoliosDetails);
         setDataReady(true);
         setLoading(false);
       })
       .catch((error) => console.error(error));
-
-    // const fakeApiUrl = createFakeUrl(companyIds);
-    // console.log(fakeApiUrl);
-    // getFakeApiData(fakeApiUrl)
-    //     .then((data) => {
-    //         console.log(data);
-    //         setPrices(data);
-    //     })
-    //     .catch((error) => console.error(error));
   }, [userId, newData]);
-  console.log('number of shares', wallet.number_of_shares);
+
   //API CALL
   useEffect(() => {
     if (loading === false && wallet.length > 0) {
       const companyIds = [
         ...new Set(wallet.map((item) => item.company_id)),
       ];
-      console.log(`tickers: ${companyIds}`);
-      const apiUrl = createApiUrl(companyIds);
-      console.log(apiUrl);
 
-      console.log(apiUrl);
+      const apiUrl = createApiUrl(companyIds);
+
       const apiCall = async () => {
         try {
           const data = await axios.post(
@@ -86,33 +69,19 @@ export default function Dashboard(props) {
             }
           );
           if (data.data?.status !== 'error') {
-            console.log('WORKING', data);
             setPrices(data.data);
           } else {
-            console.log('FAILING', data.data.status);
           }
-          // try {
-          //   fetch(apiUrl)
-          //     .then((response) => response.json())
-          //     .then((data) => {
-          //       console.log("THE ORIGINAL", data);
-          //       setPrices(data);
-          //     });
-        } catch (error) {
-          console.log(error);
-        }
+        } catch (error) {}
       };
       apiCall();
     }
   }, [dashboardData, loading]);
 
-  // console.log(dashboardData);
-  // console.log(wallet);
-  // console.log(prices);
-
   //totalAssets top of overview
   const totalAssets = wallet.reduce((acc, curr) => {
     const { company_id, number_of_shares } = curr;
+
     if (prices.hasOwnProperty(company_id)) {
       const price = Number.parseFloat(prices[company_id].price);
       const value = Number.parseFloat(number_of_shares) * price;
@@ -124,8 +93,6 @@ export default function Dashboard(props) {
     }
     return acc;
   }, {});
-
-  // console.log(totalAssets);
 
   const totalAssetsSum = Object.values(totalAssets)
     .reduce((acc, curr) => {
@@ -139,14 +106,27 @@ export default function Dashboard(props) {
   const totalAmountInvested = dashboardData
     .reduce(
       (accumulator, currentPortfolio) =>
-        accumulator + currentPortfolio.initial_amount,
+        accumulator + currentPortfolio.invested_amount,
       0
     )
     .toFixed(2);
 
-  const totalPandL = (totalAssetsSum - totalAmountInvested).toFixed(
-    2
+  const availableAmounts = dashboardData.map(
+    (item) => item.available_amount
   );
+
+  const totalAvailableAmount = availableAmounts.reduce(
+    (acc, curr) => {
+      const total = acc + curr;
+
+      return total;
+    },
+    0
+  );
+
+  const totalPandL = (
+    parseFloat(totalAssetsSum) - parseFloat(totalAmountInvested)
+  ).toFixed(2);
 
   //portfolios current value
   const portfolioGroups = wallet.reduce((groups, item) => {
@@ -183,8 +163,6 @@ export default function Dashboard(props) {
     {}
   );
 
-  // console.log(portfolioAssets);
-
   const portfolioTotals = Object.entries(portfolioAssets).reduce(
     (acc, [portfolioId, assets]) => {
       const total = Object.values(assets)
@@ -195,21 +173,20 @@ export default function Dashboard(props) {
     },
     {}
   );
-  console.log('portfolioTotals', portfolioTotals);
 
   return isAuthenticated ? (
     <div className="overview-page">
-      {/* <div style={{ width: "450px" }}>
-        <BiArrowBack
-          style={{ fontSize: "2rem", position: "absolute", marginTop: "20px" }}
-          onClick={handleClick}
-        />
-      </div>  */}
       <h1 className="overview-title">Overview</h1>
 
       <div className="assets">
         <h3>Total Assets</h3>
-        <h2>$ {totalAssetsSum}</h2>
+        <h2>
+          ${' '}
+          {(
+            parseFloat(totalAssetsSum) +
+            parseFloat(totalAvailableAmount)
+          ).toFixed(2)}
+        </h2>
         <h3>Amount Invested</h3>
         <h4>$ {totalAmountInvested}</h4>
         <h3>Total profit/loss</h3>
@@ -218,15 +195,8 @@ export default function Dashboard(props) {
         </h4>
       </div>
 
-      {/* <div className="graph">
-                <OverviewChart totalAssetsSum={totalAssetsSum}/>
-            </div> */}
       <div>
-        {dataReady &&
-        dashboardData.length > 1 &&
-        Object.values(portfolioTotals)[0] > 0 &&
-        Object.values(portfolioTotals)[0] > 0 &&
-        Object.values(portfolioTotals)[1] > 0 ? (
+        {dataReady && Object.values(portfolioTotals)[0] > 0 ? (
           <PieChart
             dashboardData={dashboardData}
             portfolioTotals={portfolioTotals}
@@ -259,7 +229,7 @@ export default function Dashboard(props) {
                     <h5
                       className={
                         portfolioTotals[data.portfolio_id] -
-                          data.total_buying_value >=
+                          data.invested_amount >=
                         0
                           ? 'positive'
                           : 'negative'
@@ -268,7 +238,7 @@ export default function Dashboard(props) {
                       $
                       {(
                         portfolioTotals[data.portfolio_id] -
-                        data.total_buying_value
+                        data.invested_amount
                       ).toFixed(2)}
                     </h5>
                   </div>

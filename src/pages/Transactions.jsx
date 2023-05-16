@@ -1,34 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   getTransactionsData,
   writeTransaction,
   confirmOrCancelTransaction,
-} from "../../utils/APIcalls";
-import { useParams } from "react-router-dom";
-import { useLocation, useNavigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
-import Navbar from "../components/Navbar";
-import { transaction } from "../../utils/TransactionOperations";
-import ReactModal from "react-modal";
-import ModalTransactionBuy from "../components/ModalTransaction";
-import ModalConfirmation from "../components/ModalConfirmation";
-import ModalDecline from "../components/ModalDecline";
-import ModalCancellation from "../components/ModalCancellation";
-import TransactionCard from "../components/TransactionCard";
-import TransactionCardPending from "../components/TransactionCardPending";
-import TransactionCardSearch from "../components/TransactionCardSearch";
-import StockSearchBar from "../components/StockSearch";
-import { createApiUrl } from "../../utils/CreateAPIUrl";
-import { BiArrowBack } from "react-icons/bi";
-import AuthIssue from "../components/AuthIssue";
+} from '../../utils/APIcalls';
+import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
+import Navbar from '../components/Navbar';
+import { transaction } from '../../utils/TransactionOperations';
+import ReactModal from 'react-modal';
+import ModalTransactionBuy from '../components/ModalTransaction';
+import ModalConfirmation from '../components/ModalConfirmation';
+import ModalDecline from '../components/ModalDecline';
+import ModalCancellation from '../components/ModalCancellation';
+import TransactionCard from '../components/TransactionCard';
+import TransactionCardPending from '../components/TransactionCardPending';
+import TransactionCardSearch from '../components/TransactionCardSearch';
+import StockSearchBar from '../components/StockSearch';
+import { createApiUrl } from '../../utils/CreateAPIUrl';
+import { BiArrowBack } from 'react-icons/bi';
+import AuthIssue from '../components/AuthIssue';
 
 export default function Transactions() {
   const { isAuthenticated } = useAuth();
   let { portfolioId } = useParams();
 
   const location = useLocation();
-
-  console.log(` location at transactions ${JSON.stringify(location.state)}`);
 
   //STATES
   const [yourStocks, setYourStocks] = useState([]);
@@ -37,13 +35,14 @@ export default function Transactions() {
   const [showModal, setShowModal] = useState(false);
   const [showProposalModal, setShowProposalModal] = useState(false);
   const [showDeclineModal, setShowDeclineModal] = useState(false);
-  const [showCancellationModal, setShowCancellationModal] = useState(false);
+  const [showCancellationModal, setShowCancellationModal] =
+    useState(false);
   const [selectedStock, setSelectedStock] = useState(null);
-  const [selectedStockName, setSelectedStockName] = useState("");
+  const [selectedStockName, setSelectedStockName] = useState('');
   const [transactionData, setTransactionData] = useState([{}]);
-  const [confirmOrDeclince, setConfirmOrDeclince] = useState("");
+  const [confirmOrDeclince, setConfirmOrDeclince] = useState('');
   const [transactionId, setTransactionId] = useState();
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState('');
   const [selectedOptionPrice, setSelectedOptionPrice] = useState([]);
   const [locationState, setLocationState] = useState(location.state);
   const [confirmation, setConfirmation] = useState(false);
@@ -55,35 +54,28 @@ export default function Transactions() {
   };
 
   //Extract search terms for API calls
-  const [substring1, substring2] = selectedOption.split("(");
+  const [substring1, substring2] = selectedOption.split('(');
   const companyId = substring2?.slice(0, -1);
   const companyName = substring1;
-  console.log("companyId:", companyId);
 
   //Use Effects
   useEffect(() => {
     getTransactionsData(portfolioId)
       .then((data) => {
-        console.log(data);
         setYourStocks(data);
       })
       .catch((error) => console.error(error));
   }, [portfolioId]);
 
-  console.log("portfolioId:", portfolioId);
-  console.log("your strocks", yourStocks);
   useEffect(() => {
-    if (selectedOption !== "") {
-      console.log("iside the effect", companyId);
+    if (selectedOption !== '') {
       const apiUrl = createApiUrl(companyId);
-      console.log(apiUrl);
       const apiCall = async () => {
         try {
           fetch(apiUrl)
             .then((response) => response.json())
             .then((data) => {
               setSelectedOptionPrice(Number(data.price).toFixed(2));
-              console.log("price", selectedOptionPrice);
             });
         } catch (error) {
           console.log(error);
@@ -92,8 +84,6 @@ export default function Transactions() {
       apiCall();
     }
   }, [selectedOption, companyId]);
-
-  console.log(yourStocks);
 
   //buy - sell Transactions
   const handleBuy = (companyId, companyName, counter) => {
@@ -104,7 +94,7 @@ export default function Transactions() {
       setTransactionData(() => ({
         number_of_shares: counter.toString(),
         company_id: companyId,
-        type_of_transaction: "Buy",
+        type_of_transaction: 'Buy',
         company_name: companyName,
         price_of_share: data.price,
         user_id: location.state.userId,
@@ -127,7 +117,7 @@ export default function Transactions() {
       setTransactionData(() => ({
         number_of_shares: counter.toString(),
         company_id: companyId,
-        type_of_transaction: "Sell",
+        type_of_transaction: 'Sell',
         company_name: companyName,
         price_of_share: data.price,
         user_id: location.state.userId,
@@ -152,7 +142,7 @@ export default function Transactions() {
     transactionId,
     number_of_shares
   ) => {
-    setConfirmOrDeclince("confirm");
+    setConfirmOrDeclince('confirm');
     setSelectedAmmount(number_of_shares);
     setSelectedStockName(companyName);
     setTransactionId(transactionId);
@@ -160,11 +150,11 @@ export default function Transactions() {
       setTransactionPrice(data);
       setSelectedStock(companyId);
       setTransactionData(() => ({
-        transaction_status: "confirmed",
+        transaction_status: 'confirmed',
         current_price_of_share: data.price,
       }));
     });
-    setConfirmation(true)
+    setConfirmation(true);
     setShowProposalModal(true);
   };
 
@@ -174,7 +164,7 @@ export default function Transactions() {
     transactionId,
     number_of_shares
   ) => {
-    setConfirmOrDeclince("decline");
+    setConfirmOrDeclince('decline');
     setSelectedAmmount(number_of_shares);
     setSelectedStockName(companyName);
     setSelectedStock(companyId);
@@ -183,7 +173,7 @@ export default function Transactions() {
       setTransactionPrice(data);
       setSelectedStock(companyId);
       setTransactionData(() => ({
-        transaction_status: "canceled",
+        transaction_status: 'canceled',
       }));
     });
     setShowDeclineModal(true);
@@ -191,7 +181,7 @@ export default function Transactions() {
   const handleCancelRequest = (transactionId) => {
     setTransactionId(transactionId);
     setTransactionData(() => ({
-      transaction_status: "canceled",
+      transaction_status: 'canceled',
     }));
     setShowCancellationModal(true);
   };
@@ -210,22 +200,37 @@ export default function Transactions() {
   };
 
   const handleProposalConfirmation = () => {
-    confirmOrCancelTransaction(portfolioId, transactionId, transactionData);
+    confirmOrCancelTransaction(
+      portfolioId,
+      transactionId,
+      transactionData
+    );
     setShowProposalModal(false);
   };
   const handleProposalDecline = () => {
-    confirmOrCancelTransaction(portfolioId, transactionId, transactionData);
+    confirmOrCancelTransaction(
+      portfolioId,
+      transactionId,
+      transactionData
+    );
     setShowProposalModal(false);
   };
   const handleProposalCancellation = () => {
-    confirmOrCancelTransaction(portfolioId, transactionId, transactionData);
+    confirmOrCancelTransaction(
+      portfolioId,
+      transactionId,
+      transactionData
+    );
     setShowCancellationModal(false);
   };
 
   return isAuthenticated ? (
     <div className="bodyTransactions">
       <div className="portfolio-back-button-container">
-        <BiArrowBack className="portfolio-back-button" onClick={handleBack} />
+        <BiArrowBack
+          className="portfolio-back-button"
+          onClick={handleBack}
+        />
       </div>
       <div className="transactions-title">
         <h1 className="overview-title">Buy/Sell</h1>
@@ -247,9 +252,12 @@ export default function Transactions() {
           <h2>Your Stocks</h2>
           <div
             className="transactions-cards"
-            style={{ backgroundColor: "#FFF3BE", paddingBottom: "5rem" }}
+            style={{
+              backgroundColor: '#FFF3BE',
+              paddingBottom: '5rem',
+            }}
           >
-            {selectedOption !== "" && (
+            {selectedOption !== '' && (
               <TransactionCardSearch
                 selectedOption={selectedOption}
                 handleBuy={handleBuy}
@@ -258,10 +266,10 @@ export default function Transactions() {
                 selectedOptionPrice={selectedOptionPrice}
               />
             )}
-            {selectedOption === "" && yourStocks.length > 0 && (
+            {selectedOption === '' && yourStocks.length > 0 && (
               <>
                 {yourStocks.map((stock, index) => {
-                  if (stock.status === "pending") {
+                  if (stock.status === 'pending') {
                     return (
                       <TransactionCardPending
                         key={stock.id}
@@ -273,7 +281,7 @@ export default function Transactions() {
                         locationState={locationState}
                       />
                     );
-                  } else if (stock.status === "confirmed") {
+                  } else if (stock.status === 'confirmed') {
                     return (
                       <TransactionCard
                         key={stock.id}
@@ -306,7 +314,9 @@ export default function Transactions() {
                 message={`Are you sure you want to ${confirmOrDeclince} the purchase of ${selectedAmmount} stocks of ${selectedStockName}(${selectedStock}) at ${Number(
                   transactionPrice.price
                 ).toFixed(2)}?`}
-                handleProposalConfirmation={handleProposalConfirmation}
+                handleProposalConfirmation={
+                  handleProposalConfirmation
+                }
                 handleCancel={handleCancel}
                 showProposalModal={showProposalModal}
                 centered
@@ -324,7 +334,9 @@ export default function Transactions() {
             {showCancellationModal && (
               <ModalCancellation
                 message={`Are you sure you want to cancel your purchase request?`}
-                handleProposalCancellation={handleProposalCancellation}
+                handleProposalCancellation={
+                  handleProposalCancellation
+                }
                 handleCancel={handleCancel}
                 showCancellationModal={showCancellationModal}
                 centered
