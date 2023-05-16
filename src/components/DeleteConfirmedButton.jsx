@@ -39,7 +39,6 @@ const DeleteConfirmedButton = ({
                 setNewData
               );
               setPortfolioStatusUpdated((prev) => !prev);
-              console.log(portfolioStatusUpdated);
             }}
           >
             {/* <i
@@ -219,7 +218,6 @@ const DeleteConfirmedButton = ({
                 setNewData
               );
               setPortfolioStatusUpdated((prev) => !prev);
-              console.log(portfolioStatusUpdated);
             }}
           >
             {/* <i

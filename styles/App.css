@@ -595,14 +595,14 @@ button {
 /* StockSearch */
 
 .drop-down {
-  white-space: normal;
-  width: 200px;
   border: 1px transparent black;
+  width: 84%;
   margin: auto;
   background-color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   transition: height 0.2s ease-in-out, opacity 0.2s ease-in-out;
   cursor: pointer;
+  overflow: hidden;
   padding-bottom: 10px;
 }
 
@@ -1082,11 +1082,11 @@ button {
 
 .stock-counter-transactions-card {
   font-size: 1.5em;
+  width: 90px;
   display: flex;
   justify-content: space-between;
   padding-bottom: 0;
   align-items: center;
-  width: 90px;
 }
 .buy-sell-btns {
   display: flex;
@@ -1164,15 +1164,10 @@ button {
   height: 4em;
 }
 
-.dropdown-item span{
-  white-space: normal;
+.dropdown-item {
+  margin: 1.5em;
 }
 
-.dropdown-item{
-  margin: 0.5em 0.25em 0.5em 0.25em;
-  width: 190px;
-  white-space: normal;
-}
 /* Modals */
 
 /* HEX BUTTONS */
