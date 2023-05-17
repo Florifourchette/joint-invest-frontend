@@ -7,6 +7,7 @@ export const useAppContext = () => useContext(AppContextObj);
 
 const AppContextWrapper = ({ children }) => {
   const [contextStockData, setContextStockData] = useState([]);
+  const [contextUsers, setContextUsers] = useState([]);
 
   useEffect(() => {
     async function fetchStocks() {
@@ -18,11 +19,21 @@ const AppContextWrapper = ({ children }) => {
         console.log("error fetching stocks", error.message);
       }
     }
+    async function fetchUsers() {
+      try {
+        const myUsers = await axios("http://localhost:3000/api/user/all");
+        setContextUsers(myUsers.data);
+        console.log("All Users", myUsers.data);
+      } catch (error) {
+        console.log("error fetching stocks", error.message);
+      }
+    }
     fetchStocks();
+    fetchUsers();
   }, []);
 
   return (
-    <AppContextObj.Provider value={{ contextStockData }}>
+    <AppContextObj.Provider value={{ contextStockData, contextUsers }}>
       {children}
     </AppContextObj.Provider>
   );

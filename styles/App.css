@@ -595,6 +595,10 @@ button {
   justify-content: space-around;
 }
 
+.transition{
+  height: 150px;
+}
+
 /* StockSearch */
 
 .drop-down {
