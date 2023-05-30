@@ -34,7 +34,7 @@ const CreationPortfolio = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3000/api/overview')
+      .get('https://joint-invest-back-end.onrender.com/api/overview')
       .then(function (response) {
         console.log(response);
       })
@@ -54,7 +54,7 @@ const CreationPortfolio = () => {
     console.log('My Friends', newPortfolioUsername);
     axios
       .post(
-        `http://localhost:3000/api/creation_portfolio/${userId}`,
+        `https://joint-invest-back-end.onrender.com/api/creation_portfolio/${userId}`,
         {
           initial_amount: newPortfolioInitialAmount,
           name_of_portfolio: newPortfolioName,
@@ -165,6 +165,7 @@ const CreationPortfolio = () => {
                 style={{
                   border: 'solid 1px #31231E',
                   width: '300px',
+                  s,
                 }}
               />
               {checkUsername === 'user not found' ? (
