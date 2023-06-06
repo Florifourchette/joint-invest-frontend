@@ -543,6 +543,11 @@ button {
 
 /* Modals */
 
+.modal-header {
+  display: flex;
+  flex-direction: column;
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -585,6 +590,10 @@ button {
 
 #modalFooter {
   justify-content: space-around;
+}
+
+.transition{
+  height: 150px;
 }
 
 /* StockSearch */

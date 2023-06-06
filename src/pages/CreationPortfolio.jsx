@@ -7,6 +7,9 @@ import useAuth from '../hooks/useAuth';
 import { GrClose } from 'react-icons/gr';
 import Navbar from '../components/Navbar';
 import AuthIssue from '../components/AuthIssue';
+import { useAppContext } from '../contexts/AppContext';
+import CreatePortfolioDropdown from '../components/CreatePortfolioDropdown';
+import { FaLaravel } from 'react-icons/fa';
 
 const CreationPortfolio = () => {
   const [newPortfolioName, setNewPortfolioName] = useState('');
@@ -20,6 +23,7 @@ const CreationPortfolio = () => {
   const Navigate = useNavigate();
   const [countDownToggle, setCountDownToggle] = useState(false);
   const [countDown, setCountDown] = useState(5);
+  const { contextUsers } = useAppContext();
 
   const { userId } = useParams();
 
@@ -30,7 +34,7 @@ const CreationPortfolio = () => {
 
   useEffect(() => {
     axios
-      .get('https://joint-invest-back-end.onrender.com/api/overview')
+      .get('http://localhost:3000/api/overview')
       .then(function (response) {
         console.log(response);
       })
@@ -45,9 +49,12 @@ const CreationPortfolio = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log('My Amount', newPortfolioInitialAmount);
+    console.log('Portfolio Name', newPortfolioName);
+    console.log('My Friends', newPortfolioUsername);
     axios
       .post(
-        `https://joint-invest-back-end.onrender.com/api/creation_portfolio/${userId}`,
+        `http://localhost:3000/api/creation_portfolio/${userId}`,
         {
           initial_amount: newPortfolioInitialAmount,
           name_of_portfolio: newPortfolioName,
@@ -143,8 +150,14 @@ const CreationPortfolio = () => {
               />
             </Form.Field>
             <Form.Field>
-              <label>Friend username</label>
-              <input
+              <label>Friend name</label>
+              <CreatePortfolioDropdown
+                newPortfolioUsername={newPortfolioUsername}
+                setNewPortfolioUsername={setNewPortfolioUsername}
+                userId={userId}
+              />
+
+              {/* <input
                 placeholder="Friend username"
                 onChange={(e) =>
                   containsUppercase(e.target.value)
@@ -152,11 +165,8 @@ const CreationPortfolio = () => {
                     : setNewPortfolioUsername(e.target.value)
                 }
                 required
-                style={{
-                  border: 'solid 1px #31231E',
-                  width: '300px',
-                }}
-              />
+                
+              /> */}
               {checkUsername === 'user not found' ? (
                 <p>User has not been found</p>
               ) : (
