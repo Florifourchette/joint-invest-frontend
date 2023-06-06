@@ -1,5 +1,10 @@
-import { createContext, useState, useContext, useEffect } from "react";
-import axios from "axios";
+import {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+} from 'react';
+import axios from 'axios';
 
 export const AppContextObj = createContext();
 
@@ -12,11 +17,13 @@ const AppContextWrapper = ({ children }) => {
   useEffect(() => {
     async function fetchStocks() {
       try {
-        const stockInfos = await axios("http://localhost:3000/api/stocks");
+        const stockInfos = await axios(
+          'https://joint-invest-back-end.onrender.com/api/stocks'
+        );
         setContextStockData(stockInfos.data);
-        console.log("stock infos", stockInfos.data);
+        console.log('stock infos', stockInfos.data);
       } catch (error) {
-        console.log("error fetching stocks", error.message);
+        console.log('error fetching stocks', error.message);
       }
     }
     async function fetchUsers() {
