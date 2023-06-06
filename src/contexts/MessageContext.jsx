@@ -17,9 +17,11 @@ const MessageContextWrapper = ({ children }) => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    getMessages(userId)
-      .then((data) => setMessages(data))
-      .catch((error) => console.log(error));
+    if (userId !== null) {
+      getMessages(userId)
+        .then((data) => setMessages(data))
+        .catch((error) => console.log(error));
+    }
   }, [userDetails]);
 
   return (

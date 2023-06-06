@@ -21,7 +21,6 @@ const AuthStateContext = ({ children }) => {
         try {
           setLoading(true);
           const data = await getUserData();
-          console.log(data);
           setUserLogin(data);
           setIsAuthenticated(true);
           setLoading(false);
@@ -44,7 +43,6 @@ const AuthStateContext = ({ children }) => {
         email: email,
         password: password,
       });
-      console.log(myuser);
       setError(null);
       localStorage.setItem('token', JSON.stringify(mytoken));
       setToken(mytoken);
@@ -68,7 +66,6 @@ const AuthStateContext = ({ children }) => {
         email: email,
         password: password,
       });
-      console.log(myuser);
       setError(null);
       localStorage.setItem('token', JSON.stringify(mytoken));
       setToken(mytoken);
@@ -83,7 +80,6 @@ const AuthStateContext = ({ children }) => {
   };
 
   const logout = () => {
-    console.log('login out');
     localStorage.removeItem('token');
     setToken(null);
     setIsAuthenticated(false);
