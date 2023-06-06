@@ -165,7 +165,6 @@ const CreationPortfolio = () => {
                 style={{
                   border: 'solid 1px #31231E',
                   width: '300px',
-                  s,
                 }}
               />
               {checkUsername === 'user not found' ? (
