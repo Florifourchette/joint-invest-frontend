@@ -42,7 +42,7 @@ export default function Dashboard(props) {
   useEffect(() => {
     getDashboardData(userId)
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setDashboardData(
           data.portfolios.filter(
             (item) => item.portfolio_status !== 'deleted'
@@ -64,18 +64,18 @@ export default function Dashboard(props) {
     //     })
     //     .catch((error) => console.error(error));
   }, [userId, newData]);
-  console.log('number of shares', wallet.number_of_shares);
+  // console.log('number of shares', wallet.number_of_shares);
   //API CALL
   useEffect(() => {
     if (loading === false && wallet.length > 0) {
       const companyIds = [
         ...new Set(wallet.map((item) => item.company_id)),
       ];
-      console.log(`tickers: ${companyIds}`);
+      // console.log(`tickers: ${companyIds}`);
       const apiUrl = createApiUrl(companyIds);
-      console.log(apiUrl);
+      // console.log(apiUrl);
 
-      console.log(apiUrl);
+      // console.log(apiUrl);
       const apiCall = async () => {
         try {
           const data = await axios.post(
@@ -86,10 +86,10 @@ export default function Dashboard(props) {
             }
           );
           if (data.data?.status !== 'error') {
-            console.log('WORKING', data);
+            // console.log('WORKING', data);
             setPrices(data.data);
           } else {
-            console.log('FAILING', data.data.status);
+            // console.log('FAILING', data.data.status);
           }
           // try {
           //   fetch(apiUrl)
@@ -195,7 +195,7 @@ export default function Dashboard(props) {
     },
     {}
   );
-  console.log('portfolioTotals', portfolioTotals);
+  // console.log('portfolioTotals', portfolioTotals);
 
   return isAuthenticated ? (
     <div className="overview-page">
