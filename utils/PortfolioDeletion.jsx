@@ -10,14 +10,11 @@ export const setPortfolioStatus = async (
 ) => {
   console.log(buttonStatus);
   await axios
-    .post(
-      `https://joint-invest-back-end.onrender.com/${portfolio_id}`,
-      {
-        user_id_status_request: user_id,
-        current_portfolio_status: currentStatus,
-        button_response: buttonStatus,
-      }
-    )
+    .post(`http://localhost:3000/${portfolio_id}`, {
+      user_id_status_request: user_id,
+      current_portfolio_status: currentStatus,
+      button_response: buttonStatus,
+    })
     .then(function (response) {
       console.log(response);
       return response;

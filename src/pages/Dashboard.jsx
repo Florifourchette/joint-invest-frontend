@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { getDashboardData } from "../../utils/APIcalls";
-import { useParams } from "react-router-dom";
-import OverviewChart from "../components/OverviewChart";
-import PieChart from "../components/PieOverviewChart";
+import React, { useEffect, useState } from 'react';
+import { getDashboardData } from '../../utils/APIcalls';
+import { useParams } from 'react-router-dom';
+import OverviewChart from '../components/OverviewChart';
+import PieChart from '../components/PieOverviewChart';
 import {
   IoIosArrowDroprightCircle,
   IoIosContacts,
   IoIosAdd,
-} from "react-icons/io";
-import { useNavigate } from "react-router-dom";
-import { createApiUrl } from "../../utils/CreateAPIUrl";
-import useAuth from "../hooks/useAuth";
-import LogIn from "./LogIn";
-import { Message } from "semantic-ui-react";
-import Navbar from "../components/Navbar";
-import DeleteConfirmedButton from "../components/DeleteConfirmedButton";
-import StatusMessages from "../components/StatusMessages";
-import { BiArrowBack } from "react-icons/bi";
-import axios from "axios";
-import AuthIssue from "../components/AuthIssue";
+} from 'react-icons/io';
+import { useNavigate } from 'react-router-dom';
+import { createApiUrl } from '../../utils/CreateAPIUrl';
+import useAuth from '../hooks/useAuth';
+import LogIn from './LogIn';
+import { Message } from 'semantic-ui-react';
+import Navbar from '../components/Navbar';
+import DeleteConfirmedButton from '../components/DeleteConfirmedButton';
+import StatusMessages from '../components/StatusMessages';
+import { BiArrowBack } from 'react-icons/bi';
+import axios from 'axios';
+import AuthIssue from '../components/AuthIssue';
 
 export default function Dashboard(props) {
   const [dashboardData, setDashboardData] = useState([]);
@@ -26,7 +26,8 @@ export default function Dashboard(props) {
   const [prices, setPrices] = useState([]);
   const [dataReady, setDataReady] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [portfolioStatusUpdated, setPortfolioStatusUpdated] = useState(false);
+  const [portfolioStatusUpdated, setPortfolioStatusUpdated] =
+    useState(false);
   const [newData, setNewData] = useState([]);
   const { isAuthenticated } = useAuth();
 
@@ -41,9 +42,11 @@ export default function Dashboard(props) {
   useEffect(() => {
     getDashboardData(userId)
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setDashboardData(
-          data.portfolios.filter((item) => item.portfolio_status !== "deleted")
+          data.portfolios.filter(
+            (item) => item.portfolio_status !== 'deleted'
+          )
         );
         // console.log(data);
         setWallet(data.portfoliosDetails);
@@ -61,27 +64,32 @@ export default function Dashboard(props) {
     //     })
     //     .catch((error) => console.error(error));
   }, [userId, newData]);
-  console.log("number of shares", wallet.number_of_shares);
+  // console.log('number of shares', wallet.number_of_shares);
   //API CALL
   useEffect(() => {
     if (loading === false && wallet.length > 0) {
-      const companyIds = [...new Set(wallet.map((item) => item.company_id))];
-      console.log(`tickers: ${companyIds}`);
+      const companyIds = [
+        ...new Set(wallet.map((item) => item.company_id)),
+      ];
+      // console.log(`tickers: ${companyIds}`);
       const apiUrl = createApiUrl(companyIds);
-      console.log(apiUrl);
+      // console.log(apiUrl);
 
-      console.log(apiUrl);
+      // console.log(apiUrl);
       const apiCall = async () => {
         try {
-          const data = await axios.post("http://localhost:3000/api/external", {
-            cacheKey: "currentPrices",
-            remoteUrl: apiUrl,
-          });
-          if (data.data?.status !== "error") {
-            console.log("WORKING", data);
+          const data = await axios.post(
+            'https://joint-invest-back-end.onrender.com/api/external',
+            {
+              cacheKey: 'currentPrices',
+              remoteUrl: apiUrl,
+            }
+          );
+          if (data.data?.status !== 'error') {
+            // console.log('WORKING', data);
             setPrices(data.data);
           } else {
-            console.log("FAILING", data.data.status);
+            // console.log('FAILING', data.data.status);
           }
           // try {
           //   fetch(apiUrl)
@@ -136,7 +144,9 @@ export default function Dashboard(props) {
     )
     .toFixed(2);
 
-  const totalPandL = (totalAssetsSum - totalAmountInvested).toFixed(2);
+  const totalPandL = (totalAssetsSum - totalAmountInvested).toFixed(
+    2
+  );
 
   //portfolios current value
   const portfolioGroups = wallet.reduce((groups, item) => {
@@ -151,19 +161,22 @@ export default function Dashboard(props) {
   const portfolioAssets = Object.keys(portfolioGroups).reduce(
     (acc, portfolioId) => {
       const portfolioItems = portfolioGroups[portfolioId];
-      const portfolioTotalAssets = portfolioItems.reduce((total, item) => {
-        const { company_id, number_of_shares } = item;
-        if (prices.hasOwnProperty(company_id)) {
-          const price = Number.parseFloat(prices[company_id].price);
-          const value = Number.parseFloat(number_of_shares) * price;
-          if (!total.hasOwnProperty(company_id)) {
-            total[company_id] = value;
-          } else {
-            total[company_id] += value;
+      const portfolioTotalAssets = portfolioItems.reduce(
+        (total, item) => {
+          const { company_id, number_of_shares } = item;
+          if (prices.hasOwnProperty(company_id)) {
+            const price = Number.parseFloat(prices[company_id].price);
+            const value = Number.parseFloat(number_of_shares) * price;
+            if (!total.hasOwnProperty(company_id)) {
+              total[company_id] = value;
+            } else {
+              total[company_id] += value;
+            }
           }
-        }
-        return total;
-      }, {});
+          return total;
+        },
+        {}
+      );
       acc[portfolioId] = portfolioTotalAssets;
       return acc;
     },
@@ -182,7 +195,7 @@ export default function Dashboard(props) {
     },
     {}
   );
-  console.log("portfolioTotals", portfolioTotals);
+  // console.log('portfolioTotals', portfolioTotals);
 
   return isAuthenticated ? (
     <div className="overview-page">
@@ -200,7 +213,7 @@ export default function Dashboard(props) {
         <h3>Amount Invested</h3>
         <h4>$ {totalAmountInvested}</h4>
         <h3>Total profit/loss</h3>
-        <h4 className={totalPandL >= 0 ? "positive" : "negative"}>
+        <h4 className={totalPandL >= 0 ? 'positive' : 'negative'}>
           $ {totalPandL}
         </h4>
       </div>
@@ -223,23 +236,29 @@ export default function Dashboard(props) {
           <>
             <div className="portfolio-card" key={data.portfolio_id}>
               <div className="portfolio-name-container">
-                <h5 className="portfolio-name">{data.name_of_portfolio}</h5>
+                <h5 className="portfolio-name">
+                  {data.name_of_portfolio}
+                </h5>
               </div>
               <div className="portfolio-card-container">
                 <div className="porfolio-card-values">
                   <div className="porfolio-card-value">
-                    <h5 className="portfolio-value-title">Current Value</h5>
+                    <h5 className="portfolio-value-title">
+                      Current Value
+                    </h5>
                     <h5>$ {portfolioTotals[data.portfolio_id]}</h5>
                   </div>
                   <div className="porfolio-card-value">
-                    <h5 className="portfolio-value-title">Profit/Loss</h5>
+                    <h5 className="portfolio-value-title">
+                      Profit/Loss
+                    </h5>
                     <h5
                       className={
                         portfolioTotals[data.portfolio_id] -
                           data.total_buying_value >=
                         0
-                          ? "positive"
-                          : "negative"
+                          ? 'positive'
+                          : 'negative'
                       }
                     >
                       $
@@ -254,7 +273,7 @@ export default function Dashboard(props) {
                     <img
                       src="/bee.png"
                       alt="friends"
-                      style={{ width: "40px" }}
+                      style={{ width: '40px' }}
                     />
                     <h4 className="friend">{data.friend_username}</h4>
                   </div>
@@ -263,18 +282,21 @@ export default function Dashboard(props) {
                   data={data}
                   userId={userId}
                   portfolioTotals={portfolioTotals}
-                  setPortfolioStatusUpdated={setPortfolioStatusUpdated}
+                  setPortfolioStatusUpdated={
+                    setPortfolioStatusUpdated
+                  }
                   portfolioStatusUpdated={portfolioStatusUpdated}
                   setNewData={setNewData}
                   wallet={wallet}
                   Navigate={Navigate}
                   prices={prices}
                   PortfolioProfitLoss={(
-                    portfolioTotals[data.portfolio_id] - data.total_buying_value
+                    portfolioTotals[data.portfolio_id] -
+                    data.total_buying_value
                   ).toFixed(2)}
                 />
-                {data.portfolio_status === "pending_activation" ||
-                data.portfolio_status === "pending_deletion" ? (
+                {data.portfolio_status === 'pending_activation' ||
+                data.portfolio_status === 'pending_deletion' ? (
                   <StatusMessages
                     data={data}
                     userId={userId}
@@ -293,12 +315,12 @@ export default function Dashboard(props) {
         <p>Add a portfolio</p>
         <button
           className="hex-button space-under-add-button"
-          style={{ padding: "10px 20px 10px 20px" }}
+          style={{ padding: '10px 20px 10px 20px' }}
           onClick={() => Navigate(`/create_portfolio/${userId}`)}
         >
           <IoIosAdd
             className="portfolio-add-icon"
-            style={{ fontSize: "3em" }}
+            style={{ fontSize: '3em' }}
           />
         </button>
       </div>

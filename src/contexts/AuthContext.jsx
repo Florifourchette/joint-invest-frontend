@@ -13,7 +13,7 @@ const AuthStateContext = ({ children }) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userLogin, setUserLogin] = useState(null);
+  const [userLogin, setUserLogin] = useState({ id: 0, password: '' });
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -21,7 +21,6 @@ const AuthStateContext = ({ children }) => {
         try {
           setLoading(true);
           const data = await getUserData();
-          console.log(data);
           setUserLogin(data);
           setIsAuthenticated(true);
           setLoading(false);
@@ -40,14 +39,10 @@ const AuthStateContext = ({ children }) => {
       setLoading(true);
       const {
         data: { token: mytoken, user: myuser },
-      } = await axios.post(
-        'https://joint-invest-back-end.onrender.com/api/user/login',
-        {
-          email: email,
-          password: password,
-        }
-      );
-      console.log(myuser);
+      } = await axios.post('http://localhost:3000/api/user/login', {
+        email: email,
+        password: password,
+      });
       setError(null);
       localStorage.setItem('token', JSON.stringify(mytoken));
       setToken(mytoken);
@@ -66,15 +61,11 @@ const AuthStateContext = ({ children }) => {
       setLoading(true);
       const {
         data: { token: mytoken, user: myuser },
-      } = await axios.post(
-        'https://joint-invest-back-end.onrender.com/api/user/signup',
-        {
-          username: username,
-          email: email,
-          password: password,
-        }
-      );
-      console.log(myuser);
+      } = await axios.post('http://localhost:3000/api/user/signup', {
+        username: username,
+        email: email,
+        password: password,
+      });
       setError(null);
       localStorage.setItem('token', JSON.stringify(mytoken));
       setToken(mytoken);
@@ -89,7 +80,6 @@ const AuthStateContext = ({ children }) => {
   };
 
   const logout = () => {
-    console.log('login out');
     localStorage.removeItem('token');
     setToken(null);
     setIsAuthenticated(false);
@@ -99,7 +89,7 @@ const AuthStateContext = ({ children }) => {
 
   const getUserData = async () => {
     const { data } = await axios.get(
-      'https://joint-invest-back-end.onrender.com/api/user/me',
+      'http://localhost:3000/api/user/me',
       {
         headers: {
           Authorization: `Bearer ${token}`,
