@@ -1,10 +1,14 @@
-import { useState } from "react";
-import React from "react";
-import { IoIosTrash, IoIosArrowDroprightCircle } from "react-icons/io";
-import { FaCheckSquare, FaArrowCircleRight } from "react-icons/fa";
-import { setPortfolioStatus } from "../../utils/PortfolioDeletion";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useState } from 'react';
+import React from 'react';
+import {
+  IoIosTrash,
+  IoIosArrowDroprightCircle,
+} from 'react-icons/io';
+import { FaCheckSquare, FaArrowCircleRight } from 'react-icons/fa';
+import { setPortfolioStatus } from '../../utils/PortfolioDeletion';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useMessageContext } from '../contexts/MessageContext';
 
 const DeleteConfirmedButton = ({
   data,
@@ -19,20 +23,35 @@ const DeleteConfirmedButton = ({
   PortfolioProfitLoss,
 }) => {
   const portfolioTotal = portfolioTotals[data.portfolio_id];
+  const { retrieveData, loading } = useMessageContext();
+  const [portfolioStatus, setPortfolioStatus] = useState(
+    data.portfolio_status
+  );
+
+  const handleClick = (
+    portfolio_id,
+    userId,
+    action,
+    status,
+    newStatus
+  ) => {
+    setPortfolioStatus(newStatus);
+    retrieveData(portfolio_id, userId, action, status);
+  };
+
   return (
     <div className="dashboard_buttons d-flex align-items-center">
       {/* current status 'activated' */}
-      {data.portfolio_status === "activated" ? (
+      {portfolioStatus === 'activated' ? (
         <>
           <button
             className="hex-button-default"
             onClick={() => {
-              setPortfolioStatus(
+              handleClick(
                 data.portfolio_id,
                 userId,
                 data.portfolio_status,
-                "deletion_requested",
-                setNewData
+                'deletion_requested'
               );
               setPortfolioStatusUpdated((prev) => !prev);
               console.log(portfolioStatusUpdated);
@@ -69,8 +88,9 @@ const DeleteConfirmedButton = ({
               const filteredShares = {};
               wallet.forEach((stock) => {
                 if (filteredShares[stock.portfolio_id]) {
-                  filteredShares[stock.portfolio_id][stock.company_id] =
-                    stock.number_of_shares;
+                  filteredShares[stock.portfolio_id][
+                    stock.company_id
+                  ] = stock.number_of_shares;
                 } else {
                   filteredShares[stock.portfolio_id] = {
                     [stock.company_id]: stock.number_of_shares,
@@ -95,26 +115,26 @@ const DeleteConfirmedButton = ({
           >
             <FaArrowCircleRight
               className="to-portfolio-icon"
-              style={{ fontSize: "1.5em" }}
-            />{" "}
+              style={{ fontSize: '1.5em' }}
+            />{' '}
           </button>
         </>
       ) : (
         <></>
       )}
 
-      {data.portfolio_status === "pending_deletion" &&
+      {portfolioStatus === 'pending_deletion' &&
       parseInt(userId) === data.user_id_request ? (
         <>
           <button
             className="hex-button-default"
             onClick={() => {
-              setPortfolioStatus(
+              handleClick(
                 data.portfolio_id,
                 userId,
                 data.portfolio_status,
-                "rejected",
-                setNewData
+                'rejected',
+                'activated'
               );
             }}
           >
@@ -142,8 +162,9 @@ const DeleteConfirmedButton = ({
               const filteredShares = {};
               wallet.forEach((stock) => {
                 if (filteredShares[stock.portfolio_id]) {
-                  filteredShares[stock.portfolio_id][stock.company_id] =
-                    stock.number_of_shares;
+                  filteredShares[stock.portfolio_id][
+                    stock.company_id
+                  ] = stock.number_of_shares;
                 } else {
                   filteredShares[stock.portfolio_id] = {
                     [stock.company_id]: stock.number_of_shares,
@@ -167,8 +188,8 @@ const DeleteConfirmedButton = ({
           >
             <FaArrowCircleRight
               className="to-portfolio-icon"
-              style={{ fontSize: "1.5em" }}
-            />{" "}
+              style={{ fontSize: '1.5em' }}
+            />{' '}
           </button>
         </>
       ) : (
@@ -176,37 +197,40 @@ const DeleteConfirmedButton = ({
       )}
 
       {/* current status 'pending_deletion' */}
-      {data.portfolio_status === "pending_activation" &&
+      {portfolioStatus === 'pending_activation' &&
       parseInt(userId) !== data.user_id_request ? (
         <>
           <button
             className="hex-button-default"
             onClick={() => {
-              setPortfolioStatus(
+              handleClick(
                 data.portfolio_id,
                 userId,
                 data.portfolio_status,
-                "confirmed",
-                setNewData
+                'confirmed',
+                'activated'
               );
               setPortfolioStatusUpdated((prev) => !prev);
             }}
           >
             <div className="confirmation_button">
               <i className="status_icons">
-                <FaCheckSquare size={21} style={{ color: "#FFF3BE" }} />
+                <FaCheckSquare
+                  size={21}
+                  style={{ color: '#FFF3BE' }}
+                />
               </i>
             </div>
           </button>
           <button
             className="hex-button-default"
             onClick={() => {
-              setPortfolioStatus(
+              handleClick(
                 data.portfolio_id,
                 userId,
                 data.portfolio_status,
-                "rejected",
-                setNewData
+                'rejected',
+                'deleted'
               );
               setPortfolioStatusUpdated((prev) => !prev);
               console.log(portfolioStatusUpdated);
@@ -227,18 +251,18 @@ const DeleteConfirmedButton = ({
       )}
 
       {/* current status 'pending_deletion' */}
-      {data.portfolio_status === "pending_deletion" &&
+      {portfolioStatus === 'pending_deletion' &&
       parseInt(userId) !== data.user_id_request ? (
         <>
           <button
             className="hex-button-default"
             onClick={() => {
-              setPortfolioStatus(
+              handleClick(
                 data.portfolio_id,
                 userId,
                 data.portfolio_status,
-                "rejected",
-                setNewData
+                'rejected',
+                'activated'
               );
               setPortfolioStatusUpdated((prev) => !prev);
             }}
@@ -252,8 +276,8 @@ const DeleteConfirmedButton = ({
                 data.portfolio_id,
                 userId,
                 data.portfolio_status,
-                "confirmed",
-                setNewData
+                'confirmed',
+                'deleted'
               );
               setPortfolioStatusUpdated((prev) => !prev);
             }}

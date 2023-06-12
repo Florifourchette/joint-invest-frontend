@@ -1,36 +1,17 @@
 import Navbar from '../components/Navbar';
-import {
-  getDashboardData,
-  getTransactionsData,
-} from '../../utils/APIcalls';
-import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { IoIosContacts } from 'react-icons/io';
-import { parseISO } from 'date-fns';
-import { setPortfolioStatus } from '../../utils/PortfolioDeletion';
-import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
-import { BiArrowBack } from 'react-icons/bi';
 import AuthIssue from '../components/AuthIssue';
 import { useMessageContext } from '../contexts/MessageContext';
 
 export default function Messages() {
   const { isAuthenticated } = useAuth();
   const { userId } = useParams();
-  const [portfoliosData, setPortfoliosData] = useState([]);
-  const [portfolioIds, setPortfolioIds] = useState([]);
-  const [friends, setFriends] = useState([]);
-  const [portfoliosNames, setPortfoliosNames] = useState([]);
-  const [transactionsDataCleaned, setTransactionDataCleaned] =
-    useState([]);
-  const [portfolioDataCleaned, setPortfolioDataCleaned] = useState(
-    []
-  );
-  const [newData, setNewData] = useState([]);
-  const transactionsAll = [];
 
   const messagesContextValues = useMessageContext();
   const AllMessages = messagesContextValues.messages;
+
+  const { retrieveData, loading } = useMessageContext();
 
   const portfolioMessages = AllMessages.portfoliosMessages?.map(
     (item) => {
@@ -43,6 +24,9 @@ export default function Messages() {
       return newItem;
     }
   );
+
+  console.log('loading status on message page');
+  console.log(loading);
 
   const transactionsMessages = AllMessages.transactionsMessages?.map(
     (item) => {
@@ -85,6 +69,10 @@ export default function Messages() {
     const dateB = new Date(b.date);
     return dateB - dateA;
   });
+
+  const handleClick = (portfolio_id, userId, action, status) => {
+    retrieveData(portfolio_id, userId, action, status);
+  };
 
   return isAuthenticated ? (
     <>
@@ -190,35 +178,51 @@ export default function Messages() {
                         <div></div>
                       ) : item.requester_name !== 'you' ? (
                         <div className="message_button_container">
-                          <button
-                            className="message_button"
-                            onClick={() => {
-                              setPortfolioStatus(
-                                item.portfolio_id,
-                                userId,
-                                item.action,
-                                'confirmed',
-                                setNewData
-                              );
-                            }}
-                          >
-                            Confirm
-                          </button>
-                          <button
-                            style={{ background: '#84714F' }}
-                            className="message_button"
-                            onClick={() => {
-                              setPortfolioStatus(
-                                item.portfolio_id,
-                                userId,
-                                item.action,
-                                'rejected',
-                                setNewData
-                              );
-                            }}
-                          >
-                            Reject
-                          </button>
+                          {loading ? (
+                            <>
+                              <p>
+                                Your request will be processed shortly
+                              </p>
+                              <div
+                                class="spinner-border text-dark"
+                                role="status"
+                              >
+                                <span class="visually-hidden">
+                                  Loading...
+                                </span>
+                              </div>
+                            </>
+                          ) : (
+                            <>
+                              <button
+                                className="message_button"
+                                onClick={() => {
+                                  handleClick(
+                                    item.portfolio_id,
+                                    userId,
+                                    item.action,
+                                    'confirmed'
+                                  );
+                                }}
+                              >
+                                Confirm
+                              </button>
+                              <button
+                                style={{ background: '#84714F' }}
+                                className="message_button"
+                                onClick={() => {
+                                  handleClick(
+                                    item.portfolio_id,
+                                    userId,
+                                    item.action,
+                                    'rejected'
+                                  );
+                                }}
+                              >
+                                Reject
+                              </button>
+                            </>
+                          )}
                         </div>
                       ) : (
                         <div className="message_button_container message-card-value-status">
@@ -232,20 +236,35 @@ export default function Messages() {
                           ) : (
                             <></>
                           )}
-                          <button
-                            className="message_button"
-                            onClick={() => {
-                              setPortfolioStatus(
-                                item.portfolio_id,
-                                userId,
-                                item.action,
-                                'rejected',
-                                setNewData
-                              );
-                            }}
-                          >
-                            Cancel
-                          </button>
+                          {loading ? (
+                            <>
+                              <p>
+                                Your request will be processed shortly
+                              </p>
+                              <div
+                                class="spinner-border text-dark"
+                                role="status"
+                              >
+                                <span class="visually-hidden">
+                                  Loading...
+                                </span>
+                              </div>
+                            </>
+                          ) : (
+                            <button
+                              className="message_button"
+                              onClick={() => {
+                                handleClick(
+                                  item.portfolio_id,
+                                  userId,
+                                  item.action,
+                                  'rejected'
+                                );
+                              }}
+                            >
+                              Cancel
+                            </button>
+                          )}
                         </div>
                       )}
                     </div>
