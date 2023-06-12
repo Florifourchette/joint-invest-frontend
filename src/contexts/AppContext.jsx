@@ -21,18 +21,18 @@ const AppContextWrapper = ({ children }) => {
           'https://joint-invest-back-end.onrender.com/api/stocks'
         );
         setContextStockData(stockInfos.data);
-        console.log('stock infos', stockInfos.data);
       } catch (error) {
         console.log('error fetching stocks', error.message);
       }
     }
     async function fetchUsers() {
       try {
-        const myUsers = await axios("http://localhost:3000/api/user/all");
+        const myUsers = await axios(
+          'http://localhost:3000/api/user/all'
+        );
         setContextUsers(myUsers.data);
-        console.log("All Users", myUsers.data);
       } catch (error) {
-        console.log("error fetching stocks", error.message);
+        console.log('error fetching stocks', error.message);
       }
     }
     fetchStocks();
@@ -40,7 +40,9 @@ const AppContextWrapper = ({ children }) => {
   }, []);
 
   return (
-    <AppContextObj.Provider value={{ contextStockData, contextUsers }}>
+    <AppContextObj.Provider
+      value={{ contextStockData, contextUsers }}
+    >
       {children}
     </AppContextObj.Provider>
   );

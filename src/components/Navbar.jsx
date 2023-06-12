@@ -15,7 +15,6 @@ const Navbar = () => {
     messagesContextValues.messages.portfoliosMessages?.length +
     messagesContextValues.messages.transactionsMessages?.length;
 
-  console.log(numberOfMessages);
   return (
     <div className="navi fixed-bottom navbar">
       {loading ? (
