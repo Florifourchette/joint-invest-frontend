@@ -28,7 +28,7 @@ const AppContextWrapper = ({ children }) => {
     async function fetchUsers() {
       try {
         const myUsers = await axios(
-          'http://localhost:3000/api/user/all'
+          'https://joint-invest-back-end.onrender.com/api/user/all'
         );
         setContextUsers(myUsers.data);
       } catch (error) {
