@@ -46,7 +46,7 @@ export function confirmOrCancelTransaction(
   transactionData
 ) {
   return fetch(
-    `http://localhost:3000/api/transaction/${portfolioId}/${transactionId}`,
+    `https://joint-invest-back-end.onrender.com/api/transaction/${portfolioId}/${transactionId}`,
     {
       method: 'PUT',
       headers: {
@@ -65,7 +65,7 @@ export function confirmOrCancelTransaction(
 
 export function getPendingTransactions(portfolioId) {
   return fetch(
-    `http://localhost:3000/api/transaction/pendingTransactions/${portfolioId}`,
+    `https://joint-invest-back-end.onrender.com/api/transaction/pendingTransactions/${portfolioId}`,
     {
       method: 'GET',
     }
