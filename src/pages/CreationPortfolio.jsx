@@ -34,7 +34,7 @@ const CreationPortfolio = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3000/api/overview')
+      .get('https://joint-invest-back-end.onrender.com/api/overview')
       .then(function (response) {
         console.log(response);
       })
