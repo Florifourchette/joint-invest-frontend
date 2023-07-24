@@ -61,7 +61,7 @@ const AuthStateContext = ({ children }) => {
       setLoading(true);
       const {
         data: { token: mytoken, user: myuser },
-      } = await axios.post('http://localhost:3000/api/user/signup', {
+      } = await axios.post('https://joint-invest-back-end.onrender.com/api/user/signup', {
         username: username,
         email: email,
         password: password,
