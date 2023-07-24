@@ -54,7 +54,7 @@ const CreationPortfolio = () => {
     console.log('My Friends', newPortfolioUsername);
     axios
       .post(
-        `http://localhost:3000/api/creation_portfolio/${userId}`,
+        `https://joint-invest-back-end.onrender.com/api/creation_portfolio/${userId}`,
         {
           initial_amount: newPortfolioInitialAmount,
           name_of_portfolio: newPortfolioName,
