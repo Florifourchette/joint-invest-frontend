@@ -54,7 +54,6 @@ const DeleteConfirmedButton = ({
                 'deletion_requested'
               );
               setPortfolioStatusUpdated((prev) => !prev);
-              console.log(portfolioStatusUpdated);
             }}
           >
             {/* <i
@@ -101,6 +100,7 @@ const DeleteConfirmedButton = ({
               // Pass the filtered data to the next page
               Navigate(`/portfolio/${data.portfolio_id}`, {
                 state: {
+                  availableAmount: data.available_amount,
                   prices: filteredPrices,
                   investedAmount: data.invested_amount,
                   userId: userId,
@@ -108,7 +108,7 @@ const DeleteConfirmedButton = ({
                   friend: data.friend_username,
                   profitLoss:
                     portfolioTotals[data.portfolio_id] -
-                    data.total_buying_value,
+                    data.invested_amount,
                 },
               });
             }}
@@ -233,7 +233,6 @@ const DeleteConfirmedButton = ({
                 'deleted'
               );
               setPortfolioStatusUpdated((prev) => !prev);
-              console.log(portfolioStatusUpdated);
             }}
           >
             {/* <i

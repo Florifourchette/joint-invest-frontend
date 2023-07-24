@@ -580,6 +580,11 @@ button {
   justify-content: space-around;
 }
 
+.modal-header {
+  display: flex;
+  flex-direction: column;
+}
+
 .modal-footer {
   display: flex;
   flex-direction: row;
@@ -1099,6 +1104,7 @@ button {
 
 .stock-counter-transactions-card {
   font-size: 1.5em;
+  width: 90px;
   display: flex;
   justify-content: space-between;
   padding-bottom: 0;

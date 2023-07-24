@@ -67,9 +67,7 @@ const CreationPortfolio = () => {
       .then(() => {
         setCountDownToggle((prev) => !prev);
       })
-      .catch(function (error) {
-        console.log(error);
-      });
+      .catch(function (error) {});
   };
 
   useEffect(() => {
@@ -87,7 +85,6 @@ const CreationPortfolio = () => {
             setCountDown((prev) => prev - 1);
           }
         }
-        console.log(countDownToggle);
       }, 1000);
       return () => clearInterval(interval);
     },
@@ -151,13 +148,13 @@ const CreationPortfolio = () => {
             </Form.Field>
             <Form.Field>
               <label>Friend name</label>
-              <CreatePortfolioDropdown
+              {/* <CreatePortfolioDropdown
                 newPortfolioUsername={newPortfolioUsername}
                 setNewPortfolioUsername={setNewPortfolioUsername}
                 userId={userId}
-              />
+              /> */}
 
-              {/* <input
+              <input
                 placeholder="Friend username"
                 onChange={(e) =>
                   containsUppercase(e.target.value)
@@ -165,8 +162,11 @@ const CreationPortfolio = () => {
                     : setNewPortfolioUsername(e.target.value)
                 }
                 required
-                
-              /> */}
+                style={{
+                  border: 'solid 1px #31231E',
+                  width: '300px',
+                }}
+              />
               {checkUsername === 'user not found' ? (
                 <p>User has not been found</p>
               ) : (
