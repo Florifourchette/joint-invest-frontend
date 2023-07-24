@@ -1,5 +1,6 @@
 {
     "name": "Beehive",
+<<<<<<< HEAD
     "short_name": "Beehive",
     "description": "Create dummy portfolio together",
     "background_color": "#ffffff",
@@ -41,3 +42,43 @@
     ]
   }
   
+=======
+  "short_name": "Beehive",
+  "theme_color": "#000000",
+  "background_color": "#fff3be",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
+    "icons": [
+        {
+            "src": "maskableIcon.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose":"any maskable"
+          },
+
+        {
+            "src": "bee192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+          },
+          {
+            "src": "bee256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+          },
+          {
+            "src": "bee384x384.png",
+            "sizes": "384x384",
+            "type": "image/png"
+          },
+          {
+            "src": "bee512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+          }
+    ]
+
+  }
+>>>>>>> dev

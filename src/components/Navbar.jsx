@@ -5,9 +5,16 @@ import { FaUserAlt } from 'react-icons/fa';
 import { AiFillPieChart } from 'react-icons/ai';
 import { CgSpinner } from 'react-icons/cg';
 import useAuth from '../hooks/useAuth';
+import { useMessageContext } from '../contexts/MessageContext';
 
 const Navbar = () => {
   const { userLogin, loading } = useAuth();
+  const messagesContextValues = useMessageContext();
+
+  const numberOfMessages =
+    messagesContextValues.messages.portfoliosMessages?.length +
+    messagesContextValues.messages.transactionsMessages?.length;
+
   return (
     <div className="navi fixed-bottom navbar">
       {loading ? (
@@ -67,6 +74,9 @@ const Navbar = () => {
                     };
               }}
             >
+              <span className="message-notifications">
+                {numberOfMessages}
+              </span>
               <GrMail
                 style={{
                   fontSize: '1.65rem',
@@ -78,6 +88,7 @@ const Navbar = () => {
             </NavLink>
           </div>
           <div className="navBarLink">
+            <span>{messagesContextValues.amountMessages}</span>
             <NavLink
               className="navBarLink"
               to={`/profile/${userLogin?.id}`}

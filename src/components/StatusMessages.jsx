@@ -1,6 +1,7 @@
 import React from 'react';
 
 const statusMessages = ({ data, userId, portfolioTotals }) => {
+  console.log(data);
   return (
     <div className="message_container">
       {/* Status update to client */}

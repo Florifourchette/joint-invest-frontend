@@ -771,6 +771,19 @@ button {
   text-align: center;
 }
 
+.message-notifications {
+  position: absolute;
+  right: 43%;
+  bottom: 42px;
+  background-color: white;
+  color: #31231e;
+  border-radius: 50%;
+  font-size: 0.7em;
+  width: 12px;
+  font-size: bold;
+  text-align: center;
+}
+
 /*////////////////////////////////*/
 
 .hex-button {

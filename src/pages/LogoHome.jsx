@@ -1,25 +1,23 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useMessageContext } from '../contexts/MessageContext';
 
 export default function LogoHome() {
   const navigate = useNavigate();
+  const allMessages = useMessageContext();
 
   const reDirect = (e) => {
     e.preventDefault();
-
     navigate('/instructions');
   };
 
   return (
-    <div
-      style={{ width: '100%', background: '#FFD600' }}
-      onClick={reDirect}
-    >
-      <a
-        href="https://joint-invest-back-end.onrender.com"
-        target="_blank"
+    <>
+      <div
+        style={{ width: '100%', background: '#FFD600' }}
+        onClick={reDirect}
       >
-        {' '}
         <div
           className="d-flex align-items-center"
           style={{ minHeight: '100vh' }}
@@ -30,7 +28,7 @@ export default function LogoHome() {
             style={{ width: '375px' }}
           />
         </div>
-      </a>
-    </div>
+      </div>
+    </>
   );
 }
